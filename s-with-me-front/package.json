@@ -63,6 +63,6 @@
     "react-with-styles-interface-aphrodite": "^6.0.1",
     "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^8.0.2",
-    "storybook-addon-jsx": "^7.2.0"
+    "storybook-addon-jsx": "^7.2.3"
   }
 }
