@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../common-ui/withStyles';
 import logo from '../common-ui/logo.png';
-export const HEIGHT = 64;
+export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
   render() {
@@ -9,17 +9,22 @@ class AppNav extends PureComponent {
     return (
       <div>
         <div {...css(styles.wrapper)}>
-          <div {...css(styles.container)}>
-            <img
-              src={logo}
-              alt="s-with-me logo"
-              style={{
-                height: 70,
-                top: this.props.top,
-                left: this.props.left,
-              }}
-            />
-            서재, 오답노트, 서점, 프로필
+          <div style={{ display: 'flex' }} {...css(styles.container)}>
+            <div style={{ flex: 1, padding: 30 }}>
+              <img
+                src={logo}
+                alt="s-with-me logo"
+                style={{
+                  height: 80,
+                  top: this.props.top,
+                  left: this.props.left,
+                }}
+              />
+            </div>
+            <div style={{ flex: 1, padding: 30 }}>서재</div>
+            <div style={{ flex: 1, padding: 30 }}>오답노트</div>
+            <div style={{ flex: 1, padding: 30 }}>서점</div>
+            <div style={{ flex: 1, padding: 30 }}>프로필</div>
           </div>
         </div>
       </div>

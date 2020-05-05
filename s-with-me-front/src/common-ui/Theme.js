@@ -21,9 +21,9 @@ export const unit = 4;
 export default {
   // 색상
   color: {
-    primary: '#2196F3', // 주 색상
+    primary: '#FF4A25', // 주 색상
     primaryDark: '#1976D2',
-    secondary: '#009688', // 부 색상
+    secondary: '#FFE6DB', // 부 색상
     secondaryDark: '#00796b',
     white: '#FFFFFF',
     gray: '#9e9e9e',
