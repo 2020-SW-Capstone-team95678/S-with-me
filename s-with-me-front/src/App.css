@@ -7,14 +7,9 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #282c34;
+  background-color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,15 +19,87 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-loginBox {
+  background-color: rgb(247, 207, 192);
+  box-shadow: 5px 5px 5px darkgray;
+  height: 200px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(173, 5, 5);
+  padding-top: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-login {
+ 
+  height: 200px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.App-signUp {
+  height: 100px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 50px; 
+  
+}
+
+.App-checkBox {
+  box-shadow: 5px 5px 5px darkgray;
+  background-color:  rgb(252, 230, 222);
+  height: 50px;
+  width: 150px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: gray;
+}
+
+.App-input {
+  flex-direction: column;
+  height: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  justify-content: flex-start;
+}
+
+
+.App-inputID {
+  height: 100px;
+  padding-left: 20px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.App-inputPW {
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
 }
