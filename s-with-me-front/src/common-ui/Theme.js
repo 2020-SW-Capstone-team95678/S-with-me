@@ -20,8 +20,8 @@ const responsive = {
 export default {
   // 색상
   color: {
-    primary: '#03a9f4', // 주 색상
-    secondary: '#795548', // 부 색상
+    primary: '#FF4A25', // 주 색상
+    secondary: '#FFE6DB', // 부 색상
     white: '#FFFFFF',
     gray: '#CCCCCC',
     default: '#999999', // 기본 문자 색상
