@@ -124,7 +124,7 @@ export default withStyles(({ unit, color, size, lineHeight }) => ({
   placeholder: {
     marginTop: 2,
     border: 1,
-    borderColor: color.primary,
+    borderColor: color.secondaryDark,
     borderStyle: 'solid',
     borderRadius: 4,
     padding: unit * 1.5,
