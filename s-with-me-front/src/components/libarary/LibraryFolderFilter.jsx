@@ -12,7 +12,8 @@ export default class LibraryFolderFilter extends PureComponent {
         <Form.Consumer>
           {({ onChange, values }) => (
             <InlineList spacingBetween={1}>
-              <Select name="libFilter" onChange={onChange} values={values['libFilter']}>
+              {/* <Select name="libFilter" onChange={onChange} values={values['libFilter']}> */}
+              <Select name="libFilter" onChange={onChange}>
                 <Option label="정렬 방식을 선택하세요" />
                 <Option label="과목별로 분류" value="subject" />
                 <Option label="폴더별로 분류" value="folder" />
