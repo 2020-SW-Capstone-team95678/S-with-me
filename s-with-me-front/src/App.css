@@ -7,6 +7,12 @@
   pointer-events: none;
 }
 
+.App-user {
+  height: 15vmin;
+  pointer-events: none;
+}
+
+
 
 .App-header {
   background-color: white;
