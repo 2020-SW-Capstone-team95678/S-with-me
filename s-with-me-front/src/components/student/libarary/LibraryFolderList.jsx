@@ -4,12 +4,17 @@ import Card from '../../../common-ui/Card';
 import LibraryFolderFilter from './LibraryFolderFilter';
 import LibraryFolderTable from './LibraryFolderTable';
 
+import Api from '../../../Api';
+
 export default class LibraryFolderList extends PureComponent {
   state = {
     // dummy data
     folders: [
-      { id: 1, name: '2017' },
-      { id: 2, name: '2018' },
+      Api.get('/folders', { params: { id: 1 } }).then(response =>
+        this.setState({
+          folders: response.data,
+        }),
+      ),
     ],
   };
   render() {
