@@ -8,7 +8,7 @@ import BookOverview from './BookOverview';
 
 class LibraryApp extends PureComponent {
   render() {
-    const { children, styles } = this.props;
+    const { styles } = this.props;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
