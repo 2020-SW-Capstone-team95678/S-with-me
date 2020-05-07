@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import logo from './logo.png';
+import user from './user.png';
 import './App.css';
 
 import Button from './common-ui/Button';
 import Input from './common-ui/Input';
 import CheckBox from './common-ui/CheckBox';
+
 
 export default class Login extends PureComponent {
   render() {
@@ -19,6 +21,7 @@ export default class Login extends PureComponent {
             </div>
             <div className="App-loginBox">
               <div className="App-login">
+              <img src={user} className="App-user" alt="user" />
                 <div className="App-input">
                   <div className="App-inputID">
                     <a>ID</a>

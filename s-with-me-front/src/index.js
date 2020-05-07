@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import SignUpS from './components/signUp/SignUpS'
+import SignUpP from './components/signUp/SignUpP'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SignUpP />
   </React.StrictMode>,
   document.getElementById('root')
 );
