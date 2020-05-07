@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
-
 import AppNav, { HEIGHT } from '../AppNav';
 import LibraryFolderList from './LibraryFolderList';
-import BookOverview from './BookOverview';
 
 class LibraryApp extends PureComponent {
   render() {
@@ -17,10 +15,7 @@ class LibraryApp extends PureComponent {
             <div style={{ flex: 1, padding: 3 }}>
               <LibraryFolderList />
             </div>
-            <div style={{ flex: 3, padding: 3 }}>
-              <BookOverview />
-            </div>
-            <div style={{ flex: 1, padding: 3 }}>이 달의 목표 ..</div>
+            <div style={{ flex: 4, padding: 3 }}>Books...+</div>
           </div>
         </div>
       </div>
