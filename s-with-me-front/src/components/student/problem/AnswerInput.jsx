@@ -1,18 +1,15 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import CheckBox from '../../../common-ui/CheckBox';
 import Input from '../../../common-ui/Input';
 
 export default class AnswerInput extends PureComponent {
-  static propTypes = {
-    id: PropTypes.number.isRequired,
-    isOptional: PropTypes.bool,
-    options: PropTypes.arrayOf(PropTypes.string),
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const { id, isOptional, options } = this.props;
+    const { isOptional, options } = this.props;
     if (isOptional) {
       return (
         <div>
