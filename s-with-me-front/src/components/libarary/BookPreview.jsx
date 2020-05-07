@@ -8,7 +8,7 @@ import InlineList from '../../common-ui/InlineList';
 
 export default class BookPreview extends PureComponent {
   static propTypes = {
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     // coverSource: PropTypes.node,
   };
 
@@ -20,7 +20,7 @@ export default class BookPreview extends PureComponent {
           삭제
         </Button>
         {/* cover */}
-        <Heading level={2}>{name}</Heading>
+        <Heading level={4}>{name}</Heading>
         <InlineList spacingBetween={1}>
           <Button>목차 보기</Button>
           <Button>이어 풀기</Button>
