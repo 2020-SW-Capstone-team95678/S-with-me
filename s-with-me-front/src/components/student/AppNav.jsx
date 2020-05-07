@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css, withStylesPropTypes } from '../common-ui/withStyles';
-import logo from '../common-ui/logo.png';
+import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
+import logo from '../../common-ui/logo.png';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 
-import Form from '../../common-ui/Form';
-import InlineList from '../../common-ui/InlineList';
-import Select, { Option } from '../../common-ui/Select';
-import Button from '../../common-ui/Button';
+import Form from '../../../common-ui/Form';
+import InlineList from '../../../common-ui/InlineList';
+import Select, { Option } from '../../../common-ui/Select';
+import Button from '../../../common-ui/Button';
 
 export default class LibraryFolderFilter extends PureComponent {
   render() {

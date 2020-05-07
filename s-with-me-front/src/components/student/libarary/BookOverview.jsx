@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import InlineList from '../../common-ui/InlineList';
+import InlineList from '../../../common-ui/InlineList';
 import BookPreview from './BookPreview';
 
 export default class BookOverview extends PureComponent {

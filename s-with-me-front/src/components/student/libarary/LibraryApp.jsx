@@ -3,7 +3,7 @@ import AppLayout from '../AppLayout';
 import BookOverview from './BookOverview';
 import LibraryFolderList from './LibraryFolderList';
 
-import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
+import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
 
 class LibraryApp extends PureComponent {
   static propTypes = {

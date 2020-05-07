@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import Card from '../../common-ui/Card';
+import Card from '../../../common-ui/Card';
 import LibraryFolderFilter from './LibraryFolderFilter';
 import LibraryFolderTable from './LibraryFolderTable';
 

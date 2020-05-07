@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Card from '../../common-ui/Card';
-import Button from '../../common-ui/Button';
-import Heading from '../../common-ui/Heading';
-import InlineList from '../../common-ui/InlineList';
+import Card from '../../../common-ui/Card';
+import Button from '../../../common-ui/Button';
+import Heading from '../../../common-ui/Heading';
+import InlineList from '../../../common-ui/InlineList';
 
 export default class BookPreview extends PureComponent {
   static propTypes = {
