@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "axios": "0.18.1",
+    "axios": "^0.19.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16.3": "^1.7.2",
     "moment": "^2.24.0",
@@ -31,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mockserver": "json-server --watch --delay 500 --port 4000 mock/db.json"
   },
   "eslintConfig": {
     "extends": "react-app"
