@@ -24,7 +24,7 @@ export default {
     primary: '#FF4A25', // 주 색상
     primaryDark: '#1976D2',
     secondary: '#FFE6DB', // 부 색상
-    secondaryDark: '#00796b',
+    secondaryDark: '#F7CFC0',
     white: '#FFFFFF',
     gray: '#9e9e9e',
     grayLight: '#eeeeee',
