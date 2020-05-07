@@ -17,7 +17,7 @@ class InlineList extends PureComponent {
   };
 
   render() {
-    const { algin, children, styles, spacingBetween, verticalAlign } = this.props;
+    const { align, children, styles, spacingBetween, verticalAlign } = this.props;
     return (
       <div
         {...css(
