@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
@@ -10,21 +9,20 @@ import SolutionInput from './SolutionInput';
 import SolutionFilter from './SolutionFilter';
 
 class ProblemView extends PureComponent {
-  static propTypes = {
-    ...withStylesPropTypes,
-    // problemId: PropTypes.number.isRequired,
-    problemNum: PropTypes.number,
-    content: PropTypes.string,
-    isOptional: PropTypes.bool,
-    options: PropTypes.arrayOf(PropTypes.string),
-    solutionType: PropTypes.oneOf(['text', 'hand', 'img', 'link']),
-  };
+  constructor(props) {
+    super(props);
+    this.state = { isConfused: false };
+    this.setConfused = this.setConfused.bind(this);
+  }
 
-  static defaultProps = {
-    isOptional: false,
-  };
+  setConfused() {
+    const { isConfused } = this.state;
+    this.setState({ isConfused: !isConfused });
+  }
+
   render() {
     const { problemNum, content, isOptional, options, styles, solutionType } = this.props;
+    const { isConfused } = this.state;
     return (
       <div {...css(styles.body)}>
         <Text>
@@ -33,7 +31,9 @@ class ProblemView extends PureComponent {
         <AnswerInput isOptional={isOptional} options={options} />
         <SolutionFilter />
         <SolutionInput type={solutionType} />
-        <CheckBox label="헷갈렸어요" />
+        <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
+          헷갈렸어요
+        </CheckBox>
         <Button>개별 채점</Button>
       </div>
     );
