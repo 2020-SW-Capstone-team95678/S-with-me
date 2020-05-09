@@ -13,7 +13,7 @@ class LibraryApp extends PureComponent {
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
-          <div style={{ display: 'flex' }} {...css(styles.container)}>
+          <div style={{ display: 'flex' }}>
             <div style={{ flex: 1, padding: 3 }}>
               <LibraryFolderList />
             </div>

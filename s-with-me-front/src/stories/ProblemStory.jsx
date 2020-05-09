@@ -2,8 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import ProblemView from '../components/student/problem/ProblemView';
+import ProblemApp from '../components/student/problem/ProblemApp';
 
-storiesOf('Problem', module)
+storiesOf('Problem/ProblemView', module)
   .addWithJSX('Problem default', () => <ProblemView />)
   .addWithJSX('ProblemNum And Content', () => (
     <ProblemView problemNum={13} content="예시 문제입니다" />
@@ -23,3 +24,4 @@ storiesOf('Problem', module)
   .addWithJSX('풀이 링크', () => (
     <ProblemView problemNum={13} content="예시 문제입니다" solutionType="link" />
   ));
+storiesOf('Problem/ProblemApp', module).addWithJSX('default problem app', () => <ProblemApp />);
