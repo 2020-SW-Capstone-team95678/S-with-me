@@ -1,23 +1,53 @@
 import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
-import Select, { Option } from '../../../common-ui/Select';
+import InlineList from '../../../common-ui/InlineList';
+import Button from '../../../common-ui/Button';
 
 export default class SolutionFilter extends PureComponent {
   render() {
     return (
       <Form onSubmit={values => console.log(values)}>
         <Form.Consumer>
-          {({ onChange, values }) => (
-            <div>
-              <Select name="solutionFilter" onChange={onChange}>
-                <Option label="풀이 입력 방식을 선택하세요" />
-                <Option label="텍스트로 입력" value="text" />
-                <Option label="손글씨로 입력" value="hand" />
-                <Option label="사진 첨부" value="img" />
-                <Option label="링크 연결" value="link" />
-              </Select>
-            </div>
+          {({ values }) => (
+            <InlineList spacingBetween={1}>
+              <Button
+                onPress={() => {
+                  values['solutionType'] = 'text';
+                }}
+                type="submit"
+                small
+              >
+                텍스트 풀이 입력
+              </Button>
+              <Button
+                onPress={() => {
+                  values['solutionType'] = 'hand';
+                }}
+                type="submit"
+                small
+              >
+                손글씨 풀이 입력
+              </Button>
+              <Button
+                onPress={() => {
+                  values['solutionType'] = 'img';
+                }}
+                type="submit"
+                small
+              >
+                사진 첨부
+              </Button>
+              <Button
+                onPress={() => {
+                  values['solutionType'] = 'link';
+                }}
+                type="submit"
+                small
+              >
+                링크 연결하기
+              </Button>
+            </InlineList>
           )}
         </Form.Consumer>
       </Form>
