@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Input from '../../../common-ui/Input';
 
 export default class SolutionInput extends PureComponent {
   static propTypes = {
@@ -15,7 +16,11 @@ export default class SolutionInput extends PureComponent {
     } else if (type === 'link') {
       return <div>링크 풀이 입력</div>;
     } else {
-      return <div>텍스트 풀이 입력</div>;
+      return (
+        <div>
+          <Input type="text" name="textSolution" label="풀이를 입력하세요" />
+        </div>
+      );
     }
   }
 }

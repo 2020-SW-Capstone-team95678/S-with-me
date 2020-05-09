@@ -4,9 +4,12 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Text from '../../../common-ui/Text';
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
+import InlineList from '../../../common-ui/InlineList';
+
 import AnswerInput from './AnswerInput';
 import SolutionInput from './SolutionInput';
 import SolutionFilter from './SolutionFilter';
+import VerticalList from '../../../common-ui/VerticalList';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -21,26 +24,26 @@ class ProblemView extends PureComponent {
   }
 
   render() {
-    const { problemNum, content, isOptional, options, styles, solutionType } = this.props;
+    const { problemNum, content, isOptional, styles, solutionType } = this.props;
     const { isConfused } = this.state;
     return (
-      <div {...css(styles.body)}>
+      <VerticalList spacingBetween={2}>
         <Text>
           {problemNum}.{content}
         </Text>
-        <AnswerInput isOptional={isOptional} options={options} />
+        <AnswerInput isOptional={isOptional} />
         <SolutionFilter />
         <SolutionInput type={solutionType} />
         <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
           헷갈렸어요
         </CheckBox>
         <Button>개별 채점</Button>
-      </div>
+      </VerticalList>
     );
   }
 }
 
-export default withStyles(({ color }) => ({
+export default withStyles(({ unit, color }) => ({
   body: {
     backgroundColor: '#FFF5EB',
   },
