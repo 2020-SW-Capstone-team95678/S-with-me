@@ -31,8 +31,6 @@ export default class Login extends PureComponent {
                  
                   <a>PW</a>
                   <Input>PW</Input>
-                
-                 
                   <a>생년월일 : 숫자만 6자리</a>
                   <Input></Input>
                   <a>휴대폰번호 : 숫자만 입력</a>
@@ -42,7 +40,6 @@ export default class Login extends PureComponent {
                   </div>
                   <a>생년월일</a>
                   <Input></Input>
-
                   <a>학년</a>
                   <Input></Input>
                 </div>

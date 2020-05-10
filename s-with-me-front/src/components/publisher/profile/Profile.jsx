@@ -8,7 +8,7 @@ import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
 
 
-class BookDetail extends PureComponent {
+class PublisherProfile extends PureComponent {
   static propTypes = {
     ...withStylesPropTypes,
   };
@@ -93,4 +93,4 @@ export default withStyles(({ unit }) => ({
   body: {
     padding: unit * 4,
   },
-}))(BookDetail);
+}))(PublisherProfile);
