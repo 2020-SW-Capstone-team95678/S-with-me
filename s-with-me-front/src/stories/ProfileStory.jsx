@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Profile from '../components/student/profile/Profile';
+import StudentProfile from '../components/student/profile/Profile';
+import PublisherProfile from '../components/publisher/profile/Profile';
 
 storiesOf('Profile', module)
-  .addWithJSX('Profile', () => <Profile />);
+  .addWithJSX('StudentProfile', () => <StudentProfile />)
+  .addWithJSX('PublisherProfile', () => <PublisherProfile />);
