@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import SignUpS from './components/signUp/SignUpS'
+import Profile from './components/student/profile/Profile.jsx'
 import SignUpP from './components/signUp/SignUpP'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SignUpS />
+    <Profile />
   </React.StrictMode>,
   document.getElementById('root')
 );

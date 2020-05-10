@@ -17,6 +17,8 @@
 .App-header {
   background-color: white;
   min-height: 100vh;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,8 +30,8 @@
 .App-loginBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgray;
-  height: 200px;
-  width: 500px;
+  height: 25vh;
+  width: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,8 +46,8 @@
 
 .App-login {
  
-  height: 200px;
-  width: 500px;
+  height: 20vh;
+  width: 40vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,20 +55,18 @@
 }
 
 .App-signUp {
-  height: 100px;
-  width: 250px;
+  height: 10vh;
+  width: 25vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 50px; 
-  
 }
 
 .App-checkBox {
   box-shadow: 5px 5px 5px darkgray;
   background-color:  rgb(252, 230, 222);
-  height: 50px;
-  width: 150px;
+  height: 5vh;
+  width: 15vh;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding-left: 30px;
@@ -80,9 +80,9 @@
 
 .App-input {
   flex-direction: column;
-  height: 100px;
+  height: 10vh;
   padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 1vh;
   display: flex;
   align-items: center;
   font-size: 10px;
@@ -101,7 +101,7 @@
 }
 
 .App-inputPW {
-  height: 50px;
+  height: 5vh;
   padding-left: 10px;
   padding-right: 10px;
   display: flex;

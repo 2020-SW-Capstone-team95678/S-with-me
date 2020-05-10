@@ -33,6 +33,7 @@ class Input extends PureComponent {
           onChange={this.handleChange}
           value={value}
           height="100px"
+          size="10vh"
         />
         <label className="active" htmlFor={`input_${name}`}>
           {label}
