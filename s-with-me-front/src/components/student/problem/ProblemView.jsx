@@ -4,7 +4,6 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Text from '../../../common-ui/Text';
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
-import InlineList from '../../../common-ui/InlineList';
 
 import AnswerInput from './AnswerInput';
 import SolutionInput from './SolutionInput';
@@ -28,10 +27,13 @@ class ProblemView extends PureComponent {
     const { isConfused } = this.state;
     return (
       <VerticalList spacingBetween={2}>
-        <Text>
-          {problemNum}.{content}
-        </Text>
-        <AnswerInput isOptional={isOptional} />
+        <div {...css(styles.body)}>
+          <Text>
+            {problemNum}.{content}
+          </Text>
+          <AnswerInput isOptional={isOptional} />
+        </div>
+
         <SolutionFilter />
         <SolutionInput type={solutionType} />
         <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
@@ -45,6 +47,9 @@ class ProblemView extends PureComponent {
 
 export default withStyles(({ unit, color }) => ({
   body: {
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: '#FFF5EB',
+    height: 150,
   },
 }))(ProblemView);
