@@ -11,12 +11,13 @@ import Api from '../../../Api';
 class LibraryApp extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { myBookList: [], classificationMethod: 'default' };
-    this.setClassificationMethod = this.setClassificationMethod.bind(this);
-  }
-
-  setClassificationMethod(method) {
-    this.setState({ classificationMethod: method });
+    this.state = {
+      myBookList: [],
+      folders: [
+        { id: 1, name: '2017' },
+        { id: 2, name: '2018' },
+      ],
+    };
   }
 
   componentDidMount() {
@@ -29,14 +30,14 @@ class LibraryApp extends PureComponent {
 
   render() {
     const { styles } = this.props;
-    const { myBookList } = this.state;
+    const { myBookList, folders } = this.state;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
           <div style={{ display: 'flex' }}>
             <div style={{ flex: 1, padding: 3 }}>
-              <LibraryFolderList />
+              <LibraryFolderList folders={folders} />
             </div>
             <div style={{ flex: 3, padding: 3 }}>
               <BookOverview myBookList={myBookList} />

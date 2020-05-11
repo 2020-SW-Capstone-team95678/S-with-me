@@ -1,8 +1,4 @@
 {
-  "folders": [
-    { "id": 1, "name": "2017" },
-    { "id": 2, "name": "2018" }
-  ],
   "myBookList": [
     {
       "myBookId": 1,

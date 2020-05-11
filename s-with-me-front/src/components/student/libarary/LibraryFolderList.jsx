@@ -4,23 +4,9 @@ import Card from '../../../common-ui/Card';
 import LibraryFolderFilter from './LibraryFolderFilter';
 import LibraryFolderTable from './LibraryFolderTable';
 
-import Api from '../../../Api';
-
 export default class LibraryFolderList extends PureComponent {
-  state = {
-    folders: [],
-  };
-
-  componentDidMount() {
-    Api.get('/folders').then(response =>
-      this.setState({
-        folders: response.data,
-      }),
-    );
-  }
-
   render() {
-    const { folders } = this.state;
+    const { folders } = this.props;
     return (
       <div>
         <Card vertical={4}>
