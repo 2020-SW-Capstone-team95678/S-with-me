@@ -1,10 +1,11 @@
 package com.swithme.service;
 
-import com.swithme.domain.swithme.Student;
-import com.swithme.domain.swithme.StudentRepository;
+import com.swithme.domain.student.Student;
+import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.StudentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -12,6 +13,7 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    @Transactional
     public StudentResponseDto findById(int studentId) {
         //임의로 테스트하기 위한 Student 정보
         Student student = studentRepository.save(Student.builder()

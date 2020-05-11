@@ -1,4 +1,4 @@
-package com.swithme.domain.swithme;
+package com.swithme.domain.student;
 
 import org.junit.After;
 import org.junit.Test;
