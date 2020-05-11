@@ -1,6 +1,6 @@
 package com.swithme.web.dto;
 
-import com.swithme.domain.swithme.Student;
+import com.swithme.domain.student.Student;
 import lombok.Getter;
 
 @Getter
