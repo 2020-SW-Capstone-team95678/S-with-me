@@ -25,7 +25,7 @@
     color: white;
   }
   
-  .App-loginBox {
+  .App-signUpBox {
     background-color: rgb(247, 207, 192);
     box-shadow: 5px 5px 5px darkgray;
     height: 400px;
@@ -42,7 +42,7 @@
    
   }
   
-  .App-login {
+  .App-signUp {
    
     height: 200px;
     width: 500px;

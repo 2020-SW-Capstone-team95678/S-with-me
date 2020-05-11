@@ -36,6 +36,7 @@ class Input extends PureComponent {
           onChange={this.handleChange}
           value={value}
           height="100px"
+          size="10vh"
         />
         {errorMessage && (
           <span className="helper-text" data-error={errorMessage}>
