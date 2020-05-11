@@ -13,13 +13,13 @@ class ProblemHead extends PureComponent {
     const { styles } = this.props;
     return (
       <div {...css(styles.container)}>
-        <div style={{ width: 100, padding: 3 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
           <Button small>문제집 닫기</Button>
         </div>
-        <div style={{ flex: 1, padding: 3 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>
           <Heading level={4}>기본 문제집</Heading>
         </div>
-        <div style={{ width: 100, padding: 3 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
           <Button small>전체 채점</Button>
         </div>
       </div>

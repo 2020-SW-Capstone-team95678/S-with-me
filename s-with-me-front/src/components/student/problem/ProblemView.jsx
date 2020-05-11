@@ -33,13 +33,25 @@ class ProblemView extends PureComponent {
           </Text>
           <AnswerInput isOptional={isOptional} />
         </div>
-
-        <SolutionFilter />
-        <SolutionInput type={solutionType} />
-        <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
-          헷갈렸어요
-        </CheckBox>
-        <Button>개별 채점</Button>
+        <div {...css(styles.container)}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              padding: 3,
+              border: '1px solid',
+            }}
+          >
+            <SolutionFilter />
+          </div>
+          <SolutionInput type={solutionType} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
+            헷갈렸어요
+          </CheckBox>
+          <Button>개별 채점</Button>
+        </div>
       </VerticalList>
     );
   }
@@ -50,6 +62,15 @@ export default withStyles(({ unit, color }) => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
+    padding: 5,
     height: 150,
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 5,
+    alignContent: 'flex-start',
+    height: 150,
+    border: '1px solid',
   },
 }))(ProblemView);
