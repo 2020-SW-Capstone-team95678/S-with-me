@@ -5,7 +5,7 @@ import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
 import ModalProvider from '../../../ModalProvider';
 import { Consumer as Modal} from '../../../common-ui/Modal/context';
-import {PROFILE_EDIT_MODAL} from '../../../constants/modals';
+import {P_PROFILE_EDIT_MODAL} from '../../../constants/modals';
 
 import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
@@ -49,7 +49,7 @@ class PublisherProfile extends PureComponent {
                 >
                     출판사 로고
                 </div>
-                <Button onPress={()=> openModal(PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
+                <Button onPress={()=> openModal(P_PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
 
               </div>
               

@@ -5,7 +5,7 @@ import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
 import ModalProvider from '../../../ModalProvider';
 import { Consumer as Modal} from '../../../common-ui/Modal/context';
-import {PROFILE_EDIT_MODAL} from '../../../constants/modals';
+import {S_PROFILE_EDIT_MODAL} from '../../../constants/modals';
 
 import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
@@ -43,7 +43,7 @@ class StudentProfile extends PureComponent {
                 <div>생년월일 : 980723</div>
                 <div>학년 : 3</div>
                 <div>휴대폰번호</div>
-                <Button onPress={()=> openModal(PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
+                <Button onPress={()=> openModal(S_PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
               </div>
               
             </div>
