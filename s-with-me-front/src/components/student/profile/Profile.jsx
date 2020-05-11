@@ -3,6 +3,9 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Select, { Option } from '../../../common-ui/Select';
 import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
+import ModalProvider from '../../../ModalProvider';
+import { Consumer as Modal} from '../../../common-ui/Modal/context';
+import {PROFILE_EDIT_MODAL} from '../../../constants/modals';
 
 import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
@@ -17,9 +20,12 @@ class StudentProfile extends PureComponent {
   render() {
     const { styles } = this.props;
     return (
+      <ModalProvider>
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
+        <Modal>
+            {({openModal})=> (
           <div style={{ display: 'flex', justifyContent: 'center' }} {...css(styles.container)} >
             <div style={{ flex: 1, flexDirection: 'row', padding: 3 }}>
               <div 
@@ -35,12 +41,13 @@ class StudentProfile extends PureComponent {
               >
                 <div>이름 : 홍길동</div>
                 <div>생년월일 : 980723</div>
-                <div>학년 : 4</div>
+                <div>학년 : 3</div>
                 <div>휴대폰번호</div>
-                <Button>나의 프로필 수정/저장</Button>
+                <Button onPress={()=> openModal(PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
               </div>
               
             </div>
+
             <div style={{ flex:3, height : 400,
                   width : 500,
                   flexDirection: 'column',
@@ -62,8 +69,11 @@ class StudentProfile extends PureComponent {
               </Form.Consumer>
             </div>
           </div>
+          )}
+          </Modal> 
         </div>
       </div>
+      </ModalProvider>
     );
   }
 }

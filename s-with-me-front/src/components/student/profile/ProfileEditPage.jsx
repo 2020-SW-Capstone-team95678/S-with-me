@@ -4,10 +4,11 @@ import Text from '../../../common-ui/Text';
 import Spacing from '../../../common-ui/Spacing';
 import Input from '../../../common-ui/Input';
 import InlineList from '../../../common-ui/InlineList';
-import Form from '../../../common-ui/Form';
 import {Consumer as Modal} from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import Button from '../../../common-ui/Button';
+import Select, { Option } from '../../../common-ui/Select';
+import Form from '../../../common-ui/Form';
 
 class ProfileEditPage extends PureComponent{
     constructor(props){
@@ -40,8 +41,24 @@ class ProfileEditPage extends PureComponent{
                                     프로필 수정
                                 </Text>
                                 <Spacing bottom={2}>
-                                    <div>프로필 사진<Button>사진 변경</Button></div>
+                                    <Input name="phoneNumber" label="휴대폰 번호" value={values['amount']} onChange={onChange}/>
                                     <Input name="password" label="비밀번호" value={values['amount']} onChange={onChange}/>
+                                    <InlineList spacingBetween={1}>
+                                    <Text>학년</Text>
+                                    <Form.Consumer name="grade" label="학년" value={values['amount']}>
+                                        {({ onChange, values }) => (
+                                        <InlineList spacingBetween={1}>
+                                            <Select name="PayFilter" onChange={onChange}>
+                                            <Option label="선택" />
+                                            <Option label="1학년" value="grade1" />
+                                            <Option label="2학년" value="grade2" />
+                                            <Option label="3학년" value="grade3" />
+
+                                            </Select>
+                                        </InlineList>
+                                        )}
+                                    </Form.Consumer>
+                                    </InlineList>
 
                                 </Spacing>
                                 <InlineList spacingBetween={1}>
