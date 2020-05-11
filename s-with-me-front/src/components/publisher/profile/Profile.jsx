@@ -43,8 +43,9 @@ class PublisherProfile extends PureComponent {
                 >
                     출판사 로고
                 </div>
-                
+           
                 <Button>나의 프로필 수정/저장</Button>
+
               </div>
               
             </div>
