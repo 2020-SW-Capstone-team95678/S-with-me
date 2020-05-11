@@ -8,15 +8,17 @@ import Api from '../../../Api';
 
 export default class LibraryFolderList extends PureComponent {
   state = {
-    // dummy data
-    folders: [
-      Api.get('/folders', { params: { id: 1 } }).then(response =>
-        this.setState({
-          folders: response.data,
-        }),
-      ),
-    ],
+    folders: [],
   };
+
+  componentDidMount() {
+    Api.get('/folders').then(response =>
+      this.setState({
+        folders: response.data,
+      }),
+    );
+  }
+
   render() {
     const { folders } = this.state;
     return (

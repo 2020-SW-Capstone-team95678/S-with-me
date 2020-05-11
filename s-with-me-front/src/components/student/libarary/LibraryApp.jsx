@@ -6,9 +6,30 @@ import AppNav, { HEIGHT } from '../AppNav';
 import LibraryFolderList from './LibraryFolderList';
 import BookOverview from './BookOverview';
 
+import Api from '../../../Api';
+
 class LibraryApp extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { myBookList: [], classificationMethod: 'default' };
+    this.setClassificationMethod = this.setClassificationMethod.bind(this);
+  }
+
+  setClassificationMethod(method) {
+    this.setState({ classificationMethod: method });
+  }
+
+  componentDidMount() {
+    Api.get('/myBookList').then(response =>
+      this.setState({
+        myBookList: response.data,
+      }),
+    );
+  }
+
   render() {
     const { styles } = this.props;
+    const { myBookList } = this.state;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -18,7 +39,7 @@ class LibraryApp extends PureComponent {
               <LibraryFolderList />
             </div>
             <div style={{ flex: 3, padding: 3 }}>
-              <BookOverview />
+              <BookOverview myBookList={myBookList} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>이 달의 목표 ..</div>
           </div>
