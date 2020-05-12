@@ -15,7 +15,7 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping("/student/library")
-    public LibraryResponseDto getMyBookList(int studentId){
+    public LibraryResponseDto getMyBookList(){
         Student student = Student.builder()
                 .id("id")
                 .password("password")
