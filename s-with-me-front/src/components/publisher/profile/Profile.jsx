@@ -3,6 +3,9 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Select, { Option } from '../../../common-ui/Select';
 import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
+import ModalProvider from '../../../ModalProvider';
+import { Consumer as Modal} from '../../../common-ui/Modal/context';
+import {P_PROFILE_EDIT_MODAL} from '../../../constants/modals';
 
 import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
@@ -12,14 +15,17 @@ class PublisherProfile extends PureComponent {
   static propTypes = {
     ...withStylesPropTypes,
   };
+
   render() {
     const { styles } = this.props;
     return (
+        <ModalProvider>
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
           <div style={{ display: 'flex', justifyContent: 'center' }} {...css(styles.container)} >
-            
+            <Modal>
+            {({openModal})=> (
             <div style={{ flex: 1, flexDirection: 'row', padding: 3 }}>
               <div 
                 style={{
@@ -43,11 +49,13 @@ class PublisherProfile extends PureComponent {
                 >
                     출판사 로고
                 </div>
-                
-                <Button>나의 프로필 수정/저장</Button>
+                <Button onPress={()=> openModal(P_PROFILE_EDIT_MODAL, {type: 'edit'})}>나의 프로필 수정/저장</Button>
+
               </div>
               
             </div>
+            )}
+            </Modal>
             <div style={{ flex:3, height : 400,
                   width : 500,
                   flexDirection: 'column',
@@ -81,7 +89,9 @@ class PublisherProfile extends PureComponent {
             </div>
           </div>
         </div>
+        
       </div>
+      </ModalProvider> 
     );
   }
 }
