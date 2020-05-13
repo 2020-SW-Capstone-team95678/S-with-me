@@ -54,5 +54,139 @@
         "advertised": true
       }
     }
+  ],
+  "problemList": [
+    {
+      "problemId": 1,
+      "chapter": {
+        "chapterId": 1,
+        "book": {
+          "bookId": 2,
+          "publisher": null,
+          "subject": "test subject 2",
+          "price": -11215,
+          "publishedDate": "2020-02-02",
+          "name": "test book name 2",
+          "grade": 4,
+          "cover": "test cover 2",
+          "advertised": true
+        },
+        "isLevel1": "true",
+        "level1Name": "대단원1"
+      },
+      "content": "예시 객관식 문제입니다",
+      "solution": "객관식 문제 해설 예시",
+      "pageNum": 1,
+      "problemNum": 1,
+      "answer": "1",
+      "isOptional": true,
+      "option1": "1번 예시",
+      "option2": "2번 예시",
+      "option3": "3번 예시",
+      "option4": "4번 예시",
+      "option5": "5번 예시"
+    },
+    {
+      "problemId": 2,
+      "chapter": {
+        "chapterId": 1,
+        "book": {
+          "bookId": 2,
+          "publisher": null,
+          "subject": "test subject 2",
+          "price": -11215,
+          "publishedDate": "2020-02-02",
+          "name": "test book name 2",
+          "grade": 4,
+          "cover": "test cover 2",
+          "advertised": true
+        },
+        "isLevel1": "false",
+        "level1Name": null,
+        "isLevel2": "true",
+        "level2Name": "중단원1"
+      },
+      "content": "예시 주관식 문제입니다",
+      "solution": "주관식 문제 해설 예시",
+      "pageNum": 2,
+      "problemNum": 1,
+      "answer": "주관식 정답",
+      "isOptional": false
+    }
+  ],
+  "myProblemList": [
+    {
+      "myProblemId": 1,
+      "myBookId": 1,
+      "problem": {
+        "problemId": 1,
+        "chapter": {
+          "chapterId": 1,
+          "book": {
+            "bookId": 2,
+            "publisher": null,
+            "subject": "test subject 2",
+            "price": -11215,
+            "publishedDate": "2020-02-02",
+            "name": "test book name 2",
+            "grade": 4,
+            "cover": "test cover 2",
+            "advertised": true
+          },
+          "isLevel1": "true",
+          "level1Name": "대단원1"
+        },
+        "content": "예시 객관식 문제입니다",
+        "solution": "객관식 문제 해설 예시",
+        "pageNum": 1,
+        "problemNum": 1,
+        "answer": "1",
+        "isOptional": true,
+        "option1": "1번 예시",
+        "option2": "2번 예시",
+        "option3": "3번 예시",
+        "option4": "4번 예시",
+        "option5": "5번 예시"
+      },
+      "mySolution": null,
+      "isConfused": false,
+      "isRight": false,
+      "solvedDate": null
+    },
+    {
+      "myProblemId": 2,
+      "myBookId": 1,
+      "problem": {
+        "problemId": 2,
+        "chapter": {
+          "chapterId": 1,
+          "book": {
+            "bookId": 2,
+            "publisher": null,
+            "subject": "test subject 2",
+            "price": -11215,
+            "publishedDate": "2020-02-02",
+            "name": "test book name 2",
+            "grade": 4,
+            "cover": "test cover 2",
+            "advertised": true
+          },
+          "isLevel1": "false",
+          "level1Name": null,
+          "isLevel2": "true",
+          "level2Name": "중단원1"
+        },
+        "content": "예시 주관식 문제입니다",
+        "solution": "주관식 문제 해설 예시",
+        "pageNum": 2,
+        "problemNum": 1,
+        "answer": "주관식 정답",
+        "isOptional": false
+      },
+      "mySolution": null,
+      "isConfused": false,
+      "isRight": false,
+      "solvedDate": null
+    }
   ]
 }

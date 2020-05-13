@@ -3,18 +3,40 @@ import React, { PureComponent } from 'react';
 import VerticalList from '../../../common-ui/VerticalList';
 import ProblemView from './ProblemView';
 
+import Api from '../../../Api';
+
 export default class ProblemList extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { problemList: [] };
+  }
+  componentDidMount() {
+    Api.get('/problemList').then(response => this.setState({ problemList: response.data }));
+  }
   render() {
+    const { problemList } = this.state;
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            <ProblemView problemNum={10} content="예시 객관식 문제입니다" isOptional />
+            {problemList.map(problem => (
+              <ProblemView
+                problemNum={problem.problemNum}
+                content={problem.content}
+                isOptional={problem.isOptional}
+              />
+            ))}
           </VerticalList>
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            <ProblemView problemNum={11} content="예시 주관식 문제입니다" />
+            {problemList.map(problem => (
+              <ProblemView
+                problemNum={problem.problemNum}
+                content={problem.content}
+                isOptional={problem.isOptional}
+              />
+            ))}
           </VerticalList>
         </div>
       </div>
