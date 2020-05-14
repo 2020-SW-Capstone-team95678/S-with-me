@@ -1,0 +1,45 @@
+.mapping {
+    background-color: rgb(255, 255, 255);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+  }
+  
+  .Information{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 5px darkgray;
+    border: 2px solid rgb(247, 207, 192);
+    height: 60vh;
+    width: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(78, 73, 73);
+    margin: 1vh;
+    border-radius: 10px;
+  }
+
+  .PayLog{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 5px darkgray;
+    border: 2px solid rgb(247, 207, 192);
+    height: 50vh;
+    width: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(78, 73, 73);
+    border-radius: 10px;
+    margin: 1vh;
+  }
+
+  .test{
+    align-items: center;
+    justify-content: center;
+  }

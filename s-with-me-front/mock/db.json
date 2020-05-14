@@ -1,6 +1,58 @@
 {
-  "folders": [
-    { "id": 1, "name": "2017" },
-    { "id": 2, "name": "2018" }
+  "myBookList": [
+    {
+      "myBookId": 1,
+      "folder": {
+        "folderId": 1,
+        "student": {
+          "studentId": 1,
+          "id": "id",
+          "password": "password",
+          "name": "name",
+          "phoneNumber": "123-456-7890",
+          "birthDay": "2020-02-02",
+          "grade": 4
+        },
+        "folderName": "default"
+      },
+      "book": {
+        "bookId": 1,
+        "publisher": null,
+        "subject": "test subject 1",
+        "price": 12345,
+        "publishedDate": "2020-02-02",
+        "name": "test book name 1",
+        "grade": 4,
+        "cover": "test cover 1",
+        "advertised": true
+      }
+    },
+    {
+      "myBookId": 2,
+      "folder": {
+        "folderId": 2,
+        "student": {
+          "studentId": 1,
+          "id": "id",
+          "password": "password",
+          "name": "name",
+          "phoneNumber": "123-456-7890",
+          "birthDay": "2020-02-02",
+          "grade": 4
+        },
+        "folderName": "test folder 2"
+      },
+      "book": {
+        "bookId": 2,
+        "publisher": null,
+        "subject": "test subject 2",
+        "price": -11215,
+        "publishedDate": "2020-02-02",
+        "name": "test book name 2",
+        "grade": 4,
+        "cover": "test cover 2",
+        "advertised": true
+      }
+    }
   ]
 }

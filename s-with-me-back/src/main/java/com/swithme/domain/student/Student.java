@@ -1,6 +1,7 @@
 package com.swithme.domain.student;
 
 import lombok.AccessLevel;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +13,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "student")
 public class Student {
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "studentId")
+    private Long studentId;
+
+    @Column(length = 20, nullable = false)
+    private String id;
 
     @Column(length = 20, nullable = false)
     private String email;
@@ -29,19 +35,19 @@ public class Student {
     private String phoneNumber;
 
     @Column(length = 20 , nullable = false)
-    private String birthdate;
+    private String birthday;
 
     @Column(nullable = false)
     private Short grade;
 
     @Builder
-    public Student(Long id, String email, String password , String name , String phoneNumber , String birthdate , Short grade) {
+    public Student(Long studentId,String id, String email, String password , String name , String phoneNumber , String birthday , Short grade) {
+        this.studentId = studentId;
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthdate = birthdate;
-        this.grade = grade;
+        this.birthday = birthday;
     }
 }

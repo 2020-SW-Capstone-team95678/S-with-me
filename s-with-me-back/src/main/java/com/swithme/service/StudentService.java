@@ -30,17 +30,17 @@ public class StudentService implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         studentDto.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
-        return StudentRepository.save(studentDto.toEntity()).getId();
+        return StudentRepository.save(studentDto.toEntity()).getStudentId();
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        Optional<Student> userEntityWrapper = StudentRepository.findByEmail(userEmail);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        Optional<Student> userEntityWrapper = StudentRepository.findById(userId);
         Student userEntity = userEntityWrapper.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (("admin@example.com").equals(userEmail)) {
+        if (("admin@example.com").equals(userId)) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.STUDENT.getValue()));

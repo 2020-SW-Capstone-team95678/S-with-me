@@ -21,7 +21,7 @@ export default class Login extends PureComponent {
             </div>
             <div className="App-loginBox">
               <div className="App-login">
-              <img src={user} className="App-user" alt="user" />
+                <img src={user} className="App-user" alt="user" />
                 <div className="App-input">
                   <div className="App-inputID">
                     <a>ID</a>
@@ -32,7 +32,7 @@ export default class Login extends PureComponent {
                     <Input>PW</Input>
                   </div>
                 </div>
-                <Button>로그인</Button>
+                <Button >로그인</Button>
               </div>
               <div className="App-signUp">
                 <Button>학생으로 회원가입</Button>

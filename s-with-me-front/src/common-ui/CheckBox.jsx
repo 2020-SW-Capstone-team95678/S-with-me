@@ -24,8 +24,8 @@ class CheckBox extends PureComponent {
     const { errorMessage, label, children, styles, checked } = this.props;
     return (
       <label>
-        {label}
         <div>
+          {label}
           <input
             ref={this.setRef}
             type="checkbox"
