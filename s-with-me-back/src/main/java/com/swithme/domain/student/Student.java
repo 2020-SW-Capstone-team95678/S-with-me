@@ -1,47 +1,53 @@
 package com.swithme.domain.student;
 
+import lombok.AccessLevel;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@NoArgsConstructor
-@Entity(name = "student")
+@Entity
+@Table(name = "student")
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "studentId")
-    private int studentId;
+    private Long studentId;
 
-    @Column(name = "id")
+    @Column(length = 20, nullable = false)
     private String id;
 
-    @Column(name = "password")
+    @Column(length = 20, nullable = false)
+    private String email;
+
+    @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(name = "name")
+    @Column(length = 20 , nullable = false)
     private String name;
 
-    @Column(name = "phoneNumber")
+    @Column(length = 20 , nullable = false)
     private String phoneNumber;
 
-    @Column(name = "birthday")
-    private String birthDay;
+    @Column(length = 20 , nullable = false)
+    private String birthday;
 
-    @Column(name = "grade")
-    private short grade;
+    @Column(nullable = false)
+    private Short grade;
 
     @Builder
-    public Student(String id, String password, String name, String phoneNumber,
-                   String birthDay, short grade){
+    public Student(Long studentId,String id, String email, String password , String name , String phoneNumber , String birthday , Short grade) {
+        this.studentId = studentId;
         this.id = id;
+        this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthDay = birthDay;
-        this.grade = grade;
+        this.birthday = birthday;
     }
 }
