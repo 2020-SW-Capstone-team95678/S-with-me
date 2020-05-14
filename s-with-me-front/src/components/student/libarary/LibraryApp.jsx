@@ -6,19 +6,41 @@ import AppNav, { HEIGHT } from '../AppNav';
 import LibraryFolderList from './LibraryFolderList';
 import BookOverview from './BookOverview';
 
+import Api from '../../../Api';
+
 class LibraryApp extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      myBookList: [],
+      folders: [
+        { id: 1, name: '2017' },
+        { id: 2, name: '2018' },
+      ],
+    };
+  }
+
+  componentDidMount() {
+    Api.get('/myBookList').then(response =>
+      this.setState({
+        myBookList: response.data,
+      }),
+    );
+  }
+
   render() {
     const { styles } = this.props;
+    const { myBookList, folders } = this.state;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
-          <div style={{ display: 'flex' }} {...css(styles.container)}>
+          <div style={{ display: 'flex' }}>
             <div style={{ flex: 1, padding: 3 }}>
-              <LibraryFolderList />
+              <LibraryFolderList folders={folders} />
             </div>
             <div style={{ flex: 3, padding: 3 }}>
-              <BookOverview />
+              <BookOverview myBookList={myBookList} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>이 달의 목표 ..</div>
           </div>

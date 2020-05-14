@@ -25,6 +25,9 @@ class Input extends PureComponent {
     const { errorMessage, label, value, name, type } = this.props;
     return (
       <div className="input-field">
+        <label className="active" htmlFor={`input_${name}`}>
+          {label}
+        </label>
         <input
           id={`input_${name}`}
           className={`validate ${errorMessage && 'invalid'}`}
@@ -33,10 +36,8 @@ class Input extends PureComponent {
           onChange={this.handleChange}
           value={value}
           height="100px"
+          size="10vh"
         />
-        <label className="active" htmlFor={`input_${name}`}>
-          {label}
-        </label>
         {errorMessage && (
           <span className="helper-text" data-error={errorMessage}>
             {errorMessage}

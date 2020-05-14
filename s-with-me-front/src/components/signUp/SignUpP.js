@@ -19,7 +19,7 @@ export default class Login extends PureComponent {
               <a>반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
               </a>
             </div>
-            <div className="App-loginBox">
+            <div className="App-signUpBox">
               <div className="App-login">
                 <img src={user} className="App-user" alt="user" />
                 <div className="App-input">
