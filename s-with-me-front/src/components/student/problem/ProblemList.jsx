@@ -22,22 +22,24 @@ export default class ProblemList extends PureComponent {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {myProblemList.map(({ problem }) => (
+            {myProblemList.map(({ problem, myProblemId }) => (
               <ProblemView
                 problemNum={problem.problemNum}
                 content={problem.content}
                 isOptional={problem.isOptional}
+                myProblemId={myProblemId}
               />
             ))}
           </VerticalList>
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {myProblemList.map(({ problem }) => (
+            {myProblemList.map(({ problem, myProblemId }) => (
               <ProblemView
                 problemNum={problem.problemNum}
                 content={problem.content}
                 isOptional={problem.isOptional}
+                myProblemId={myProblemId}
               />
             ))}
           </VerticalList>

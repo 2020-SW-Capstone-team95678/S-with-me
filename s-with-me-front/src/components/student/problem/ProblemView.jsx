@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
+import VerticalList from '../../../common-ui/VerticalList';
 
-import AnswerInput from './AnswerInput';
 import SolutionInput from './SolutionInput';
 import SolutionFilter from './SolutionFilter';
-import VerticalList from '../../../common-ui/VerticalList';
+
+import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -23,7 +24,7 @@ class ProblemView extends PureComponent {
   }
 
   render() {
-    const { problemNum, content, isOptional, styles, solutionType } = this.props;
+    const { problemNum, content, isOptional, styles, myProblemId } = this.props;
     const { isConfused } = this.state;
     return (
       <VerticalList spacingBetween={2}>
@@ -31,7 +32,7 @@ class ProblemView extends PureComponent {
           <Text>
             {problemNum}.{content}
           </Text>
-          <AnswerInput isOptional={isOptional} />
+          <AnswerInputContainer id={myProblemId} isOptional={isOptional} />
         </div>
         <div {...css(styles.container)}>
           <div
@@ -44,7 +45,7 @@ class ProblemView extends PureComponent {
           >
             <SolutionFilter />
           </div>
-          <SolutionInput type={solutionType} />
+          <SolutionInput />
         </div>
         <div style={{ display: 'flex' }}>
           <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
