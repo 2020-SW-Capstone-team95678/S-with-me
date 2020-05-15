@@ -6,20 +6,23 @@ import ProblemView from './ProblemView';
 import Api from '../../../Api';
 
 export default class ProblemList extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = { problemList: [] };
-  }
+  static defaultProps = {
+    myProblemList: [],
+    setMyProblemList: () => {},
+  };
+
   componentDidMount() {
-    Api.get('/problemList').then(response => this.setState({ problemList: response.data }));
+    Api.get('/myProblemList').then(({ data }) => this.props.setMyProblemList(data));
   }
   render() {
-    const { problemList } = this.state;
+    const { myProblemList } = this.props;
+    console.log(myProblemList);
+
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {problemList.map(problem => (
+            {myProblemList.map(({ problem }) => (
               <ProblemView
                 problemNum={problem.problemNum}
                 content={problem.content}
@@ -30,7 +33,7 @@ export default class ProblemList extends PureComponent {
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {problemList.map(problem => (
+            {myProblemList.map(({ problem }) => (
               <ProblemView
                 problemNum={problem.problemNum}
                 content={problem.content}
