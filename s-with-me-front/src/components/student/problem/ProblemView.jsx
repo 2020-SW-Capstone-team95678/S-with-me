@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
-import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
@@ -10,22 +9,15 @@ import SolutionInput from './SolutionInput';
 import SolutionFilter from './SolutionFilter';
 
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
+import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 
 class ProblemView extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isConfused: false };
-    this.setConfused = this.setConfused.bind(this);
-  }
-
-  setConfused() {
-    const { isConfused } = this.state;
-    this.setState({ isConfused: !isConfused });
   }
 
   render() {
     const { problemNum, content, isOptional, styles, myProblemId } = this.props;
-    const { isConfused } = this.state;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -48,9 +40,7 @@ class ProblemView extends PureComponent {
           <SolutionInput />
         </div>
         <div style={{ display: 'flex' }}>
-          <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
-            헷갈렸어요
-          </CheckBox>
+          <IsConfusedContainer myProblemId={myProblemId} />
           <Button>개별 채점</Button>
         </div>
       </VerticalList>
