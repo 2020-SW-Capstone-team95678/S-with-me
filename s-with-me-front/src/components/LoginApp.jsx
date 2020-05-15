@@ -6,6 +6,7 @@ import '../App.css';
 import Button from '../common-ui/Button';
 import Input from '../common-ui/Input';
 import CheckBox from '../common-ui/CheckBox';
+import { Link } from 'react-router-dom';
 
 export default class LoginApp extends react.PureComponent {
   render() {
@@ -34,7 +35,9 @@ export default class LoginApp extends react.PureComponent {
                 <Button>로그인</Button>
               </div>
               <div className="App-signUp">
-                <Button>학생으로 회원가입</Button>
+                <Link to="/signup">
+                  <Button>학생으로 회원가입</Button>
+                </Link>
                 <Button>출판사로 회원가입</Button>
               </div>
             </div>

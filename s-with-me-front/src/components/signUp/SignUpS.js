@@ -5,8 +5,7 @@ import './SignUpS.css';
 
 import Button from '../../common-ui/Button';
 import Input from '../../common-ui/Input';
-import CheckBox from '../../common-ui/CheckBox';
-
+import { Link } from 'react-router-dom';
 
 export default class Login extends PureComponent {
   render() {
@@ -16,8 +15,7 @@ export default class Login extends PureComponent {
           <img src={logo} className="App-logo" alt="logo" />
           <div>
             <div className="App-welcomeText">
-              <a>반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
-              </a>
+              <a>반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.</a>
             </div>
             <div className="App-signUpBox">
               <div className="App-signUp">
@@ -25,10 +23,10 @@ export default class Login extends PureComponent {
                 <div className="App-input">
                   <a>ID</a>
                   <div className="App-inputCheck">
-                     <Input>ID</Input>
-                     <Button xsmall>ID 중복확인</Button>
+                    <Input>ID</Input>
+                    <Button xsmall>ID 중복확인</Button>
                   </div>
-                 
+
                   <a>PW</a>
                   <Input>PW</Input>
                   <a>생년월일 : 숫자만 6자리</a>
@@ -43,11 +41,12 @@ export default class Login extends PureComponent {
                   <a>학년</a>
                   <Input></Input>
                 </div>
-                
               </div>
               <div className="App-Button">
-                <Button>로그인으로 돌아가기</Button>
-                <Button >확인</Button>
+                <Link to="/">
+                  <Button>로그인으로 돌아가기</Button>
+                </Link>
+                <Button>확인</Button>
               </div>
             </div>
           </div>

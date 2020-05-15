@@ -1,47 +1,35 @@
 import React, { PureComponent } from 'react';
-import logo from './logo.png';
-import user from './user.png';
-import './App.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Button from './common-ui/Button';
-import Input from './common-ui/Input';
-import CheckBox from './common-ui/CheckBox';
+import configureStore from './store/configureStore';
 
+import NotFound from './components/NotFound';
+import LoginApp from './components/LoginApp';
+import SignUpS from './components/signUp/SignUpS';
+import LibraryApp from './components/student/libarary/LibraryApp';
+import BookDetail from './components/student/libarary/BookDetail';
+import ProblemApp from './components/student/problem/ProblemApp';
+import NoteApp from './components/student/note/NoteApp';
 
-export default class Login extends PureComponent {
+export default class App extends PureComponent {
+  store = configureStore();
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div>
-            <div className="App-checkBox">
-              <CheckBox font-color="red">학생</CheckBox>
-              <CheckBox>출판사</CheckBox>
-            </div>
-            <div className="App-loginBox">
-              <div className="App-login">
-                <img src={user} className="App-user" alt="user" />
-                <div className="App-input">
-                  <div className="App-inputID">
-                    <a>ID</a>
-                    <Input>ID</Input>
-                  </div>
-                  <div className="App-inputPW">
-                    <a>PW</a>
-                    <Input>PW</Input>
-                  </div>
-                </div>
-                <Button >로그인</Button>
-              </div>
-              <div className="App-signUp">
-                <Button>학생으로 회원가입</Button>
-                <Button>출판사로 회원가입</Button>
-              </div>
-            </div>
-          </div>
-        </header>
-      </div>
+      <Provider store={this.store}>
+        <Router>
+          <Switch>
+            <Route path="/" exact render={() => <LoginApp />} />
+            <Route path="/signup" exact render={() => <SignUpS />} />
+            <Route path="/student/library" exact render={() => <LibraryApp />} />
+            <Route path="/student/library/myBook" exact render={() => <BookDetail />} />
+            <Route path="/student/library/myBook/solve" exact render={() => <ProblemApp />} />
+            <Route path="/student/note" exact render={() => <NoteApp />} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }

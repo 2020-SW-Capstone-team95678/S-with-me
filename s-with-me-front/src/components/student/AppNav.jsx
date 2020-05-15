@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
 import logo from '../../common-ui/logo.png';
+import { Link } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
@@ -11,18 +12,24 @@ class AppNav extends PureComponent {
         <div {...css(styles.wrapper)}>
           <div style={{ display: 'flex' }} {...css(styles.container)}>
             <div style={{ flex: 1, padding: 30 }}>
-              <img
-                src={logo}
-                alt="s-with-me logo"
-                style={{
-                  height: 80,
-                  top: this.props.top,
-                  left: this.props.left,
-                }}
-              />
+              <Link to="/">
+                <img
+                  src={logo}
+                  alt="s-with-me logo"
+                  style={{
+                    height: 80,
+                    top: this.props.top,
+                    left: this.props.left,
+                  }}
+                />
+              </Link>
             </div>
-            <div style={{ flex: 1, padding: 30 }}>서재</div>
-            <div style={{ flex: 1, padding: 30 }}>오답노트</div>
+            <div style={{ flex: 1, padding: 30 }}>
+              <Link to="/student/library">서점</Link>
+            </div>
+            <div style={{ flex: 1, padding: 30 }}>
+              <Link to="/student/note">오답노트</Link>
+            </div>
             <div style={{ flex: 1, padding: 30 }}>서점</div>
             <div style={{ flex: 1, padding: 30 }}>프로필</div>
           </div>
