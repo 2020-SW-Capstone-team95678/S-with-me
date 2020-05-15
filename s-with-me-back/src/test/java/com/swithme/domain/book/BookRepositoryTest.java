@@ -23,13 +23,22 @@ public class BookRepositoryTest {
     @Autowired
     private PublisherRepository publisherRepository;
 
+    private Publisher publisher;
+
     @Before
     public void setup(){
-        publisherRepository.save(Publisher.builder()
-                .id("test id")
-                .password("test password")
-                .name("test name")
-                .code("test code")
+        publisherRepository.save(new Publisher());
+        List<Publisher> publisherList = publisherRepository.findAll();
+        publisher = publisherList.get(0);
+
+        bookRepository.save(Book.builder()
+                .publisher(publisher)
+                .name("test name 1")
+                .build());
+
+        bookRepository.save(Book.builder()
+                .publisher(publisher)
+                .name("test name 2")
                 .build());
     }
 
@@ -40,40 +49,16 @@ public class BookRepositoryTest {
     }
 
     @Test
-    public void saveLoadBook(){
-        List<Publisher> publisherList = publisherRepository.findAll();
-        Publisher publisher = publisherList.get(0);
-        String subject = "test subject";
-        short price = 12345;
-        String publishedDate = "2020-02-02";
-        String name = "test name";
-        short grade = 4;
-        String cover = "test cover";
-        boolean isAdvertised = true;
+    public void findByPublisherTest(){
+        List<Book> bookList = bookRepository.findByPublisher(publisher);
+        Book book1 = bookList.get(0);
+        Book book2 = bookList.get(1);
 
-        bookRepository.save(Book.builder()
-                .publisher(publisher)
-                .subject(subject)
-                .price(price)
-                .publishedDate(publishedDate)
-                .name(name)
-                .grade(grade)
-                .cover(cover)
-                .isAdvertised(isAdvertised)
-                .build());
+        assertThat(book1.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
+        assertThat(book2.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
 
-        List<Book> bookList = bookRepository.findAll();
-        Book book = bookList.get(0);
-
-        assertThat(book.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
-        assertThat(book.getSubject()).isEqualTo(subject);
-        assertThat(book.getPrice()).isEqualTo(price);
-        assertThat(book.getPublishedDate()).isEqualTo(publishedDate);
-        assertThat(book.getName()).isEqualTo(name);
-        assertThat(book.getGrade()).isEqualTo(grade);
-        assertThat(book.getCover()).isEqualTo(cover);
-        assertThat(book.isAdvertised()).isEqualTo(isAdvertised);
-
+        assertThat(book1.getName()).isEqualTo("test name 1");
+        assertThat(book2.getName()).isEqualTo("test name 2");
     }
 
 }

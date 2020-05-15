@@ -25,7 +25,7 @@ public class Book {
     private String subject;
 
     @Column(name = "price")
-    private short price;
+    private int price;
 
     @Column(name = "publishedDate")
     private String publishedDate;
@@ -42,9 +42,19 @@ public class Book {
     @Column(name = "isAdvertised")
     private boolean isAdvertised;
 
+    @Column(name = "totalProblemNumber")
+    private short totalProblemNumber;
+
+    @Column(name = "monthlyProfit")
+    private int monthlyProfit;
+
+    @Column(name = "monthlySold")
+    private int monthlySold;
+
     @Builder
-    public Book(Publisher publisher, String subject, short price, String publishedDate,
-                String name, short grade, String cover, boolean isAdvertised){
+    public Book(Publisher publisher, String subject, int price, String publishedDate,
+                String name, short grade, String cover, boolean isAdvertised,
+                short totalProblemNumber, int monthlyProfit, int monthlySold){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
@@ -53,5 +63,8 @@ public class Book {
         this.grade = grade;
         this.cover = cover;
         this.isAdvertised = isAdvertised;
+        this.totalProblemNumber = totalProblemNumber;
+        this.monthlyProfit = monthlyProfit;
+        this.monthlySold = monthlySold;
     }
 }

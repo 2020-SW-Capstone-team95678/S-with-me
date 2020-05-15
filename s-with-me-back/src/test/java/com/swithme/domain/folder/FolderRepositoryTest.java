@@ -23,15 +23,22 @@ public class FolderRepositoryTest {
     @Autowired
     private StudentRepository studentRepository;
 
+    private Student student;
+
     @Before
     public void setup(){
-        studentRepository.save(Student.builder()
-                .id("id")
-                .password("password")
-                .birthDay("2020-02-02")
-                .phoneNumber("123-456-7890")
-                .name("name")
-                .grade((short)4)
+        studentRepository.save(new Student());
+        List<Student> studentList = studentRepository.findAll();
+        student = studentList.get(0);
+
+        folderRepository.save(Folder.builder()
+                .student(student)
+                .folderName("test folder name 1")
+                .build());
+
+        folderRepository.save(Folder.builder()
+                .student(student)
+                .folderName("test folder name 2")
                 .build());
     }
 
@@ -42,21 +49,13 @@ public class FolderRepositoryTest {
     }
 
     @Test
-    public void saveLoadFolder(){
-        List<Student> studentList = studentRepository.findAll();
-        Student student = studentList.get(0);
+    public void findByStudentTest(){
+        List<Folder> folderList = folderRepository.findByStudent(student);
+        Folder folder1 = folderList.get(0);
+        Folder folder2 = folderList.get(1);
 
-        String folderName = "test folder name";
-
-        folderRepository.save(Folder.builder()
-                .student(student)
-                .folderName(folderName)
-                .build());
-
-        List<Folder> folderList = folderRepository.findAll();
-        Folder folder = folderList.get(0);
-
-        assertThat(folder.getStudent().getStudentId()).isEqualTo(student.getStudentId());
-        assertThat(folder.getFolderName()).isEqualTo(folderName);
+        assertThat(folder1.getStudent().getStudentId()).isEqualTo(student.getStudentId());
+        assertThat(folder1.getFolderName()).isEqualTo("test folder name 1");
+        assertThat(folder2.getFolderName()).isEqualTo("test folder name 2");
     }
 }
