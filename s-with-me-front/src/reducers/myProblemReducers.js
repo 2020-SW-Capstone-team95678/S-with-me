@@ -1,4 +1,4 @@
-import { SET_MY_PROBLEM_LIST } from '../actions/myProblemActions';
+import { SET_MY_PROBLEM_LIST, SET_MY_ANSWER } from '../actions/myProblemActions';
 
 const initState = {
   ids: [],
@@ -19,6 +19,16 @@ export default (state = initState, action) => {
         {},
       );
       return { ...state, ids, entities };
+    }
+    case SET_MY_ANSWER: {
+      const { id, myAnswer } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], myAnswer },
+        },
+      };
     }
     default:
       return state;

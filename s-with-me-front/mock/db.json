@@ -62,6 +62,7 @@
         "option4": "4번 예시",
         "option5": "5번 예시"
       },
+      "myAnswer": null,
       "mySolution": null,
       "isConfused": false,
       "isRight": false,
@@ -97,6 +98,7 @@
         "answer": "주관식 정답",
         "isOptional": false
       },
+      "myAnswer": null,
       "mySolution": null,
       "isConfused": false,
       "isRight": false,
