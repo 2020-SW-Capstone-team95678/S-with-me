@@ -3,6 +3,7 @@ import {
   SET_MY_ANSWER,
   SET_IS_CONFUSED,
   SET_MY_SOLUTION,
+  SET_SOLVED_DATETIME,
 } from '../actions/myProblemActions';
 
 const initState = {
@@ -52,6 +53,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], mySolution },
+        },
+      };
+    }
+    case SET_SOLVED_DATETIME: {
+      const { id, solvedDateTime } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], solvedDateTime },
         },
       };
     }
