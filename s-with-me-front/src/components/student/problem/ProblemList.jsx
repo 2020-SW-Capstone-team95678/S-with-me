@@ -21,8 +21,8 @@ export default class ProblemList extends PureComponent {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {myProblemList.map(({ problem, myProblemId, myAnswer, isConfused }) => {
-              if (myAnswer) {
+            {myProblemList.map(({ problem, myProblemId, myAnswer, isConfused, solvedDateTime }) => {
+              if (solvedDateTime) {
                 return (
                   <ProblemResultView
                     problemNum={problem.problemNum}
@@ -32,6 +32,7 @@ export default class ProblemList extends PureComponent {
                     isRight={problem.answer == myAnswer ? true : false}
                     myAnswer={myAnswer}
                     isConfused={isConfused}
+                    answer={problem.answer}
                   />
                 );
               } else {
