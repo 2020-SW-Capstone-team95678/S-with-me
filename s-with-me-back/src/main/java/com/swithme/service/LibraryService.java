@@ -22,7 +22,7 @@ public class LibraryService {
     private final StudentRepository studentRepository;
 
     @Transactional
-    public MyBookListResponseDto findMyBookList(int studentId){
+    public MyBookListResponseDto findMyBookList(Long studentId){
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다. studentId="+ studentId));
         List<Folder> folderList = folderRepository.findByStudent(student);
