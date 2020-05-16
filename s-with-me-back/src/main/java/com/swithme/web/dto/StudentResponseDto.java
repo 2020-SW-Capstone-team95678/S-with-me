@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 public class StudentResponseDto {
-    private int studentId;
-    private String id;
+    private Long studentId;
+    private String userId;
     private String password;
     private String name;
     private String phoneNumber;
@@ -15,7 +15,7 @@ public class StudentResponseDto {
 
     public StudentResponseDto(Student entity){
         this.studentId = entity.getStudentId();
-        this.id = entity.getId();
+        this.userId = entity.getUserId();
         this.password = entity.getPassword();
         this.name = entity.getName();
         this.phoneNumber = entity.getPhoneNumber();

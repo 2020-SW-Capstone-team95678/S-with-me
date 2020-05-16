@@ -35,7 +35,7 @@ public class StudentService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Optional<Student> userEntityWrapper = StudentRepository.findById(userId);
+        Optional<Student> userEntityWrapper = StudentRepository.findByUserId(userId);
         Student userEntity = userEntityWrapper.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
