@@ -66,7 +66,7 @@
       "mySolution": null,
       "isConfused": false,
       "isRight": false,
-      "solvedDate": null
+      "solvedDateTime": null
     },
     {
       "myProblemId": 2,
@@ -102,7 +102,7 @@
       "mySolution": null,
       "isConfused": false,
       "isRight": false,
-      "solvedDate": null
+      "solvedDateTime": null
     }
   ]
 }
