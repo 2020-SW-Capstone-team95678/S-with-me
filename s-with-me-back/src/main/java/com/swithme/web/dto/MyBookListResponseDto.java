@@ -5,11 +5,11 @@ import lombok.Getter;
 import java.util.*;
 
 @Getter
-public class LibraryResponseDto {
+public class MyBookListResponseDto {
 
-    List<MyBook> myBookList;
+    private List<MyBook> myBookList;
 
-    public LibraryResponseDto(List<MyBook> myBookList){
+    public MyBookListResponseDto(List<MyBook> myBookList){
         this.myBookList = myBookList;
     }
 }
