@@ -11,9 +11,9 @@ export default class IsConfusedInput extends PureComponent {
 
   setConfused() {
     const { isConfused } = this.state;
-    const { myProblemId, setIsConfused } = this.props;
+    const { id, setIsConfused } = this.props;
     this.setState({ isConfused: !isConfused });
-    setIsConfused(myProblemId, !isConfused);
+    setIsConfused(id, !isConfused);
   }
 
   render() {

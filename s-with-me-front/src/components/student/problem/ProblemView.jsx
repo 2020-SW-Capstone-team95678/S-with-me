@@ -5,11 +5,11 @@ import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
-import SolutionInput from './SolutionInput';
 import SolutionFilter from './SolutionFilter';
 
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
+import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -37,10 +37,10 @@ class ProblemView extends PureComponent {
           >
             <SolutionFilter />
           </div>
-          <SolutionInput />
+          <SolutionInputContainer id={myProblemId} />
         </div>
         <div style={{ display: 'flex' }}>
-          <IsConfusedContainer myProblemId={myProblemId} />
+          <IsConfusedContainer id={myProblemId} />
           <Button>개별 채점</Button>
         </div>
       </VerticalList>
