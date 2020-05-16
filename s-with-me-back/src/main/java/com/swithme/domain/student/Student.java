@@ -17,31 +17,31 @@ public class Student {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "studentId")
-    private Long studentId;
+    private int studentId;
 
-    @Column(length = 20, nullable = false)
+    @Column(name = "id", length = 20, nullable = false)
     private String id;
 
-    @Column(length = 20, nullable = false)
+    @Column(name = "email", length = 20, nullable = false)
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "name", length = 20 , nullable = false)
     private String name;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "phoneNumber", length = 20 , nullable = false)
     private String phoneNumber;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "birthday", length = 20 , nullable = false)
     private String birthday;
 
-    @Column(nullable = false)
+    @Column(name = "grade", nullable = false)
     private Short grade;
 
     @Builder
-    public Student(Long studentId,String id, String email, String password , String name , String phoneNumber , String birthday , Short grade) {
+    public Student(int studentId,String id, String email, String password , String name , String phoneNumber , String birthday , Short grade) {
         this.studentId = studentId;
         this.id = id;
         this.email = email;
