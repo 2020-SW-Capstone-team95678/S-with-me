@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class StudentDto {
-    private Long id;
+    private String id;
     private String email;
     private String password;
     private String name;
     private String phoneNumber;
-    private String birthdate;
+    private String birthday;
     private Short grade;
 
     private LocalDateTime createdDate;
@@ -28,19 +28,19 @@ public class StudentDto {
                 .password(password)
                 .name(name)
                 .phoneNumber(phoneNumber)
-                .birthdate(birthdate)
+                .birthday(birthday)
                 .grade(grade)
                 .build();
     }
 
     @Builder
-    public StudentDto(Long id, String email, String password, String name , String phoneNumber ,String birthdate , Short grade) {
+    public StudentDto(String id, String email, String password, String name , String phoneNumber ,String birthday , Short grade) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthdate = birthdate;
+        this.birthday = birthday;
         this.grade = grade;
     }
 }
