@@ -1,4 +1,9 @@
-import { SET_MY_PROBLEM_LIST, SET_MY_ANSWER } from '../actions/myProblemActions';
+import {
+  SET_MY_PROBLEM_LIST,
+  SET_MY_ANSWER,
+  SET_IS_CONFUSED,
+  SET_MY_SOLUTION,
+} from '../actions/myProblemActions';
 
 const initState = {
   ids: [],
@@ -27,6 +32,26 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], myAnswer },
+        },
+      };
+    }
+    case SET_IS_CONFUSED: {
+      const { id, isConfused } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], isConfused },
+        },
+      };
+    }
+    case SET_MY_SOLUTION: {
+      const { id, mySolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], mySolution },
         },
       };
     }

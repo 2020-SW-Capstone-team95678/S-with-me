@@ -1,5 +1,7 @@
 export const SET_MY_PROBLEM_LIST = 'myProblem/SET_MY_PROBLEM_LIST';
 export const SET_MY_ANSWER = 'myProblem/SET_MY_ANSWER';
+export const SET_IS_CONFUSED = 'myProblem/SET_IS_CONFUSED';
+export const SET_MY_SOLUTION = 'myProblem/SET_MY_SOLUTION';
 
 export const setMyProblemList = myProblemList => ({
   type: SET_MY_PROBLEM_LIST,
@@ -9,4 +11,14 @@ export const setMyProblemList = myProblemList => ({
 export const setMyAnswer = (id, myAnswer) => ({
   type: SET_MY_ANSWER,
   payload: { id, myAnswer },
+});
+
+export const setIsConfused = (id, isConfused) => ({
+  type: SET_IS_CONFUSED,
+  payload: { id, isConfused },
+});
+
+export const setMySolution = (id, mySolution) => ({
+  type: SET_MY_SOLUTION,
+  payload: { id, mySolution },
 });
