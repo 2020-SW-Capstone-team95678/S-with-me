@@ -17,7 +17,7 @@ class ProblemView extends PureComponent {
   }
 
   render() {
-    const { problemNum, content, isOptional, styles, myProblemId } = this.props;
+    const { problemNum, content, isOptional, styles, myProblemId, answer, myAnswer } = this.props;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -41,7 +41,9 @@ class ProblemView extends PureComponent {
         </div>
         <div style={{ display: 'flex' }}>
           <IsConfusedContainer id={myProblemId} />
-          <ScoringButtonContainer id={myProblemId}>개별 채점</ScoringButtonContainer>
+          <ScoringButtonContainer id={myProblemId} answer={answer} myAnswer={myAnswer}>
+            개별 채점
+          </ScoringButtonContainer>
         </div>
       </VerticalList>
     );

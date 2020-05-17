@@ -23,11 +23,13 @@ export default class ScoringButton extends PureComponent {
   }
   render() {
     const dateTime = this.state.date.getTime();
-    const { children, setSolvedDateTime, id } = this.props;
+    const { children, setSolvedDateTime, setIsRight, id, answer, myAnswer } = this.props;
     return (
       <Button
         onPress={() => {
           setSolvedDateTime(id, dateTime);
+          if (answer == myAnswer) setIsRight(id, true);
+          else setIsRight(id, false);
         }}
       >
         {children}
