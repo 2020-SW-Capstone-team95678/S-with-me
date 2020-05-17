@@ -83,7 +83,10 @@ public class LibraryControllerTest {
 
     @Test
     public void getMyBookListTest() throws Exception{
-        String url = "http://localhost:" + port + "/student/library?studentId=1";
+        List<Student> studentList = studentRepository.findAll();
+        Student student = studentList.get(0);
+
+        String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
