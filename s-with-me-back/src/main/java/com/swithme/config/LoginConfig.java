@@ -36,7 +36,6 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-
                 // 페이지 권한 설정
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/user/myinfo").hasRole("STUDENT")
@@ -53,7 +52,9 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                  //403 예외처리 핸들링
-                    .exceptionHandling().accessDeniedPage("/user/denied");
+                    .exceptionHandling().accessDeniedPage("/user/denied")
+                .and()
+                    .csrf().disable();
     }
 
     @Override
