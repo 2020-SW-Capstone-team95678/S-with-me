@@ -25,7 +25,7 @@ public class StudentService implements UserDetailsService {
     private StudentRepository StudentRepository;
 
     @Transactional
-    public Long joinUser(StudentDto studentDto) {
+    public int joinUser(StudentDto studentDto) {
         // 비밀번호 암호화
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         studentDto.setPassword(passwordEncoder.encode(studentDto.getPassword()));
@@ -46,6 +46,6 @@ public class StudentService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(Role.STUDENT.getValue()));
         }
 
-        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
+        return new User(userEntity.getUserId(), userEntity.getPassword(), authorities);
     }
 }

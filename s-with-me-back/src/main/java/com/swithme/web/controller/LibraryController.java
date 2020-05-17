@@ -16,5 +16,6 @@ public class LibraryController {
     @GetMapping("/student/library")
     public MyBookListResponseDto getMyBookList(@RequestParam("studentId") Long studentId){
         return libraryService.findMyBookList(studentId);
+
     }
 }

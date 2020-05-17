@@ -5,12 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class StudentResponseDto {
-    private Long studentId;
+
+    private int studentId;
     private String userId;
     private String password;
     private String name;
     private String phoneNumber;
-    private String birthDay;
+    private String birthday;
     private short grade;
 
     public StudentResponseDto(Student entity){
@@ -19,7 +20,7 @@ public class StudentResponseDto {
         this.password = entity.getPassword();
         this.name = entity.getName();
         this.phoneNumber = entity.getPhoneNumber();
-        this.birthDay = entity.getPhoneNumber();
+        this.birthday = entity.getPhoneNumber();
         this.grade = entity.getGrade();
     }
 }
