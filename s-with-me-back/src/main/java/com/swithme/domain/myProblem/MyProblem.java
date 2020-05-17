@@ -2,6 +2,7 @@ package com.swithme.domain.myProblem;
 
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.problem.Problem;
+import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,21 +38,36 @@ public class MyProblem {
     private boolean isRight;
 
     @Column(name = "solvedDate")
-    private String solvedDate;
+    private Long solvedDateTime;
 
     @Column(name = "myAnswer")
     private String myAnswer;
 
     @Builder
     public MyProblem(MyBook myBook, Problem problem, String mySolution, boolean isConfused, boolean isRight,
-                     String solvedDate, String myAnswer){
+                     Long solvedDateTime, String myAnswer){
         this.myBook = myBook;
         this.problem = problem;
         this.mySolution = mySolution;
         this.isConfused = isConfused;
         this.isRight = isRight;
-        this.solvedDate = solvedDate;
+        this.solvedDateTime = solvedDateTime;
         this.myAnswer = myAnswer;
     }
 
+    public void update(MyProblemUpdateRequestDto requestDto) {
+        this.mySolution = requestDto.getMySolution();
+        this.isConfused = requestDto.isConfused();
+        this.isRight = requestDto.isRight();
+        this.solvedDateTime = requestDto.getSolvedDateTime();
+        this.myAnswer = requestDto.getMyAnswer();
+    }
+
+//    public void update(MyProblem entity) {
+//        this.mySolution = entity.getMySolution();
+//        this.isConfused = entity.isConfused();
+//        this.isRight = entity.isRight();
+//        this.solvedDateTime = entity.getSolvedDateTime();
+//        this.myAnswer = entity.getMyAnswer();
+//    }
 }
