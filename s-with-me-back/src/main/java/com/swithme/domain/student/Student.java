@@ -17,13 +17,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "studentId")
-    private Long studentId;
+    private int studentId;
 
     @Column(length = 20, nullable = false)
-    private String id;
-
-    @Column(length = 20, nullable = false)
-    private String email;
+    private String userId;
 
     @Column(length = 100, nullable = false)
     private String password;
@@ -41,13 +38,13 @@ public class Student {
     private Short grade;
 
     @Builder
-    public Student(Long studentId,String id, String email, String password , String name , String phoneNumber , String birthday , Short grade) {
+    public Student(int studentId, String userId, String password , String name , String phoneNumber , String birthday , Short grade) {
         this.studentId = studentId;
-        this.id = id;
-        this.email = email;
+        this.userId = userId;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
+        this.grade = grade;
     }
 }

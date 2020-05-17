@@ -43,7 +43,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/user/denied").permitAll()
                 .and() // 로그인 설정
                     .formLogin()
-                    .loginPage("/user/login")
+                    .loginPage("/")
                     .defaultSuccessUrl("/user/login/result")
                     .permitAll()
                 .and() // 로그아웃 설정

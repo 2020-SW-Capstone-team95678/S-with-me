@@ -10,37 +10,37 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class StudentDto {
-    private Long id;
-    private String email;
+    private int studentId;
+    private String userId;
     private String password;
     private String name;
     private String phoneNumber;
-    private String birthdate;
+    private String birthday;
     private Short grade;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    //private LocalDateTime createdDate;
+    //private LocalDateTime modifiedDate;
 
     public Student toEntity(){
         return Student.builder()
-                .id(id)
-                .email(email)
+                .studentId(studentId)
+                .userId(userId)
                 .password(password)
                 .name(name)
                 .phoneNumber(phoneNumber)
-                .birthdate(birthdate)
+                .birthday(birthday)
                 .grade(grade)
                 .build();
     }
 
     @Builder
-    public StudentDto(Long id, String email, String password, String name , String phoneNumber ,String birthdate , Short grade) {
-        this.id = id;
-        this.email = email;
+    public StudentDto(int studentId,String userId, String password, String name , String phoneNumber ,String birthday , Short grade) {
+        this.studentId = studentId;
+        this.userId = userId;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthdate = birthdate;
+        this.birthday = birthday;
         this.grade = grade;
     }
 }

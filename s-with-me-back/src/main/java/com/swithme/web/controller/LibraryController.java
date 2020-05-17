@@ -17,9 +17,9 @@ public class LibraryController {
     @GetMapping("/student/library")
     public LibraryResponseDto getMyBookList(){
         Student student = Student.builder()
-                .id("id")
+                .userId("id")
                 .password("password")
-                .birthDay("2020-02-02")
+                .birthday("2020-02-02")
                 .phoneNumber("123-456-7890")
                 .name("name")
                 .grade((short)4)
