@@ -73,10 +73,7 @@ public class MyBookControllerTest {
 
     @Test
     public void getChapterListTest(){
-        List<MyBook> myBookList = myBookRepository.findAll();
-        MyBook myBook = myBookList.get(0);
-
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId();
+        String url = "http://localhost:" + port + "/student/library/my-book/1";
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 

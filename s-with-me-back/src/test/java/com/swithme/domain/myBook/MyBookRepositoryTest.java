@@ -41,19 +41,8 @@ public class MyBookRepositoryTest {
 
     @Before
     public void setup(){
-        studentRepository.save(Student.builder()
-                .studentId(1L)
-                .userId("test id")
-                .email("11")
-                .password("11")
-                .name("11")
-                .phoneNumber("11")
-                .birthday("11")
-                .grade((short)4)
-                .build());
-        ;
+        studentRepository.save(new Student());
         publisherRepository.save(new Publisher());
-
 
         List<Student> studentList = studentRepository.findAll();
         Student student = studentList.get(0);
