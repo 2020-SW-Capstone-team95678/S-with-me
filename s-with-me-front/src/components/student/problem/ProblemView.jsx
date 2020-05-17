@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
-import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
 import SolutionFilter from './SolutionFilter';
@@ -10,6 +9,7 @@ import SolutionFilter from './SolutionFilter';
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
+import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class ProblemView extends PureComponent {
   }
 
   render() {
-    const { problemNum, content, isOptional, styles, myProblemId } = this.props;
+    const { problemNum, content, isOptional, styles, myProblemId, answer, myAnswer } = this.props;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -41,7 +41,9 @@ class ProblemView extends PureComponent {
         </div>
         <div style={{ display: 'flex' }}>
           <IsConfusedContainer id={myProblemId} />
-          <Button>개별 채점</Button>
+          <ScoringButtonContainer id={myProblemId} answer={answer} myAnswer={myAnswer}>
+            개별 채점
+          </ScoringButtonContainer>
         </div>
       </VerticalList>
     );

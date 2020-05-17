@@ -5,9 +5,15 @@ import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
-import OldMyAnswer from './OldMyAnswer';
+class ProblemResultView extends PureComponent {
+  options = [
+    { optionNum: 1, optionContent: '1번 보기' },
+    { optionNum: 2, optionContent: '2번 보기' },
+    { optionNum: 3, optionContent: '3번 보기' },
+    { optionNum: 4, optionContent: '4번 보기' },
+    { optionNum: 5, optionContent: '5번 보기' },
+  ];
 
-class ProblemView extends PureComponent {
   render() {
     const {
       problemNum,
@@ -18,18 +24,31 @@ class ProblemView extends PureComponent {
       isRight,
       isConfused,
       myAnswer,
+      answer,
     } = this.props;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
           {isRight ? <Text>딩동댕</Text> : <Text>땡!</Text>}
-          {isConfused ? <Text>헷갈렸어용</Text> : null}
+          {isConfused ? <Text>헷갈렸어요!!</Text> : null}
           <Text>
             {problemNum}.{content}
           </Text>
-          <OldMyAnswer isOptional={isOptional} myAnswer={myAnswer} />
+          {isOptional ? (
+            <VerticalList spacingBetween={1}>
+              {this.options.map(option => (
+                <Text>
+                  {option.optionNum} : {option.optionContent}
+                </Text>
+              ))}
+            </VerticalList>
+          ) : null}
         </div>
         <div {...css(styles.container)}>
+          {isRight ? null : <Text>지난 나의 정답은 {myAnswer} 입니다.</Text>}
+          <Text>
+            정답은 {answer} {isOptional ? <Text>번</Text> : null} 입니다.
+          </Text>
           <div>해설</div>
           <Button>보기</Button>
         </div>
@@ -47,7 +66,7 @@ export default withStyles(() => ({
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
     padding: 5,
-    height: 200,
+    height: 150,
   },
   container: {
     display: 'flex',
@@ -57,4 +76,4 @@ export default withStyles(() => ({
     height: 150,
     border: '1px solid',
   },
-}))(ProblemView);
+}))(ProblemResultView);
