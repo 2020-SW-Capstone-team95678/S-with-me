@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class StudentDto {
     private int studentId;
     private String userId;
+
     private String password;
     private String name;
     private String phoneNumber;
@@ -23,6 +24,7 @@ public class StudentDto {
 
     public Student toEntity(){
         return Student.builder()
+
                 .studentId(studentId)
                 .userId(userId)
                 .password(password)
@@ -37,6 +39,7 @@ public class StudentDto {
     public StudentDto(int studentId,String userId, String password, String name , String phoneNumber ,String birthday , Short grade) {
         this.studentId = studentId;
         this.userId = userId;
+
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;

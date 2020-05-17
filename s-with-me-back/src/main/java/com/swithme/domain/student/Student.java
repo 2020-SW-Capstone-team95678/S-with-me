@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "student")
@@ -22,22 +22,24 @@ public class Student {
     @Column(length = 20, nullable = false)
     private String userId;
 
-    @Column(length = 100, nullable = false)
+
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "name", length = 20 , nullable = false)
     private String name;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "phoneNumber", length = 20 , nullable = false)
     private String phoneNumber;
 
-    @Column(length = 20 , nullable = false)
+    @Column(name = "birthday", length = 20 , nullable = false)
     private String birthday;
 
-    @Column(nullable = false)
+    @Column(name = "grade", nullable = false)
     private Short grade;
 
     @Builder
+
     public Student(int studentId, String userId, String password , String name , String phoneNumber , String birthday , Short grade) {
         this.studentId = studentId;
         this.userId = userId;
