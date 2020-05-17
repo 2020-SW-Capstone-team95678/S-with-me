@@ -100,8 +100,8 @@
       },
       "myAnswer": null,
       "mySolution": null,
-      "isConfused": false,
-      "isRight": false,
+      "isConfused": null,
+      "isRight": null,
       "solvedDateTime": null
     }
   ]

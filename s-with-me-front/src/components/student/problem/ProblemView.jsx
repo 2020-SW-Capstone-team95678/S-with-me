@@ -9,7 +9,7 @@ import SolutionFilter from './SolutionFilter';
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
-import SolvedDateTimeContainer from '../../../containers/student/problem/SolvedDateTimeContainer';
+import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -41,7 +41,7 @@ class ProblemView extends PureComponent {
         </div>
         <div style={{ display: 'flex' }}>
           <IsConfusedContainer id={myProblemId} />
-          <SolvedDateTimeContainer id={myProblemId}>개별 채점</SolvedDateTimeContainer>
+          <ScoringButtonContainer id={myProblemId}>개별 채점</ScoringButtonContainer>
         </div>
       </VerticalList>
     );
