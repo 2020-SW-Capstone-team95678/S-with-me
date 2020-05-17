@@ -6,6 +6,7 @@ export default class ScoringButton extends PureComponent {
     super(props);
     this.state = { date: new Date() };
     this.tick = this.tick.bind(this);
+    this.handleScoringButtonClick = this.handleScoringButtonClick.bind(this);
   }
 
   componentWillUnmount() {
@@ -21,17 +22,18 @@ export default class ScoringButton extends PureComponent {
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 1000);
   }
+
+  handleScoringButtonClick(id, realAnswer, myAnswer, dateTime) {
+    const { setSolvedDateTime, setIsRight } = this.props;
+    setSolvedDateTime(id, dateTime);
+    if (realAnswer == myAnswer) setIsRight(id, true);
+    else setIsRight(id, false);
+  }
   render() {
     const dateTime = this.state.date.getTime();
-    const { children, setSolvedDateTime, setIsRight, id, answer, myAnswer } = this.props;
+    const { children, id, answer, myAnswer } = this.props;
     return (
-      <Button
-        onPress={() => {
-          setSolvedDateTime(id, dateTime);
-          if (answer == myAnswer) setIsRight(id, true);
-          else setIsRight(id, false);
-        }}
-      >
+      <Button onPress={() => this.handleScoringButtonClick(id, answer, myAnswer, dateTime)}>
         {children}
       </Button>
     );
