@@ -12,8 +12,8 @@ public class MyBookController {
 
     private final MyBookService myBookService;
 
-    @GetMapping("/student/library/my-book")
-    public ChapterListResponseDto getChapterList(@RequestParam("myBookId") int myBookId){
+    @GetMapping("/student/library/my-book/{myBookId}")
+    public ChapterListResponseDto getChapterList(@PathVariable int myBookId){
         return myBookService.findChapterList(myBookId);
     }
 
