@@ -14,7 +14,7 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping("/student/library")
-    public MyBookListResponseDto getMyBookList(@RequestParam("studentId") Long studentId){
+    public MyBookListResponseDto getMyBookList(@RequestParam("studentId") int studentId){
         return libraryService.findMyBookList(studentId);
 
     }
