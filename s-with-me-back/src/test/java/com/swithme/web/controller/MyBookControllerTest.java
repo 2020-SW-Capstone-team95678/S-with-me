@@ -109,7 +109,7 @@ public class MyBookControllerTest {
         assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
         assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
     }
-    
+
 //    public void updateMySolutionTest() throws Exception{
 //
 //        myProblemRepository.save(new MyProblem());
