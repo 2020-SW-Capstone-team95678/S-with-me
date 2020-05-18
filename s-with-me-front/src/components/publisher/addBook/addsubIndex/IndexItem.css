@@ -1,0 +1,26 @@
+div.sub-list-item {
+    padding: 10px 10px;
+    cursor: pointer;
+  }
+  
+  div.sub-list-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  div.sub-list-item.active {
+    background-color: #EEF3F8;
+  }
+  
+  div.sub-list-item > div.title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  div.sub-list-item > div.list-item-contents {
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }

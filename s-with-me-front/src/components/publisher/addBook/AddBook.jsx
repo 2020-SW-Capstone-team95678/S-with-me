@@ -8,7 +8,6 @@ import GradeList from './GradeList';
 import Button from '../../../common-ui/Button';
 import Spacing from '../../../common-ui/Spacing';
 import Input from '../../../common-ui/Input';
-import IndexOverview from './IndexList';
 
 
 class AddBook extends PureComponent {
@@ -57,18 +56,7 @@ class AddBook extends PureComponent {
             </div>
 
         </div>
-        <div {...css(styles.body)}>
-            <div style={{ display: 'flex', border:'2px rgb(247, 207, 192) solid' }} {...css(styles.container)}>
-                <div style={{ flex: 4, padding: 3 }}>
-                    <IndexOverview />
-                </div>
-            </div>
-        </div>
-        <div {...css(styles.body)}>
-            <div style={{ display: 'flex', border:'2px rgb(247, 207, 192) solid' }} {...css(styles.container)}>
-                
-            </div>
-        </div>
+       
       </div>
     );
   }
