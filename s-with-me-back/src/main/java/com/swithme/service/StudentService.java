@@ -33,6 +33,13 @@ public class StudentService implements UserDetailsService {
         return StudentRepository.save(studentDto.toEntity()).getStudentId();
     }
 
+    @Transactional
+    public Student getInfomation(String userId){
+        Student student = StudentRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        return student;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Optional<Student> userEntityWrapper = StudentRepository.findByUserId(userId);
@@ -40,7 +47,7 @@ public class StudentService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (("admin@example.com").equals(userId)) {
+        if (("admin").equals(userId)) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.STUDENT.getValue()));

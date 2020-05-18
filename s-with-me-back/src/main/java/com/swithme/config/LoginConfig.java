@@ -53,6 +53,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                  //403 예외처리 핸들링
+                    //.csrf().disable()
                     .exceptionHandling().accessDeniedPage("/user/denied");
     }
 
