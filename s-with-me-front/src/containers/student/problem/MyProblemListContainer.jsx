@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setMyProblemList } from '../../../actions/myProblemActions';
+import { requestMyProblemList } from '../../../actions/myProblemActions';
 import ProblemList from '../../../components/student/problem/ProblemList';
 
 const mapStateToProps = state => {
@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  setMyProblemList,
+  requestMyProblemList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProblemList);

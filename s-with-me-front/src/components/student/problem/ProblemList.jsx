@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import VerticalList from '../../../common-ui/VerticalList';
 import ProblemView from './ProblemView';
 
-import Api from '../../../Api';
 import ProblemResultView from './ProblemResultView';
 
 export default class ProblemList extends PureComponent {
@@ -14,9 +13,7 @@ export default class ProblemList extends PureComponent {
 
   componentDidMount() {
     const { id } = this.props;
-    Api.get(`/student/library/my-book/${id}/my-problems`, {
-      params: { page: 1 },
-    }).then(({ data }) => this.props.setMyProblemList(data.myProblemList));
+    this.props.requestMyProblemList(id, { page: 1 });
   }
   render() {
     const { myProblemList } = this.props;
