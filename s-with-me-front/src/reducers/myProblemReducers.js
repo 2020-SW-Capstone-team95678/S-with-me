@@ -5,17 +5,25 @@ import {
   SET_MY_SOLUTION,
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
+  LOADING_MY_PROBLEM_LIST,
 } from '../actions/myProblemActions';
 
 const initState = {
   ids: [],
   entities: {},
+  loading: false,
 };
 
 export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case LOADING_MY_PROBLEM_LIST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
     case SET_MY_PROBLEM_LIST: {
       const ids = payload.map(entity => entity['myProblemId']);
       const entities = payload.reduce(
@@ -25,7 +33,7 @@ export default (state = initState, action) => {
         }),
         {},
       );
-      return { ...state, ids, entities };
+      return { ...state, ids, entities, loading: false };
     }
     case SET_MY_ANSWER: {
       const { id, myAnswer } = payload;
