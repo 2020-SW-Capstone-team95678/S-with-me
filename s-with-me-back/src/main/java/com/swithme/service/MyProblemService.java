@@ -35,16 +35,24 @@ public class MyProblemService {
         return myProblemId;
     }
 
-    public MyProblemResponseDto getMyProblemList(int myBookId, int pageNumber) {
+    public List<MyProblemResponseDto> getMyProblemList(int myBookId, int pageNumber) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId = " + myBookId));
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
-        List<MyProblem> myProblemListInPage = new ArrayList<>();
+        List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for(MyProblem myProblem : myProblemList){
             if(myProblem.getProblem().getPageNumber() == pageNumber)
-                myProblemListInPage.add(myProblem);
+                responseDtoList.add(new MyProblemResponseDto().builder()
+                        .myProblemId(myProblem.getMyProblemId())
+                        .myBookId(myBookId)
+                        .problemId(myProblem.getProblem().getProblemId())
+                        .mySolution(myProblem.getMySolution())
+                        .myAnswer(myProblem.getMyAnswer())
+                        .isConfused(myProblem.isConfused())
+                        .isRight(myProblem.isRight())
+                        .build());
         }
-        return new MyProblemResponseDto(myProblemList);
+        return responseDtoList;
     }
 
 //    @Transactional
