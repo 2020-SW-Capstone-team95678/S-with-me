@@ -6,6 +6,7 @@ import AppNav, { HEIGHT } from '../AppNav';
 
 import MyProblemListContainer from '../../../containers/student/problem/MyProblemListContainer';
 import ProblemHead from './ProblemHead';
+import ProblemListNotificationContainer from '../../../containers/student/problem/ProblemListNotificationContainer';
 
 class ProblemApp extends PureComponent {
   render() {
@@ -23,6 +24,7 @@ class ProblemApp extends PureComponent {
               <MyProblemListContainer id={myBookId} />
             </div>
           </div>
+          <ProblemListNotificationContainer />
         </div>
       </div>
     );
