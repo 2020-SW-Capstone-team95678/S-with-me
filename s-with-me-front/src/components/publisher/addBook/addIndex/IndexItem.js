@@ -14,6 +14,7 @@ class IndexItem extends React.Component {
       >
         
         <div className="title">{title ? title : '제목'}</div>
+       
      
       </div>
     );

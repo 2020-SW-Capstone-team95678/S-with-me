@@ -1,6 +1,7 @@
 import React from 'react';
 import './IndexList.css';
 import IndexItem from './IndexItem';
+import SubIndexList from '../addsubIndex/SubIndexList';
 
 
 class IndexList extends React.Component {
@@ -11,6 +12,7 @@ class IndexList extends React.Component {
         {notes.map((item) => {
           const { MchapId, title, contents } = item;
           return (
+            <div>
             <IndexItem
               key={MchapId}
               MchapId={MchapId}
@@ -19,6 +21,7 @@ class IndexList extends React.Component {
               contents={contents}
               onClick={() => onListItemClick(MchapId)}
             />
+            </div>
             
           );
         })}

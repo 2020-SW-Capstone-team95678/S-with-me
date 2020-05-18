@@ -5,14 +5,16 @@ import SubIndexItem from './SubIndexItem';
 
 class SubIndexList extends React.Component {
   render() {
-    const { SubNotes, SubActiveId, onListItemClick,MchapId} = this.props;
-    //const newSubNotes=SubNotes.filter((item) => item.MId === MchapId);
+    const { newSubNotes,SubNotes, SubActiveId, onListItemClick} = this.props;
+    //const newSubNotes=SubNotes.filter((item) => item.Mid === this.props.MchapId);
+    //console.log(this.props.MchapId);
+    console.log(newSubNotes);
     console.log(SubNotes);
     return (
       <div className="sub-list">
 
-        {SubNotes.map((item) => {
-          const { SchapId, SubTitle, contents } = item;
+        {newSubNotes.map((item) => {
+          const { SchapId, SubTitle, contents,Mid } = item;
           return (
             <SubIndexItem
               key={SchapId}

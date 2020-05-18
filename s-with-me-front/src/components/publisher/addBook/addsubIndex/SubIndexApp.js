@@ -20,13 +20,14 @@ class SubIndexApp extends React.Component {
 
   handleAddSubNote = () => {
     const SchapId = generateId();
-    console.log(this.props.MchapId);
+    const {MchapId}=this.props;
+    console.log(MchapId);
     this.setState({
       SubNotes: [
         ...this.state.SubNotes,
         {
           SchapId: SchapId,
-          Mid : this.props.MchapId,
+          Mid : MchapId,
           SubTitle: '소단원 이름을 입력하세요.',
           contents: '내용',
         },
@@ -62,8 +63,10 @@ class SubIndexApp extends React.Component {
 
  
   render() {
-    const { SubNotes, SubActiveId} = this.state;
+    const { SubNotes, SubActiveId, MchapId} = this.state;
     const activeSubNote = SubNotes.filter((item) => item.SchapId === SubActiveId)[0];
+    console.log(this.props.MchapId);
+    const newSubNotes = SubNotes.filter((item) => item.Mid === this.props.MchapId);
     return (
       <div className="subApp">
         <Header
@@ -75,6 +78,8 @@ class SubIndexApp extends React.Component {
             SubNotes={SubNotes}
             SubActiveId={SubActiveId}
             onListItemClick={this.handleListSubItemClick}
+            MchapId={MchapId}
+            newSubNotes={newSubNotes}
           />
           {
             SubNotes.length !== 0 && <SubIndex SubNote={activeSubNote} onEditNote={this.handleEditSubNote} />
