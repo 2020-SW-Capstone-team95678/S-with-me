@@ -7,7 +7,7 @@ class Header extends React.Component {
     return (
       <div className="header">
         <div className="title">
-          <span>목차 생성</span>
+          <span>대단원 생성</span>
         </div>
         <div className="buttons">
           <button onClick={onAddNote}>추가</button>

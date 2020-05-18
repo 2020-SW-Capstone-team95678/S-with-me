@@ -72,10 +72,11 @@ class SubIndexApp extends React.Component {
     
     return (
       <div className="subApp">
-        <Header
-          onAddNote={this.handleAddSubNote}
-          onDeleteNote={this.handleDeleteSubNote}
-        />
+          
+            <Header
+            onAddNote={this.handleAddSubNote}
+            onDeleteNote={this.handleDeleteSubNote}
+            />
         <div className="container">
           <List
             SubNotes={SubNotes}

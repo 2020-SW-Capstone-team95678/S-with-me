@@ -1,10 +1,10 @@
 
 import React from 'react';
 import './MainIndex.css';
-import ProblemHeader from '../addProblem/ProblemHeader';
+import AddProblemApp from '../addProblem/AddProblemApp';
 import SubHeader from '../addsubIndex/SubHeader';
 import SubIndexApp from '../addsubIndex/SubIndexApp';
-import AddProblemApp from '../addProblem/AddProblemApp';
+
 
 class MainIndex extends React.Component {
   
@@ -21,9 +21,8 @@ class MainIndex extends React.Component {
             value={title}
             onChange={(e) => onEditNote('title', e)}
           />
-          <ProblemHeader/>
-          
-          <SubIndexApp 
+         
+         <SubIndexApp 
             MchapId={MchapId}/>
           <textarea
           className="note-contents"

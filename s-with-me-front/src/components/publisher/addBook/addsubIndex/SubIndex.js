@@ -9,7 +9,7 @@ class SubIndex extends React.Component {
   render() {
     const { SubNote, onEditNote } = this.props;
     const { SubTitle, contents } = SubNote;
-    
+
     return (
       <div>
         
@@ -20,13 +20,8 @@ class SubIndex extends React.Component {
             onChange={(e) => onEditNote('SubTitle', e)}
           />
           
-          <ProblemHeader />
-          
-          <textarea
-          className="note-contents"
-          value={contents}
-          onChange={(e) => onEditNote('contents', e)}
-        />
+          <AddProblemApp />
+
         </div>
       </div>
     );
