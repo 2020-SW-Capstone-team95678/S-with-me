@@ -7,10 +7,18 @@ export const SET_IS_CONFUSED = 'myProblem/SET_IS_CONFUSED';
 export const SET_MY_SOLUTION = 'myProblem/SET_MY_SOLUTION';
 export const SET_SOLVED_DATETIME = 'myProblem/SET_SOLVED_DATETIME';
 export const SET_IS_RIGHT = 'myProblem/SET_IS_RIGHT';
+export const SET_ERROR = 'myProblem/SET_ERROR';
 
 export function loading() {
   return {
     type: LOADING_MY_PROBLEM_LIST,
+  };
+}
+
+export function setError(errorMessage) {
+  return {
+    type: SET_ERROR,
+    payload: { errorMessage },
   };
 }
 export const setMyProblemList = myProblemList => ({
@@ -24,7 +32,10 @@ export function requestMyProblemList(id, params) {
     // Api.get(`/student/library/my-book/${id}/my-problems`, { params }).then(({ data }) =>
     //   dispatch(setMyProblemList(data)),
     // );
-    Api.get('/myProblemList').then(({ data }) => dispatch(setMyProblemList(data)));
+    Api.get('/myProblemList').then(
+      ({ data }) => dispatch(setMyProblemList(data)),
+      error => dispatch(setError(error.response.data.errorMessage)),
+    );
   };
 }
 

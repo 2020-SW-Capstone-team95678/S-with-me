@@ -6,22 +6,34 @@ import {
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
   LOADING_MY_PROBLEM_LIST,
+  SET_ERROR,
 } from '../actions/myProblemActions';
 
 const initState = {
   ids: [],
   entities: {},
   loading: false,
+  hasError: false,
 };
 
 export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case SET_ERROR: {
+      const { errorMessage } = payload;
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        errorMessage,
+      };
+    }
     case LOADING_MY_PROBLEM_LIST: {
       return {
         ...state,
         loading: true,
+        hasError: false,
       };
     }
     case SET_MY_PROBLEM_LIST: {
@@ -33,7 +45,7 @@ export default (state = initState, action) => {
         }),
         {},
       );
-      return { ...state, ids, entities, loading: false };
+      return { ...state, ids, entities, loading: false, hasError: false };
     }
     case SET_MY_ANSWER: {
       const { id, myAnswer } = payload;
