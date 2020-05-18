@@ -12,8 +12,6 @@
   pointer-events: none;
 }
 
-
-
 .App-header {
   background-color: white;
   min-height: 100vh;
@@ -45,7 +43,6 @@
 }
 
 .App-login {
- 
   height: 20vh;
   width: 40vh;
   display: flex;
@@ -64,7 +61,7 @@
 
 .App-checkBox {
   box-shadow: 5px 5px 5px darkgray;
-  background-color:  rgb(252, 230, 222);
+  background-color: rgb(252, 230, 222);
   height: 5vh;
   width: 15vh;
   border-top-left-radius: 10px;
@@ -88,7 +85,6 @@
   font-size: 10px;
   justify-content: flex-start;
 }
-
 
 .App-inputID {
   height: 100px;

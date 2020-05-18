@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
 
 import AppNav, { HEIGHT } from '../AppNav';
-import ProblemList from './ProblemList';
+
+import MyProblemListContainer from '../../../containers/student/problem/MyProblemListContainer';
 import ProblemHead from './ProblemHead';
 
 class ProblemApp extends PureComponent {
@@ -18,7 +19,7 @@ class ProblemApp extends PureComponent {
               <ProblemHead />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <ProblemList />
+              <MyProblemListContainer />
             </div>
           </div>
         </div>

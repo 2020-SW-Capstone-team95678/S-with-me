@@ -2,6 +2,7 @@ package com.swithme.domain.myBook;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
+import com.swithme.domain.myProblem.MyProblem;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,14 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
+    @OneToOne
+    @JoinColumn(name = "lastMyProblemId")
+    private MyProblem myProblem;
+
     @Builder
-    public MyBook(Folder folder, Book book){
+    public MyBook(Folder folder, Book book, MyProblem myProblem){
         this.folder = folder;
         this.book = book;
+        this.myProblem = myProblem;
     }
 }

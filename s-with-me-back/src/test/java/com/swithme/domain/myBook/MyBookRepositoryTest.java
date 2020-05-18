@@ -8,7 +8,6 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import net.bytebuddy.description.type.TypeDescription;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,30 +35,30 @@ public class MyBookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private Folder folder;
+    private Book book1;
+    private Book book2;
+
     @Before
     public void setup(){
         studentRepository.save(Student.builder()
-                .id("test id")
-                .password("test password")
-                .birthDay("2020-02-02")
-                .phoneNumber("123-456-7890")
-                .name("test name")
+                .studentId(1L)
+                .userId("test id")
+                .email("11")
+                .password("11")
+                .name("11")
+                .phoneNumber("11")
+                .birthday("11")
                 .grade((short)4)
                 .build());
-
-        publisherRepository.save(Publisher.builder()
-                .id("test id")
-                .password("test password")
-                .name("test name")
-                .code("test code")
-                .build());
+        ;
+        publisherRepository.save(new Publisher());
 
         List<Student> studentList = studentRepository.findAll();
         Student student = studentList.get(0);
 
         folderRepository.save(Folder.builder()
                 .student(student)
-                .folderName("test folder name")
                 .build());
 
         List<Publisher> publisherList = publisherRepository.findAll();
@@ -67,13 +66,27 @@ public class MyBookRepositoryTest {
 
         bookRepository.save(Book.builder()
                 .publisher(publisher)
-                .subject("test subject")
-                .price((short)12345)
-                .publishedDate("test publishedDate")
-                .name("test name")
-                .grade((short)4)
-                .cover("test cover")
-                .isAdvertised(true)
+                .build());
+
+        bookRepository.save(Book.builder()
+                .publisher(publisher)
+                .build());
+
+        List<Folder> folderList = folderRepository.findAll();
+        folder = folderList.get(0);
+
+        List<Book> bookList = bookRepository.findAll();
+        book1 = bookList.get(0);
+        book2 = bookList.get(1);
+
+        myBookRepository.save(MyBook.builder()
+                .folder(folder)
+                .book(book1)
+                .build());
+
+        myBookRepository.save(MyBook.builder()
+                .folder(folder)
+                .book(book2)
                 .build());
     }
 
@@ -87,23 +100,16 @@ public class MyBookRepositoryTest {
     }
 
     @Test
-    public void saveLoadMyBook(){
+    public void findByFolderTest(){
+        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
 
-        List<Book> bookList = bookRepository.findAll();
-        Book book = bookList.get(0);
+        MyBook myBook1 = myBookList.get(0);
+        MyBook myBook2 = myBookList.get(1);
 
-        List<Folder> folderList = folderRepository.findAll();
-        Folder folder = folderList.get(0);
+        assertThat(myBook1.getFolder().getFolderId()).isEqualTo(folder.getFolderId());
+        assertThat(myBook1.getBook().getBookId()).isEqualTo(book1.getBookId());
 
-        myBookRepository.save(MyBook.builder()
-                .folder(folder)
-                .book(book)
-                .build());
-
-        List<MyBook> myBookList = myBookRepository.findAll();
-        MyBook myBook = myBookList.get(0);
-
-        assertThat(myBook.getFolder().getFolderId()).isEqualTo(folder.getFolderId());
-        assertThat(myBook.getBook().getBookId()).isEqualTo(book.getBookId());
+        assertThat(myBook2.getFolder().getFolderId()).isEqualTo(folder.getFolderId());
+        assertThat(myBook2.getBook().getBookId()).isEqualTo(book2.getBookId());
     }
 }

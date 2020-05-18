@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class StudentResponseDto {
+
     private int studentId;
     private String userId;
     private String password;
