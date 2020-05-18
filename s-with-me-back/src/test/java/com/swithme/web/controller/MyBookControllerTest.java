@@ -53,12 +53,18 @@ public class MyBookControllerTest {
 
         chapterRepository.save(Chapter.builder()
                 .book(book)
+                .level1Name("대단원1")
+                .level2Name("소단원1")
                 .build());
         chapterRepository.save(Chapter.builder()
                 .book(book)
+                .level1Name("대단원3")
+                .level2Name("소단원3")
                 .build());
         chapterRepository.save(Chapter.builder()
                 .book(book)
+                .level1Name("대단원2")
+                .level2Name("소단원2")
                 .build());
     }
 

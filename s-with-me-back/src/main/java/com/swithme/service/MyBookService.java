@@ -27,6 +27,7 @@ public class MyBookService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
         Book book = myBook.getBook();
         List<Chapter> chapterList = chapterRepository.findByBook(book);
+        Chapter.sort(chapterList);
 
         return new ChapterListResponseDto(chapterList);
     }
