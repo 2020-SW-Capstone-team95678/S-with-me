@@ -16,6 +16,7 @@ import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import lombok.Builder;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,16 @@ public class MyProblemControllerTest {
                 .build());
         List<MyBook> myBookList = myBookRepository.findByFolder(folder);
         myBook = myBookList.get(0);
+
+        myProblemRepository.save(MyProblem.builder()
+                .problem(problemList.get(0))
+                .myBook(myBook)
+                .build());
+
+        myProblemRepository.save(MyProblem.builder()
+                .problem(problemList.get(1))
+                .myBook(myBook)
+                .build());
     }
 
     @After
@@ -104,18 +115,9 @@ public class MyProblemControllerTest {
         studentRepository.deleteAll();
     }
 
+    @Ignore
     @Test
     public void updateMyProblemTest() throws Exception{
-
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(0))
-                .myBook(myBook)
-                .build());
-
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(1))
-                .myBook(myBook)
-                .build());
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
@@ -126,6 +128,8 @@ public class MyProblemControllerTest {
                 .mySolution(expectedMySolution)
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
+                .isRight(false)
+                .solvedDateTime(12345L)
                 .build();
 
         String url = "http://localhost:" + port + "/student/library/my-book/my-problems/" + myProblemId;
@@ -145,7 +149,6 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemList(){
-
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
                 + "/my-problems?page=" + problemList.get(0).getPageNumber();
 
