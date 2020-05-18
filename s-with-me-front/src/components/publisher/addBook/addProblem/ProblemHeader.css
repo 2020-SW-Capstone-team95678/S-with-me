@@ -1,0 +1,35 @@
+  
+div.ProblemHeader {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+   
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+  }
+  
+  div.ProblemHeader > div.title {
+    font-size: 16px;
+    font-weight: 800;
+  }
+  
+  div.ProblemHeader > div.title > a {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  
+  
+  div.ProblemHeader > div.title > span {
+    vertical-align: middle;
+  }
+  
+  div.ProblemHeader > div.buttons > button {
+    border: 0px;
+    font-size: 14px;
+    font-weight: 700;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+  }

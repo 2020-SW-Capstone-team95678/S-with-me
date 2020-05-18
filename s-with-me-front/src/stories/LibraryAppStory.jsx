@@ -3,10 +3,10 @@ import { storiesOf } from '@storybook/react';
 import StudentLibraryApp from '../components/student/libarary/LibraryApp';
 import PublisherLibraryApp from '../components/publisher/library/LibraryApp';
 import BookDetail from '../components/student/libarary/BookDetail';
-import AddBook from '../components/publisher/book/AddBook';
+import AddBookApp from '../components/publisher/addBook/AddBookApp';
 
 storiesOf('Library/LibraryApp', module)
   .addWithJSX('Student', () => <StudentLibraryApp />)
   .addWithJSX('Publiser', () => <PublisherLibraryApp />)
   .addWithJSX('BookDetail', () => <BookDetail />)
-  .addWithJSX('AddBook',()=> <AddBook/>);
+  .addWithJSX('AddBookApp',()=> <AddBookApp/>);

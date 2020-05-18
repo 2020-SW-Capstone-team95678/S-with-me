@@ -6,7 +6,7 @@ import Button from '../../../common-ui/Button';
 import Heading from '../../../common-ui/Heading';
 import InlineList from '../../../common-ui/InlineList';
 
-export default class InexPreview extends PureComponent {
+export default class InexListItem extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     monthlySales: PropTypes.number,
@@ -14,15 +14,16 @@ export default class InexPreview extends PureComponent {
   };
 
   render() {
-    const { name, monthly_sales } = this.props;
+    const { active, title, onClick } = this.props;
     return (
       <Card vertical={4} horizontal={4}>
         {/* cover */}
-        <Heading level={4}>{name}</Heading>
-        <InlineList spacingBetween={1}>
-          <Button>수정</Button>
-          <Button>삭제</Button>
-        </InlineList>
+        <div className={active ? "listItemActive" : "listItem"}
+        onClick={onClick}
+        >
+          <div className="title">{title? title: "목차"}</div>
+        </div>
+        
       </Card>
     );
   }
