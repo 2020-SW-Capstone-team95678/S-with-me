@@ -1,4 +1,5 @@
 import Api from '../Api';
+import { showMessage } from './notificationActions';
 
 export const LOADING_MY_PROBLEM_LIST = 'myProblem/LOADING_MY_PROBLEM_LIST';
 export const SET_MY_PROBLEM_LIST = 'myProblem/SET_MY_PROBLEM_LIST';
@@ -34,7 +35,10 @@ export function requestMyProblemList(id, params) {
     // );
     Api.get('/myProblemList').then(
       ({ data }) => dispatch(setMyProblemList(data)),
-      error => dispatch(setError(error.response.data.errorMessage)),
+      error => {
+        dispatch(setError(error.response.data.errorMessage));
+        dispatch(showMessage(error.response.data.errorMessage, true));
+      },
     );
   };
 }
