@@ -12,11 +12,13 @@ public class MyBookController {
 
     private final MyBookService myBookService;
 
+    @CrossOrigin
     @GetMapping("/student/library/my-book/{myBookId}")
     public ChapterListResponseDto getChapterList(@PathVariable int myBookId){
         return myBookService.findChapterList(myBookId);
     }
 
+    @CrossOrigin
     @PutMapping("/student/library/my-book/my-problems/{myProblemId}")
     public int updateMyProblem(@PathVariable int myProblemId,
                                @RequestBody MyProblemUpdateRequestDto requestDto){

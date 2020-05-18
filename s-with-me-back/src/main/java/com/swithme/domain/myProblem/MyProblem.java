@@ -37,7 +37,7 @@ public class MyProblem {
     @Column(name = "isRight")
     private boolean isRight;
 
-    @Column(name = "solvedDate")
+    @Column(name = "solvedDateTime")
     private Long solvedDateTime;
 
     @Column(name = "myAnswer")

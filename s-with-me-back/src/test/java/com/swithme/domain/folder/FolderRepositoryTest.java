@@ -28,9 +28,8 @@ public class FolderRepositoryTest {
     @Before
     public void setup(){
         studentRepository.save(Student.builder()
-                .studentId(1L)
+                .studentId(1)
                 .userId("test id")
-                .email("11")
                 .password("11")
                 .name("11")
                 .phoneNumber("11")
