@@ -1,11 +1,9 @@
 package com.swithme.web.dto;
 
-import com.swithme.domain.myProblem.MyProblem;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
 @Getter
 @NoArgsConstructor
 public class MyProblemUpdateRequestDto {
@@ -24,10 +22,4 @@ public class MyProblemUpdateRequestDto {
         this.myAnswer = myAnswer;
         this.solvedDateTime = solvedDateTime;
     }
-
-//    private List<MyProblem> myProblemList;
-//
-//    public MyProblemUpdateRequestDto(List<MyProblem> myProblemList){
-//        this.myProblemList = myProblemList;
-//    }
 }

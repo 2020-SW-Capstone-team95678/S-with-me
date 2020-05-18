@@ -29,12 +29,12 @@ public class MyBook {
 
     @OneToOne
     @JoinColumn(name = "lastMyProblemId")
-    private MyProblem myProblem;
+    private MyProblem lastMyProblem;
 
     @Builder
-    public MyBook(Folder folder, Book book, MyProblem myProblem){
+    public MyBook(Folder folder, Book book, MyProblem lastMyProblem){
         this.folder = folder;
         this.book = book;
-        this.myProblem = myProblem;
+        this.lastMyProblem = lastMyProblem;
     }
 }
