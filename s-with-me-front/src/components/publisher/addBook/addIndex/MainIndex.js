@@ -9,8 +9,9 @@ import AddProblemApp from '../addProblem/AddProblemApp';
 class MainIndex extends React.Component {
   
   render() {
-    const { note, onEditNote,MchapId } = this.props;
-    const { title, contents } = note;
+    const { note, onEditNote } = this.props;
+    const { MchapId, title, contents } = note;
+    console.log(MchapId);
     return (
       <div>
         <div style={{border: "1px gray solid"}}></div>

@@ -20,18 +20,20 @@ class SubIndexApp extends React.Component {
 
   handleAddSubNote = () => {
     const SchapId = generateId();
+    console.log(this.props.MchapId);
     this.setState({
       SubNotes: [
         ...this.state.SubNotes,
         {
           SchapId: SchapId,
-          //Mid : MchapId,
+          Mid : this.props.MchapId,
           SubTitle: '소단원 이름을 입력하세요.',
           contents: '내용',
         },
       ],
       SubActiveId: SchapId,
     });
+    console.log(this.state);
   }
 
   handleDeleteSubNote = () => {
