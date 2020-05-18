@@ -21,9 +21,9 @@ class LibraryApp extends PureComponent {
   }
 
   componentDidMount() {
-    Api.get('/myBookList').then(response =>
+    Api.get('/student/library', { params: { studentId: 1 } }).then(response =>
       this.setState({
-        myBookList: response.data,
+        myBookList: response.data.myBookList,
       }),
     );
   }
