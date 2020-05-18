@@ -4,12 +4,13 @@ import Toast from '../common-ui/Toast';
 
 export default class Notification extends PureComponent {
   static propTypes = {
-    hasError: PropTypes.bool,
-    errorMessage: PropTypes.string,
+    showMessage: PropTypes.bool,
+    warning: PropTypes.bool,
+    message: PropTypes.string,
   };
 
   render() {
-    const { hasError, errorMessage } = this.props;
-    return hasError && <Toast message={errorMessage} warning />;
+    const { showMessage, message, warning } = this.props;
+    return showMessage && <Toast message={message} warning={warning} />;
   }
 }
