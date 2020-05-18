@@ -45,7 +45,7 @@ public class MyProblemService {
                 responseDtoList.add(new MyProblemResponseDto().builder()
                         .myProblemId(myProblem.getMyProblemId())
                         .myBookId(myBookId)
-                        .problem(myProblem.getProblem())
+                        .problemId(myProblem.getProblem().getProblemId())
                         .mySolution(myProblem.getMySolution())
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.isConfused())
