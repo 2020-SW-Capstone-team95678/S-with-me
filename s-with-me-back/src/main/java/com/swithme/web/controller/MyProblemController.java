@@ -6,6 +6,7 @@ import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
 @RequiredArgsConstructor
 @RestController
 public class MyProblemController {
@@ -21,7 +22,7 @@ public class MyProblemController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/{myBookId}/my-problems")
-    public MyProblemResponseDto getMyProblemList(@PathVariable int myBookId, @RequestParam("page") int pageNumber){
+    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int myBookId, @RequestParam("page") int pageNumber){
         return myProblemService.getMyProblemList(myBookId, pageNumber);
     }
 //    @PutMapping("/student/library/my-book/my-problems")
