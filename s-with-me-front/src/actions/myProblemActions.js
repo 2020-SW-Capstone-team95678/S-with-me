@@ -37,7 +37,6 @@ export function requestMyProblemList(id, params) {
       ({ data }) => dispatch(setMyProblemList(data)),
       error => {
         dispatch(setError(error.response.data.errorMessage));
-        dispatch(showMessage(error.response.data.errorMessage, true));
       },
     );
   };
