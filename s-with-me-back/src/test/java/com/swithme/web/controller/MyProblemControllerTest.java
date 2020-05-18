@@ -8,6 +8,8 @@ import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
@@ -49,11 +51,13 @@ public class MyProblemControllerTest {
     private FolderRepository folderRepository;
     @Autowired
     private MyBookRepository myBookRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
 
     private Student student;
     private Folder folder;
+    private List<Problem> problemList;
     private MyBook myBook;
-    private MyProblem myProblem;
 
     @Before
     public void setup(){
@@ -75,6 +79,14 @@ public class MyProblemControllerTest {
         List<Folder> folderList = folderRepository.findByStudent(student);
         folder = folderList.get(0);
 
+        problemRepository.save(Problem.builder()
+                .pageNumber((short)1)
+                .build());
+        problemRepository.save(Problem.builder()
+                .pageNumber((short)1)
+                .build());
+        problemList = problemRepository.findAll();
+
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .build());
@@ -87,6 +99,7 @@ public class MyProblemControllerTest {
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
+        problemRepository.deleteAll();
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
@@ -94,11 +107,18 @@ public class MyProblemControllerTest {
     @Test
     public void updateMyProblemTest() throws Exception{
 
-        MyProblem myProblem = myProblemRepository.save(MyProblem.builder()
+        myProblemRepository.save(MyProblem.builder()
+                .problem(problemList.get(0))
                 .myBook(myBook)
                 .build());
 
-        int myProblemId = myProblem.getMyProblemId();
+        myProblemRepository.save(MyProblem.builder()
+                .problem(problemList.get(1))
+                .myBook(myBook)
+                .build());
+        List<MyProblem> myProblemList = myProblemRepository.findAll();
+
+        int myProblemId = myProblemList.get(0).getMyProblemId();
         String expectedMySolution = "updated solution";
         String expectedMyAnswer = "updated answer";
 
@@ -121,6 +141,17 @@ public class MyProblemControllerTest {
         assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
 
         assertThat(noteRepository.findAll()).isNotNull();
+    }
+
+    @Test
+    public void getMyProblemList(){
+
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
+                + "/my-problems?page=" + problemList.get(0).getPageNumber();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
 //    public void updateMySolutionTest() throws Exception{

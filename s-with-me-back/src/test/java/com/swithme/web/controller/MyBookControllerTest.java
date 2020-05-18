@@ -74,7 +74,7 @@ public class MyBookControllerTest {
         List<MyBook> myBookList = myBookRepository.findAll();
         MyBook myBook = myBookList.get(0);
 
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId();
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId() + "/chapters";
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 

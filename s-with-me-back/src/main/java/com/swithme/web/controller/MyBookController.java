@@ -12,7 +12,7 @@ public class MyBookController {
     private final MyBookService myBookService;
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/{myBookId}")
+    @GetMapping("/student/library/my-book/{myBookId}/chapters")
     public ChapterListResponseDto getChapterList(@PathVariable int myBookId){
         return myBookService.findChapterList(myBookId);
     }
