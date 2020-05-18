@@ -78,6 +78,8 @@ public class LibraryControllerTest {
     @After
     public void cleanup(){
         myBookRepository.deleteAll();
+        folderRepository.deleteAll();
+        studentRepository.deleteAll();
     }
 
     @Test
