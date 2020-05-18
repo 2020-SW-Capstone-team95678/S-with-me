@@ -20,7 +20,7 @@ class ProblemApp extends PureComponent {
               <ProblemHead id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <MyProblemListContainer />
+              <MyProblemListContainer id={myBookId} />
             </div>
           </div>
         </div>

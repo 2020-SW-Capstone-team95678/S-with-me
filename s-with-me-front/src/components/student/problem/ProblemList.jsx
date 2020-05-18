@@ -13,7 +13,10 @@ export default class ProblemList extends PureComponent {
   };
 
   componentDidMount() {
-    Api.get('/myProblemList').then(({ data }) => this.props.setMyProblemList(data));
+    const { id } = this.props;
+    Api.get(`/student/library/my-book/${id}/my-problems`, {
+      params: { page: 1 },
+    }).then(({ data }) => this.props.setMyProblemList(data.myProblemList));
   }
   render() {
     const { myProblemList } = this.props;
@@ -26,7 +29,7 @@ export default class ProblemList extends PureComponent {
                 if (solvedDateTime) {
                   return (
                     <ProblemResultView
-                      problemNum={problem.problemNum}
+                      problemNum={problem.problemNumber}
                       content={problem.content}
                       isOptional={problem.isOptional}
                       myProblemId={myProblemId}
@@ -39,9 +42,9 @@ export default class ProblemList extends PureComponent {
                 } else {
                   return (
                     <ProblemView
-                      problemNum={problem.problemNum}
+                      problemNum={problem.problemNumber}
                       content={problem.content}
-                      isOptional={problem.isOptional}
+                      isOptional={problem.optional}
                       myProblemId={myProblemId}
                       answer={problem.answer}
                       myAnswer={myAnswer}
