@@ -10,13 +10,14 @@ import ProblemHead from './ProblemHead';
 class ProblemApp extends PureComponent {
   render() {
     const { styles } = this.props;
+    const { myBookId } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ hight: 5, padding: 3 }}>
-              <ProblemHead />
+              <ProblemHead id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
               <MyProblemListContainer />

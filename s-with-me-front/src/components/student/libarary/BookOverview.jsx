@@ -20,8 +20,8 @@ export default class BookOverview extends PureComponent {
     return (
       <React.Fragment>
         <InlineList spacingBetween={1}>
-          {myBookList.map(({ book }) => (
-            <BookPreview name={book.name} cover={book.cover} />
+          {myBookList.map(({ myBookId, book }) => (
+            <BookPreview name={book.name} cover={book.cover} id={myBookId} />
           ))}
         </InlineList>
       </React.Fragment>
