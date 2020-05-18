@@ -15,10 +15,11 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
 
+    @Transactional
     public ProblemResponseDto findById(int problemId) {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 problem이 없습니다. problemId = " + problemId));
-        return ProblemResponseDto.builder()
+        ProblemResponseDto responseDto =  ProblemResponseDto.builder()
                 .problemId(problem.getProblemId())
                 .chapterId(problem.getChapter().getChapterId())
                 .content(problem.getContent())
@@ -33,5 +34,6 @@ public class ProblemService {
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
                 .build();
+        return responseDto;
     }
 }
