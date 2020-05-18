@@ -25,10 +25,10 @@ class AppNav extends PureComponent {
               </Link>
             </div>
             <div style={{ flex: 1, padding: 30 }}>
-              <Link to="/student/library">서점</Link>
+              <Link to="/library">서재</Link>
             </div>
             <div style={{ flex: 1, padding: 30 }}>
-              <Link to="/student/note">오답노트</Link>
+              <Link to="/note">오답노트</Link>
             </div>
             <div style={{ flex: 1, padding: 30 }}>서점</div>
             <div style={{ flex: 1, padding: 30 }}>프로필</div>
