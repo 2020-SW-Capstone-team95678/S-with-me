@@ -6,11 +6,11 @@ import configureStore from './store/configureStore';
 
 import NotFound from './components/NotFound';
 import LoginApp from './components/LoginApp';
-import SignUpS from './components/signUp/SignUpS';
 import LibraryApp from './components/student/libarary/LibraryApp';
 import BookDetail from './components/student/libarary/BookDetail';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
+import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
