@@ -4,11 +4,23 @@ import user from '../user.png';
 import '../App.css';
 
 import Button from '../common-ui/Button';
-import Input from '../common-ui/Input';
 import CheckBox from '../common-ui/CheckBox';
 import { Link } from 'react-router-dom';
 
 export default class LoginApp extends react.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: '',
+      password: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     return (
       <div className="App">
@@ -24,12 +36,12 @@ export default class LoginApp extends react.PureComponent {
                 <img src={user} className="App-user" alt="user" />
                 <div className="App-input">
                   <div className="App-inputID">
-                    <a>ID</a>
-                    <Input>ID</Input>
+                    ID
+                    <input name="userId" onChange={this.handleChange} />
                   </div>
                   <div className="App-inputPW">
-                    <a>PW</a>
-                    <Input>PW</Input>
+                    PW
+                    <input name="password" onChange={this.handleChange} />
                   </div>
                 </div>
                 <Button>로그인</Button>

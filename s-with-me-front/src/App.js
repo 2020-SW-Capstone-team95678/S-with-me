@@ -6,11 +6,11 @@ import configureStore from './store/configureStore';
 
 import NotFound from './components/NotFound';
 import LoginApp from './components/LoginApp';
-import SignUpS from './components/signUp/SignUpS';
 import LibraryApp from './components/student/libarary/LibraryApp';
 import BookDetail from './components/student/libarary/BookDetail';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
+import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -21,7 +21,7 @@ export default class App extends PureComponent {
         <Router>
           <Switch>
             <Route path="/" exact render={() => <LoginApp />} />
-            <Route path="/signup" exact render={() => <SignUpS />} />
+            <Route path="/signup" exact render={() => <SignUpInputContainer />} />
             <Route path="/student/library" exact render={() => <LibraryApp />} />
             <Route path="/student/library/myBook" exact render={() => <BookDetail />} />
             <Route path="/student/library/myBook/solve" exact render={() => <ProblemApp />} />
