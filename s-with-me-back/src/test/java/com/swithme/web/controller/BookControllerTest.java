@@ -43,6 +43,7 @@ public class BookControllerTest {
     @After
     public void cleanup(){
         bookRepository.deleteAll();
+        publisherRepository.deleteAll();
     }
 
     @Test
