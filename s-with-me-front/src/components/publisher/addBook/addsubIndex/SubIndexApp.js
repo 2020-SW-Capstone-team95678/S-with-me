@@ -65,8 +65,11 @@ class SubIndexApp extends React.Component {
   render() {
     const { SubNotes, SubActiveId, MchapId} = this.state;
     const activeSubNote = SubNotes.filter((item) => item.SchapId === SubActiveId)[0];
+    console.log(activeSubNote);
     console.log(this.props.MchapId);
+    //const nextId=activeSubNote.Mid;
     const newSubNotes = SubNotes.filter((item) => item.Mid === this.props.MchapId);
+    
     return (
       <div className="subApp">
         <Header
@@ -82,7 +85,7 @@ class SubIndexApp extends React.Component {
             newSubNotes={newSubNotes}
           />
           {
-            SubNotes.length !== 0 && <SubIndex SubNote={activeSubNote} onEditNote={this.handleEditSubNote} />
+            SubNotes.length !== 0&& activeSubNote.Mid === this.props.MchapId &&  <SubIndex SubNote={activeSubNote} onEditNote={this.handleEditSubNote} />
           }
         </div>
         

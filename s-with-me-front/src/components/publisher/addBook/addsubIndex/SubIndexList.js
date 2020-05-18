@@ -19,6 +19,7 @@ class SubIndexList extends React.Component {
             <SubIndexItem
               key={SchapId}
               SchapId={SchapId}
+              Mid={Mid}
               Subactive={SchapId === SubActiveId}
               SubTitle={SubTitle}
               contents={contents}

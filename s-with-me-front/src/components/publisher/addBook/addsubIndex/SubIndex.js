@@ -9,6 +9,7 @@ class SubIndex extends React.Component {
   render() {
     const { SubNote, onEditNote } = this.props;
     const { SubTitle, contents } = SubNote;
+    
     return (
       <div>
         
