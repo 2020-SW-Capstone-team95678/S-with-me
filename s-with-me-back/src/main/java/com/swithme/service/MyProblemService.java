@@ -27,11 +27,11 @@ public class MyProblemService {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
         myProblem.update(requestDto);
-        if(!myProblem.isRight() || myProblem.isConfused())
-            noteRepository.save(Note.builder()
-                    .student(myProblem.getMyBook().getFolder().getStudent())
-                    .myProblem(myProblem)
-                    .build());
+//        if(!myProblem.isRight() || myProblem.isConfused())
+//            noteRepository.save(Note.builder()
+//                    .student(myProblem.getMyBook().getFolder().getStudent())
+//                    .myProblem(myProblem)
+//                    .build());
         return myProblemId;
     }
 
