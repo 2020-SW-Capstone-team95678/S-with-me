@@ -115,7 +115,6 @@ public class MyProblemControllerTest {
         studentRepository.deleteAll();
     }
 
-    @Ignore
     @Test
     public void updateMyProblemTest() throws Exception{
         List<MyProblem> myProblemList = myProblemRepository.findAll();
