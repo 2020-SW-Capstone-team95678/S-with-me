@@ -36,7 +36,7 @@ class ProblemResultView extends PureComponent {
           </Text>
           {isOptional ? (
             <VerticalList spacingBetween={1}>
-              {this.options.map(option => (
+              {this.options.map((option) => (
                 <Text>
                   {option.optionNum} : {option.optionContent}
                 </Text>

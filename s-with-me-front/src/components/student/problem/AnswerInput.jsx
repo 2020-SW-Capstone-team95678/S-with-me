@@ -23,7 +23,7 @@ export default class AnswerInput extends PureComponent {
   setCheckState(answer) {
     const { options } = this.state;
     this.setState({
-      options: options.map(option =>
+      options: options.map((option) =>
         answer === option.optionNum ? { ...option, isChecked: !option.isChecked } : option,
       ),
     });
@@ -47,7 +47,7 @@ export default class AnswerInput extends PureComponent {
     if (this.props.isOptional) {
       return (
         <VerticalList spacingBetween={1}>
-          {options.map(option => (
+          {options.map((option) => (
             <CheckBox
               name="optionInput"
               label={option.optionNum}
