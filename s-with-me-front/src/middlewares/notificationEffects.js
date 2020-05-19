@@ -2,9 +2,9 @@ import { SET_ERROR } from '../actions/myProblemActions';
 import { showMessage, SHOW_NOTIFICATION, hideMessage } from '../actions/notificationActions';
 import { debounce } from '../debounce';
 
-const debounceRunner = debounce(action => action(), 4000);
+const debounceRunner = debounce((action) => action(), 4000);
 
-export default store => nextRunner => action => {
+export default (store) => (nextRunner) => (action) => {
   const { type, payload } = action;
   if (type === SET_ERROR) {
     const { errorMessage } = payload;
