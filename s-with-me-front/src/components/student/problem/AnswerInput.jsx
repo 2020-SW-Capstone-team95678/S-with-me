@@ -8,11 +8,11 @@ export default class AnswerInput extends PureComponent {
     super(props);
     this.state = {
       options: [
-        { optionNum: 1, optionContent: '1번 보기', isChecked: false },
-        { optionNum: 2, optionContent: '2번 보기', isChecked: false },
-        { optionNum: 3, optionContent: '3번 보기', isChecked: false },
-        { optionNum: 4, optionContent: '4번 보기', isChecked: false },
-        { optionNum: 5, optionContent: '5번 보기', isChecked: false },
+        { optionNum: 1, isChecked: false },
+        { optionNum: 2, isChecked: false },
+        { optionNum: 3, isChecked: false },
+        { optionNum: 4, isChecked: false },
+        { optionNum: 5, isChecked: false },
       ],
     };
     this.setCheckState = this.setCheckState.bind(this);
@@ -44,10 +44,11 @@ export default class AnswerInput extends PureComponent {
 
   render() {
     const { options } = this.state;
+    const { optionContents } = this.props;
     if (this.props.isOptional) {
       return (
         <VerticalList spacingBetween={1}>
-          {options.map((option) => (
+          {options.map((option, index) => (
             <CheckBox
               name="optionInput"
               label={option.optionNum}
@@ -57,7 +58,7 @@ export default class AnswerInput extends PureComponent {
               }}
               checked={option.isChecked}
             >
-              {option.optionContent}
+              {optionContents[index]}
             </CheckBox>
           ))}
         </VerticalList>

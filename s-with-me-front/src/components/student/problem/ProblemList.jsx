@@ -10,7 +10,7 @@ export default class ProblemList extends PureComponent {
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.requestMyProblemList(id, { page: 1 });
+    this.props.requestMyProblemList(id, { page: 2 });
   }
 
   render() {

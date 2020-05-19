@@ -19,7 +19,18 @@ class ProblemView extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { isSolved: false, problemNum: null, content: '', isOptional: null, answer: '' };
+    this.state = {
+      isSolved: false,
+      problemNum: null,
+      content: '',
+      isOptional: null,
+      answer: '',
+      option1: '',
+      option2: '',
+      option3: '',
+      option4: '',
+      option5: '',
+    };
   }
   componentDidMount() {
     const { myProblem } = this.props;
@@ -31,6 +42,11 @@ class ProblemView extends PureComponent {
         content: data.content,
         isOptional: data.optional,
         answer: data.answer,
+        option1: data.option1,
+        option2: data.option2,
+        option3: data.option3,
+        option4: data.option4,
+        option5: data.option5,
       }),
     );
   }
@@ -53,6 +69,14 @@ class ProblemView extends PureComponent {
     const { myProblem, styles } = this.props;
     const { myProblemId, myAnswer } = myProblem;
     const { isSolved, problemNum, content, isOptional, answer } = this.state;
+    let optionContents = [];
+    if (isOptional) {
+      optionContents.push(this.state.option1);
+      optionContents.push(this.state.option2);
+      optionContents.push(this.state.option3);
+      optionContents.push(this.state.option4);
+      optionContents.push(this.state.option5);
+    }
     if (!isSolved) {
       return (
         <Form onSubmit={this.handleSubmit}>
@@ -63,7 +87,11 @@ class ProblemView extends PureComponent {
                   <Text>
                     {problemNum}.{content}
                   </Text>
-                  <AnswerInputContainer id={myProblemId} isOptional={isOptional} />
+                  <AnswerInputContainer
+                    id={myProblemId}
+                    isOptional={isOptional}
+                    optionContents={optionContents}
+                  />
                 </div>
                 <div {...css(styles.container)}>
                   <div
@@ -100,6 +128,7 @@ class ProblemView extends PureComponent {
           isConfused={myProblem.confused}
           myAnswer={myAnswer}
           answer={answer}
+          optionContents={optionContents}
         />
       );
     }
