@@ -21,6 +21,12 @@ public class UserController {
     private final StudentRepository studentRepository;
     private final UserService customUserDetailService;
     private short grade;
+
+    public boolean duplicate()
+    {
+        return true;
+    }
+
     // 회원가입
     @PostMapping("/signup/student")
     public int studentSignup(@RequestBody Map<String, String> user) {
@@ -35,15 +41,22 @@ public class UserController {
                 .build()).getStudentId();
     }
 
-    // 로그인
-    @PostMapping("/")
-    public String login(@RequestBody Map<String, String> user) {
+    @PostMapping("/signup/student/dupcheck")
+    public boolean idDupCheck(String userId) {
+        Student student = studentRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용 가능한 아이디 입니다."));
+        return true;
+    }
+        // 로그인
+    @PostMapping("/login")
+    public int login(@RequestBody Map<String, String> user) {
         Student student = studentRepository.findByUserId(user.get("userId"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
         if (!passwordEncoder.matches(user.get("password"), student.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        return jwtTokenProvider.createToken(student.getUsername(), student.getRoles());
+        jwtTokenProvider.createToken(student.getUsername(), student.getRoles());
+        return student.getStudentId();
     }
 
     //프로필 업데이트
