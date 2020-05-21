@@ -5,10 +5,8 @@ import com.swithme.domain.chapter.Chapter;
 import com.swithme.domain.chapter.ChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
-import com.swithme.domain.myProblem.MyProblem;
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.web.dto.ChapterListResponseDto;
-import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +28,13 @@ public class MyBookService {
         Chapter.sort(chapterList);
 
         return new ChapterListResponseDto(chapterList);
+    }
+
+    @Transactional
+    public int updatePageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
+        myBook.update(requestDto);
+        return myBookId;
     }
 }
