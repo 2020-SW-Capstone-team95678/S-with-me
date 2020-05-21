@@ -44,7 +44,6 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     compile('javax.servlet:jstl')
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-    compile('org.springframework.boot:spring-boot-starter-mustache')
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.mariadb.jdbc:mariadb-java-client')
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
