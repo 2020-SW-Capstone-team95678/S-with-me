@@ -52,7 +52,7 @@ class ProblemView extends PureComponent {
   }
 
   handleSubmit() {
-    const { myProblem, createSolvedData } = this.props;
+    const { myProblem, updateMyProblem } = this.props;
     const formValue = {
       confused: myProblem.confused,
       myAnswer: myProblem.myAnswer,
@@ -60,13 +60,13 @@ class ProblemView extends PureComponent {
       right: myProblem.right,
       solvedDateTime: myProblem.solvedDateTime,
     };
-    createSolvedData(myProblem.myProblemId, formValue, () => {
+    updateMyProblem(myProblem.myProblemId, formValue, () => {
       this.setState({ isSolved: true });
     });
   }
 
   render() {
-    const { myProblem, styles } = this.props;
+    const { myProblem, styles, loading } = this.props;
     const { myProblemId, myAnswer, myBookId } = myProblem;
     const { isSolved, problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
@@ -113,6 +113,7 @@ class ProblemView extends PureComponent {
                     answer={answer}
                     myAnswer={myAnswer}
                     myBookId={myBookId}
+                    disabled={loading}
                   >
                     개별 채점
                   </ScoringButtonContainer>

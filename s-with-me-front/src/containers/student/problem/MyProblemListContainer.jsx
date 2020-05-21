@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
-import { requestMyProblemList } from '../../../actions/myProblemActions';
+import { requestMyProblemList, FETCH_MY_PROBLEM_LIST } from '../../../actions/myProblemPackActions';
 import ProblemList from '../../../components/student/problem/ProblemList';
 
-const mapStateToProps = (state) => {
-  const { ids, entities, loading } = state.myProblemList;
-  const myProblemList = ids.map((id) => entities[id]);
+const mapStateToProps = state => {
+  const { pagination, ids, entities, loadingState } = state.myProblemList;
+  const loading = loadingState[FETCH_MY_PROBLEM_LIST];
+  const { number } = pagination;
+  const myProblemList = ids.map(id => entities[id]);
 
-  return { myProblemList, loading };
+  return { myProblemList, loading, number };
 };
 
 const mapDispatchToProps = {
