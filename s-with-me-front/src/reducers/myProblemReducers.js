@@ -1,13 +1,13 @@
 import {
-  SET_MY_PROBLEM_LIST,
   SET_MY_ANSWER,
   SET_IS_CONFUSED,
   SET_MY_SOLUTION,
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
-  LOADING_MY_PROBLEM_LIST,
-  SET_ERROR,
 } from '../actions/myProblemActions';
+
+import { FETCH_MY_PROBLEM_LIST } from '../actions/myProblemPackActions';
+import { handle } from 'redux-pack';
 
 const initState = {
   ids: [],
@@ -20,32 +20,30 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case SET_ERROR: {
-      const { errorMessage } = payload;
-      return {
-        ...state,
-        loading: false,
-        hasError: true,
-        errorMessage,
-      };
-    }
-    case LOADING_MY_PROBLEM_LIST: {
-      return {
-        ...state,
-        loading: true,
-        hasError: false,
-      };
-    }
-    case SET_MY_PROBLEM_LIST: {
-      const ids = payload.map((entity) => entity['myProblemId']);
-      const entities = payload.reduce(
-        (finalEntities, entity) => ({
-          ...finalEntities,
-          [entity['myProblemId']]: entity,
+    case FETCH_MY_PROBLEM_LIST: {
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          loading: true,
+          hasError: false,
         }),
-        {},
-      );
-      return { ...state, ids, entities, loading: false, hasError: false };
+        success: prevState => {
+          const { data } = payload;
+          const ids = data.map(entity => entity['myProblemId']);
+          const entities = data.reduce(
+            (finalEntities, entity) => ({
+              ...finalEntities,
+              [entity['myProblemId']]: entity,
+            }),
+            {},
+          );
+          return { ...prevState, ids, entities, loading: false, hasError: false };
+        },
+        failure: prevState => {
+          const { errorMessage } = payload.response.data;
+          return { ...prevState, loading: false, hasError: true, errorMessage };
+        },
+      });
     }
     case SET_MY_ANSWER: {
       const { id, myAnswer } = payload;

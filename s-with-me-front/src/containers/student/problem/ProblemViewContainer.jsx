@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
 import ProblemView from '../../../components/student/problem/ProblemView';
-import { createSolvedData } from '../../../actions/myProblemActions';
+import { updateMyProblem } from '../../../actions/myProblemPackActions';
 
-export default connect(null, { createSolvedData })(ProblemView);
+export default connect(null, { updateMyProblem })(ProblemView);

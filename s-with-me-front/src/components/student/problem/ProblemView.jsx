@@ -52,7 +52,7 @@ class ProblemView extends PureComponent {
   }
 
   handleSubmit() {
-    const { myProblem, createSolvedData } = this.props;
+    const { myProblem, updateMyProblem } = this.props;
     const formValue = {
       confused: myProblem.confused,
       myAnswer: myProblem.myAnswer,
@@ -60,7 +60,7 @@ class ProblemView extends PureComponent {
       right: myProblem.right,
       solvedDateTime: myProblem.solvedDateTime,
     };
-    createSolvedData(myProblem.myProblemId, formValue, () => {
+    updateMyProblem(myProblem.myProblemId, formValue, () => {
       this.setState({ isSolved: true });
     });
   }
