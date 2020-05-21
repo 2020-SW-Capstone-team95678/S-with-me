@@ -8,6 +8,7 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
+import com.swithme.web.dto.MyBookUpdateRequestDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -85,5 +86,25 @@ public class MyBookControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void updatePageNumber(){
+        MyBook myBook = myBookRepository.findAll().get(0);
+        int myBookId = myBook.getMyBookId();
+        MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
+                .lastPageNumber((short)1)
+                .build();
+
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;
+
+        HttpEntity<MyBookUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 my Book이 없습니다. myBookId = " + myBookId));
+        assertThat(myBook.getLastPageNumber()).isEqualTo(requestDto.getLastPageNumber());
     }
 }

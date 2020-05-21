@@ -79,7 +79,7 @@ public class Student implements UserDetails {
     }
 
     @Builder
-    public Student(int studentId, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
+    public Student(int studentId, String userId, String name, List<String> roles, String password, String phoneNumber, String birthday, short grade) {
         this.studentId = studentId;
         this.userId = userId;
         this.name = name;
@@ -87,6 +87,7 @@ public class Student implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.grade = grade;
+        this.roles = roles;
     }
 
     public void update(String userId){

@@ -3,6 +3,7 @@ package com.swithme.domain.myBook;
 import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +36,9 @@ public class MyBook {
         this.folder = folder;
         this.book = book;
         this.lastPageNumber = lastPageNumber;
+    }
+
+    public void update(MyBookUpdateRequestDto requestDto) {
+        this.lastPageNumber = requestDto.getLastPageNumber();
     }
 }
