@@ -5,19 +5,39 @@ import {
   SET_MY_SOLUTION,
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
+  LOADING_MY_PROBLEM_LIST,
+  SET_ERROR,
 } from '../actions/myProblemActions';
 
 const initState = {
   ids: [],
   entities: {},
+  loading: false,
+  hasError: false,
 };
 
 export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case SET_ERROR: {
+      const { errorMessage } = payload;
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        errorMessage,
+      };
+    }
+    case LOADING_MY_PROBLEM_LIST: {
+      return {
+        ...state,
+        loading: true,
+        hasError: false,
+      };
+    }
     case SET_MY_PROBLEM_LIST: {
-      const ids = payload.map(entity => entity['myProblemId']);
+      const ids = payload.map((entity) => entity['myProblemId']);
       const entities = payload.reduce(
         (finalEntities, entity) => ({
           ...finalEntities,
@@ -25,7 +45,7 @@ export default (state = initState, action) => {
         }),
         {},
       );
-      return { ...state, ids, entities };
+      return { ...state, ids, entities, loading: false, hasError: false };
     }
     case SET_MY_ANSWER: {
       const { id, myAnswer } = payload;
@@ -38,12 +58,12 @@ export default (state = initState, action) => {
       };
     }
     case SET_IS_CONFUSED: {
-      const { id, isConfused } = payload;
+      const { id, confused } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], isConfused },
+          [id]: { ...state.entities[id], confused },
         },
       };
     }
@@ -68,12 +88,12 @@ export default (state = initState, action) => {
       };
     }
     case SET_IS_RIGHT: {
-      const { id, isRight } = payload;
+      const { id, right } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], isRight },
+          [id]: { ...state.entities[id], right },
         },
       };
     }

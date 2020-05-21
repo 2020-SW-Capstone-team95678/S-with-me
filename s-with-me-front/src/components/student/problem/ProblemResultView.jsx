@@ -6,14 +6,6 @@ import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
 class ProblemResultView extends PureComponent {
-  options = [
-    { optionNum: 1, optionContent: '1번 보기' },
-    { optionNum: 2, optionContent: '2번 보기' },
-    { optionNum: 3, optionContent: '3번 보기' },
-    { optionNum: 4, optionContent: '4번 보기' },
-    { optionNum: 5, optionContent: '5번 보기' },
-  ];
-
   render() {
     const {
       problemNum,
@@ -26,6 +18,7 @@ class ProblemResultView extends PureComponent {
       myAnswer,
       answer,
     } = this.props;
+    const { optionContents } = this.props;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -36,18 +29,24 @@ class ProblemResultView extends PureComponent {
           </Text>
           {isOptional ? (
             <VerticalList spacingBetween={1}>
-              {this.options.map(option => (
+              {optionContents.map((option, index) => (
                 <Text>
-                  {option.optionNum} : {option.optionContent}
+                  {index + 1} : {option}
                 </Text>
               ))}
             </VerticalList>
           ) : null}
         </div>
         <div {...css(styles.container)}>
-          {isRight ? null : <Text>지난 나의 정답은 {myAnswer} 입니다.</Text>}
+          {isRight ? null : (
+            <Text>
+              지난 나의 정답은 {myAnswer}
+              {isOptional ? <Text>번</Text> : null}입니다.
+            </Text>
+          )}
           <Text>
-            정답은 {answer} {isOptional ? <Text>번</Text> : null} 입니다.
+            정답은 {answer}
+            {isOptional ? <Text>번</Text> : null} 입니다.
           </Text>
           <div>해설</div>
           <Button>보기</Button>

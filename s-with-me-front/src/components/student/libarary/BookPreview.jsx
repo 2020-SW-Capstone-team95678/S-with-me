@@ -6,7 +6,6 @@ import Card from '../../../common-ui/Card';
 import Button from '../../../common-ui/Button';
 import Heading from '../../../common-ui/Heading';
 import InlineList from '../../../common-ui/InlineList';
-import BookDetail from './BookDetail';
 
 export default class BookPreview extends PureComponent {
   static propTypes = {
