@@ -2,7 +2,8 @@
 import React from 'react';
 import './AddProblemApp.css';
 import ProblemHeader from './ProblemHeader';
-import ProblemItem from './ProblemItem';
+import Problem from './Problem';
+import ProblemList from './ProblemList';
 import { generateId } from '../utils';
 
 class AddProblemApp extends React.Component {
@@ -12,41 +13,43 @@ class AddProblemApp extends React.Component {
     ActiveId: null,
   }
 
-  handleListSubItemClick = (ProblemId) => {
+  handleListProblemClick = (ProblemId) => {
 
-    this.setState({ SubActiveId: ProblemId });
+    this.setState({ ActiveId: ProblemId });
   }
 
   handleAddProblem = () => {
     const ProblemId = generateId();
-    //console.log(ProblemId);
+    const {SchapId}=this.props;
+    console.log(SchapId);
     this.setState({
       Problems: [
         ...this.state.Problems,
         {
+          Sid: SchapId,
           problemId: ProblemId,
-          problemNumber : 'problemNumber',
+          problemNumber : '번호',
           problemText : '문제를 입력하세요.',
           solution: '문제의 정답을 입력하세요.',
-          solutioncContents: '문제의 해설을 입력하세요.',
+          solutionContents: '문제의 해설을 입력하세요.',
         },
       ],
-      SubActiveId: ProblemId,
+      ActiveId: ProblemId,
     });
     console.log(this.state);
   }
 
   handleDeleteProblem = () => {
-    const Problems = this.state.Problems.filter((item) => item.problemId !== this.state.SubActiveId);
+    const Problems = this.state.Problems.filter((item) => item.problemId !== this.state.ActiveId);
     this.setState({
       Problems,
-      SubActiveId: Problems.length === 0 ? null : Problems[0].problemId,
+      ActiveId: Problems.length === 0 ? null : Problems[0].problemId,
     });
   }
 
   handleEditProblem = (type, e) => {
     const Problems = [ ...this.state.Problems ];
-    const Problem = Problems.find((item) => item.problemId === this.state.SubActiveId)
+    const Problem = Problems.find((item) => item.problemId === this.state.ActiveId)
     Problem[type] = e.target.value;
     this.setState({
       Problems,
@@ -55,9 +58,10 @@ class AddProblemApp extends React.Component {
 
  
   render() {
-    const { Problems, SubActiveId, problemId} = this.state;
-    const activeProblem = Problems.filter((item) => item.problemId === SubActiveId)[0];
+    const { Problems, ActiveId, SchapId} = this.state;
+    const activeProblem = Problems.filter((item) => item.problemId === ActiveId)[0];
     console.log(activeProblem);
+    const newProblems = Problems.filter((item) => item.Sid === this.props.SchapId);
     
     return (
       <div className="problemApp">
@@ -67,16 +71,28 @@ class AddProblemApp extends React.Component {
           />
 
         <div className="container">
-          
-
-          {
-            Problems.length !== 0&&  <ProblemItem
+            {/* <ProblemList
             Problems={Problems}
-            onEditProblem={this.handleEditProblem}
+            ActiveId={ActiveId}
+            onListItemClick={this.handleListSubItemClick}
+            SchapId={SchapId}
+            newProblems={newProblems}
+            />  */}
+          
+            <ProblemList
+            Problems={Problems}
+            ActiveId={ActiveId}
+            onListProblemClick={this.handleListProblemClick}
+            SchapId={SchapId}
+            newProblems={newProblems}
+             />
+            {
+            Problems.length !== 0 && activeProblem.Sid === this.props.SchapId &&  <Problem Problem={activeProblem} onEditProblem={this.handleEditProblem} />
+            }
 
-          /> 
-          }
+
         </div>
+        
         
       </div>
     );

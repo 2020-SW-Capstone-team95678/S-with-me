@@ -41,7 +41,7 @@ class SubIndexApp extends React.Component {
     const SubNotes = this.state.SubNotes.filter((item) => item.SchapId !== this.state.SubActiveId);
     this.setState({
       SubNotes,
-      SubActiveId: SubNotes.length === 0 ? null : SubNotes[0].MchapId,
+      SubActiveId: SubNotes.length === 0 ? null : SubNotes[0].SchapId,
     });
   }
 
