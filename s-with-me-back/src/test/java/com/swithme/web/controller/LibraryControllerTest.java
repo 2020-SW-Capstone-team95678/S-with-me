@@ -43,8 +43,6 @@ public class LibraryControllerTest {
     private FolderRepository folderRepository;
     @Autowired
     private BookRepository bookRepository;
-    @Autowired
-    private MyProblemRepository myProblemRepository;
 
     @Before
     public void setup(){
@@ -68,13 +66,11 @@ public class LibraryControllerTest {
 
         for(int i = 0; i < 3; i++) {
             bookRepository.save(new Book());
-            myProblemRepository.save(new MyProblem());
             List<Book> bookList = bookRepository.findAll();
-            List<MyProblem> myLastProblemList = myProblemRepository.findAll();
             myBookRepository.save(MyBook.builder()
                     .folder(folder)
                     .book(bookList.get(i))
-                    .lastMyProblem(myLastProblemList.get(i))
+                    .lastPageNumber((short)1)
                     .build());
         }
     }
@@ -83,6 +79,7 @@ public class LibraryControllerTest {
     public void cleanup(){
         myBookRepository.deleteAll();
         folderRepository.deleteAll();
+        bookRepository.deleteAll();
         studentRepository.deleteAll();
     }
 
