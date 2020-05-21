@@ -67,7 +67,7 @@ class ProblemView extends PureComponent {
 
   render() {
     const { myProblem, styles } = this.props;
-    const { myProblemId, myAnswer } = myProblem;
+    const { myProblemId, myAnswer, myBookId } = myProblem;
     const { isSolved, problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
@@ -108,7 +108,12 @@ class ProblemView extends PureComponent {
                 </div>
                 <div style={{ display: 'flex' }}>
                   <IsConfusedContainer id={myProblemId} />
-                  <ScoringButtonContainer id={myProblemId} answer={answer} myAnswer={myAnswer}>
+                  <ScoringButtonContainer
+                    id={myProblemId}
+                    answer={answer}
+                    myAnswer={myAnswer}
+                    myBookId={myBookId}
+                  >
                     개별 채점
                   </ScoringButtonContainer>
                 </div>

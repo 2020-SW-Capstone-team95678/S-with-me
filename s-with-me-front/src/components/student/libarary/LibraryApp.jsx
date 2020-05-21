@@ -6,13 +6,10 @@ import AppNav, { HEIGHT } from '../AppNav';
 import LibraryFolderList from './LibraryFolderList';
 import BookOverview from './BookOverview';
 
-import Api from '../../../Api';
-
 class LibraryApp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      myBookList: [],
       folders: [
         { id: 1, name: '2017' },
         { id: 2, name: '2018' },
@@ -20,17 +17,20 @@ class LibraryApp extends PureComponent {
     };
   }
 
+  static defaultProps = {
+    myBookList: [],
+    requestMyBookList: () => {},
+  };
+
   componentDidMount() {
-    Api.get('/student/library', { params: { studentId: 1 } }).then(response =>
-      this.setState({
-        myBookList: response.data.myBookList,
-      }),
-    );
+    // studentId 가져오기
+    const { requestMyBookList } = this.props;
+    requestMyBookList({ studentId: 1 });
   }
 
   render() {
-    const { styles } = this.props;
-    const { myBookList, folders } = this.state;
+    const { styles, myBookList, loading } = this.props;
+    const { folders } = this.state;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -40,7 +40,7 @@ class LibraryApp extends PureComponent {
               <LibraryFolderList folders={folders} />
             </div>
             <div style={{ flex: 3, padding: 3 }}>
-              <BookOverview myBookList={myBookList} />
+              <BookOverview myBookList={myBookList} isLoading={loading} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>이 달의 목표 ..</div>
           </div>
