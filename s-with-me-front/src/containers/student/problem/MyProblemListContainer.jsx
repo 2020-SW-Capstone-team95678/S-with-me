@@ -3,10 +3,11 @@ import { requestMyProblemList } from '../../../actions/myProblemPackActions';
 import ProblemList from '../../../components/student/problem/ProblemList';
 
 const mapStateToProps = state => {
-  const { ids, entities, loading } = state.myProblemList;
+  const { pagination, ids, entities, loading } = state.myProblemList;
+  const { number } = pagination;
   const myProblemList = ids.map(id => entities[id]);
 
-  return { myProblemList, loading };
+  return { myProblemList, loading, number };
 };
 
 const mapDispatchToProps = {

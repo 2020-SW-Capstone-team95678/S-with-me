@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import ProblemBar from './ProblemBar';
+import ProblemPaginationContainer from '../../../containers/student/problem/ProblemPaginationContainer';
 
 export default class ProblemList extends PureComponent {
   static defaultProps = {
@@ -9,21 +10,25 @@ export default class ProblemList extends PureComponent {
   };
 
   componentDidMount() {
-    const { id } = this.props;
-    this.props.requestMyProblemList(id, { page: 2 });
+    const { id, number } = this.props;
+    const pageNumber = number || 1;
+    this.props.requestMyProblemList(id, { page: pageNumber }, pageNumber);
   }
 
   render() {
-    const { myProblemList, loading } = this.props;
+    const { myProblemList, loading, id } = this.props;
     return (
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 1, padding: 3 }}>
-          <ProblemBar myProblemList={myProblemList} isLoading={loading} />
+      <React.Fragment>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{ flex: 1, padding: 3 }}>
+            <ProblemBar myProblemList={myProblemList} isLoading={loading} />
+          </div>
+          <div style={{ flex: 1, padding: 3 }}>
+            {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}
+          </div>
         </div>
-        <div style={{ flex: 1, padding: 3 }}>
-          {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}
-        </div>
-      </div>
+        <ProblemPaginationContainer id={id} />
+      </React.Fragment>
     );
   }
 }
