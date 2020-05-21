@@ -28,6 +28,7 @@ public class UserController {
     }
 
     // 회원가입
+    @CrossOrigin
     @PostMapping("/signup/student")
     public int studentSignup(@RequestBody Map<String, String> user) {
         return studentRepository.save(Student.builder()
@@ -40,7 +41,7 @@ public class UserController {
                 .roles(Collections.singletonList("ROLE_STUDENT")) // 최초 가입시 USER 로 설정
                 .build()).getStudentId();
     }
-
+    @CrossOrigin
     @PostMapping("/signup/student/dupcheck")
     public boolean idDupCheck(String userId) {
         Student student = studentRepository.findByUserId(userId)
@@ -48,23 +49,25 @@ public class UserController {
         return true;
     }
         // 로그인
+    @CrossOrigin
     @PostMapping("/login")
-    public int login(@RequestBody Map<String, String> user) {
+    public Student login(@RequestBody Map<String, String> user) {
         Student student = studentRepository.findByUserId(user.get("userId"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
         if (!passwordEncoder.matches(user.get("password"), student.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         jwtTokenProvider.createToken(student.getUsername(), student.getRoles());
-        return student.getStudentId();
+        return student;
     }
 
     //프로필 업데이트
+    @CrossOrigin
     @PutMapping("/student/profile")
     public int studentProfileUpdate(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
         return customUserDetailService.update(studentId,studentUpdateRequestDto);
     }
-
+    @CrossOrigin
     @GetMapping("/student/profile")
     public Student dispProfile(int studentId){
         Student student = studentRepository.findById(studentId)
