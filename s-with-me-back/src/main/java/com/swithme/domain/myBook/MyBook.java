@@ -27,14 +27,13 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @OneToOne
-    @JoinColumn(name = "lastMyProblemId")
-    private MyProblem myProblem;
+    @Column(name = "lastPageNumber")
+    private short lastPageNumber;
 
     @Builder
-    public MyBook(Folder folder, Book book, MyProblem myProblem){
+    public MyBook(Folder folder, Book book, short lastPageNumber){
         this.folder = folder;
         this.book = book;
-        this.myProblem = myProblem;
+        this.lastPageNumber = lastPageNumber;
     }
 }

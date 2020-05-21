@@ -62,7 +62,7 @@ public class MyProblemRepositoryTest {
     }
 
     @Test
-    public void findByMyBook() {
+    public void findByMyBookTest() {
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
         MyProblem myProblem1 = myProblemList.get(0);
         MyProblem myProblem2 = myProblemList.get(1);

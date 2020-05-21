@@ -6,11 +6,11 @@ import configureStore from './store/configureStore';
 
 import NotFound from './components/NotFound';
 import LoginApp from './components/LoginApp';
-import SignUpS from './components/signUp/SignUpS';
-import LibraryApp from './components/student/libarary/LibraryApp';
 import BookDetail from './components/student/libarary/BookDetail';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
+import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
+import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -21,11 +21,19 @@ export default class App extends PureComponent {
         <Router>
           <Switch>
             <Route path="/" exact render={() => <LoginApp />} />
-            <Route path="/signup" exact render={() => <SignUpS />} />
-            <Route path="/student/library" exact render={() => <LibraryApp />} />
-            <Route path="/student/library/myBook" exact render={() => <BookDetail />} />
-            <Route path="/student/library/myBook/solve" exact render={() => <ProblemApp />} />
-            <Route path="/student/note" exact render={() => <NoteApp />} />
+            <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+            <Route path="/library" exact render={() => <LibraryAppContainer />} />
+            <Route
+              path="/library/myBook/:myBookId"
+              exact
+              render={({ match }) => <BookDetail match={match} />}
+            />
+            <Route
+              path="/library/myBook/:myBookId/solve"
+              exact
+              render={({ match }) => <ProblemApp match={match} />}
+            />
+            <Route path="/note" exact render={() => <NoteApp />} />
             <Route path="*" component={NotFound} />
           </Switch>
         </Router>

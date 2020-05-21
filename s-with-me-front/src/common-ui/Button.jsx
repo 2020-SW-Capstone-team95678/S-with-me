@@ -47,6 +47,7 @@ class Button extends PureComponent {
           xlarge && styles.xlarge,
           primary && styles.primary,
           secondary && styles.secondary,
+          disabled && styles.disabled,
         )}
         onClick={onPress}
       >
@@ -93,5 +94,14 @@ export default withStyles(({ color, size, unit, responsive }) => ({
     borderColor: color.secondary,
     color: color.secondary,
   },
- 
+  disabled: {
+    borderColor: color.grayDark,
+    color: color.grayLight,
+    cursor: 'default',
+    opacity: 0.5,
+    backgroundColor: color.gray,
+    ':hover': {
+      backgroundColor: color.gray,
+    },
+  },
 }))(Button);

@@ -5,13 +5,34 @@ import AppNav, { HEIGHT } from '../AppNav';
 import Card from '../../../common-ui/Card';
 import Heading from '../../../common-ui/Heading';
 import Button from '../../../common-ui/Button';
+import Api from '../../../Api';
+import ChapterList from './ChapterList';
+import { Link } from 'react-router-dom';
 
 class BookDetail extends PureComponent {
   static propTypes = {
     ...withStylesPropTypes,
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      chapterList: [],
+    };
+  }
+
+  componentDidMount() {
+    const { myBookId } = this.props.match.params;
+    Api.get(`/student/library/my-book/${myBookId}`).then(response => {
+      this.setState({
+        chapterList: response.data.chapterList,
+      });
+    });
+  }
+
   render() {
     const { styles } = this.props;
+    const { chapterList } = this.state;
+    const { myBookId } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -25,9 +46,7 @@ class BookDetail extends PureComponent {
                   padding: 3,
                   border: '1px red solid',
                 }}
-              >
-                문제집 사진
-              </div>
+              ></div>
               <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
                 <Card>
                   <Heading level={3}>목표</Heading>
@@ -41,8 +60,10 @@ class BookDetail extends PureComponent {
               </div>
             </div>
             <div style={{ flex: 4, flexDirection: 'row', padding: 3 }}>
-              Chapter List
-              <Button>이어 풀기</Button>
+              <Link to={`/library/myBook/${myBookId}/solve`}>
+                <Button xsmall>이어 풀기</Button>
+              </Link>
+              <ChapterList chapterList={chapterList} />
             </div>
           </div>
         </div>

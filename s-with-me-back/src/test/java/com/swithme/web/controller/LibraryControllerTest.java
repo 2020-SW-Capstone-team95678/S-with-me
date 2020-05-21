@@ -1,12 +1,16 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.book.Book;
+import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MyBookListResponseDto;
+import com.swithme.web.dto.MyBookResponseDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +41,8 @@ public class LibraryControllerTest {
     private StudentRepository studentRepository;
     @Autowired
     private FolderRepository folderRepository;
-
-    private MyBookListResponseDto myBookListResponseDto;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Before
     public void setup(){
@@ -60,24 +64,23 @@ public class LibraryControllerTest {
         List<Folder> folderList = folderRepository.findByStudent(student);
         Folder folder = folderList.get(0);
 
-        myBookRepository.save(MyBook.builder()
-                .folder(folder)
-                .build());
-        myBookRepository.save(MyBook.builder()
-                .folder(folder)
-                .build());
-        myBookRepository.save(MyBook.builder()
-                .folder(folder)
-                .build());
-
-        List<MyBook> myBookList = myBookRepository.findAll();
-
-        myBookListResponseDto = new MyBookListResponseDto(myBookList);
+        for(int i = 0; i < 3; i++) {
+            bookRepository.save(new Book());
+            List<Book> bookList = bookRepository.findAll();
+            myBookRepository.save(MyBook.builder()
+                    .folder(folder)
+                    .book(bookList.get(i))
+                    .lastPageNumber((short)1)
+                    .build());
+        }
     }
 
     @After
     public void cleanup(){
         myBookRepository.deleteAll();
+        folderRepository.deleteAll();
+        bookRepository.deleteAll();
+        studentRepository.deleteAll();
     }
 
     @Test

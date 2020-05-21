@@ -8,7 +8,7 @@ import GradeList from './GradeList';
 import Button from '../../../common-ui/Button';
 import Spacing from '../../../common-ui/Spacing';
 import Input from '../../../common-ui/Input';
-import IndexOverview from './IndexOverview';
+import IndexOverview from './IndexList';
 
 
 class AddBook extends PureComponent {
