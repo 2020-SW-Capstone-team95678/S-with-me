@@ -79,8 +79,8 @@ public class Student implements UserDetails {
     }
 
     @Builder
-    public Student(int id, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
-        this.studentId = id;
+    public Student(int studentId, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
+        this.studentId = studentId;
         this.userId = userId;
         this.name = name;
         this.password = password;
