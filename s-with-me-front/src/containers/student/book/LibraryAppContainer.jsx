@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { requestMyBookList } from '../../../actions/myBookActions';
+import { requestMyBookList } from '../../../actions/myBookPackActions';
 import LibraryApp from '../../../components/student/libarary/LibraryApp';
 
 const mapStateToProps = (state) => {
