@@ -66,7 +66,7 @@ class ProblemView extends PureComponent {
   }
 
   render() {
-    const { myProblem, styles } = this.props;
+    const { myProblem, styles, loading } = this.props;
     const { myProblemId, myAnswer, myBookId } = myProblem;
     const { isSolved, problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
@@ -113,6 +113,7 @@ class ProblemView extends PureComponent {
                     answer={answer}
                     myAnswer={myAnswer}
                     myBookId={myBookId}
+                    disabled={loading}
                   >
                     개별 채점
                   </ScoringButtonContainer>
