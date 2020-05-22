@@ -29,21 +29,21 @@ export default class SignUpS extends PureComponent {
     const { setUser } = this.props;
     const thisUser = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="studentSignUp">
+        <header className="header">
+          <img src={logo} className="logo" alt="logo" />
           <div>
-            <div className="App-welcomeText">
+            <div className="welcomeText">
               반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
             </div>
-            <div className="App-signUpBox">
-              <div className="App-signUp">
-                <img src={user} className="App-user" alt="user" />
-                <div className="App-input">
+            <div className="studentSignUpBox">
+              <div className="signUp">
+                <img src={user} className="userStudentSignUp" alt="user" />
+                <div className="signUpInput">
                   ID
-                  <div className="App-inputCheck">
+                  <div className="inputCheck">
                     <input name="userId" onChange={this.handleChange} />
-                    <Button xsmall>ID 중복확인</Button>
+                    <Button className="button" xsmall>중복</Button>
                   </div>
                   PW
                   <input name="password" onChange={this.handleChange} />
@@ -52,14 +52,14 @@ export default class SignUpS extends PureComponent {
                   생년월일 : 숫자만 6자리
                   <input name="birthDay" onChange={this.handleChange} />
                   휴대폰번호 : 숫자만 입력
-                  <div className="App-inputCheck">
+                  <div className="inputCheck">
                     <input name="phoneNumber" onChange={this.handleChange} />
                   </div>
                   학년
                   <input name="grade" onChange={this.handleChange} />
                 </div>
               </div>
-              <div className="App-Button">
+              <div className="signUpButton">
                 <Link to="/">
                   <Button>로그인으로 돌아가기</Button>
                 </Link>
