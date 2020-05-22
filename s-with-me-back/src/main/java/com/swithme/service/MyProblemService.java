@@ -50,6 +50,7 @@ public class MyProblemService {
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.isConfused())
                         .isRight(myProblem.isRight())
+                        .isSolved(myProblem.isSolved())
                         .build());
         }
         return responseDtoList;

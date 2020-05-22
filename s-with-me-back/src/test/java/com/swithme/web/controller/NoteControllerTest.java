@@ -1,5 +1,7 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.folder.Folder;
+import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -42,6 +44,8 @@ public class NoteControllerTest {
     private ProblemRepository problemRepository;
     @Autowired
     private MyBookRepository myBookRepository;
+    @Autowired
+    private FolderRepository folderRepository;
 
     private Student student;
     private MyProblem myProblem;
@@ -57,15 +61,20 @@ public class NoteControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
+        student = studentRepository.findAll().get(0);
 
-        myBookRepository.save(new MyBook());
+        folderRepository.save(Folder.builder()
+                .student(student)
+                .build());
+        myBookRepository.save(MyBook.builder()
+                .folder(folderRepository.findAll().get(0))
+                .build());
         problemRepository.save(new Problem());
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBookRepository.findAll().get(0))
                 .problem(problemRepository.findAll().get(0))
                 .build());
 
-        student = studentRepository.findAll().get(0);
         myProblem = myProblemRepository.findAll().get(0);
     }
 
@@ -74,6 +83,7 @@ public class NoteControllerTest {
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
+        folderRepository.deleteAll();
         problemRepository.deleteAll();
         studentRepository.deleteAll();
     }
@@ -82,7 +92,6 @@ public class NoteControllerTest {
     public void saveNoteTest(){
         assertThat(noteRepository.findAll()).isEmpty();
         NoteSaveRequestDto requestDto = NoteSaveRequestDto.builder()
-                .studentId(student.getStudentId())
                 .myProblemId(myProblem.getMyProblemId())
                 .addedDateTime(12345L)
                 .build();
