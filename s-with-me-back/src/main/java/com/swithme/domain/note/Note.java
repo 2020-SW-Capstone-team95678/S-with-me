@@ -20,11 +20,11 @@ public class Note {
     private int noteId;
 
     @OneToOne
-    @Column(name = "studentId")
+    @JoinColumn(name = "studentId")
     private Student student;
 
     @OneToOne
-    @Column(name = "myProblemId")
+    @JoinColumn(name = "myProblemId")
     private MyProblem myProblem;
 
     @Column(name = "addedDateTime")
