@@ -23,9 +23,10 @@ class LibraryApp extends PureComponent {
   };
 
   componentDidMount() {
-    // studentId 가져오기
-    const { requestMyBookList } = this.props;
+    const { requestMyBookList, user } = this.props;
+    const { studentId } = user;
     requestMyBookList({ studentId: 1 });
+    // requestMyBookList({ studentId: studentId });
   }
 
   render() {

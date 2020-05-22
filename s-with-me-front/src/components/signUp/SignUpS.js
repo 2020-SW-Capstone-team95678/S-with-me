@@ -4,30 +4,22 @@ import user from '../../user.png';
 import './SignUpS.css';
 
 import Button from '../../common-ui/Button';
+import Form from '../../common-ui/Form';
+import Input from '../../common-ui/Input';
 import { Link } from 'react-router-dom';
-import Api from '../../Api';
 
 export default class SignUpS extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: '',
-      password: '',
-      phoneNumber: '',
-      name: '',
-      grade: '',
-      birthDay: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleSubmit(values) {
+    const { createUser } = this.props;
+    createUser(values, () => <Link to="/" />);
   }
-
   render() {
-    const { setUser } = this.props;
-    const thisUser = this.state;
+    const { loading } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -39,40 +31,39 @@ export default class SignUpS extends PureComponent {
             <div className="App-signUpBox">
               <div className="App-signUp">
                 <img src={user} className="App-user" alt="user" />
-                <div className="App-input">
-                  ID
-                  <div className="App-inputCheck">
-                    <input name="userId" onChange={this.handleChange} />
-                    <Button xsmall>ID 중복확인</Button>
-                  </div>
-                  PW
-                  <input name="password" onChange={this.handleChange} />
-                  이름
-                  <input name="name" onChange={this.handleChange} />
-                  생년월일 : 숫자만 6자리
-                  <input name="birthDay" onChange={this.handleChange} />
-                  휴대폰번호 : 숫자만 입력
-                  <div className="App-inputCheck">
-                    <input name="phoneNumber" onChange={this.handleChange} />
-                  </div>
-                  학년
-                  <input name="grade" onChange={this.handleChange} />
-                </div>
+                <Form onSubmit={values => this.handleSubmit(values)}>
+                  <Form.Consumer>
+                    {({ onChange }) => (
+                      <div className="App-input">
+                        ID
+                        <div className="App-inputCheck">
+                          <Input name="userId" onChange={onChange} />
+                          <Button xsmall>ID 중복확인</Button>
+                        </div>
+                        PW
+                        <Input name="password" onChange={onChange} />
+                        이름
+                        <Input name="name" onChange={onChange} />
+                        생년월일 : 숫자만 6자리
+                        <Input name="birthDay" onChange={onChange} />
+                        휴대폰번호 : 숫자만 입력
+                        <div className="App-inputCheck">
+                          <Input name="phoneNumber" onChange={onChange} />
+                        </div>
+                        학년
+                        <Input name="grade" onChange={onChange} />
+                        <Button type="submit" disabled={loading} primary>
+                          확인
+                        </Button>
+                      </div>
+                    )}
+                  </Form.Consumer>
+                </Form>
               </div>
               <div className="App-Button">
                 <Link to="/">
                   <Button>로그인으로 돌아가기</Button>
                 </Link>
-                <Button
-                  onPress={() => {
-                    setUser(thisUser);
-                    Api.post('/student/signup', thisUser)
-                      .then(response => console.log(response))
-                      .catch(error => console.log(error));
-                  }}
-                >
-                  확인
-                </Button>
               </div>
             </div>
           </div>

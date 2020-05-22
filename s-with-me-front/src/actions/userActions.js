@@ -1,6 +1,30 @@
-export const SET_USER = 'user/SET_USER';
+import Api from '../Api';
 
-export const setUser = user => ({
-  type: SET_USER,
-  payload: user,
-});
+export const SET_USER = 'user/SET_USER';
+export const CREATE_USER = 'user/CREATE_USER';
+
+export function setUser(data, onComplete) {
+  return {
+    type: SET_USER,
+    promise: Api.post('/login', data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '로그인이 완료되었습니다.',
+      },
+    },
+  };
+}
+
+export function createUser(data, onComplete) {
+  return {
+    type: CREATE_USER,
+    promise: Api.post('/student/signup', data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '회원가입이 완료되었습니다.',
+      },
+    },
+  };
+}
