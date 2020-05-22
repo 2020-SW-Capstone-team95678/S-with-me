@@ -5,18 +5,13 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 public class StudentUpdateRequestDto {
-    private String userId;
-    /*private String name;
     private String phoneNumber;
-    private String birthday;
-    private Short grade;*/
+    private Short grade;
 
     @Builder
-    public StudentUpdateRequestDto( String userId) {
-        this.userId = userId;
-        /*this.name = name;
+    public StudentUpdateRequestDto( String phoneNumber,short grade) {
         this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
-        this.grade = grade;*/
+        this.grade = grade;
+
     }
 }
