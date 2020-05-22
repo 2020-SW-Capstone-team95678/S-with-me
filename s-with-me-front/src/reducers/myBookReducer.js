@@ -1,4 +1,4 @@
-import { SET_LAST_MY_PROBLEM } from '../actions/myBookActions';
+import { SET_LAST_MY_PROBLEM_PAGE } from '../actions/myBookActions';
 
 import { handle } from 'redux-pack';
 import { FETCH_MY_BOOK_LIST } from '../actions/myBookPackActions';
@@ -16,14 +16,14 @@ export default (state = initState, action) => {
   switch (type) {
     case FETCH_MY_BOOK_LIST: {
       return handle(state, action, {
-        start: (prevState) => ({
+        start: prevState => ({
           ...prevState,
           loading: true,
           hasError: false,
         }),
-        success: (prevState) => {
+        success: prevState => {
           const { data } = payload;
-          const ids = data.map((entity) => entity['myBookId']);
+          const ids = data.map(entity => entity['myBookId']);
           const entities = data.reduce(
             (finalEntities, entity) => ({
               ...finalEntities,
@@ -33,7 +33,7 @@ export default (state = initState, action) => {
           );
           return { ...prevState, ids, entities, loading: false, hasError: false };
         },
-        failure: (prevState) => {
+        failure: prevState => {
           const { errorMessage } = payload.response.data;
           return {
             ...prevState,
@@ -44,13 +44,13 @@ export default (state = initState, action) => {
         },
       });
     }
-    case SET_LAST_MY_PROBLEM: {
-      const { id, lastMyProblemId } = payload;
+    case SET_LAST_MY_PROBLEM_PAGE: {
+      const { id, lastPageNumber } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], lastMyProblemId },
+          [id]: { ...state.entities[id], lastPageNumber },
         },
       };
     }
