@@ -4,25 +4,29 @@
 }
 
 .logo {
-  height: 30vmin;
+  height: 15rem;
+  min-height: 300px;
   pointer-events: none;
 }
 
 .userStudentSignUp {
-  height: 100px;
+  height: 8rem;
   pointer-events: none;
   justify-content: center;
   float: left;
 }
 .signUpInput {
   flex-direction: column;
-  height: 20vh;
-  width: 20vh;
-  font-size: 1vh;
+  height: 20em;
+  min-width: 100px;
+  width: 10em;
+  font-size: 0.4em;
   padding-left: 10px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  border: 1px solid black;
+
 }
 
 div.inputCheck > button {
@@ -31,17 +35,19 @@ div.inputCheck > button {
 }
 
 .signUp {
-  width: 400px;
+  width: 15em;
+  height: 10em;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 5vh;
+  margin: 1em;
+  border: 1px solid black;
 }
 
 .header {
   background-color: white;
-  min-height: 100vh;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,9 +59,10 @@ div.inputCheck > button {
 .studentSignUpBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgray;
-  height: 40vh;
-  min-height: 400px;
-  width: 50vh;
+  height: 20rem;
+  min-height: 350px;
+  min-width: 250px;
+  width: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,6 +75,7 @@ div.inputCheck > button {
 
 .signUpButton {
   width: 30vh;
+  min-width: 200px;
   align-items: center;
   justify-content: center;
 }
@@ -75,8 +83,10 @@ div.inputCheck > button {
 .welcomeText {
   box-shadow: 5px 5px 5px darkgray;
   background-color: rgb(252, 230, 222);
-  height: 5vh;
-  width: 50vh;
+  min-height: 30px;
+  min-width: 480px;
+  height: 1rem;
+  width: 30rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;

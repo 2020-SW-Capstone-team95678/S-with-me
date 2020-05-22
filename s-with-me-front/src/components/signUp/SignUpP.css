@@ -3,14 +3,15 @@
 }
 
 .logo {
-  height: 30vmin;
+  height: 15rem;
+  min-height: 300px;
   pointer-events: none;
 }
 
 
 .userPublisherSignUp {
   justify-content: center;
-  height: 100px;
+  height: 8rem;
   pointer-events: none;
   float: left;
 }
@@ -27,11 +28,13 @@
 .publisherSignUpBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgray;
-  height: 40vh;
-  min-height: 400px;
-  width: 50vh;
+  height: 20rem;
+  min-height: 350px;
+  min-width: 250px;
+  width: 30rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   color: rgb(173, 5, 5);
   border-bottom-left-radius: 10px;
@@ -40,24 +43,29 @@
 }
 
 .signUp {
-  height: 200px;
-  width: 500px;
+  width: 15em;
+  height: 10em;
   display: flex;
   align-items: center;
   justify-content: center;
   
 }
 
-.signUpButton {
-  width: 30vh;
+.signUpButtonP {
+  width: 5rem;
+  min-width: 175px;
+  align-items: center;
+  justify-content: center;
 
 }
 
 .welcomeText {
   box-shadow: 5px 5px 5px darkgray;
   background-color:  rgb(252, 230, 222);
-  height: 5vh;
-  width: 50vh;
+  min-height: 30px;
+  min-width: 480px;
+  height: 1rem;
+  width: 30rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
@@ -74,6 +82,10 @@
   justify-content: center;
   padding-right: 50px;
   height: 15vh;
+  height: 20em;
+  min-width: 150px;
+  width: 10em;
+  font-size: 0.4em;
 }
 
 
