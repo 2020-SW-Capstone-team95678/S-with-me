@@ -10,8 +10,8 @@ export default class ProblemList extends PureComponent {
   };
 
   componentDidMount() {
-    const { id, number } = this.props;
-    const pageNumber = number || 1;
+    const { id, number, continuePageNumber } = this.props;
+    const pageNumber = continuePageNumber || number || 1;
     this.props.requestMyProblemList(id, { page: pageNumber }, pageNumber);
   }
 

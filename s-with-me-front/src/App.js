@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import configureStore from './store/configureStore';
 
 import NotFound from './components/NotFound';
-import BookDetail from './components/student/libarary/BookDetail';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
 import LoginContainer from './containers/student/signUp/LoginContainer';
+import BookDetailContainer from './containers/student/book/BookDetailContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -26,10 +26,15 @@ export default class App extends PureComponent {
             <Route
               path="/library/myBook/:myBookId"
               exact
-              render={({ match }) => <BookDetail match={match} />}
+              render={({ match }) => <BookDetailContainer match={match} />}
             />
             <Route
               path="/library/myBook/:myBookId/solve"
+              exact
+              render={({ match }) => <ProblemApp match={match} />}
+            />
+            <Route
+              path="/library/myBook/:myBookId/solve/:continuePageNumber"
               exact
               render={({ match }) => <ProblemApp match={match} />}
             />
