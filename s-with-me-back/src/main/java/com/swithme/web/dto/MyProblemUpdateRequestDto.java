@@ -12,14 +12,16 @@ public class MyProblemUpdateRequestDto {
     private String mySolution;
     private String myAnswer;
     private Long solvedDateTime;
+    private boolean isSolved;
 
     @Builder
     public MyProblemUpdateRequestDto(boolean isConfused, boolean isRight, String mySolution,
-                                     String myAnswer, Long solvedDateTime){
+                                     String myAnswer, Long solvedDateTime, boolean isSolved){
         this.isConfused = isConfused;
         this.isRight = isRight;
         this.mySolution = mySolution;
         this.myAnswer = myAnswer;
         this.solvedDateTime = solvedDateTime;
+        this.isSolved = isSolved;
     }
 }
