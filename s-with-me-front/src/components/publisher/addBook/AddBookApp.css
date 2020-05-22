@@ -4,3 +4,23 @@ div.app > div.container {
     flex-direction: column;
     height: calc(100vh - 50px);
   }
+
+  div.app > div.bar {
+    display: flex;  
+    height: 35px;
+    background-color: rgb(247, 207, 192);
+    align-items: center;
+  }
+  div.app > div.bar >span {
+    flex:1 ;
+    
+  }
+  div.app > div.bar > button{
+      flex:0.3;
+      height: 25px;
+      vertical-align: middle;
+      border: none;
+      margin: 5px;
+  }
+
+

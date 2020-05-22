@@ -5,6 +5,8 @@ import List from './addIndex/IndexList';
 import Note from './addIndex/MainIndex';
 import Bookinfo from './AddBook';
 import { generateId } from './utils';
+import Button from '../../../common-ui/Button';
+
 
 class App extends React.Component {
   state = {
@@ -54,6 +56,13 @@ class App extends React.Component {
     return (
       <div className="app">
         <Bookinfo/>
+        
+          <div className="bar">
+              <span>문제등록</span>
+              <button >전체 저장</button>
+          </div>
+                
+
         <Header
           onAddNote={this.handleAddNote}
           onDeleteNote={this.handleDeleteNote}
