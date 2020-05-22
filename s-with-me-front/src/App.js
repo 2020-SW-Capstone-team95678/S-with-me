@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import configureStore from './store/configureStore';
 
 import NotFound from './components/NotFound';
-import LoginApp from './components/LoginApp';
 import BookDetail from './components/student/libarary/BookDetail';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
+import LoginContainer from './containers/student/signUp/LoginContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -20,7 +20,7 @@ export default class App extends PureComponent {
       <Provider store={this.store}>
         <Router>
           <Switch>
-            <Route path="/" exact render={() => <LoginApp />} />
+            <Route path="/" exact render={() => <LoginContainer />} />
             <Route path="/signup" exact render={() => <SignUpInputContainer />} />
             <Route path="/library" exact render={() => <LibraryAppContainer />} />
             <Route
