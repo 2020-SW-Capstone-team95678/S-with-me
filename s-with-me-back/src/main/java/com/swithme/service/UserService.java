@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public int updateStudent(int studentId , StudentUpdateRequestDto studentUpdateRequestDto){
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(()-> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
         student.update(studentUpdateRequestDto.getPhoneNumber(),studentUpdateRequestDto.getGrade());
 
         return studentId;
