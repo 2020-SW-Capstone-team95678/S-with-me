@@ -4,6 +4,7 @@ import {
   SET_MY_SOLUTION,
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
+  SET_IS_SOLVED,
 } from '../actions/myProblemActions';
 
 import { FETCH_MY_PROBLEM_LIST, UPDATE_MY_PROBLEM } from '../actions/myProblemPackActions';
@@ -39,8 +40,8 @@ export default (state = initState, action) => {
         success: prevState => {
           const { data } = payload;
           const loadingAndErrorState = {
-            loadingState: { ...prevState, [type]: false },
-            errorState: { ...prevState, [type]: false },
+            loadingState: { ...prevState.loadingState, [type]: false },
+            errorState: { ...prevState.errorState, [type]: false },
           };
           if (type === FETCH_MY_PROBLEM_LIST) {
             const { pageNumber, pageSize } = meta || {};
@@ -61,12 +62,9 @@ export default (state = initState, action) => {
               pages: { ...prevState.pages, [pageNumber]: ids },
             };
           } else {
-            const id = data['myProblemId'];
             return {
               ...prevState,
               ...loadingAndErrorState,
-              id,
-              entities: { ...prevState.entities, [id]: data },
             };
           }
         },
@@ -127,6 +125,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], right },
+        },
+      };
+    }
+    case SET_IS_SOLVED: {
+      const { id, solved } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], solved },
         },
       };
     }

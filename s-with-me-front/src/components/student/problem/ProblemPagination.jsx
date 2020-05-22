@@ -32,10 +32,10 @@ export default class ProblemPagination extends PureComponent {
     const nextDisabled = loading || !hasNext;
     return (
       <InlineList align="right">
-        <Button secondary disabled={prevDisabled} onPress={this.handlePrevPress}>
+        <Button disabled={prevDisabled} onPress={this.handlePrevPress}>
           이전
         </Button>
-        <Button primary disabled={nextDisabled} onPress={this.handleNextPress}>
+        <Button disabled={nextDisabled} onPress={this.handleNextPress}>
           다음
         </Button>
       </InlineList>
