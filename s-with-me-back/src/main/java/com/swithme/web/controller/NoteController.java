@@ -15,7 +15,7 @@ public class NoteController {
 
     @CrossOrigin
     @PostMapping("/student/note")
-    public int saveNote(@RequestBody NoteSaveRequestDto requestDto){
+    public String saveNote(@RequestBody NoteSaveRequestDto requestDto){
         return noteService.saveNote(requestDto);
     }
 

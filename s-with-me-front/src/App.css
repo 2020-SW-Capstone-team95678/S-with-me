@@ -1,18 +1,18 @@
-.App {
+.login {
   text-align: center;
 }
 
-.App-logo {
+.logo {
   height: 40vmin;
   pointer-events: none;
 }
 
-.App-user {
-  height: 15vmin;
+.userLogin {
+  height: 100px;
   pointer-events: none;
 }
 
-.App-header {
+.header {
   background-color: white;
   min-height: 100vh;
   height: 100%;
@@ -25,7 +25,7 @@
   color: white;
 }
 
-.App-loginBox {
+.mainBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgray;
   height: 25vh;
@@ -42,24 +42,10 @@
   border-top-right-radius: 10px;
 }
 
-.App-login {
-  height: 20vh;
-  width: 40vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 10px;
-}
 
-.App-signUp {
-  height: 10vh;
-  width: 25vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
-.App-checkBox {
+
+.checkBox {
   box-shadow: 5px 5px 5px darkgray;
   background-color: rgb(252, 230, 222);
   height: 5vh;
@@ -75,7 +61,7 @@
   color: gray;
 }
 
-.App-input {
+.input {
   flex-direction: column;
   height: 10vh;
   padding-left: 10px;
@@ -86,7 +72,7 @@
   justify-content: flex-start;
 }
 
-.App-inputID {
+.inputID {
   height: 100px;
   padding-left: 20px;
   padding-right: 10px;
@@ -96,7 +82,7 @@
   font-size: 15px;
 }
 
-.App-inputPW {
+.inputPW {
   height: 5vh;
   padding-left: 10px;
   padding-right: 10px;
@@ -105,3 +91,37 @@
   justify-content: center;
   font-size: 15px;
 }
+
+.loginHeader {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.loginInput {
+  flex-direction: row;
+  height: 10vh;
+  padding-top: 45px;
+  padding-left: 10px;
+  padding-right: 1vh;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  justify-content: flex-start;
+}
+
+
+div.loginSignUp {
+  height: 10vh;
+  width: 25vh;
+  display: inline-block;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
