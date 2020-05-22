@@ -1,0 +1,36 @@
+package com.swithme.service;
+
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
+import com.swithme.domain.note.Note;
+import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.student.Student;
+import com.swithme.domain.student.StudentRepository;
+import com.swithme.web.dto.NoteSaveRequestDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Service
+public class NoteService {
+
+    private final NoteRepository noteRepository;
+    private final StudentRepository studentRepository;
+    private final MyProblemRepository myProblemRepository;
+
+    @Transactional
+    public int saveNote(NoteSaveRequestDto requestDto) {
+        Student student = studentRepository.findById(requestDto.getStudentId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + requestDto.getStudentId()));
+        MyProblem myProblem = myProblemRepository.findById(requestDto.getMyProblemId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + requestDto.getMyProblemId()));
+        long addedDateTime = requestDto.getAddedDateTime();
+        noteRepository.save(Note.builder()
+                .student(student)
+                .myProblem(myProblem)
+                .addedDateTime(addedDateTime)
+                .build());
+        return myProblem.getMyProblemId();
+    }
+}
