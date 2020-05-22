@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { setUser } from '../../../actions/userActions';
 import SignUpS from '../../../components/signUp/SignUpS';
+import { CREATE_USER, createUser } from '../../../actions/userActions';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: user => dispatch(setUser(user)),
-  };
+const mapDispatchToProps = state => {
+  const { loadingState } = state.user;
+  const loading = loadingState[CREATE_USER];
+  return { loading };
 };
 
-export default connect(null, mapDispatchToProps)(SignUpS);
+export default connect(mapDispatchToProps, { createUser })(SignUpS);
