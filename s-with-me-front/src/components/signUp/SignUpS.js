@@ -21,46 +21,37 @@ export default class SignUpS extends PureComponent {
   render() {
     const { loading } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="studentSignUp">
+        <header className="header">
+          <img src={logo} className="logo" alt="logo" />
           <div>
-            <div className="App-welcomeText">
+            <div className="welcomeText">
               반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
             </div>
-            <div className="App-signUpBox">
-              <div className="App-signUp">
-                <img src={user} className="App-user" alt="user" />
-                <Form onSubmit={values => this.handleSubmit(values)}>
-                  <Form.Consumer>
-                    {({ onChange }) => (
-                      <div className="App-input">
-                        ID
-                        <div className="App-inputCheck">
-                          <Input name="userId" onChange={onChange} />
-                          <Button xsmall>ID 중복확인</Button>
-                        </div>
-                        PW
-                        <Input name="password" onChange={onChange} />
-                        이름
-                        <Input name="name" onChange={onChange} />
-                        생년월일 : 숫자만 6자리
-                        <Input name="birthDay" onChange={onChange} />
-                        휴대폰번호 : 숫자만 입력
-                        <div className="App-inputCheck">
-                          <Input name="phoneNumber" onChange={onChange} />
-                        </div>
-                        학년
-                        <Input name="grade" onChange={onChange} />
-                        <Button type="submit" disabled={loading} primary>
-                          확인
-                        </Button>
-                      </div>
-                    )}
-                  </Form.Consumer>
-                </Form>
+            <div className="studentSignUpBox">
+              <div className="signUp">
+                <img src={user} className="userStudentSignUp" alt="user" />
+                <div className="signUpInput">
+                  ID
+                  <div className="inputCheck">
+                    <input name="userId" onChange={this.handleChange} />
+                    <Button className="button" xsmall>중복</Button>
+                  </div>
+                  PW
+                  <input name="password" onChange={this.handleChange} />
+                  이름
+                  <input name="name" onChange={this.handleChange} />
+                  생년월일 : 숫자만 6자리
+                  <input name="birthDay" onChange={this.handleChange} />
+                  휴대폰번호 : 숫자만 입력
+                  <div className="inputCheck">
+                    <input name="phoneNumber" onChange={this.handleChange} />
+                  </div>
+                  학년
+                  <input name="grade" onChange={this.handleChange} />
+                </div>
               </div>
-              <div className="App-Button">
+              <div className="signUpButton">
                 <Link to="/">
                   <Button>로그인으로 돌아가기</Button>
                 </Link>
