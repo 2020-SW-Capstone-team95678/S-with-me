@@ -27,7 +27,6 @@ public class UserController {
     @CrossOrigin
     @PostMapping("/signup/student")
     public int studentSignup(StudentCreateDto studentCreateDto) {
-
         userService.signupStudent(studentCreateDto,passwordEncoder);
         return studentCreateDto.getStudentId();
     }
@@ -35,7 +34,6 @@ public class UserController {
     @CrossOrigin
     @PostMapping("/signup/publisher")
     public int publisherSignup(PublisherCreateDto publisherCreateDto) {
-
         userService.signupPublisher(publisherCreateDto,passwordEncoder);
         return publisherCreateDto.getPublisherId();
     }
