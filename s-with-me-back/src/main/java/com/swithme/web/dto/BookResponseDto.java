@@ -17,14 +17,14 @@ public class BookResponseDto {
     private String name;
     private short grade;
     private String cover;
-    private boolean isAdvertised;
+    private Boolean isAdvertised;
     private short totalProblemNumber;
     private int monthlyProfit;
     private int monthlySold;
 
     @Builder
     public BookResponseDto(int bookId, int publisherId, String subject, int price, String publishedDate,
-                String name, short grade, String cover, boolean isAdvertised,
+                String name, short grade, String cover, Boolean isAdvertised,
                 short totalProblemNumber, int monthlyProfit, int monthlySold){
         this.bookId = bookId;
         this.publisherId = publisherId;

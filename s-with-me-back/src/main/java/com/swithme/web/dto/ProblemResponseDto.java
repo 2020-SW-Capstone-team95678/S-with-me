@@ -15,7 +15,7 @@ public class ProblemResponseDto {
     private short pageNumber;
     private short problemNumber;
     private String answer;
-    private boolean isOptional;
+    private Boolean isOptional;
     private String option1;
     private String option2;
     private String option3;
@@ -24,7 +24,7 @@ public class ProblemResponseDto {
 
     @Builder
     public ProblemResponseDto(int problemId, int chapterId, String content, String solution,
-                              short pageNumber, short problemNumber, String answer, boolean isOptional,
+                              short pageNumber, short problemNumber, String answer, Boolean isOptional,
                               String option1, String option2, String option3, String option4, String option5){
         this.problemId = problemId;
         this.chapterId = chapterId;

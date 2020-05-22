@@ -52,9 +52,9 @@ public class MyProblemService {
                         .problemId(myProblem.getProblem().getProblemId())
                         .mySolution(myProblem.getMySolution())
                         .myAnswer(myProblem.getMyAnswer())
-                        .isConfused(myProblem.isConfused())
-                        .isRight(myProblem.isRight())
-                        .isSolved(myProblem.isSolved())
+                        .isConfused(myProblem.getIsConfused())
+                        .isRight(myProblem.getIsRight())
+                        .isSolved(myProblem.getIsSolved())
                         .solvedDateTime(myProblem.getSolvedDateTime())
                         .build());
         }

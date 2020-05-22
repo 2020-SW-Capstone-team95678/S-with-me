@@ -32,10 +32,10 @@ public class MyProblem {
     private String mySolution;
 
     @Column(name = "isConfused")
-    private boolean isConfused;
+    private Boolean isConfused;
 
     @Column(name = "isRight")
-    private boolean isRight;
+    private Boolean isRight;
 
     @Column(name = "solvedDateTime")
     private Long solvedDateTime;
@@ -44,11 +44,11 @@ public class MyProblem {
     private String myAnswer;
 
     @Column(name = "isSolved")
-    private boolean isSolved;
+    private Boolean isSolved;
 
     @Builder
-    public MyProblem(MyBook myBook, Problem problem, String mySolution, boolean isConfused, boolean isRight,
-                     Long solvedDateTime, String myAnswer, boolean isSolved){
+    public MyProblem(MyBook myBook, Problem problem, String mySolution, Boolean isConfused, Boolean isRight,
+                     Long solvedDateTime, String myAnswer, Boolean isSolved){
         this.myBook = myBook;
         this.problem = problem;
         this.mySolution = mySolution;

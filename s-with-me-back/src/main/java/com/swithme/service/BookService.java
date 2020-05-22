@@ -26,7 +26,7 @@ public class BookService {
                 .name(book.getName())
                 .cover(book.getCover())
                 .grade(book.getGrade())
-                .isAdvertised(book.isAdvertised())
+                .isAdvertised(book.getIsAdvertised())
                 .totalProblemNumber(book.getTotalProblemNumber())
                 .monthlyProfit(book.getMonthlyProfit())
                 .monthlySold(book.getMonthlySold())

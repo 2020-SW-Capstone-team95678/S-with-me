@@ -174,6 +174,6 @@ public class NoteControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
-        assertThat(myProblem.isConfused()).isEqualTo(true);
+        assertThat(myProblem.getIsConfused()).isEqualTo(true);
     }
 }
