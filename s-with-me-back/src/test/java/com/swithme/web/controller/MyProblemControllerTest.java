@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
@@ -13,10 +12,8 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import lombok.Builder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package com.swithme.service;
 
-import com.swithme.domain.myProblem.MyProblem;
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.web.dto.ProblemResponseDto;
