@@ -21,24 +21,25 @@ public class Student implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="studentId")
     private int studentId;
 
-    @Column(length = 100, nullable = false, unique = true)
+    @Column(name="userId" , unique = true)
     private String userId;
 
-    @Column(length = 300, nullable = false)
+    @Column(name="name")
     private String name;
 
-    @Column(length = 300, nullable = false)
+    @Column(name="password")
     private String password;
 
-    @Column(length = 300, nullable = false)
+    @Column(name="phoneNumber")
     private String phoneNumber;
 
-    @Column(length = 300, nullable = false)
+    @Column(name="birthday")
     private String birthday;
 
-    @Column(length = 300, nullable = false)
+    @Column(name="grade")
     private short grade;
     @Override
     public String getUsername() {
@@ -77,7 +78,7 @@ public class Student implements UserDetails {
     }
 
     @Builder
-    public Student(int studentId, String userId, String name, List<String> roles, String password, String phoneNumber, String birthday, short grade) {
+    public Student(int studentId, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
         this.studentId = studentId;
         this.userId = userId;
         this.name = name;
@@ -85,7 +86,6 @@ public class Student implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.grade = grade;
-        this.roles = roles;
     }
 
     public void update(String phoneNumber,short grade){

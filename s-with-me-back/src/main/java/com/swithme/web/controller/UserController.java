@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -26,14 +24,14 @@ public class UserController {
     // 회원가입
     @CrossOrigin
     @PostMapping("/signup/student")
-    public int studentSignup(StudentCreateDto studentCreateDto) {
+    public int signupStudent(StudentCreateDto studentCreateDto) {
         userService.signupStudent(studentCreateDto,passwordEncoder);
         return studentCreateDto.getStudentId();
     }
 
     @CrossOrigin
     @PostMapping("/signup/publisher")
-    public int publisherSignup(PublisherCreateDto publisherCreateDto) {
+    public int signupPublisher(PublisherCreateDto publisherCreateDto) {
         userService.signupPublisher(publisherCreateDto,passwordEncoder);
         return publisherCreateDto.getPublisherId();
     }
@@ -61,7 +59,7 @@ public class UserController {
         Student student = studentRepository.findByUserId(id);
         if(student==null){ throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
 
-        if (!passwordEncoder.matches(id, student.getPassword())) {
+        if (!passwordEncoder.matches(password, student.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         jwtTokenProvider.createToken(student.getUsername());
@@ -86,7 +84,7 @@ public class UserController {
     @CrossOrigin
     @PutMapping("/student/profile")
     public int studentProfileUpdate(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
-        return userService.studentUpdate(studentId,studentUpdateRequestDto);
+        return userService.updateStudent(studentId,studentUpdateRequestDto);
     }
 
     @CrossOrigin
