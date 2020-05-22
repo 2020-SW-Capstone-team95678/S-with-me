@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -32,6 +33,15 @@ public class Note {
         this.student = student;
         this.myProblem = myProblem;
         this.addedDateTime = addedDateTime;
+    }
+
+    public static void sort(List<Note> noteList){
+        Collections.sort(noteList, new Comparator<Note>() {
+            @Override
+            public int compare(Note note, Note targetNote) {
+                return note.addedDateTime.compareTo(targetNote.addedDateTime);
+            }
+        });
     }
 
 }

@@ -44,6 +44,7 @@ public class NoteService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
         List<Note> noteList = noteRepository.findByStudent(student);
+        Note.sort(noteList);
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note : noteList){
             MyProblem myProblem = note.getMyProblem();
