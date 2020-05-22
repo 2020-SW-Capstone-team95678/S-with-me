@@ -56,6 +56,7 @@ public class NoteService {
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.isConfused())
                     .isRight(myProblem.isRight())
+                    .solvedDateTime(myProblem.getSolvedDateTime())
                     .build());
         }
         return responseDtoList;
