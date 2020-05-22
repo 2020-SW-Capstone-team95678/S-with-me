@@ -53,8 +53,8 @@ public class NoteService {
                     .problemId(myProblem.getProblem().getProblemId())
                     .mySolution(myProblem.getMySolution())
                     .myAnswer(myProblem.getMyAnswer())
-                    .isConfused(myProblem.isConfused())
-                    .isRight(myProblem.isRight())
+                    .isConfused(myProblem.getIsConfused())
+                    .isRight(myProblem.getIsRight())
                     .solvedDateTime(myProblem.getSolvedDateTime())
                     .build());
         }

@@ -40,7 +40,7 @@ public class Book {
     private String cover;
 
     @Column(name = "isAdvertised")
-    private boolean isAdvertised;
+    private Boolean isAdvertised;
 
     @Column(name = "totalProblemNumber")
     private short totalProblemNumber;
@@ -53,7 +53,7 @@ public class Book {
 
     @Builder
     public Book(Publisher publisher, String subject, int price, String publishedDate,
-                String name, short grade, String cover, boolean isAdvertised,
+                String name, short grade, String cover, Boolean isAdvertised,
                 short totalProblemNumber, int monthlyProfit, int monthlySold){
         this.publisher = publisher;
         this.subject = subject;

@@ -139,7 +139,7 @@ public class MyProblemControllerTest {
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
         assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
         assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
-        assertThat(updatedMyProblem.isConfused()).isEqualTo(true);
+        assertThat(updatedMyProblem.getIsConfused()).isEqualTo(true);
     }
 
     @Test

@@ -37,7 +37,7 @@ public class Problem {
     private String answer;
 
     @Column(name = "isOptional")
-    private boolean isOptional;
+    private Boolean isOptional;
 
     @Column(name = "option1")
     private String option1;
@@ -56,7 +56,7 @@ public class Problem {
 
     @Builder
     public Problem(Chapter chapter, String content, String solution,
-                   short pageNumber, short problemNumber, String answer, boolean isOptional,
+                   short pageNumber, short problemNumber, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5){
         this.chapter = chapter;
         this.content = content;

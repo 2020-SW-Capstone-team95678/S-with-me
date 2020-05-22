@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoteUpdateRequestDto {
 
-    private long addedDateTime;
+    private Long addedDateTime;
     private MyProblemUpdateRequestDto myProblemUpdateRequestDto;
 
     @Builder
-    public NoteUpdateRequestDto(long addedDateTime, MyProblemUpdateRequestDto myProblemUpdateRequestDto){
+    public NoteUpdateRequestDto(Long addedDateTime, MyProblemUpdateRequestDto myProblemUpdateRequestDto){
         this.addedDateTime = addedDateTime;
         this.myProblemUpdateRequestDto = myProblemUpdateRequestDto;
     }

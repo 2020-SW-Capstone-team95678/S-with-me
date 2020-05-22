@@ -25,7 +25,7 @@ public class ProblemService {
                 .pageNumber(problem.getPageNumber())
                 .problemNumber(problem.getProblemNumber())
                 .answer(problem.getAnswer())
-                .isOptional(problem.isOptional())
+                .isOptional(problem.getIsOptional())
                 .option1(problem.getOption1())
                 .option2(problem.getOption2())
                 .option3(problem.getOption3())

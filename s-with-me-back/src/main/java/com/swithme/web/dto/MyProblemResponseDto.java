@@ -13,14 +13,14 @@ public class MyProblemResponseDto {
     private int problemId;
     private String mySolution;
     private String myAnswer;
-    private boolean isConfused;
-    private boolean isRight;
+    private Boolean isConfused;
+    private Boolean isRight;
     private Long solvedDateTime;
-    private boolean isSolved;
+    private Boolean isSolved;
 
     @Builder
     public MyProblemResponseDto(int myProblemId, int myBookId, int problemId, String mySolution,
-                                boolean isConfused, boolean isRight, Long solvedDateTime, String myAnswer, boolean isSolved){
+                                Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved){
         this.myProblemId = myProblemId;
         this.myBookId = myBookId;
         this.problemId = problemId;
