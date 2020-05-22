@@ -26,11 +26,11 @@ export default class LoginApp extends react.PureComponent {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
     return (
-      <div className="login">
-        <header className="loginHeader">
-          <img src={logo} className="logo" alt="logo" />
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
           <div>
-            <div className="checkBox">
+            <div className="App-checkBox">
               <CheckBox
                 font-color="red"
                 onChange={() => this.setState({ isStudent: !isStudent })}
@@ -45,22 +45,30 @@ export default class LoginApp extends react.PureComponent {
                 출판사
               </CheckBox>
             </div>
-            <div className="mainBox">
-              <div className="loginInput">
-                <img src={user} className="userLogin" alt="user" />
-                <div className="input">
-                  <div className="inputID">
-                    ID
-                    <input name="userId" onChange={this.handleChange} />
-                  </div>
-                  <div className="inputPW">
-                    PW
-                    <input name="password" onChange={this.handleChange} />
-                  </div>
-                </div>
-                <Button>로그인</Button>
+            <div className="App-loginBox">
+              <div className="App-login">
+                <img src={user} className="App-user" alt="user" />
+                <Form onSubmit={values => this.handleSubmit(values)}>
+                  <Form.Consumer>
+                    {({ onChange }) => (
+                      <div className="App-input">
+                        <div className="App-inputID">
+                          ID
+                          <Input name="userId" onChange={onChange} />
+                        </div>
+                        <div className="App-inputPW">
+                          PW
+                          <input name="password" onChange={onChange} />
+                        </div>
+                        <Button type="submit" disabled={loading}>
+                          로그인
+                        </Button>
+                      </div>
+                    )}
+                  </Form.Consumer>
+                </Form>
               </div>
-              <div className="loginSignUp">
+              <div className="App-signUp">
                 <Link to="/signup">
                   <Button>학생으로 회원가입</Button>
                 </Link>
@@ -68,7 +76,7 @@ export default class LoginApp extends react.PureComponent {
               </div>
             </div>
           </div>
-          </header>
+        </header>
       </div>
     );
   }
