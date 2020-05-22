@@ -11,6 +11,7 @@
 
 .userStudentSignUp {
   height: 8rem;
+  padding-right: 15px;
   pointer-events: none;
   justify-content: center;
   float: left;
@@ -22,6 +23,7 @@
   width: 10em;
   font-size: 0.4em;
   padding-left: 10px;
+  padding-right: 20px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -37,16 +39,16 @@ div.inputCheck > button {
 .signUp {
   width: 15em;
   height: 10em;
+  min-height: 270px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 1em;
 }
 
 .header {
   background-color: white;
-  min-height: 500px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,14 +69,17 @@ div.inputCheck > button {
   align-items: center;
   justify-content: center;
   color: rgb(173, 5, 5);
-  padding-bottom: 20px;
+  padding-bottom: 2em;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  margin-bottom: 50px;
 }
 
 .signUpButton {
+
   width: 30vh;
   min-width: 200px;
+  min-height: 50px;
   align-items: center;
   justify-content: center;
 }

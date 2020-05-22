@@ -40,6 +40,7 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   padding-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 .signUp {
@@ -92,9 +93,10 @@
 .inputCheck {
   display: flex;
   align-items: center;
+  height:30px;
 }
 
 div.inputCheck>button {
-  min-width:60px;
+  min-width:100px;
   margin-left: 5px;
 }
