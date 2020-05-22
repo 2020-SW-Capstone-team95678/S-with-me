@@ -25,18 +25,18 @@ public class NoteService {
     private final MyProblemRepository myProblemRepository;
 
     @Transactional
-    public int saveNote(NoteSaveRequestDto requestDto) {
-        Student student = studentRepository.findById(requestDto.getStudentId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + requestDto.getStudentId()));
+    public String saveNote(NoteSaveRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(requestDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + requestDto.getMyProblemId()));
+        Student student = myProblem.getMyBook().getFolder().getStudent();
+
         long addedDateTime = requestDto.getAddedDateTime();
         noteRepository.save(Note.builder()
                 .student(student)
                 .myProblem(myProblem)
                 .addedDateTime(addedDateTime)
                 .build());
-        return myProblem.getMyProblemId();
+        return "오답노트에 문제가 추가되었습니다.";
     }
 
     @Transactional
