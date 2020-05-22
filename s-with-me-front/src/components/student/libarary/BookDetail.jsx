@@ -17,11 +17,18 @@ class BookDetail extends PureComponent {
     super(props);
     this.state = {
       chapterList: [],
+      lastPageNumber: -1,
     };
   }
 
   componentDidMount() {
     const { myBookId } = this.props.match.params;
+    const { myBookList } = this.props;
+    for (let myBook of myBookList) {
+      if (myBook.myBookId === myBookId * 1) {
+        this.setState({ lastPageNumber: myBook.lastPageNumber });
+      }
+    }
     Api.get(`/student/library/my-book/${myBookId}`).then(response => {
       this.setState({
         chapterList: response.data.chapterList,
@@ -31,7 +38,7 @@ class BookDetail extends PureComponent {
 
   render() {
     const { styles } = this.props;
-    const { chapterList } = this.state;
+    const { chapterList, lastPageNumber } = this.state;
     const { myBookId } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
@@ -60,7 +67,7 @@ class BookDetail extends PureComponent {
               </div>
             </div>
             <div style={{ flex: 4, flexDirection: 'row', padding: 3 }}>
-              <Link to={`/library/myBook/${myBookId}/solve`}>
+              <Link to={`/library/myBook/${myBookId}/solve/${lastPageNumber}`}>
                 <Button xsmall>이어 풀기</Button>
               </Link>
               <ChapterList chapterList={chapterList} />

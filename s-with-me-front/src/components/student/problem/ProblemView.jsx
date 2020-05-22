@@ -11,9 +11,9 @@ import AnswerInputContainer from '../../../containers/student/problem/AnswerInpu
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
 import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
+import ProblemResultViewContainer from '../../../containers/student/problem/ProblemResultViewContainer';
 
 import Api from '../../../Api';
-import ProblemResultView from './ProblemResultView';
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -52,22 +52,24 @@ class ProblemView extends PureComponent {
   }
 
   handleSubmit() {
-    const { myProblem, updateMyProblem } = this.props;
+    const { myProblem, updateMyProblem, setIsSolved } = this.props;
     const formValue = {
       confused: myProblem.confused,
       myAnswer: myProblem.myAnswer,
       mySolution: myProblem.mySolution,
       right: myProblem.right,
       solvedDateTime: myProblem.solvedDateTime,
+      solved: myProblem.solved,
     };
     updateMyProblem(myProblem.myProblemId, formValue, () => {
       this.setState({ isSolved: true });
+      setIsSolved(myProblem.myProblemId, true);
     });
   }
 
   render() {
     const { myProblem, styles, loading, number } = this.props;
-    const { myProblemId, myAnswer, myBookId } = myProblem;
+    const { myProblemId, myAnswer, myBookId, isSolved: saveSolved } = myProblem;
     const { isSolved, problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
@@ -77,7 +79,10 @@ class ProblemView extends PureComponent {
       optionContents.push(this.state.option4);
       optionContents.push(this.state.option5);
     }
-    if (!isSolved) {
+    if (!myAnswer) {
+      this.setState({ isSolved: false });
+    }
+    if ((!saveSolved && !isSolved) || !myAnswer) {
       return (
         <Form onSubmit={this.handleSubmit}>
           <Form.Consumer>
@@ -126,7 +131,7 @@ class ProblemView extends PureComponent {
       );
     } else {
       return (
-        <ProblemResultView
+        <ProblemResultViewContainer
           problemNum={problemNum}
           content={content}
           isOptional={isOptional}

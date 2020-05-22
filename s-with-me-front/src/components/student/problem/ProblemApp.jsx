@@ -5,23 +5,23 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import AppNav, { HEIGHT } from '../AppNav';
 
 import MyProblemListContainer from '../../../containers/student/problem/MyProblemListContainer';
-import ProblemHead from './ProblemHead';
 import NotificationContainer from '../../../containers/NotificationContainer';
+import ProblemHeadContainer from '../../../containers/student/problem/ProblemHeadContainer';
 
 class ProblemApp extends PureComponent {
   render() {
     const { styles } = this.props;
-    const { myBookId } = this.props.match.params;
+    const { myBookId, continuePageNumber } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ hight: 5, padding: 3 }}>
-              <ProblemHead id={myBookId} />
+              <ProblemHeadContainer id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <MyProblemListContainer id={myBookId} />
+              <MyProblemListContainer id={myBookId} continuePageNumber={continuePageNumber} />
             </div>
           </div>
           <NotificationContainer />
