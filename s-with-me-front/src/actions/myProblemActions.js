@@ -10,9 +10,9 @@ export const setMyAnswer = (id, myAnswer) => ({
   payload: { id, myAnswer },
 });
 
-export const setIsConfused = (id, confused) => ({
+export const setIsConfused = (id, isConfused) => ({
   type: SET_IS_CONFUSED,
-  payload: { id, confused },
+  payload: { id, isConfused },
 });
 
 export const setMySolution = (id, mySolution) => ({
@@ -25,12 +25,12 @@ export const setSolvedDateTime = (id, solvedDateTime) => ({
   payload: { id, solvedDateTime },
 });
 
-export const setIsRight = (id, right) => ({
+export const setIsRight = (id, isRight) => ({
   type: SET_IS_RIGHT,
-  payload: { id, right },
+  payload: { id, isRight },
 });
 
-export const setIsSolved = (id, solved) => ({
+export const setIsSolved = (id, isSolved) => ({
   type: SET_IS_SOLVED,
-  payload: { id, solved },
+  payload: { id, isSolved },
 });

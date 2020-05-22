@@ -4,6 +4,7 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Button from '../../../common-ui/Button';
 import Heading from '../../../common-ui/Heading';
 import { Redirect } from 'react-router-dom';
+import Api from '../../../Api';
 
 class ProblemHead extends PureComponent {
   static propTypes = {
@@ -13,7 +14,15 @@ class ProblemHead extends PureComponent {
     super(props);
     this.handleCloseBook = this.handleCloseBook.bind(this);
     this.handleTotalScroing = this.handleTotalScroing.bind(this);
-    this.state = { isFinished: false };
+    this.state = { isFinished: false, date: new Date() };
+    this.tick = this.tick.bind(this);
+  }
+
+  tick() {
+    this.setState({ date: new Date() });
+  }
+  componentDidMount() {
+    clearInterval(this.timerId);
   }
 
   handleCloseBook() {
@@ -21,7 +30,7 @@ class ProblemHead extends PureComponent {
     for (let myBook of myBookList) {
       const { myBookId } = myBook;
       if (myBookId === id * 1) {
-        updateLastPageNumber(id, { lastPageNumber: myBook.lastPageNumber }, () =>
+        updateLastPageNumber(id, { lastPageNumber: myBook.lastPageNumber * 1 }, () =>
           this.setState({ isFinished: true }),
         );
       }
@@ -29,23 +38,41 @@ class ProblemHead extends PureComponent {
   }
 
   handleTotalScroing() {
-    const { updateMyProblem, myProblemList, setIsSolved } = this.props;
+    const {
+      updateMyProblem,
+      myProblemList,
+      setIsSolved,
+      setIsRight,
+      setSolvedDateTime,
+      setLastMyProblemPage,
+    } = this.props;
+
     for (let myProblem of myProblemList) {
-      let formValue = {
-        confused: myProblem.confused,
-        myAnswer: myProblem.myAnswer,
+      Api.get('/student/library/my-book/my-problems', {
+        params: { problemId: myProblem.problemId },
+      }).then(({ data }) => {
+        if (myProblem.myAnswer && !myProblem.isSolved) {
+          if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
+          else setIsRight(myProblem.myProblemId, false);
+          setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
+        }
+      });
+      const formValue = {
+        isConfused: myProblem.isConfused,
+        isRight: myProblem.isRight,
+        isSolved: true,
+        myAnswer: String(myProblem.myAnswer),
         mySolution: myProblem.mySolution,
-        right: myProblem.right,
         solvedDateTime: myProblem.solvedDateTime,
-        solved: true,
       };
-      if (!myProblem.myAnswer || myProblem.myAnswer.length !== 0) {
-        updateMyProblem(myProblem, formValue, () => {
+      if (myProblem.myAnswer && !myProblem.isSolved) {
+        updateMyProblem(myProblem.myProblemId, formValue, () => {
           setIsSolved(myProblem.myProblemId, true);
         });
       }
     }
   }
+
   render() {
     const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
     if (!this.state.isFinished) {
