@@ -20,9 +20,11 @@ public class Note {
     private int noteId;
 
     @OneToOne
+    @JoinColumn(name = "studentId")
     private Student student;
 
     @OneToOne
+    @JoinColumn(name = "myProblemId")
     private MyProblem myProblem;
 
     @Column(name = "addedDateTime")

@@ -51,6 +51,7 @@ public class MyProblemService {
                         .isConfused(myProblem.isConfused())
                         .isRight(myProblem.isRight())
                         .isSolved(myProblem.isSolved())
+                        .solvedDateTime(myProblem.getSolvedDateTime())
                         .build());
         }
         return responseDtoList;

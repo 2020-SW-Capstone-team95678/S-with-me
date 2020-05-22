@@ -21,6 +21,7 @@ export default class SignUpS extends PureComponent {
   }
   render() {
     const { loading } = this.props;
+
     const { registerComplete } = this.state;
     if (!registerComplete) {
       return (
@@ -30,6 +31,7 @@ export default class SignUpS extends PureComponent {
             <div>
               <div className="welcomeText">
                 반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
+
               </div>
               <Form onSubmit={values => this.handleSubmit(values)}>
                 <Form.Consumer>
