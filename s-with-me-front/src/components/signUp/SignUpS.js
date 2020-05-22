@@ -4,30 +4,22 @@ import user from '../../user.png';
 import './SignUpS.css';
 
 import Button from '../../common-ui/Button';
+import Form from '../../common-ui/Form';
+import Input from '../../common-ui/Input';
 import { Link } from 'react-router-dom';
-import Api from '../../Api';
 
 export default class SignUpS extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: '',
-      password: '',
-      phoneNumber: '',
-      name: '',
-      grade: '',
-      birthDay: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleSubmit(values) {
+    const { createUser } = this.props;
+    createUser(values, () => <Link to="/" />);
   }
-
   render() {
-    const { setUser } = this.props;
-    const thisUser = this.state;
+    const { loading } = this.props;
     return (
       <div className="studentSignUp">
         <header className="header">
@@ -63,16 +55,6 @@ export default class SignUpS extends PureComponent {
                 <Link to="/">
                   <Button>로그인으로 돌아가기</Button>
                 </Link>
-                <Button
-                  onPress={() => {
-                    setUser(thisUser);
-                    Api.post('/student/signup', thisUser)
-                      .then(response => console.log(response))
-                      .catch(error => console.log(error));
-                  }}
-                >
-                  확인
-                </Button>
               </div>
             </div>
           </div>

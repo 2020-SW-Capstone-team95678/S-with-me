@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
@@ -13,10 +12,8 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import lombok.Builder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +68,7 @@ public class MyProblemControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        student = studentRepository.findByUserId("test id")
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        student = studentRepository.findByUserId("test id");
 
         folderRepository.save(Folder.builder()
                 .student(student)

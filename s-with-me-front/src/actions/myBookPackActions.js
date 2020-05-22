@@ -1,7 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_MY_BOOK_LIST = 'myBook/FETCH_MY_BOOK_LIST';
-export const UPDATE_LAST_PROBLEM_ID = 'myBook/UPDATE_LAST_PROBLEM_ID';
+export const UPDATE_LAST_PROBLEM_PAGE = 'myBook/UPDATE_LAST_PROBLEM_PAGE';
 
 export function requestMyBookList(params) {
   return {
@@ -15,10 +15,10 @@ export function requestMyBookList(params) {
   };
 }
 
-export function updateLastProblemId(id, data, onComplete) {
+export function updateLastProblemPage(id, data, onComplete) {
   return {
-    type: UPDATE_LAST_PROBLEM_ID,
-    // promise: Api.put('', data),
+    type: UPDATE_LAST_PROBLEM_PAGE,
+    promise: Api.put(`/student/library/${id}`, data),
     meta: {
       onSuccess: onComplete,
       notification: {

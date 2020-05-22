@@ -43,9 +43,12 @@ public class MyProblem {
     @Column(name = "myAnswer")
     private String myAnswer;
 
+    @Column(name = "isSolved")
+    private boolean isSolved;
+
     @Builder
     public MyProblem(MyBook myBook, Problem problem, String mySolution, boolean isConfused, boolean isRight,
-                     Long solvedDateTime, String myAnswer){
+                     Long solvedDateTime, String myAnswer, boolean isSolved){
         this.myBook = myBook;
         this.problem = problem;
         this.mySolution = mySolution;
@@ -53,6 +56,7 @@ public class MyProblem {
         this.isRight = isRight;
         this.solvedDateTime = solvedDateTime;
         this.myAnswer = myAnswer;
+        this.isSolved = isSolved;
     }
 
     public void update(MyProblemUpdateRequestDto requestDto) {
@@ -61,6 +65,7 @@ public class MyProblem {
         this.isRight = requestDto.isRight();
         this.solvedDateTime = requestDto.getSolvedDateTime();
         this.myAnswer = requestDto.getMyAnswer();
+        this.isSolved = requestDto.isSolved();
     }
 
 //    public void update(MyProblem entity) {

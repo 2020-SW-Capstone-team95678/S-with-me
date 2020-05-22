@@ -6,11 +6,8 @@ import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
-import com.swithme.domain.myProblem.MyProblem;
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MyBookResponseDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,8 +52,7 @@ public class LibraryControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        Student student = studentRepository.findByUserId("test id")
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        Student student = studentRepository.findByUserId("test id");
 
         folderRepository.save(Folder.builder()
                 .student(student)
