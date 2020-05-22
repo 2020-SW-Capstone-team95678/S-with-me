@@ -6,7 +6,7 @@ export const CREATE_USER = 'user/CREATE_USER';
 export function setUser(data, onComplete) {
   return {
     type: SET_USER,
-    promise: Api.post('/login', data),
+    promise: Api.post('/login/student', data),
     meta: {
       onSuccess: onComplete,
       notification: {
@@ -19,7 +19,7 @@ export function setUser(data, onComplete) {
 export function createUser(data, onComplete) {
   return {
     type: CREATE_USER,
-    promise: Api.post('/student/signup', data),
+    promise: Api.post('/signup/student', data),
     meta: {
       onSuccess: onComplete,
       notification: {

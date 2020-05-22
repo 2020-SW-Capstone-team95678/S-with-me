@@ -5,7 +5,7 @@ import LoginApp from '../../../components/LoginApp';
 const mapDispatchToProps = state => {
   const { loadingState } = state.user;
   const loading = loadingState[SET_USER];
-  return { user, loading };
+  return { loading };
 };
 
 export default connect(mapDispatchToProps, { setUser })(LoginApp);

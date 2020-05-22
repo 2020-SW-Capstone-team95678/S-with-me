@@ -42,9 +42,6 @@
   border-top-right-radius: 10px;
 }
 
-
-
-
 .checkBox {
   box-shadow: 5px 5px 5px darkgray;
   background-color: rgb(252, 230, 222);
@@ -115,7 +112,6 @@
   justify-content: flex-start;
 }
 
-
 div.loginSignUp {
   height: 10vh;
   width: 25vh;
@@ -124,4 +120,3 @@ div.loginSignUp {
   justify-content: space-between;
   padding-top: 20px;
 }
-
