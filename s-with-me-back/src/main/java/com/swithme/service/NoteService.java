@@ -60,4 +60,12 @@ public class NoteService {
         }
         return responseDtoList;
     }
+
+    @Transactional
+    public String deleteNote(int noteId) {
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 note가 없습니다. noteId = " + noteId));
+        noteRepository.delete(note);
+        return "오답노트가 삭제되었습니다.";
+    }
 }
