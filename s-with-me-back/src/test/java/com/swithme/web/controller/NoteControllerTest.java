@@ -12,7 +12,9 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.NoteSaveRequestDto;
+import com.swithme.web.dto.NoteUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -135,5 +137,43 @@ public class NoteControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(noteRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void updateNoteTest(){
+        noteRepository.save(Note.builder()
+                .addedDateTime(12345L)
+                .myProblem(myProblem)
+                .build());
+        Note note = noteRepository.findAll().get(0);
+        long expectedAddedDateTime = 54321L;
+
+        String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
+
+
+        MyProblemUpdateRequestDto myProblemUpdateRequestDto = MyProblemUpdateRequestDto.builder()
+                .isConfused(true)
+                .isSolved(true)
+                .solvedDateTime(12345L)
+                .myAnswer("test my answer")
+                .mySolution("test my solution")
+                .isRight(true)
+                .build();
+
+        NoteUpdateRequestDto requestDto = NoteUpdateRequestDto.builder()
+                .addedDateTime(expectedAddedDateTime)
+                .myProblemUpdateRequestDto(myProblemUpdateRequestDto)
+                .build();
+
+        HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        note = noteRepository.findAll().get(0);
+        myProblem = myProblemRepository.findAll().get(0);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
+        assertThat(myProblem.isConfused()).isEqualTo(true);
     }
 }

@@ -61,11 +61,11 @@ public class MyProblem {
 
     public void update(MyProblemUpdateRequestDto requestDto) {
         this.mySolution = requestDto.getMySolution();
-        this.isConfused = requestDto.isConfused();
-        this.isRight = requestDto.isRight();
+        this.isConfused = requestDto.getIsConfused();
+        this.isRight = requestDto.getIsRight();
         this.solvedDateTime = requestDto.getSolvedDateTime();
         this.myAnswer = requestDto.getMyAnswer();
-        this.isSolved = requestDto.isSolved();
+        this.isSolved = requestDto.getIsSolved();
     }
 
 //    public void update(MyProblem entity) {

@@ -2,21 +2,19 @@ package com.swithme.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class MyProblemUpdateRequestDto {
-    private boolean isConfused;
-    private boolean isRight;
+    private Boolean isConfused;
+    private Boolean isRight;
     private String mySolution;
     private String myAnswer;
     private Long solvedDateTime;
-    private boolean isSolved;
+    private Boolean isSolved;
 
     @Builder
-    public MyProblemUpdateRequestDto(boolean isConfused, boolean isRight, String mySolution,
-                                     String myAnswer, Long solvedDateTime, boolean isSolved){
+    public MyProblemUpdateRequestDto(Boolean isConfused, Boolean isRight, String mySolution,
+                                     String myAnswer, Long solvedDateTime, Boolean isSolved){
         this.isConfused = isConfused;
         this.isRight = isRight;
         this.mySolution = mySolution;
