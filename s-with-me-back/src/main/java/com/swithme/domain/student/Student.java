@@ -1,9 +1,7 @@
 package com.swithme.domain.student;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.swithme.domain.Role;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Entity
 public class Student implements UserDetails {
@@ -47,15 +45,15 @@ public class Student implements UserDetails {
         return userId;
     }
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        // TODO Auto-generated method stub
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
+        authorities.add(new SimpleGrantedAuthority(Role.STUDENT.getValue()));
+
+        return authorities;
     }
 
     @Override
@@ -89,7 +87,8 @@ public class Student implements UserDetails {
         this.grade = grade;
     }
 
-    public void update(String userId){
-        this.userId = userId;
+    public void update(String phoneNumber,short grade){
+        this.phoneNumber = phoneNumber;
+        this.grade = grade;
     }
 }
