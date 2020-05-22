@@ -68,8 +68,7 @@ public class MyProblemControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        student = studentRepository.findByUserId("test id")
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        student = studentRepository.findByUserId("test id");
 
         folderRepository.save(Folder.builder()
                 .student(student)

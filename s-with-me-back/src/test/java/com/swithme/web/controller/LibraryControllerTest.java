@@ -52,8 +52,7 @@ public class LibraryControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        Student student = studentRepository.findByUserId("test id")
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        Student student = studentRepository.findByUserId("test id");
 
         folderRepository.save(Folder.builder()
                 .student(student)
