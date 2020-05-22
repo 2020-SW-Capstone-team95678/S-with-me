@@ -8,7 +8,7 @@ import AddProblemApp from '../addProblem/AddProblemApp';
 class SubIndex extends React.Component {
   render() {
     const { SubNote, onEditNote } = this.props;
-    const { SubTitle, contents } = SubNote;
+    const { SubTitle, contents, SchapId } = SubNote;
 
     return (
       <div>
@@ -20,7 +20,7 @@ class SubIndex extends React.Component {
             onChange={(e) => onEditNote('SubTitle', e)}
           />
           
-          <AddProblemApp />
+          <AddProblemApp SchapId={SchapId}/>
 
         </div>
       </div>

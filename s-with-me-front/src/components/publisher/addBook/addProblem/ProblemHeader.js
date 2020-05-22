@@ -10,6 +10,7 @@ class Header extends React.Component {
           <span>문제 생성</span>
         </div>
         <div className="buttons">
+          <button>저장</button>
           <button onClick={onAddProblem}>추가</button>
           <button onClick={onDeleteProblem}>삭제</button>
         </div>
