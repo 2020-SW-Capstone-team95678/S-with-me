@@ -26,6 +26,9 @@ public class MyProblemService {
     public int updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
+        System.out.println("Service");
+        System.out.println(requestDto.getIsConfused());
+        System.out.println(requestDto.getSolvedDateTime());
         myProblem.update(requestDto);
 //        if(!myProblem.isRight() || myProblem.isConfused())
 //            noteRepository.save(Note.builder()
@@ -35,6 +38,7 @@ public class MyProblemService {
         return myProblemId;
     }
 
+    @Transactional
     public List<MyProblemResponseDto> getMyProblemList(int myBookId, int pageNumber) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId = " + myBookId));

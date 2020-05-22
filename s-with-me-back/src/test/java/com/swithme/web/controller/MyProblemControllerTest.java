@@ -124,7 +124,8 @@ public class MyProblemControllerTest {
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
                 .isRight(false)
-                .solvedDateTime(12345L)
+                .solvedDateTime(1412L)
+                .isSolved(true)
                 .build();
 
         String url = "http://localhost:" + port + "/student/library/my-book/my-problems/" + myProblemId;
@@ -138,8 +139,7 @@ public class MyProblemControllerTest {
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
         assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
         assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
-
-        assertThat(noteRepository.findAll()).isNotNull();
+        assertThat(updatedMyProblem.isConfused()).isEqualTo(true);
     }
 
     @Test

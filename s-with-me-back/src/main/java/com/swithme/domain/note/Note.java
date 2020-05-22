@@ -46,4 +46,7 @@ public class Note {
         });
     }
 
+    public void update(long addedDateTime) {
+        this.addedDateTime = addedDateTime;
+    }
 }

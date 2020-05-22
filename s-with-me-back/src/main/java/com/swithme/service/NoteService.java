@@ -6,9 +6,7 @@ import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MyProblemResponseDto;
-import com.swithme.web.dto.NoteResponseDto;
-import com.swithme.web.dto.NoteSaveRequestDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +47,7 @@ public class NoteService {
         for(Note note : noteList){
             MyProblem myProblem = note.getMyProblem();
             responseDtoList.add(new NoteResponseDto().builder()
+                    .noteId(note.getNoteId())
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
@@ -68,5 +67,18 @@ public class NoteService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 note가 없습니다. noteId = " + noteId));
         noteRepository.delete(note);
         return "오답노트가 삭제되었습니다.";
+    }
+
+    @Transactional
+    public String updateNote(int noteId, NoteUpdateRequestDto requestDto) {
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 note가 없습니다. noteId = " + noteId));
+        MyProblem myProblem = myProblemRepository.findById(note.getMyProblem().getMyProblemId())
+                .orElseThrow(() -> new IllegalArgumentException
+                        ("해당 my problem이 없습니다. myProblemID=" + note.getMyProblem().getMyProblemId()));
+
+        note.update(requestDto.getAddedDateTime());
+        myProblem.update(requestDto.getMyProblemUpdateRequestDto());
+        return "오답노트가 수정되었습니다.";
     }
 }
