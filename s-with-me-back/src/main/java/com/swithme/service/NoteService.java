@@ -6,10 +6,15 @@ import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.web.dto.MyProblemResponseDto;
+import com.swithme.web.dto.NoteResponseDto;
 import com.swithme.web.dto.NoteSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,5 +37,26 @@ public class NoteService {
                 .addedDateTime(addedDateTime)
                 .build());
         return myProblem.getMyProblemId();
+    }
+
+    @Transactional
+    public List<NoteResponseDto> getNoteList(int studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+        List<Note> noteList = noteRepository.findByStudent(student);
+        List<NoteResponseDto> responseDtoList = new ArrayList<>();
+        for(Note note : noteList){
+            MyProblem myProblem = note.getMyProblem();
+            responseDtoList.add(new NoteResponseDto().builder()
+                    .myProblemId(myProblem.getMyProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(myProblem.getProblem().getProblemId())
+                    .mySolution(myProblem.getMySolution())
+                    .myAnswer(myProblem.getMyAnswer())
+                    .isConfused(myProblem.isConfused())
+                    .isRight(myProblem.isRight())
+                    .build());
+        }
+        return responseDtoList;
     }
 }

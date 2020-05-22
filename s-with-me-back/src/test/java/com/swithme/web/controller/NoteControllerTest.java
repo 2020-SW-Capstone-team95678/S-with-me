@@ -1,9 +1,13 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.NoteSaveRequestDto;
@@ -17,6 +21,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -36,6 +41,10 @@ public class NoteControllerTest {
     private StudentRepository studentRepository;
     @Autowired
     private MyProblemRepository myProblemRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
+    @Autowired
+    private MyBookRepository myBookRepository;
 
     private Student student;
     private MyProblem myProblem;
@@ -51,17 +60,24 @@ public class NoteControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        myProblemRepository.save(new MyProblem());
+
+        myBookRepository.save(new MyBook());
+        problemRepository.save(new Problem());
+        myProblemRepository.save(MyProblem.builder()
+                .myBook(myBookRepository.findAll().get(0))
+                .problem(problemRepository.findAll().get(0))
+                .build());
 
         student = studentRepository.findAll().get(0);
         myProblem = myProblemRepository.findAll().get(0);
-
     }
 
     @After
     public void cleanup(){
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
+        myBookRepository.deleteAll();
+        problemRepository.deleteAll();
         studentRepository.deleteAll();
     }
 
@@ -80,7 +96,20 @@ public class NoteControllerTest {
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(noteRepository.findAll()).isNotEmpty();
     }
 
+    @Test
+    public void getNoteListTest(){
+        noteRepository.save(Note.builder()
+                .student(student)
+                .myProblem(myProblem)
+                .build());
+
+        String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 }
