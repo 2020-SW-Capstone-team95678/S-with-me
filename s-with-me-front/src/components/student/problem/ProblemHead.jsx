@@ -39,14 +39,15 @@ class ProblemHead extends PureComponent {
 
   handleTotalScroing() {
     const {
+      id,
       updateMyProblem,
       myProblemList,
       setIsSolved,
       setIsRight,
       setSolvedDateTime,
       setLastMyProblemPage,
+      pagination,
     } = this.props;
-
     for (let myProblem of myProblemList) {
       Api.get('/student/library/my-book/my-problems', {
         params: { problemId: myProblem.problemId },
@@ -55,6 +56,7 @@ class ProblemHead extends PureComponent {
           if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
           else setIsRight(myProblem.myProblemId, false);
           setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
+          setLastMyProblemPage(id, pagination.number);
         }
       });
       const formValue = {

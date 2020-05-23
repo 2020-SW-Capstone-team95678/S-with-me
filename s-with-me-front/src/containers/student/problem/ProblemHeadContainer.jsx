@@ -14,7 +14,7 @@ const mapStateToProps = state => {
   const loadingUpdatePageNumber = myBookListLoadingState[UPDATE_LAST_PAGE_NUMBER];
   const myBookList = myBookListIds.map(id => myBookListEntities[id]);
 
-  const { ids, entities, loadingState } = state.myProblemList;
+  const { ids, entities, loadingState, pagination } = state.myProblemList;
   const loadingUpdateMyProblemList = loadingState[UPDATE_MY_PROBLEM];
   const myProblemList = ids.map(id => entities[id]);
 
@@ -23,6 +23,7 @@ const mapStateToProps = state => {
     loadingUpdateMyProblemList,
     myBookList,
     myProblemList,
+    pagination,
   };
 };
 
