@@ -20,13 +20,21 @@ export function setUser(data, onComplete) {
 }
 
 export function createUser(data, onComplete) {
+  const params = new URLSearchParams();
+  params.append('birthday', data.birthday);
+  params.append('grade', data.grade);
+  params.append('name', data.name);
+  params.append('password', data.password);
+  params.append('phoneNumber', data.phoneNumber);
+  params.append('userId', data.userId);
   return {
     type: CREATE_USER,
-    promise: Api.post('/signup/student', data),
+    promise: Api.post('/signup/student', params),
     meta: {
       onSuccess: onComplete,
       notification: {
         success: '회원가입이 완료되었습니다.',
+        error: '회원가입에 실패하였습니다.',
       },
     },
   };
