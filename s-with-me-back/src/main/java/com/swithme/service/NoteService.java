@@ -34,7 +34,7 @@ public class NoteService {
                 .myProblem(myProblem)
                 .addedDateTime(addedDateTime)
                 .build());
-        return "오답노트에 문제가 추가되었습니다.";
+        return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
     }
 
     @Transactional
@@ -62,11 +62,12 @@ public class NoteService {
     }
 
     @Transactional
-    public String deleteNote(int noteId) {
-        Note note = noteRepository.findById(noteId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 note가 없습니다. noteId = " + noteId));
+    public String deleteNote(int myProblemId) {
+        MyProblem myProblem = myProblemRepository.findById(myProblemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
+        Note note = noteRepository.findByMyProblem(myProblem);
         noteRepository.delete(note);
-        return "오답노트가 삭제되었습니다.";
+        return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에서 삭제되었습니다.";
     }
 
     @Transactional
@@ -79,6 +80,6 @@ public class NoteService {
 
         note.update(requestDto.getAddedDateTime());
         myProblem.update(requestDto.getMyProblemUpdateRequestDto());
-        return "오답노트가 수정되었습니다.";
+        return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에서 수정되었습니다.";
     }
 }

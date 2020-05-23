@@ -36,7 +36,6 @@ public class FolderRepositoryTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-
         List<Student> studentList = studentRepository.findAll();
         student = studentList.get(0);
 
@@ -44,7 +43,6 @@ public class FolderRepositoryTest {
                 .student(student)
                 .folderName("test folder name 1")
                 .build());
-
         folderRepository.save(Folder.builder()
                 .student(student)
                 .folderName("test folder name 2")

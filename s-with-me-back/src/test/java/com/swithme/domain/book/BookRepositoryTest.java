@@ -35,7 +35,6 @@ public class BookRepositoryTest {
                 .publisher(publisher)
                 .name("test name 1")
                 .build());
-
         bookRepository.save(Book.builder()
                 .publisher(publisher)
                 .name("test name 2")

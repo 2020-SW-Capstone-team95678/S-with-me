@@ -69,7 +69,6 @@ public class ProblemControllerTest {
 
         String url = "http://localhost:" + port +
                 "/student/library/my-book/my-problems?problemId=" + problem.getProblemId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

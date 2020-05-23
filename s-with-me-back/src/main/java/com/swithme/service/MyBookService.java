@@ -31,10 +31,10 @@ public class MyBookService {
     }
 
     @Transactional
-    public int updatePageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
+    public String updateLastPageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
         myBook.update(requestDto);
-        return myBookId;
+        return "문제집의 최근 페이지 번호가 업데이트 되었습니다.";
     }
 }

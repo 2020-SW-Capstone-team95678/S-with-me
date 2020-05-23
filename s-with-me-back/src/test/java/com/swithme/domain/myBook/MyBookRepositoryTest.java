@@ -50,30 +50,25 @@ public class MyBookRepositoryTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        ;
-        publisherRepository.save(new Publisher());
-
         List<Student> studentList = studentRepository.findAll();
         Student student = studentList.get(0);
 
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
+        List<Folder> folderList = folderRepository.findAll();
+        folder = folderList.get(0);
 
+        publisherRepository.save(new Publisher());
         List<Publisher> publisherList = publisherRepository.findAll();
         Publisher publisher = publisherList.get(0);
 
         bookRepository.save(Book.builder()
                 .publisher(publisher)
                 .build());
-
         bookRepository.save(Book.builder()
                 .publisher(publisher)
                 .build());
-
-        List<Folder> folderList = folderRepository.findAll();
-        folder = folderList.get(0);
-
         List<Book> bookList = bookRepository.findAll();
         book1 = bookList.get(0);
         book2 = bookList.get(1);
@@ -82,7 +77,6 @@ public class MyBookRepositoryTest {
                 .folder(folder)
                 .book(book1)
                 .build());
-
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .book(book2)
@@ -101,7 +95,6 @@ public class MyBookRepositoryTest {
     @Test
     public void findByFolderTest(){
         List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-
         MyBook myBook1 = myBookList.get(0);
         MyBook myBook2 = myBookList.get(1);
 

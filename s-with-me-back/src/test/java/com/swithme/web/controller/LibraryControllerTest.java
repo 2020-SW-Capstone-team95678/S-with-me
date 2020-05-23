@@ -85,7 +85,6 @@ public class LibraryControllerTest {
         Student student = studentList.get(0);
 
         String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

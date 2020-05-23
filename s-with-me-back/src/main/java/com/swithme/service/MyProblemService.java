@@ -23,19 +23,25 @@ public class MyProblemService {
     private final MyBookRepository myBookRepository;
 
     @Transactional
-    public int updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
+    public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
-        System.out.println("Service");
-        System.out.println(requestDto.getIsConfused());
-        System.out.println(requestDto.getSolvedDateTime());
         myProblem.update(requestDto);
-//        if(!myProblem.isRight() || myProblem.isConfused())
-//            noteRepository.save(Note.builder()
-//                    .student(myProblem.getMyBook().getFolder().getStudent())
-//                    .myProblem(myProblem)
-//                    .build());
-        return myProblemId;
+        if(!myProblem.getIsRight() || myProblem.getIsConfused()) {
+            if (noteRepository.findByMyProblem(myProblem) == null) {
+                noteRepository.save(Note.builder()
+                        .student(myProblem.getMyBook().getFolder().getStudent())
+                        .myProblem(myProblem)
+                        .addedDateTime(myProblem.getSolvedDateTime())
+                        .build());
+                return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
+            } else {
+                Note note = noteRepository.findByMyProblem(myProblem);
+                note.update(myProblem.getSolvedDateTime());
+            }
+        }
+
+        return "최근 나의 풀이가 저장되었습니다.";
     }
 
     @Transactional

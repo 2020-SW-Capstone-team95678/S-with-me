@@ -37,7 +37,7 @@ public class Note {
         this.addedDateTime = addedDateTime;
     }
 
-    public static void sort(List<Note> noteList){
+    public static void sort(List<Note> noteList) {
         Collections.sort(noteList, new Comparator<Note>() {
             @Override
             public int compare(Note note, Note targetNote) {

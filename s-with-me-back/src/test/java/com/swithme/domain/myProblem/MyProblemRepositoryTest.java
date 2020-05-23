@@ -47,7 +47,6 @@ public class MyProblemRepositoryTest {
                 .myBook(myBook)
                 .problem(problem1)
                 .build());
-
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBook)
                 .problem(problem2)

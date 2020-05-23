@@ -34,7 +34,6 @@ public class ProblemRepositoryTest {
                 .chapter(chapter)
                 .problemNumber((short)1)
                 .build());
-
         problemRepository.save(Problem.builder()
                 .chapter(chapter)
                 .problemNumber((short)2)
