@@ -4,6 +4,7 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Button from '../../../common-ui/Button';
 import Heading from '../../../common-ui/Heading';
 import { Redirect } from 'react-router-dom';
+import Api from '../../../Api';
 
 class ProblemHead extends PureComponent {
   static propTypes = {
@@ -13,41 +14,75 @@ class ProblemHead extends PureComponent {
     super(props);
     this.handleCloseBook = this.handleCloseBook.bind(this);
     this.handleTotalScroing = this.handleTotalScroing.bind(this);
-    this.state = { isFinished: false };
+    this.state = {
+      isFinished: false,
+      date: new Date(),
+      bookName: '',
+    };
+    this.tick = this.tick.bind(this);
+  }
+
+  tick() {
+    this.setState({ date: new Date() });
+  }
+  componentDidMount() {
+    clearInterval(this.timerId);
+    const { myBook } = this.props;
+    console.log(myBook);
+    Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
+      this.setState({ bookName: data.name }),
+    );
   }
 
   handleCloseBook() {
-    const { id, updateLastPageNumber, myBookList } = this.props;
-    for (let myBook of myBookList) {
-      const { myBookId } = myBook;
-      if (myBookId === id * 1) {
-        updateLastPageNumber(id, { lastPageNumber: myBook.lastPageNumber }, () =>
-          this.setState({ isFinished: true }),
-        );
-      }
-    }
+    const { updateLastPageNumber, myBook } = this.props;
+    updateLastPageNumber(myBook.myBookId, { lastPageNumber: myBook.lastPageNumber * 1 }, () =>
+      this.setState({ isFinished: true }),
+    );
   }
 
   handleTotalScroing() {
-    const { updateMyProblem, myProblemList, setIsSolved } = this.props;
+    const {
+      id,
+      updateMyProblem,
+      myProblemList,
+      setIsSolved,
+      setIsRight,
+      setSolvedDateTime,
+      setLastMyProblemPage,
+      pagination,
+    } = this.props;
     for (let myProblem of myProblemList) {
-      let formValue = {
-        confused: myProblem.confused,
-        myAnswer: myProblem.myAnswer,
+      Api.get('/student/library/my-book/my-problems', {
+        params: { problemId: myProblem.problemId },
+      }).then(({ data }) => {
+        if (myProblem.myAnswer && !myProblem.isSolved) {
+          if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
+          else setIsRight(myProblem.myProblemId, false);
+          setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
+          setLastMyProblemPage(id, pagination.number);
+        }
+      });
+      const formValue = {
+        isConfused: myProblem.isConfused,
+        isRight: myProblem.isRight,
+        isSolved: true,
+        myAnswer: String(myProblem.myAnswer),
         mySolution: myProblem.mySolution,
-        right: myProblem.right,
         solvedDateTime: myProblem.solvedDateTime,
-        solved: true,
       };
-      if (!myProblem.myAnswer || myProblem.myAnswer.length !== 0) {
-        updateMyProblem(myProblem, formValue, () => {
+      if (myProblem.myAnswer && !myProblem.isSolved) {
+        updateMyProblem(myProblem.myProblemId, formValue, () => {
           setIsSolved(myProblem.myProblemId, true);
         });
       }
     }
   }
+
   render() {
     const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
+    const { bookName } = this.state;
+
     if (!this.state.isFinished) {
       return (
         <div {...css(styles.container)}>
@@ -61,7 +96,7 @@ class ProblemHead extends PureComponent {
             </Button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>
-            <Heading level={4}>기본 문제집</Heading>
+            <Heading level={4}>{bookName}</Heading>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
             <Button

@@ -11,7 +11,8 @@ class ProblemResultView extends PureComponent {
     this.handleResolve = this.handleResolve.bind(this);
   }
   handleResolve(myProblemId) {
-    const { setMyAnswer } = this.props;
+    const { setIsSolved, setMyAnswer } = this.props;
+    setIsSolved(myProblemId, false);
     setMyAnswer(myProblemId, null);
   }
   render() {

@@ -69,11 +69,11 @@ export default (state = initState, action) => {
           }
         },
         failure: prevState => {
-          const { errorMessage } = payload.response.data;
+          const { message } = payload.response.data;
           return {
             ...prevState,
             loadingState: { ...prevState.loadingState, [type]: false },
-            errorState: { ...prevState.errorState, [type]: errorMessage || true },
+            errorState: { ...prevState.errorState, [type]: message || true },
           };
         },
       });
@@ -89,12 +89,12 @@ export default (state = initState, action) => {
       };
     }
     case SET_IS_CONFUSED: {
-      const { id, confused } = payload;
+      const { id, isConfused } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], confused },
+          [id]: { ...state.entities[id], isConfused },
         },
       };
     }
@@ -119,22 +119,22 @@ export default (state = initState, action) => {
       };
     }
     case SET_IS_RIGHT: {
-      const { id, right } = payload;
+      const { id, isRight } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], right },
+          [id]: { ...state.entities[id], isRight },
         },
       };
     }
     case SET_IS_SOLVED: {
-      const { id, solved } = payload;
+      const { id, isSolved } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], solved },
+          [id]: { ...state.entities[id], isSolved },
         },
       };
     }
