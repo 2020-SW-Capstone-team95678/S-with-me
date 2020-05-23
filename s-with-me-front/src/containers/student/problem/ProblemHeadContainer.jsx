@@ -5,7 +5,7 @@ import { setIsSolved, setIsRight, setSolvedDateTime } from '../../../actions/myP
 import { setLastMyProblemPage } from '../../../actions/myBookActions';
 import ProblemHead from '../../../components/student/problem/ProblemHead';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const {
     loadingState: myBookListLoadingState,
     ids: myBookListIds,
@@ -13,6 +13,7 @@ const mapStateToProps = state => {
   } = state.myBookList;
   const loadingUpdatePageNumber = myBookListLoadingState[UPDATE_LAST_PAGE_NUMBER];
   const myBookList = myBookListIds.map(id => myBookListEntities[id]);
+  const myBook = myBookList[myBookListIds.indexOf(props.id * 1)];
 
   const { ids, entities, loadingState, pagination } = state.myProblemList;
   const loadingUpdateMyProblemList = loadingState[UPDATE_MY_PROBLEM];
@@ -21,7 +22,7 @@ const mapStateToProps = state => {
   return {
     loadingUpdatePageNumber,
     loadingUpdateMyProblemList,
-    myBookList,
+    myBook,
     myProblemList,
     pagination,
   };

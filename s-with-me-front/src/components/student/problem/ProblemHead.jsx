@@ -14,7 +14,11 @@ class ProblemHead extends PureComponent {
     super(props);
     this.handleCloseBook = this.handleCloseBook.bind(this);
     this.handleTotalScroing = this.handleTotalScroing.bind(this);
-    this.state = { isFinished: false, date: new Date() };
+    this.state = {
+      isFinished: false,
+      date: new Date(),
+      bookName: '',
+    };
     this.tick = this.tick.bind(this);
   }
 
@@ -23,18 +27,18 @@ class ProblemHead extends PureComponent {
   }
   componentDidMount() {
     clearInterval(this.timerId);
+    const { myBook } = this.props;
+    console.log(myBook);
+    Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
+      this.setState({ bookName: data.name }),
+    );
   }
 
   handleCloseBook() {
-    const { id, updateLastPageNumber, myBookList } = this.props;
-    for (let myBook of myBookList) {
-      const { myBookId } = myBook;
-      if (myBookId === id * 1) {
-        updateLastPageNumber(id, { lastPageNumber: myBook.lastPageNumber * 1 }, () =>
-          this.setState({ isFinished: true }),
-        );
-      }
-    }
+    const { updateLastPageNumber, myBook } = this.props;
+    updateLastPageNumber(myBook.myBookId, { lastPageNumber: myBook.lastPageNumber * 1 }, () =>
+      this.setState({ isFinished: true }),
+    );
   }
 
   handleTotalScroing() {
@@ -77,6 +81,8 @@ class ProblemHead extends PureComponent {
 
   render() {
     const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
+    const { bookName } = this.state;
+
     if (!this.state.isFinished) {
       return (
         <div {...css(styles.container)}>
@@ -90,7 +96,7 @@ class ProblemHead extends PureComponent {
             </Button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>
-            <Heading level={4}>기본 문제집</Heading>
+            <Heading level={4}>{bookName}</Heading>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
             <Button
