@@ -31,18 +31,25 @@ export default (state = initState, action) => {
             loadingState: { ...prevState, [type]: false },
             errorState: { ...prevState, [type]: false },
           };
-          return {
-            ...prevState,
-            ...loadingAndErrorState,
-            entity: { data },
-          };
+          if (type === SET_USER) {
+            return {
+              ...prevState,
+              ...loadingAndErrorState,
+              entity: data,
+            };
+          } else {
+            return {
+              ...prevState,
+              ...loadingAndErrorState,
+            };
+          }
         },
         failure: prevState => {
-          const { errorMessage } = payload.response.data;
+          const { message } = payload.response.data;
           return {
             ...prevState,
             loadingState: { ...prevState.loadingState, [type]: false },
-            errorState: { ...prevState.errorState, [type]: errorMessage || true },
+            errorState: { ...prevState.errorState, [type]: message || true },
           };
         },
       });

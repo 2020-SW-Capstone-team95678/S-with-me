@@ -4,9 +4,12 @@ export const SET_USER = 'user/SET_USER';
 export const CREATE_USER = 'user/CREATE_USER';
 
 export function setUser(data, onComplete) {
+  const params = new URLSearchParams();
+  params.append('id', data.id);
+  params.append('password', data.password);
   return {
     type: SET_USER,
-    promise: Api.post('/login/student', data),
+    promise: Api.post('/login/student', params),
     meta: {
       onSuccess: onComplete,
       notification: {
