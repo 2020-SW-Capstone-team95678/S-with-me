@@ -6,6 +6,7 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
+import com.swithme.web.dto.BookSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,5 +65,21 @@ public class BookService {
                     .build());
         }
         return responseDtoList;
+    }
+
+    public String saveBook(BookSaveRequestDto bookSaveRequestDto) {
+        Publisher publisher = publisherRepository.findById(bookSaveRequestDto.getPublisherId())
+                .orElseThrow(() -> new IllegalArgumentException
+                        ("해당 publisher가 없습니다. publisherId = " + bookSaveRequestDto.getPublisherId()));
+        bookRepository.save(Book.builder()
+                .publisher(publisher)
+                .subject(bookSaveRequestDto.getSubject())
+                .price(bookSaveRequestDto.getPrice())
+                .publishedDate(bookSaveRequestDto.getPublishedDate())
+                .name(bookSaveRequestDto.getName())
+                .grade(bookSaveRequestDto.getGrade())
+                .cover(bookSaveRequestDto.getCover())
+                .build());
+        return "문제집 기본 정보를 등록하였습니다.";
     }
 }

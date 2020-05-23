@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubChapterResponseDto {
 
-    private int subChapterId;
     private int mainChapterId;
+    private int subChapterId;
     private String subChapterName;
 
     @Builder
-    public SubChapterResponseDto(int subChapterId, int mainChapterId, String subChapterName){
-        this.subChapterId = subChapterId;
+    public SubChapterResponseDto(int mainChapterId, int subChapterId, String subChapterName){
         this.mainChapterId = mainChapterId;
+        this.subChapterId = subChapterId;
         this.subChapterName = subChapterName;
     }
 }
