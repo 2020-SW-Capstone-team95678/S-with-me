@@ -47,7 +47,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void getBookTest(){
+    public void getBookInformationTest(){
         bookRepository.save(Book.builder()
                 .monthlySold(123)
                 .monthlyProfit(123)
@@ -69,4 +69,27 @@ public class BookControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void getBookListTest(){
+        for(int i = 0; i < 3; i++){
+            bookRepository.save(Book.builder()
+                    .monthlySold(123)
+                    .monthlyProfit(123)
+                    .totalProblemNumber((short)123)
+                    .isAdvertised(false)
+                    .cover("test cover")
+                    .grade((short)4)
+                    .publishedDate("2020-02-02")
+                    .name("test name")
+                    .subject("test subject")
+                    .publisher(publisher)
+                    .price(12345)
+                    .build());
+        }
+
+        String url = "http://localhost:" + port + "/publisher/library?publisherId=" + publisher.getPublisherId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 }

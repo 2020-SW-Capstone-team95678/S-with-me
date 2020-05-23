@@ -1,6 +1,6 @@
 package com.swithme.domain.problem;
 
-import com.swithme.domain.chapter.Chapter;
+import com.swithme.domain.subChapter.SubChapter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +18,8 @@ public class Problem {
     private int problemId;
 
     @ManyToOne
-    @JoinColumn(name = "chapterId")
-    private Chapter chapter;
+    @JoinColumn(name = "subChapterId")
+    private SubChapter subChapter;
 
     @Column(name = "content")
     private String content;
@@ -55,10 +55,10 @@ public class Problem {
     private String option5;
 
     @Builder
-    public Problem(Chapter chapter, String content, String solution,
+    public Problem(SubChapter subChapter, String content, String solution,
                    short pageNumber, short problemNumber, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5){
-        this.chapter = chapter;
+        this.subChapter = subChapter;
         this.content = content;
         this.solution = solution;
         this.pageNumber = pageNumber;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import javax.persistence.*;
 
 @Getter
-public class BookResponseDto {
+public class BookInformationResponseDto {
 
     private int bookId;
     private int publisherId;
@@ -23,9 +23,9 @@ public class BookResponseDto {
     private int monthlySold;
 
     @Builder
-    public BookResponseDto(int bookId, int publisherId, String subject, int price, String publishedDate,
-                String name, short grade, String cover, Boolean isAdvertised,
-                short totalProblemNumber, int monthlyProfit, int monthlySold){
+    public BookInformationResponseDto(int bookId, int publisherId, String subject, int price, String publishedDate,
+                                      String name, short grade, String cover, Boolean isAdvertised,
+                                      short totalProblemNumber, int monthlyProfit, int monthlySold){
         this.bookId = bookId;
         this.publisherId = publisherId;
         this.subject = subject;

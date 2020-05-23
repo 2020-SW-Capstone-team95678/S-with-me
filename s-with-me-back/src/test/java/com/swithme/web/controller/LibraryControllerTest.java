@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LibraryControllerTest {
@@ -52,20 +53,19 @@ public class LibraryControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        Student student = studentRepository.findByUserId("test id");
+        Student student = studentRepository.findAll().get(0);
 
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
-        List<Folder> folderList = folderRepository.findByStudent(student);
-        Folder folder = folderList.get(0);
+        Folder folder = folderRepository.findAll().get(0);
 
         for(int i = 0; i < 3; i++) {
             bookRepository.save(new Book());
-            List<Book> bookList = bookRepository.findAll();
+            Book book = bookRepository.findAll().get(i);
             myBookRepository.save(MyBook.builder()
                     .folder(folder)
-                    .book(bookList.get(i))
+                    .book(book)
                     .lastPageNumber((short)1)
                     .build());
         }

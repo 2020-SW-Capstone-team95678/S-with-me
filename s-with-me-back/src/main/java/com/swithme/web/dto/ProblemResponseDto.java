@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ProblemResponseDto {
 
     private int problemId;
-    private int chapterId;
+    private int subChapterId;
     private String content;
     private String solution;
     private short pageNumber;
@@ -23,11 +23,11 @@ public class ProblemResponseDto {
     private String option5;
 
     @Builder
-    public ProblemResponseDto(int problemId, int chapterId, String content, String solution,
+    public ProblemResponseDto(int problemId, int subChapterId, String content, String solution,
                               short pageNumber, short problemNumber, String answer, Boolean isOptional,
                               String option1, String option2, String option3, String option4, String option5){
         this.problemId = problemId;
-        this.chapterId = chapterId;
+        this.subChapterId = subChapterId;
         this.content = content;
         this.solution = solution;
         this.pageNumber = pageNumber;
