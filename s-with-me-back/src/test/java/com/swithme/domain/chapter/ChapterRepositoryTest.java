@@ -32,14 +32,12 @@ public class ChapterRepositoryTest{
     @Before
     public void setup(){
         publisherRepository.save(new Publisher());
-
         List<Publisher> publisherList = publisherRepository.findAll();
         Publisher publisher = publisherList.get(0);
 
         bookRepository.save(Book.builder()
                 .publisher(publisher)
                 .build());
-
         List<Book> bookList = bookRepository.findAll();
         book = bookList.get(0);
 
@@ -49,7 +47,6 @@ public class ChapterRepositoryTest{
                 .level1Name("level1")
                 .isLevel2(false)
                 .build());
-
         chapterRepository.save(Chapter.builder()
                 .book(book)
                 .isLevel1(false)

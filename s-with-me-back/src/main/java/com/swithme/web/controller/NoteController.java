@@ -27,9 +27,9 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/student/note/{noteId}")
-    public String deleteNote(@PathVariable int noteId){
-        return noteService.deleteNote(noteId);
+    @DeleteMapping("/student/note")
+    public String deleteNote(@RequestParam int myProblemId){
+        return noteService.deleteNote(myProblemId);
     }
 
     @CrossOrigin

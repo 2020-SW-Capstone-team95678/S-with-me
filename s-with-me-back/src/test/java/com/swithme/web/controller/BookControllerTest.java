@@ -61,11 +61,9 @@ public class BookControllerTest {
                 .publisher(publisher)
                 .price(12345)
                 .build());
-
         Book book = bookRepository.findAll().get(0);
 
         String url = "http://localhost:" + port + "/student/library/my-book?bookId=" + book.getBookId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

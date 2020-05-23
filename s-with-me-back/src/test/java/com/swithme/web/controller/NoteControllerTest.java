@@ -68,15 +68,17 @@ public class NoteControllerTest {
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
+
         myBookRepository.save(MyBook.builder()
                 .folder(folderRepository.findAll().get(0))
                 .build());
+
         problemRepository.save(new Problem());
+
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBookRepository.findAll().get(0))
                 .problem(problemRepository.findAll().get(0))
                 .build());
-
         myProblem = myProblemRepository.findAll().get(0);
     }
 
@@ -99,9 +101,7 @@ public class NoteControllerTest {
                 .build();
 
         HttpEntity<NoteSaveRequestDto> requestEntity = new HttpEntity<>(requestDto);
-
         String url = "http://localhost:" + port + "/student/note";
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -116,23 +116,21 @@ public class NoteControllerTest {
                 .build());
 
         String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void deleteNoteTest(){
-        noteRepository.save(new Note());
+        noteRepository.save(Note.builder()
+                .myProblem(myProblem)
+                .build());
         assertThat(noteRepository.findAll()).isNotEmpty();
-
-        Note note = noteRepository.findAll().get(0);
-
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
-        String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
-
+        String url = "http://localhost:" + port + "/student/note?myProblemId=" + myProblem.getMyProblemId();
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -150,7 +148,6 @@ public class NoteControllerTest {
 
         String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
 
-
         MyProblemUpdateRequestDto myProblemUpdateRequestDto = MyProblemUpdateRequestDto.builder()
                 .isConfused(true)
                 .isSolved(true)
@@ -166,7 +163,6 @@ public class NoteControllerTest {
                 .build();
 
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 
         note = noteRepository.findAll().get(0);

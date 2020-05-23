@@ -47,19 +47,10 @@ public class ChapterTest {
 
     @Test
     public void sortTest(){
-        for(int i  =0 ; i < 6; i++){
-            System.out.println(chapterList.get(i).getLevel1Name());
-            System.out.println(chapterList.get(i).getLevel2Name() + "\n");
-        }
-
         Chapter.sort(chapterList);
+
         assertThat(chapterList.get(0).getLevel1Name()).isEqualTo("대단원1");
         assertThat(chapterList.get(1).getLevel2Name()).isEqualTo("소단원4");
         assertThat(chapterList.get(5).getLevel1Name()).isEqualTo("대단원3");
-
-        for(int i  =0 ; i < 6; i++){
-            System.out.println(chapterList.get(i).getLevel1Name());
-            System.out.println(chapterList.get(i).getLevel2Name() + "\n");
-        }
     }
 }
