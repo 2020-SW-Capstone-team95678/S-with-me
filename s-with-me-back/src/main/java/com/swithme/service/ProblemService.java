@@ -19,7 +19,7 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 problem이 없습니다. problemId = " + problemId));
         ProblemResponseDto responseDto =  ProblemResponseDto.builder()
                 .problemId(problem.getProblemId())
-                .chapterId(problem.getChapter().getChapterId())
+                .subChapterId(problem.getSubChapter().getSubChapterId())
                 .content(problem.getContent())
                 .solution(problem.getSolution())
                 .pageNumber(problem.getPageNumber())

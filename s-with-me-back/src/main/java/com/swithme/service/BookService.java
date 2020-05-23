@@ -2,9 +2,10 @@ package com.swithme.service;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
-import com.swithme.web.dto.BookResponseDto;
+import com.swithme.web.dto.BookInformationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,10 @@ public class BookService {
     private final PublisherRepository publisherRepository;
 
     @Transactional
-    public BookResponseDto getBookInformation(int bookId){
+    public BookInformationResponseDto getBookInformation(int bookId){
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + bookId));
-        BookResponseDto responseDto = BookResponseDto.builder()
+        BookInformationResponseDto responseDto = BookInformationResponseDto.builder()
                 .bookId(book.getBookId())
                 .publisherId(book.getPublisher().getPublisherId())
                 .subject(book.getSubject())
@@ -41,13 +42,13 @@ public class BookService {
     }
 
     @Transactional
-    public List<BookResponseDto> getBookList(int publisherId) {
+    public List<BookInformationResponseDto> getBookList(int publisherId) {
         Publisher publisher = publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 publisher가 없습니다. publisherId = " + publisherId));
         List<Book> bookList = bookRepository.findByPublisher(publisher);
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
+        List<BookInformationResponseDto> responseDtoList = new ArrayList<>();
         for(Book book : bookList){
-            responseDtoList.add(BookResponseDto.builder()
+            responseDtoList.add(BookInformationResponseDto.builder()
                     .bookId(book.getBookId())
                     .publisherId(publisherId)
                     .subject(book.getSubject())

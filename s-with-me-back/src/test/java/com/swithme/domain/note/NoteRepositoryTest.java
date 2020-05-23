@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class NoteRepositoryTest {
@@ -19,8 +20,6 @@ public class NoteRepositoryTest {
     private NoteRepository noteRepository;
     @Autowired
     private StudentRepository studentRepository;
-
-    private Long addedDateTime;
 
     @Before
     public void setup(){
@@ -34,11 +33,9 @@ public class NoteRepositoryTest {
                 .grade((short)4)
                 .build());
         Student student = studentRepository.findAll().get(0);
-        addedDateTime = 12345L;
 
         noteRepository.save(Note.builder()
                 .student(student)
-                .addedDateTime(addedDateTime)
                 .build());
     }
 
@@ -49,10 +46,9 @@ public class NoteRepositoryTest {
     }
 
     @Test
-    public void findByStudent(){
+    public void findByStudentTest(){
         Student student = studentRepository.findAll().get(0);
         Note note = noteRepository.findByStudent(student).get(0);
-
-        assertThat(note.getAddedDateTime()).isEqualTo(addedDateTime);
+        assertThat(note.getStudent().getStudentId()).isEqualTo(student.getStudentId());
     }
 }

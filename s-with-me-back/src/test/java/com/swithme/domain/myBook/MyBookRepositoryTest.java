@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -36,8 +34,7 @@ public class MyBookRepositoryTest {
     private BookRepository bookRepository;
 
     private Folder folder;
-    private Book book1;
-    private Book book2;
+    private Book book;
 
     @Before
     public void setup(){
@@ -50,36 +47,24 @@ public class MyBookRepositoryTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        List<Student> studentList = studentRepository.findAll();
-        Student student = studentList.get(0);
+        Student student = studentRepository.findAll().get(0);
 
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
-        List<Folder> folderList = folderRepository.findAll();
-        folder = folderList.get(0);
+        folder = folderRepository.findAll().get(0);
 
         publisherRepository.save(new Publisher());
-        List<Publisher> publisherList = publisherRepository.findAll();
-        Publisher publisher = publisherList.get(0);
+        Publisher publisher = publisherRepository.findAll().get(0);
 
         bookRepository.save(Book.builder()
                 .publisher(publisher)
                 .build());
-        bookRepository.save(Book.builder()
-                .publisher(publisher)
-                .build());
-        List<Book> bookList = bookRepository.findAll();
-        book1 = bookList.get(0);
-        book2 = bookList.get(1);
+        book = bookRepository.findAll().get(0);
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
-                .book(book1)
-                .build());
-        myBookRepository.save(MyBook.builder()
-                .folder(folder)
-                .book(book2)
+                .book(book)
                 .build());
     }
 
@@ -94,14 +79,8 @@ public class MyBookRepositoryTest {
 
     @Test
     public void findByFolderTest(){
-        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-        MyBook myBook1 = myBookList.get(0);
-        MyBook myBook2 = myBookList.get(1);
-
+        MyBook myBook1 = myBookRepository.findByFolder(folder).get(0);
         assertThat(myBook1.getFolder().getFolderId()).isEqualTo(folder.getFolderId());
-        assertThat(myBook1.getBook().getBookId()).isEqualTo(book1.getBookId());
-
-        assertThat(myBook2.getFolder().getFolderId()).isEqualTo(folder.getFolderId());
-        assertThat(myBook2.getBook().getBookId()).isEqualTo(book2.getBookId());
+        assertThat(myBook1.getBook().getBookId()).isEqualTo(book.getBookId());
     }
 }

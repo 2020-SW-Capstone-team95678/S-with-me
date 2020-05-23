@@ -73,31 +73,26 @@ public class MyProblemControllerTest {
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
-        List<Folder> folderList = folderRepository.findByStudent(student);
-        folder = folderList.get(0);
+        folder = folderRepository.findByStudent(student).get(0);
 
-        problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
-                .build());
-        problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
-                .build());
+        for(int i = 0; i < 2; i++) {
+            problemRepository.save(Problem.builder()
+                    .pageNumber((short) 1)
+                    .build());
+        }
         problemList = problemRepository.findAll();
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .build());
-        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-        myBook = myBookList.get(0);
+        myBook = myBookRepository.findAll().get(0);
 
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(0))
-                .myBook(myBook)
-                .build());
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(1))
-                .myBook(myBook)
-                .build());
+        for(int i = 0; i< 1; i++) {
+            myProblemRepository.save(MyProblem.builder()
+                    .problem(problemList.get(i))
+                    .myBook(myBook)
+                    .build());
+        }
     }
 
     @After
@@ -143,7 +138,7 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void getMyProblemList(){
+    public void getMyProblemListTest(){
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
                 + "/my-problems?page=" + problemList.get(0).getPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
