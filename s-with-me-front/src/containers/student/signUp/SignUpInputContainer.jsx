@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
+import { CREATE_USER, createUser, checkIdDuplication } from '../../../actions/userActions';
 import SignUpS from '../../../components/signUp/SignUpS';
-import { CREATE_USER, createUser } from '../../../actions/userActions';
 
 const mapDispatchToProps = state => {
-  const { loadingState } = state.user;
+  const { loadingState, entity } = state.user;
   const loading = loadingState[CREATE_USER];
-  return { loading };
+  const isOnlyId = entity;
+  return { loading, isOnlyId };
 };
 
-export default connect(mapDispatchToProps, { createUser })(SignUpS);
+export default connect(mapDispatchToProps, { createUser, checkIdDuplication })(SignUpS);

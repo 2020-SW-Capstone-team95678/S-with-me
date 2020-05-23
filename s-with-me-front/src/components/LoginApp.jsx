@@ -18,7 +18,6 @@ export default class LoginApp extends react.PureComponent {
   handleSubmit(values) {
     const { setUser } = this.props;
     const { isStudent } = this.state;
-    console.log(values);
     if (isStudent) {
       setUser(values, () => {
         this.setState({ isLogin: true });

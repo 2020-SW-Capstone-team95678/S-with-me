@@ -2,6 +2,7 @@ import Api from '../Api';
 
 export const SET_USER = 'user/SET_USER';
 export const CREATE_USER = 'user/CREATE_USER';
+export const CHECK_ID_DUPLICATION = 'user/CHECK_ID_DUPLICATION';
 
 export function setUser(data, onComplete) {
   const params = new URLSearchParams();
@@ -38,4 +39,18 @@ export function createUser(data, onComplete) {
       },
     },
   };
+}
+
+export function checkIdDuplication(isStudent, data, onComplete) {
+  const params = new URLSearchParams();
+  params.append('userId', data.userId);
+  if (isStudent) {
+    return {
+      type: CHECK_ID_DUPLICATION,
+      promise: Api.post('/signup/student/dupcheck', params),
+      meta: {
+        onSuccess: onComplete,
+      },
+    };
+  }
 }
