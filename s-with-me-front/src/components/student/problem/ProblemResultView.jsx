@@ -5,6 +5,9 @@ import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import { DELETE_NOTE } from '../../../constants/modals';
+
 class ProblemResultView extends PureComponent {
   constructor(props) {
     super(props);
@@ -60,10 +63,19 @@ class ProblemResultView extends PureComponent {
           <div>해설</div>
           <Button>보기</Button>
         </div>
-        <div style={{ display: 'flex' }}>
-          <Button>문제 저장</Button>
-          <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
-        </div>
+        <Modal>
+          {({ openModal }) => (
+            <div style={{ display: 'flex' }}>
+              {isRight ? (
+                <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
+                  오답노트에서 삭제
+                </Button>
+              ) : null}
+              <Button>문제 저장</Button>
+              <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
+            </div>
+          )}
+        </Modal>
       </VerticalList>
     );
   }

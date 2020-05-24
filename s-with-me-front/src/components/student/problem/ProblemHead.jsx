@@ -28,7 +28,6 @@ class ProblemHead extends PureComponent {
   componentDidMount() {
     clearInterval(this.timerId);
     const { myBook } = this.props;
-    console.log(myBook);
     Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
       this.setState({ bookName: data.name }),
     );
