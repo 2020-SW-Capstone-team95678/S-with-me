@@ -5,11 +5,9 @@ import LibraryApp from '../../../components/student/libarary/LibraryApp';
 const mapStateToProps = state => {
   const { ids, entities, loadingState } = state.myBookList;
   const loading = loadingState[FETCH_MY_BOOK_LIST];
-  const { entity } = state.user;
-  const user = entity;
   const myBookList = ids.map(id => entities[id]);
 
-  return { myBookList, user, loading };
+  return { myBookList, loading };
 };
 
 const mapDispatchToProps = {
