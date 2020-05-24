@@ -6,8 +6,8 @@ import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.FolderService;
 import com.swithme.web.dto.FolderCreateDto;
+import com.swithme.web.dto.FolderResponseDto;
 import com.swithme.web.dto.FolderUpdateRequestDto;
-import com.swithme.web.dto.StudentUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,17 +30,16 @@ public class FolderController {
     @CrossOrigin
     @PutMapping("/student/library/folder")
     public int updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
-        return folderService.updatefolder(folderId, folderUpdateRequestDto);
+        return folderService.updateFolder(folderId, folderUpdateRequestDto);
     }
 
     @CrossOrigin
     @GetMapping("/student/library/folder/display")
-    public List<Folder> dispFolderAll(int studentId)
+    public List<FolderResponseDto> dispFolderAll(int studentId)
     {
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다. studentId="+ studentId));
-        List<Folder> folderList = folderRepository.findByStudent(student);
-        return folderList;
+        return folderService.dispFolder(student);
     }
 
     @CrossOrigin

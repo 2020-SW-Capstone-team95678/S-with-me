@@ -21,7 +21,6 @@ public class UserService implements UserDetailsService {
 
     private final StudentRepository studentRepository;
     private final PublisherRepository publisherRepository;
-    //private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void signupStudent(StudentCreateDto studentCreateDto, PasswordEncoder passwordEncoder)
@@ -37,15 +36,14 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public int signupPublisher(PublisherCreateDto publisherCreateDto, PasswordEncoder passwordEncoder)
+    public void signupPublisher(PublisherCreateDto publisherCreateDto, PasswordEncoder passwordEncoder)
     {
         publisherRepository.save(Publisher.builder()
-                .userId(publisherCreateDto.getId())
+                .userId(publisherCreateDto.getUserId())
                 .password(passwordEncoder.encode(publisherCreateDto.getPassword()))
                 .name(publisherCreateDto.getName())
                 .code(publisherCreateDto.getCode())
                 .build());
-        return publisherCreateDto.getPublisherId();
     }
 
     @Transactional
