@@ -25,8 +25,8 @@ class LibraryApp extends PureComponent {
   componentDidMount() {
     const { requestMyBookList, user } = this.props;
     const { studentId } = user;
-    requestMyBookList({ studentId: 1 });
-    // requestMyBookList({ studentId: studentId });
+    // requestMyBookList({ studentId: 1 });
+    requestMyBookList({ studentId: studentId });
   }
 
   render() {

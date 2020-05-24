@@ -35,6 +35,7 @@ export default class LoginApp extends react.PureComponent {
             <div>
               <div className="checkBox">
                 <CheckBox
+                  name="isStudnet"
                   font-color="red"
                   onChange={() => this.setState({ isStudent: !isStudent })}
                   checked={isStudent}
@@ -42,6 +43,7 @@ export default class LoginApp extends react.PureComponent {
                   학생
                 </CheckBox>
                 <CheckBox
+                  name="isPublisher"
                   onChange={() => this.setState({ isPublisher: !isPublisher })}
                   checked={isPublisher}
                 >
@@ -83,7 +85,7 @@ export default class LoginApp extends react.PureComponent {
         </div>
       );
     } else {
-      return <Redirect to="/libaray" />;
+      return <Redirect to="/library" />;
     }
   }
 }
