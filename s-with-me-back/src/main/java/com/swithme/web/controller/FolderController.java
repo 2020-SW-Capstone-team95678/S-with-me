@@ -29,7 +29,9 @@ public class FolderController {
 
     @CrossOrigin
     @PutMapping("/student/library/folder")
-    public int updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
+    public String updateFolder(int folderId , String folderName){
+        FolderUpdateRequestDto folderUpdateRequestDto = new FolderUpdateRequestDto();
+        folderUpdateRequestDto.setFolderName(folderName);
         return folderService.updateFolder(folderId, folderUpdateRequestDto);
     }
 
@@ -46,6 +48,9 @@ public class FolderController {
     @DeleteMapping("/student/library/folder/delete")
     public int deleteFolder(int folderId)
     {
+        Folder folder = folderRepository.findById(folderId)
+                .orElseThrow(() -> new IllegalArgumentException("폴더가 존재하지 않습니다. studentId="+ folderId));
+        if(folder.getFolderName().equals("분류되지 않음")){throw new IllegalArgumentException("기본 폴더는 삭제할 수 없습니다.");}
         folderRepository.deleteById(folderId);
         return folderId;
     }

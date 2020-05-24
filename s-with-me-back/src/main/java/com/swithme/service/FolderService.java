@@ -49,10 +49,10 @@ public class FolderService {
         return folderResponseDtoList;
     }
     @Transactional
-    public int updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
+    public String updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
         Folder folder = folderRepository.findById(folderId)
-                .orElseThrow(()-> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
         folder.update(folderUpdateRequestDto.getFolderName());
-        return folderId;
+        return folderUpdateRequestDto.getFolderName();
     }
 }
