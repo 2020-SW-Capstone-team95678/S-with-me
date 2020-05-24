@@ -44,6 +44,7 @@ public class FolderService {
             folderResponseDtoList.add(FolderResponseDto.builder()
                     .folderId(folder.getFolderId())
                     .folderName(folder.getFolderName())
+                    .studentId(folder.getStudent().getStudentId())
                     .build());
         }
         return folderResponseDtoList;
@@ -52,6 +53,7 @@ public class FolderService {
     public String updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
         Folder folder = folderRepository.findById(folderId)
                 .orElseThrow(()-> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
+        //if(folder.getFolderName().equals("분류되지 않음")){throw new IllegalArgumentException("기본 폴더는 변경할 수 없습니다.");}
         folder.update(folderUpdateRequestDto.getFolderName());
         return folderUpdateRequestDto.getFolderName();
     }

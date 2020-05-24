@@ -7,10 +7,12 @@ import lombok.Getter;
 public class FolderResponseDto {
     private int folderId;
     private String folderName;
+    private int studentId;
 
     @Builder
-    public FolderResponseDto(int folderId , String folderName){
+    public FolderResponseDto(int folderId , String folderName,int studentId){
         this.folderId = folderId;
         this.folderName = folderName;
+        this.studentId = studentId;
     }
 }
