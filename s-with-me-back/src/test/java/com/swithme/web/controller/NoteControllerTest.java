@@ -110,10 +110,13 @@ public class NoteControllerTest {
 
     @Test
     public void getNoteListTest(){
-        noteRepository.save(Note.builder()
-                .student(student)
-                .myProblem(myProblem)
-                .build());
+        for(int i =0; i < 3; i++) {
+            noteRepository.save(Note.builder()
+                    .student(student)
+                    .myProblem(myProblem)
+                    .addedDateTime(12345L)
+                    .build());
+        }
 
         String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);

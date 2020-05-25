@@ -12,7 +12,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @Entity(name = "note")
-public class Note {
+public class Note implements Comparable<Note>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +37,9 @@ public class Note {
         this.addedDateTime = addedDateTime;
     }
 
-    public static void sort(List<Note> noteList) {
-        Collections.sort(noteList, new Comparator<Note>() {
-            @Override
-            public int compare(Note note, Note targetNote) {
-                return note.addedDateTime.compareTo(targetNote.addedDateTime);
-            }
-        });
+    @Override
+    public int compareTo(Note note){
+        return note.getAddedDateTime().compareTo(this.addedDateTime);
     }
 
     public void update(long addedDateTime) {
