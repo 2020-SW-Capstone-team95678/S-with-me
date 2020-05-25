@@ -51,6 +51,7 @@ export default class App extends PureComponent {
               <Route path="/" exact render={() => <LoginContainer logged={logged} />} />
               <Route path="/signup" exact render={() => <SignUpInputContainer />} />
               <Route path="/library" exact render={() => <LibraryAppContainer />} />
+              
               <Route
                 path="/library/myBook/:myBookId"
                 exact
