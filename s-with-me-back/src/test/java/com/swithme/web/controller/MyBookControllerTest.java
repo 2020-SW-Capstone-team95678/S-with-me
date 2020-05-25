@@ -54,7 +54,7 @@ public class MyBookControllerTest {
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
-                .lastPageNumber((short)1)
+                .lastProblemId((short)1)
                 .build();
 
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;
@@ -65,6 +65,6 @@ public class MyBookControllerTest {
 
         myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my Book이 없습니다. myBookId = " + myBookId));
-        assertThat(myBook.getLastProblemNumber()).isEqualTo(requestDto.getLastProblemNumber());
+        assertThat(myBook.getLastProblemId()).isEqualTo(requestDto.getLastProblemId());
     }
 }
