@@ -11,13 +11,13 @@ public class MyBookResponseDto {
     private int myBookId;
     private int folderId;
     private int bookId;
-    private short lastPageNumber;
+    private int lastProblemId;
 
     @Builder
-    public MyBookResponseDto(int myBookId, int folderId, int bookId, short lastPageNumber){
+    public MyBookResponseDto(int myBookId, int folderId, int bookId, int lastProblemId){
         this.myBookId = myBookId;
         this.folderId = folderId;
         this.bookId = bookId;
-        this.lastPageNumber = lastPageNumber;
+        this.lastProblemId = lastProblemId;
     }
 }

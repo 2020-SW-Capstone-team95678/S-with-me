@@ -66,7 +66,6 @@ public class LibraryControllerTest {
             myBookRepository.save(MyBook.builder()
                     .folder(folder)
                     .book(book)
-                    .lastPageNumber((short)1)
                     .build());
         }
     }

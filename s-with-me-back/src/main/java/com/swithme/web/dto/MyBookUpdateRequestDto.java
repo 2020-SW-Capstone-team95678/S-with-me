@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyBookUpdateRequestDto {
 
-    private short lastPageNumber;
+    private int lastProblemId;
 
     @Builder
-    public MyBookUpdateRequestDto(short lastPageNumber){
-        this.lastPageNumber = lastPageNumber;
+    public MyBookUpdateRequestDto(int lastProblemId){
+        this.lastProblemId = lastProblemId;
     }
 }

@@ -34,7 +34,7 @@ public class LibraryService {
                         .myBookId(myBook.getMyBookId())
                         .bookId(myBook.getBook().getBookId())
                         .folderId(myBook.getFolder().getFolderId())
-                        .lastPageNumber(myBook.getLastPageNumber())
+                        .lastProblemId(myBook.getLastProblemId())
                         .build());
             }
         }
