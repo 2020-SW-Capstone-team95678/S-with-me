@@ -11,13 +11,13 @@ import java.util.*;
 @NoArgsConstructor
 public class ChapterResponseDto {
 
-    private MainChapter mainChapter;
-    private List<SubChapter> subChapterList;
+    private MainChapterResponseDto mainChapterResponseDto;
+    private List<SubChapterResponseDto> subChapterResponseDtoList;
 
     @Builder
-    public ChapterResponseDto(MainChapter mainChapter, List<SubChapter> subChapterList){
-        this.mainChapter = mainChapter;
-        this.subChapterList = subChapterList;
+    public ChapterResponseDto(MainChapterResponseDto mainChapterResponseDto, List<SubChapterResponseDto> subChapterResponseDtoList){
+        this.mainChapterResponseDto = mainChapterResponseDto;
+        this.subChapterResponseDtoList = subChapterResponseDtoList;
     }
 
 }

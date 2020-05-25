@@ -16,8 +16,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -56,7 +54,11 @@ public class MyBookControllerTest {
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
+<<<<<<< HEAD
                 .lastProblemId(1)
+=======
+                .lastProblemId((short)1)
+>>>>>>> 0374ebde3cdb2ac83119264dc6559f85202671fc
                 .build();
 
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;

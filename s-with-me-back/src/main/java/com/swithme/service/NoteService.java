@@ -12,18 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class NoteService {
+public class NoteService{
 
     private final NoteRepository noteRepository;
     private final StudentRepository studentRepository;
     private final MyProblemRepository myProblemRepository;
 
     @Transactional
-    public String saveNote(NoteSaveRequestDto requestDto) {
+    public String saveNote(NoteCreateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(requestDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + requestDto.getMyProblemId()));
         Student student = myProblem.getMyBook().getFolder().getStudent();
@@ -42,7 +44,7 @@ public class NoteService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
         List<Note> noteList = noteRepository.findByStudent(student);
-        Note.sort(noteList);
+        Collections.sort(noteList);
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note : noteList){
             MyProblem myProblem = note.getMyProblem();

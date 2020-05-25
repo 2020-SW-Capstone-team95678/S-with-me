@@ -38,7 +38,6 @@ public class LibraryService {
                         .build());
             }
         }
-
         return responseDtoList;
     }
 }

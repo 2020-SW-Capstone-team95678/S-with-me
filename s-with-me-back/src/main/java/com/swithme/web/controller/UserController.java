@@ -7,9 +7,15 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.UserService;
 import com.swithme.signup.JwtTokenProvider;
 import com.swithme.web.dto.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +44,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/signup/student/dupcheck")
-    public boolean studentIdDupCheck(String userId) {
+    public boolean checkDupStudentId(String userId) {
         Student student = studentRepository.findByUserId(userId);
         if(student==null) return true;
         else return false;
@@ -46,7 +52,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/signup/publisher/dupcheck")
-    public boolean publisherIdDupCheck(String publisherId) {
+    public boolean checkDupPublisherId(String publisherId) {
         Publisher publisher = publisherRepository.findByUserId(publisherId);
         if(publisher==null) return true;
         else return false;
@@ -54,7 +60,7 @@ public class UserController {
         // 로그인
     @CrossOrigin
     @PostMapping("/login/student")
-    public StudentResponseDto studentLogin(String id,String password) {
+    public StudentResponseDto loginStudent(String id, String password) {
 
         Student student = studentRepository.findByUserId(id);
         if(student==null){ throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
@@ -66,9 +72,16 @@ public class UserController {
         return new StudentResponseDto(student);
     }
 
+    /*@CrossOrigin
+    @GetMapping("/logout/")
+    public Jws<Claims> logout(HttpServletRequest request)
+    {
+        return jwtTokenProvider.logout(request);
+    }*/
+
     @CrossOrigin
     @PostMapping("/login/publisher")
-    public PublisherResponseDto publisherLogin(String id,String password) {
+    public PublisherResponseDto loginPublisher(String id, String password) {
 
         Publisher publisher = publisherRepository.findByUserId(id);
         if(publisher==null){throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
@@ -83,20 +96,20 @@ public class UserController {
     //프로필 업데이트
     @CrossOrigin
     @PutMapping("/student/profile")
-    public int studentProfileUpdate(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
+    public int updateStudentProfile(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
         return userService.updateStudent(studentId,studentUpdateRequestDto);
     }
 
     @CrossOrigin
     @GetMapping("/publisher/profile")
-    public Publisher publisherDispProfile(int publisherId){
+    public Publisher getPublisherProfile(int publisherId){
         return publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
     }
 
     @CrossOrigin
     @GetMapping("/student/profile")
-    public Student studentDispProfile(int studentId){
+    public Student getStudentProfile(int studentId){
         return studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
     }

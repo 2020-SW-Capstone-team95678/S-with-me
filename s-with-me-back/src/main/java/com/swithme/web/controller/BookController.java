@@ -2,6 +2,7 @@ package com.swithme.web.controller;
 
 import com.swithme.service.BookService;
 import com.swithme.web.dto.BookInformationResponseDto;
+import com.swithme.web.dto.BookCreateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -23,4 +24,11 @@ public class BookController {
     public List<BookInformationResponseDto> getBookList(@RequestParam("publisherId") int publisherId){
         return bookService.getBookList(publisherId);
     }
+
+    @CrossOrigin
+    @PostMapping("/publisher/library/book")
+    public String saveBook(@RequestBody BookCreateRequestDto bookSaveRequestDto){
+        return bookService.saveBook(bookSaveRequestDto);
+    }
+
 }
