@@ -31,7 +31,6 @@ public class MyBookControllerTest {
     private MyBookRepository myBookRepository;
     @Autowired
     private BookRepository bookRepository;
-    @Autowired
 
     @Before
     public void setup(){
@@ -50,15 +49,14 @@ public class MyBookControllerTest {
     }
 
     @Test
-    public void updatePageNumberTest(){
+    public void updateProblemIdTest(){
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
                 .lastProblemId(1)
-                .lastProblemId(1)
                 .build();
 
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId + "/problemId";
         HttpEntity<MyBookUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 

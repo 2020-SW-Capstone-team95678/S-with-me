@@ -17,4 +17,11 @@ public class ProblemController {
     public ProblemResponseDto getProblem(@RequestParam("problemId") int problemId){
         return problemService.findById(problemId);
     }
+
+    @CrossOrigin
+    @PostMapping("/publisher/library/book/problems")
+    public String createProblems (@RequestBody List<ProblemCreateDto> createDtoList){
+        return problemService.createProblems(createDtoList);
+    }
+
 }

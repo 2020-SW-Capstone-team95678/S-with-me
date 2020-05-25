@@ -13,6 +13,7 @@ import SignUpInputContainer from './containers/student/signUp/SignUpInputContain
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
 import LoginContainer from './containers/student/signUp/LoginContainer';
 import BookDetailContainer from './containers/student/book/BookDetailContainer';
+import Profile from './components/student/profile/Profile';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -51,7 +52,7 @@ export default class App extends PureComponent {
               <Route path="/" exact render={() => <LoginContainer logged={logged} />} />
               <Route path="/signup" exact render={() => <SignUpInputContainer />} />
               <Route path="/library" exact render={() => <LibraryAppContainer />} />
-              
+              <Route path="/profile" exact render={() => <Profile />} />
               <Route
                 path="/library/myBook/:myBookId"
                 exact

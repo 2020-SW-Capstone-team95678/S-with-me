@@ -3,7 +3,7 @@ import './ProblemItem.css';
 class ProblemItem extends React.Component {
   render() {
 
-    const { Problem,onEditProblem,onClick,active,problemNumber } = this.props;
+    const { onClick,active,problemNumber } = this.props;
     //const { problemText,solution,solutionContents,problemNumber} = Problem;
     return (
       <div

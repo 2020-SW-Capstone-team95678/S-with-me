@@ -5,7 +5,6 @@ import AppNav, { HEIGHT } from '../AppNav';
 import Card from '../../../common-ui/Card';
 import Heading from '../../../common-ui/Heading';
 import Button from '../../../common-ui/Button';
-import Api from '../../../Api';
 import ChapterList from './ChapterList';
 import { Link } from 'react-router-dom';
 
@@ -13,32 +12,14 @@ class BookDetail extends PureComponent {
   static propTypes = {
     ...withStylesPropTypes,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      chapterList: [],
-      lastPageNumber: -1,
-    };
-  }
 
   componentDidMount() {
-    const { myBookId } = this.props.match.params;
-    const { myBookList } = this.props;
-    for (let myBook of myBookList) {
-      if (myBook.myBookId === myBookId * 1) {
-        this.setState({ lastPageNumber: myBook.lastPageNumber });
-      }
-    }
-    Api.get(`/student/library/my-book/${myBookId}`).then(response => {
-      this.setState({
-        chapterList: response.data.chapterList,
-      });
-    });
+    const { requestChapterList, myBook } = this.props;
+    requestChapterList({ bookId: myBook.bookId });
   }
 
   render() {
-    const { styles } = this.props;
-    const { chapterList, lastPageNumber } = this.state;
+    const { styles, chapterList, myBook } = this.props;
     const { myBookId } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
@@ -67,7 +48,7 @@ class BookDetail extends PureComponent {
               </div>
             </div>
             <div style={{ flex: 4, flexDirection: 'row', padding: 3 }}>
-              <Link to={`/library/myBook/${myBookId}/solve/${lastPageNumber}`}>
+              <Link to={`/library/myBook/${myBookId}/solve/${myBook.lastProblemId}`}>
                 <Button xsmall>이어 풀기</Button>
               </Link>
               <ChapterList chapterList={chapterList} />

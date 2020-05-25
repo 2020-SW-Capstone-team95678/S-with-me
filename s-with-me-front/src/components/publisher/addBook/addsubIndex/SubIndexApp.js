@@ -3,8 +3,7 @@ import './SubIndexApp.css';
 import Header from './SubHeader';
 import List from './SubIndexList';
 import SubIndex from './SubIndex';
-import { generateId } from '../utils';
-import MainIndex ,{ join } from '../addIndex/MainIndex'; 
+import { generateId } from '../utils'; 
 
 class SubIndexApp extends React.Component {
    

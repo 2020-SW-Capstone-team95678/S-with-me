@@ -4,13 +4,11 @@ import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withSty
 import Heading from '../../../common-ui/Heading';
 
 import AppNav, { HEIGHT } from '../AppNav';
-import GradeList from './GradeList';
 import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
-import Spacing from '../../../common-ui/Spacing';
 import Input from '../../../common-ui/Input';
 import VerticalList from '../../../common-ui/VerticalList';
-import { Link, Redirect } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Form from '../../../common-ui/Form';
 
 import { validate } from './validate.js';
@@ -35,7 +33,7 @@ class AddBook extends PureComponent {
   render() {
 
     const { loading,styles } = this.props;
-    const { registerComplete, isCheck, currentUserId } = this.state;
+    //const { registerComplete, isCheck, currentUserId } = this.state;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -143,23 +141,4 @@ export default withStyles(({ unit }) => ({
 
 
 
-{/* <div style={{ flex: 4, padding: 3, border:'2px rgb(247, 207, 192) solid', }}>
-                <div style={{ flex: 1, margin:10, flexDirection:'column',padding:3}}>
-                    
-                    <Spacing horizontal={4} vertical={8}>
-                        <Spacing bottom={2}>
-                        <Input name="name" label="문제집 이름" />
-                        <GradeList />
-                        <Input name="bookinfo" label="문제집 소개" />
-                        <Input name="price" label="가격" />
-
-                        </Spacing>
-                                    
-                    </Spacing>
-                    
-                </div>  
-            </div>
-
-
- */}
 
