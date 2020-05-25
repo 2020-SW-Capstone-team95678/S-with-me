@@ -6,6 +6,10 @@ import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +24,8 @@ public class MyProblemService {
 
     private final MyProblemRepository myProblemRepository;
     private final NoteRepository noteRepository;
-    private final MyBookRepository myBookRepository;
+    private final SubChapterRepository subChapterRepository;
+    private final ProblemRepository problemRepository;
 
     @Transactional
     public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
@@ -45,16 +50,17 @@ public class MyProblemService {
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemList(int myBookId) {
-        MyBook myBook = myBookRepository.findById(myBookId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId = " + myBookId));
-        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+    public List<MyProblemResponseDto> getMyProblemList(int subChapterId) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + subChapterId));
+        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
-        for(MyProblem myProblem : myProblemList){
+        for(Problem problem : problemList){
+            MyProblem myProblem = myProblemRepository.findByProblem(problem);
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
-                    .myBookId(myBookId)
-                    .problemId(myProblem.getProblem().getProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(problem.getProblemId())
                     .mySolution(myProblem.getMySolution())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
