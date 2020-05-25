@@ -54,12 +54,7 @@ class SubIndexApp extends React.Component {
     });
   }
 
-  handleDeleteHeader = () => {
-    console.log("OK");
-    if(DeleteHeaderMainId!==null){
 
-    }
-  }
 
  
   render() {

@@ -10,6 +10,7 @@
 
 .userStudentSignUp {
   height: 8rem;
+  margin-left: 10px;
   padding-right: 15px;
   pointer-events: none;
   justify-content: center;
@@ -59,7 +60,7 @@ div.inputCheck > button {
   height: 25rem;
   min-height: 350px;
   min-width: 250px;
-  width: 40rem;
+  width: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +85,7 @@ div.inputCheck > button {
   min-height: 30px;
   min-width: 480px;
   height: 1rem;
-  width: 40rem;
+  width: 35rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
@@ -97,11 +98,12 @@ div.inputCheck > button {
 .inputCheck {
   min-width: 150px;
   flex:1;
-  margin-left: 80px;
+  margin-left: 100px;
  
 }
 
 .input {
+  min-width: 130px;
   margin-left: 45px;
 }
 

@@ -3,9 +3,10 @@ import './AddBookApp.css';
 import Header from './addIndex/Header';
 import List from './addIndex/IndexList';
 import Note from './addIndex/MainIndex';
-import Bookinfo from './AddBook';
+import Bookinfo from '../../../containers/publisher/AddBookContainer';
 import { generateId } from './utils';
 import Button from '../../../common-ui/Button';
+
 
 
 class App extends React.Component {
@@ -55,6 +56,7 @@ class App extends React.Component {
     const activeNote = notes.filter((item) => item.MchapId === activeId)[0];
     return (
       <div className="app">
+
         <Bookinfo/>
         
           <div className="bar">

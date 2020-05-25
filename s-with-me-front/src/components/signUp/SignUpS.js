@@ -71,7 +71,7 @@ export default class SignUpS extends PureComponent {
                                     label="ID"
                                     onChange={onChange}
                                     errorMessage={errors['userId']}
-                                  />d
+                                  />
                                   <Input
                                     name="password"
                                     label="PW"
@@ -122,7 +122,7 @@ export default class SignUpS extends PureComponent {
                       중복 확인
                     </Button>
                     <div >
-                      {isCheck && (isOnlyId ? <Text>사용 가능??????????</Text> : <Text>아이디 중복</Text>)}
+                      {isCheck && (isOnlyId ? <Text>사용 가능한 아이디입니다. </Text> : <Text>중복된 아이디입니다.</Text>)}
                     </div>
                   </div>
                 </div>
