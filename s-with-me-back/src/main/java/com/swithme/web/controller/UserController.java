@@ -67,12 +67,12 @@ public class UserController {
         return new StudentResponseDto(student);
     }
 
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping("/logout/")
     public void logout()
     {
         jwtTokenProvider.logout();
-    }
+    }*/
 
     @CrossOrigin
     @PostMapping("/login/publisher")
