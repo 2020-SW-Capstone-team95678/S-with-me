@@ -10,6 +10,7 @@ div.app > div.container {
     height: 35px;
     background-color: rgb(247, 207, 192);
     align-items: center;
+    padding-left: 10px;
   }
   div.app > div.bar >span {
     flex:1 ;
