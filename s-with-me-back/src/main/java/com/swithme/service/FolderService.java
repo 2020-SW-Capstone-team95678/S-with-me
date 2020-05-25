@@ -44,7 +44,6 @@ public class FolderService {
             folderResponseDtoList.add(FolderResponseDto.builder()
                     .folderId(folder.getFolderId())
                     .folderName(folder.getFolderName())
-                    .studentId(folder.getStudent().getStudentId())
                     .build());
         }
         return folderResponseDtoList;
