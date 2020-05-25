@@ -1,14 +1,23 @@
 import { handle } from 'redux-pack';
-import { FETCH_MY_FOLDER_LIST, CREATE_FOLDER, DELETE_FOLDER } from '../actions/folderActions';
+import {
+  FETCH_MY_FOLDER_LIST,
+  CREATE_FOLDER,
+  DELETE_FOLDER,
+  UPDATE_FOLDER_NAME,
+} from '../actions/folderActions';
 
 const initState = {
   ids: [],
   entities: {},
   loadingState: {
     [FETCH_MY_FOLDER_LIST]: false,
+    [CREATE_FOLDER]: false,
+    [UPDATE_FOLDER_NAME]: false,
   },
   errorState: {
     [FETCH_MY_FOLDER_LIST]: false,
+    [CREATE_FOLDER]: false,
+    [UPDATE_FOLDER_NAME]: false,
   },
 };
 
@@ -16,7 +25,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case DELETE_FOLDER:
+    case UPDATE_FOLDER_NAME:
     case CREATE_FOLDER:
     case FETCH_MY_FOLDER_LIST: {
       return handle(state, action, {
@@ -46,7 +55,7 @@ export default (state = initState, action) => {
               ids,
               entities: { ...prevState.entities, ...entities },
             };
-          } else if (type === CREATE_FOLDER) {
+          } else {
             const id = data['folderId'];
             return {
               ...prevState,
@@ -54,8 +63,6 @@ export default (state = initState, action) => {
               id,
               entities: { ...prevState.entities, [id]: data },
             };
-          } else if (type === DELETE_FOLDER) {
-            return initState;
           }
         },
         failure: prevState => {
@@ -68,6 +75,8 @@ export default (state = initState, action) => {
         },
       });
     }
+    case DELETE_FOLDER:
+      return initState;
     default:
       return state;
   }

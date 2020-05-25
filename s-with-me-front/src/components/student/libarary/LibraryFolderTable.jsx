@@ -6,7 +6,7 @@ import TableRow from '../../../common-ui/table/TableRow';
 import TableCell from '../../../common-ui/table/TableCell';
 import Button from '../../../common-ui/Button';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
-import { DELETE_FOLDER } from '../../../constants/modals';
+import { DELETE_FOLDER, UPDATE_FOLDER_NAME } from '../../../constants/modals';
 
 export default class LibraryFolderTable extends PureComponent {
   render() {
@@ -21,14 +21,27 @@ export default class LibraryFolderTable extends PureComponent {
                 <Button>{folderName}</Button>
                 <Modal>
                   {({ openModal }) => (
-                    <Button
-                      xsmall
-                      onPress={() =>
-                        openModal(DELETE_FOLDER, { studentId: studentId, folderId: folderId })
-                      }
-                    >
-                      삭제
-                    </Button>
+                    <div>
+                      <Button
+                        xsmall
+                        onPress={() =>
+                          openModal(DELETE_FOLDER, { studentId: studentId, folderId: folderId })
+                        }
+                      >
+                        삭제
+                      </Button>
+                      <Button
+                        xsmall
+                        onPress={() =>
+                          openModal(UPDATE_FOLDER_NAME, {
+                            studentId: studentId,
+                            folderId: folderId,
+                          })
+                        }
+                      >
+                        수정
+                      </Button>
+                    </div>
                   )}
                 </Modal>
               </TableCell>

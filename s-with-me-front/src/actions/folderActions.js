@@ -3,6 +3,7 @@ import Api from '../Api';
 export const FETCH_MY_FOLDER_LIST = 'folder/FETCH_MY_FOLDER_LIST';
 export const CREATE_FOLDER = 'folder/CREATE_FOLDER';
 export const DELETE_FOLDER = 'folder/DELETE_FOLDER';
+export const UPDATE_FOLDER_NAME = 'folder/UPDATE_FOLDER_NAME';
 
 export function requestFolderList(params) {
   return {
@@ -33,6 +34,16 @@ export function deleteFolder(folderId, onComplete) {
   return {
     type: DELETE_FOLDER,
     promise: Api.delete('/student/library/folder/delete', { params: { folderId: folderId } }),
+    meta: {
+      onSuccess: onComplete,
+    },
+  };
+}
+
+export function updateFolderName(data, onComplete) {
+  return {
+    type: UPDATE_FOLDER_NAME,
+    promise: Api.put('/student/library/folder', { params: data }),
     meta: {
       onSuccess: onComplete,
     },
