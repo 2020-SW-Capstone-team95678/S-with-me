@@ -21,7 +21,7 @@ public class NoteTest {
 
     @Before
     public void setup() {
-        for(int i = 5; i > 0; i--) {
+        for(int i = 0; i < 5; i++) {
             noteRepository.save(Note.builder()
                     .addedDateTime((long)i)
                     .build());
@@ -36,10 +36,10 @@ public class NoteTest {
     @Test
     public void sortTest(){
         List<Note> noteList = noteRepository.findAll();
-        assertThat(noteList.get(0).getAddedDateTime()).isEqualTo(5);
+        assertThat(noteList.get(0).getAddedDateTime()).isEqualTo(0);
 
-        Note.sort(noteList);
+        Collections.sort(noteList);
 
-        assertThat(noteList.get(0).getAddedDateTime()).isEqualTo(1);
+        assertThat(noteList.get(0).getAddedDateTime()).isEqualTo(4);
     }
 }
