@@ -5,6 +5,7 @@ div.mainHeader {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
+  padding-left: 10px;
 }
 
 div.mainHeader > div.title {

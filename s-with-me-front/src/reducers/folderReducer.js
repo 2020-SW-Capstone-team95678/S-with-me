@@ -1,18 +1,23 @@
-import { SET_LAST_MY_PROBLEM_ID } from '../actions/myBookActions';
-
 import { handle } from 'redux-pack';
-import { FETCH_MY_BOOK_LIST, UPDATE_LAST_PROBLEM_ID } from '../actions/myBookPackActions';
+import {
+  FETCH_MY_FOLDER_LIST,
+  CREATE_FOLDER,
+  DELETE_FOLDER,
+  UPDATE_FOLDER_NAME,
+} from '../actions/folderActions';
 
 const initState = {
   ids: [],
   entities: {},
   loadingState: {
-    [FETCH_MY_BOOK_LIST]: false,
-    [UPDATE_LAST_PROBLEM_ID]: false,
+    [FETCH_MY_FOLDER_LIST]: false,
+    [CREATE_FOLDER]: false,
+    [UPDATE_FOLDER_NAME]: false,
   },
   errorState: {
-    [FETCH_MY_BOOK_LIST]: false,
-    [UPDATE_LAST_PROBLEM_ID]: false,
+    [FETCH_MY_FOLDER_LIST]: false,
+    [CREATE_FOLDER]: false,
+    [UPDATE_FOLDER_NAME]: false,
   },
 };
 
@@ -20,8 +25,9 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case UPDATE_LAST_PROBLEM_ID:
-    case FETCH_MY_BOOK_LIST: {
+    case UPDATE_FOLDER_NAME:
+    case CREATE_FOLDER:
+    case FETCH_MY_FOLDER_LIST: {
       return handle(state, action, {
         start: prevState => ({
           ...prevState,
@@ -34,12 +40,12 @@ export default (state = initState, action) => {
             loadingState: { ...prevState.loadingState, [type]: false },
             errorState: { ...prevState.errorState, [type]: false },
           };
-          if (type === FETCH_MY_BOOK_LIST) {
-            const ids = data.map(entity => entity['myBookId']);
+          if (type === FETCH_MY_FOLDER_LIST) {
+            const ids = data.map(entity => entity['folderId']);
             const entities = data.reduce(
               (finalEntities, entity) => ({
                 ...finalEntities,
-                [entity['myBookId']]: entity,
+                [entity['folderId']]: entity,
               }),
               {},
             );
@@ -50,32 +56,27 @@ export default (state = initState, action) => {
               entities: { ...prevState.entities, ...entities },
             };
           } else {
+            const id = data['folderId'];
             return {
               ...prevState,
               ...loadingAndErrorState,
+              id,
+              entities: { ...prevState.entities, [id]: data },
             };
           }
         },
         failure: prevState => {
-          const { errorMessage } = payload.response.data;
+          const { message } = payload.response.data;
           return {
             ...prevState,
             loadingState: { ...prevState.loadingState, [type]: false },
-            errorState: { ...prevState.errorState, [type]: errorMessage || true },
+            errorState: { ...prevState.errorState, [type]: message || true },
           };
         },
       });
     }
-    case SET_LAST_MY_PROBLEM_ID: {
-      const { id, lastProblemId } = payload;
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [id]: { ...state.entities[id], lastProblemId },
-        },
-      };
-    }
+    case DELETE_FOLDER:
+      return initState;
     default:
       return state;
   }

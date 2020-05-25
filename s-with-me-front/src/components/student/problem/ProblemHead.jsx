@@ -28,15 +28,14 @@ class ProblemHead extends PureComponent {
   componentDidMount() {
     clearInterval(this.timerId);
     const { myBook } = this.props;
-    console.log(myBook);
     Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
       this.setState({ bookName: data.name }),
     );
   }
 
   handleCloseBook() {
-    const { updateLastPageNumber, myBook } = this.props;
-    updateLastPageNumber(myBook.myBookId, { lastPageNumber: myBook.lastPageNumber * 1 }, () =>
+    const { updateLastProblemId, myBook } = this.props;
+    updateLastProblemId(myBook.myBookId, { lastProblemId: myBook.lastProblemId * 1 }, () =>
       this.setState({ isFinished: true }),
     );
   }
@@ -49,8 +48,7 @@ class ProblemHead extends PureComponent {
       setIsSolved,
       setIsRight,
       setSolvedDateTime,
-      setLastMyProblemPage,
-      pagination,
+      setLastMyProblemId,
     } = this.props;
     for (let myProblem of myProblemList) {
       Api.get('/student/library/my-book/my-problems', {
@@ -60,7 +58,7 @@ class ProblemHead extends PureComponent {
           if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
           else setIsRight(myProblem.myProblemId, false);
           setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
-          setLastMyProblemPage(id, pagination.number);
+          setLastMyProblemId(id, myProblem.myProblemId);
         }
       });
       const formValue = {

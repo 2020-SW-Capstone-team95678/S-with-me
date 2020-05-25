@@ -76,7 +76,8 @@ public class MyProblemControllerTest {
         folder = folderRepository.findByStudent(student).get(0);
 
         for(int i = 0; i < 2; i++) {
-            problemRepository.save(new Problem());
+            problemRepository.save(Problem.builder()
+                    .build());
         }
         problemList = problemRepository.findAll();
 
