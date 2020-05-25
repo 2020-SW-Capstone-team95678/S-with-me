@@ -5,10 +5,10 @@ export const UPDATE_MY_PROBLEM = 'myProblem/UPDATE_MY_PROBLEM';
 
 const PAGE_SIZE = 8;
 
-export function requestMyProblemList(id, params, pageNumber) {
+export function requestMyProblemList(params, pageNumber) {
   return {
     type: FETCH_MY_PROBLEM_LIST,
-    promise: Api.get(`/student/library/my-book/${id}/my-problems`, { params }),
+    promise: Api.get(`/student/library/my-book/my-problems`, { params }),
     meta: {
       pageNumber: pageNumber,
       pageSize: PAGE_SIZE,

@@ -11,7 +11,7 @@ import ProblemHeadContainer from '../../../containers/student/problem/ProblemHea
 class ProblemApp extends PureComponent {
   render() {
     const { styles } = this.props;
-    const { myBookId, continuePageNumber } = this.props.match.params;
+    const { myBookId, subChapterId } = this.props.match.params;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -21,7 +21,7 @@ class ProblemApp extends PureComponent {
               <ProblemHeadContainer id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <MyProblemListContainer id={myBookId} continuePageNumber={continuePageNumber} />
+              <MyProblemListContainer subChapterId={subChapterId} />
             </div>
           </div>
           <NotificationContainer />

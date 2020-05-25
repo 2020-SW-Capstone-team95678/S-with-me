@@ -10,13 +10,13 @@ export default class ProblemList extends PureComponent {
   };
 
   componentDidMount() {
-    const { id, number, continuePageNumber } = this.props;
-    const pageNumber = continuePageNumber || number || 1;
-    this.props.requestMyProblemList(id, { page: pageNumber }, pageNumber);
+    const { subChapterId, number } = this.props;
+    const pageNumber = number || 1;
+    this.props.requestMyProblemList({ subChapterId: subChapterId }, pageNumber);
   }
 
   render() {
-    const { myProblemList, loading, id } = this.props;
+    const { myProblemList, loading, subChapterId } = this.props;
     return (
       <React.Fragment>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -27,7 +27,7 @@ export default class ProblemList extends PureComponent {
             {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}
           </div>
         </div>
-        <ProblemPaginationContainer id={id} />
+        <ProblemPaginationContainer subChapterId={subChapterId} />
       </React.Fragment>
     );
   }
