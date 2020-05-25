@@ -13,7 +13,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity(name = "myBook")
 public class MyBook {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "myBookId")
@@ -29,7 +28,6 @@ public class MyBook {
 
     @Column(name = "lastProblemId")
     private int lastProblemId;
-
 
     @Builder
     public MyBook(Folder folder, Book book, int lastProblemId){
