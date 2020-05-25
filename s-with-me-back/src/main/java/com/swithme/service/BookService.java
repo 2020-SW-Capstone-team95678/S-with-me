@@ -5,7 +5,7 @@ import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
-import com.swithme.web.dto.BookCreateRequestDto;
+import com.swithme.web.dto.BookCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,18 +66,18 @@ public class BookService {
         return responseDtoList;
     }
 
-    public String saveBook(BookCreateRequestDto bookSaveRequestDto) {
-        Publisher publisher = publisherRepository.findById(bookSaveRequestDto.getPublisherId())
+    public String saveBook(BookCreateDto createDto) {
+        Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
-                        ("해당 publisher가 없습니다. publisherId = " + bookSaveRequestDto.getPublisherId()));
+                        ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
         bookRepository.save(Book.builder()
                 .publisher(publisher)
-                .subject(bookSaveRequestDto.getSubject())
-                .price(bookSaveRequestDto.getPrice())
-                .publishedDate(bookSaveRequestDto.getPublishedDate())
-                .name(bookSaveRequestDto.getName())
-                .grade(bookSaveRequestDto.getGrade())
-                .cover(bookSaveRequestDto.getCover())
+                .subject(createDto.getSubject())
+                .price(createDto.getPrice())
+                .publishedDate(createDto.getPublishedDate())
+                .name(createDto.getName())
+                .grade(createDto.getGrade())
+                .cover(createDto.getCover())
                 .build());
         return "문제집 기본 정보를 등록하였습니다.";
     }

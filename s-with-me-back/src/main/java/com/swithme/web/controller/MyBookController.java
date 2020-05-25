@@ -31,16 +31,16 @@ public class MyBookController {
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{myBookId}/problemNumber")
-    public String updateProblemNumber(@PathVariable int myBookId,
-                                      @RequestBody MyBookUpdateRequestDto requestDto){
+    @PutMapping("/student/library/my-book/{myBookId}/problemId")
+    public String updateProblemId(@PathVariable int myBookId,
+                                  @RequestBody MyBookUpdateRequestDto requestDto){
         return myBookService.updateLastProblemNumber(myBookId, requestDto);
     }
 
     @CrossOrigin
     @PutMapping("/student/library/my-book/{mybookId}/folder")
     public int updateFolder(@PathVariable int myBookId,
-                               @RequestBody MybookFolderUpdateRequestDto requestDto){
+                            @RequestBody MybookFolderUpdateRequestDto requestDto){
         return myBookService.updateFolder(myBookId, requestDto);
     }
 }

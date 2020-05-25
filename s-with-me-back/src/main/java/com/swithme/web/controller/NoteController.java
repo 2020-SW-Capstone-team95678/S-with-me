@@ -2,7 +2,7 @@ package com.swithme.web.controller;
 
 import com.swithme.service.NoteService;
 import com.swithme.web.dto.NoteResponseDto;
-import com.swithme.web.dto.NoteCreateRequestDto;
+import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,8 @@ public class NoteController {
 
     @CrossOrigin
     @PostMapping("/student/note")
-    public String saveNote(@RequestBody NoteCreateRequestDto requestDto){
-        return noteService.saveNote(requestDto);
+    public String saveNote(@RequestBody NoteCreateDto createDto){
+        return noteService.saveNote(createDto);
     }
 
     @CrossOrigin
