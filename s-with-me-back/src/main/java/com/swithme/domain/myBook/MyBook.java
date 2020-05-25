@@ -2,7 +2,6 @@ package com.swithme.domain.myBook;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
-import com.swithme.domain.folder.FolderRepository;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import javax.persistence.*;
 @Entity(name = "myBook")
 public class MyBook {
 
-    FolderRepository folderRepository;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "myBookId")
@@ -29,11 +27,11 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @Column(name = "lastPageNumber")
-    private short lastProblemId;
+    @Column(name = "lastProblemId")
+    private int lastProblemId;
 
     @Builder
-    public MyBook(Folder folder, Book book, short lastProblemId){
+    public MyBook(Folder folder, Book book, int lastProblemId){
         this.folder = folder;
         this.book = book;
         this.lastProblemId = lastProblemId;
