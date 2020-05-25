@@ -1,6 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_MY_FOLDER_LIST = 'folder/FETCH_MY_FOLDER_LIST';
+export const CREATE_FOLDER = 'folder/CREATE_FOLDER';
 
 export function requestFolderList(params) {
   return {
@@ -10,6 +11,19 @@ export function requestFolderList(params) {
       notification: {
         error: '폴더 목록을 불러오는 중에 문제가 발생했습니다.',
       },
+    },
+  };
+}
+
+export function createFolder(data, onComplete) {
+  const params = new URLSearchParams();
+  params.append('folderName', data.folderName);
+  params.append('studentId', data.studentId);
+  return {
+    type: CREATE_FOLDER,
+    promise: Api.post('/student/library/folder', params),
+    meta: {
+      onSuccess: onComplete,
     },
   };
 }
