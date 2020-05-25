@@ -4,7 +4,7 @@ import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles
 import logo from '../../common-ui/logo.png';
 import Button from '../../common-ui/Button';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
@@ -53,11 +53,11 @@ class AppNav extends PureComponent {
             <div style={{ flex: 1 }}>서점</div>
             <div style={{ flex: 1 }}>프로필</div>
             <div style={{ flex: 1 }}>
-              <NavLink to="/">
+              <Link to="/">
                 <Button small onPress={() => this.handleLogout()}>
                   로그아웃
                 </Button>
-              </NavLink>
+              </Link>
             </div>
           </div>
         </div>
