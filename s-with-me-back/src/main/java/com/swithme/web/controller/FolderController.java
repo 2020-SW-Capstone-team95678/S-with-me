@@ -29,10 +29,9 @@ public class FolderController {
 
     @CrossOrigin
     @PutMapping("/student/library/folder")
-    public String updateFolder(int folderId , String folderName){
-        FolderUpdateRequestDto folderUpdateRequestDto = new FolderUpdateRequestDto();
-        folderUpdateRequestDto.setFolderName(folderName);
-        return folderService.updateFolder(folderId, folderUpdateRequestDto);
+    public String updateFolder(@PathVariable int folderId,
+                               @RequestBody FolderUpdateRequestDto requestDto){
+        return folderService.updateFolder(folderId, requestDto);
     }
 
     @CrossOrigin
