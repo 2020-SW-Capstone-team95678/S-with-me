@@ -64,7 +64,7 @@ export default class SignUpS extends PureComponent {
                             let errors = validate(values, isCheck, isOnlyId);
                             if (!errors.length) this.setState({ isValidForm: true });
                             return (
-                              <div>
+                              <div className="input">
                                 <VerticalList spacingBetween={1}>
                                   <Input
                                     name="userId"
@@ -117,12 +117,12 @@ export default class SignUpS extends PureComponent {
                       </Form>
                     </div>
                   </div>
-                  <div style={{ flex: 1 }}>
+                  <div className="inputCheck" style={{ flex: 1}}>
                     <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
                       중복 확인
                     </Button>
-                    <div>
-                      {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
+                    <div >
+                      {isCheck && (isOnlyId ? <Text>사용 가능한 아이디입니다. </Text> : <Text>중복된 아이디입니다.</Text>)}
                     </div>
                   </div>
                 </div>

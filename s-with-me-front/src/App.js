@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import ModalProvider from './ModalProvider';
 
+import AddBookApp from './components/publisher/addBook/AddBookApp';
 import NotFound from './components/NotFound';
 import ProblemApp from './components/student/problem/ProblemApp';
 import NoteApp from './components/student/note/NoteApp';
@@ -60,6 +61,11 @@ export default class App extends PureComponent {
                 render={({ match, location }) => <ProblemApp match={(match, location)} />}
               />
               <Route path="/note" exact render={() => <NoteApp />} />
+              <Route
+                path="/publisher/library/book"
+                exact
+                render={({ match }) => <AddBookApp match={match} />}
+              />
               <Route path="*" component={NotFound} />
             </Switch>
           </Router>

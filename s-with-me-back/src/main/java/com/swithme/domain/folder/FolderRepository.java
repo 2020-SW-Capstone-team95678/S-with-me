@@ -7,4 +7,5 @@ import java.util.*;
 
 public interface FolderRepository extends JpaRepository<Folder, Integer> {
     List<Folder> findByStudent(Student student);
+    List<Folder> findByFolderName(String folderName);
 }

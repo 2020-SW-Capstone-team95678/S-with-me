@@ -15,6 +15,7 @@ class LibraryApp extends PureComponent {
   };
 
   componentDidMount() {
+
     const { requestMyBookList, requestFolderList } = this.props;
     const studentId = window.sessionStorage.getItem('studentId');
     requestMyBookList({ studentId: studentId });

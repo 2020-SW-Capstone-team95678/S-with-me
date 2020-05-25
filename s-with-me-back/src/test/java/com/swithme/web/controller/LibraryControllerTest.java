@@ -8,6 +8,7 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.web.dto.MyBookUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,7 @@ public class LibraryControllerTest {
             myBookRepository.save(MyBook.builder()
                     .folder(folder)
                     .book(book)
+                    .lastProblemId((short)1)
                     .build());
         }
     }
@@ -82,6 +84,10 @@ public class LibraryControllerTest {
     public void getMyBookListTest() throws Exception{
         List<Student> studentList = studentRepository.findAll();
         Student student = studentList.get(0);
+
+        MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
+                .lastProblemId((short)1)
+                .build();
 
         String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);

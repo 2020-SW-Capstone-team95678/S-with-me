@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 public class MybookFolderUpdateRequestDto {
 
     private int folderId;
-
     @Builder
     public MybookFolderUpdateRequestDto(int folderId){
         this.folderId=folderId;
