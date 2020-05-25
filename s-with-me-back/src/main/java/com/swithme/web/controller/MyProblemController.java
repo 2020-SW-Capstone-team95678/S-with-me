@@ -22,8 +22,8 @@ public class MyProblemController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/{myBookId}/my-problems")
-    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int myBookId, @RequestParam("page") int pageNumber){
-        return myProblemService.getMyProblemList(myBookId, pageNumber);
+    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int myBookId){
+        return myProblemService.getMyProblemList(myBookId);
     }
 //    @PutMapping("/student/library/my-book/my-problems")
 //    public int updateMyProblem(@RequestBody MyProblemUpdateRequestDto requestDto){

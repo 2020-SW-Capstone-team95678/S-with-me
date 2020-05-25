@@ -2,7 +2,6 @@ package com.swithme.domain.myBook;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
-import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,17 +27,22 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @Column(name = "lastPageNumber")
-    private short lastPageNumber;
+    @Column(name = "lastProblemId")
+    private int lastProblemId;
+
 
     @Builder
-    public MyBook(Folder folder, Book book, short lastPageNumber){
+    public MyBook(Folder folder, Book book, int lastProblemId){
         this.folder = folder;
         this.book = book;
-        this.lastPageNumber = lastPageNumber;
+        this.lastProblemId = lastProblemId;
     }
 
-    public void update(MyBookUpdateRequestDto requestDto) {
-        this.lastPageNumber = requestDto.getLastPageNumber();
+    public void updateLastProblemNumber(MyBookUpdateRequestDto requestDto) {
+        this.lastProblemId = requestDto.getLastProblemId();
+    }
+
+    public void updateFolder(Folder folder) {
+        this.folder = folder;
     }
 }

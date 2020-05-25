@@ -77,7 +77,6 @@ public class MyProblemControllerTest {
 
         for(int i = 0; i < 2; i++) {
             problemRepository.save(Problem.builder()
-                    .pageNumber((short) 1)
                     .build());
         }
         problemList = problemRepository.findAll();
@@ -140,7 +139,7 @@ public class MyProblemControllerTest {
     @Test
     public void getMyProblemListTest(){
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
-                + "/my-problems?page=" + problemList.get(0).getPageNumber();
+                + "/my-problems";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

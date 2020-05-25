@@ -27,9 +27,6 @@ public class Problem {
     @Column(name = "solution")
     private String solution;
 
-    @Column(name = "pageNumber")
-    private short pageNumber;
-
     @Column(name = "problemNumber")
     private short problemNumber;
 
@@ -56,12 +53,11 @@ public class Problem {
 
     @Builder
     public Problem(SubChapter subChapter, String content, String solution,
-                   short pageNumber, short problemNumber, String answer, Boolean isOptional,
+                    short problemNumber, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5){
         this.subChapter = subChapter;
         this.content = content;
         this.solution = solution;
-        this.pageNumber = pageNumber;
         this.problemNumber = problemNumber;
         this.answer = answer;
         this.isOptional = isOptional;
