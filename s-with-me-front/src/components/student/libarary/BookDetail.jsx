@@ -48,15 +48,9 @@ class BookDetail extends PureComponent {
               </div>
             </div>
             <div style={{ flex: 4, flexDirection: 'row', padding: 3 }}>
-<<<<<<< HEAD
               {/* <Link to={`/library/myBook/${myBookId}/solve/${lastPageNumber}`}> */}
               <Button xsmall>이어 풀기</Button>
               {/* </Link> */}
-=======
-              <Link to={`/library/myBook/${myBookId}/solve/${myBook.lastProblemId}`}>
-                <Button xsmall>이어 풀기</Button>
-              </Link>
->>>>>>> af9d56ac883933fb6cac0313e9bb1be9edc8c061
               <ChapterList chapterList={chapterList} />
             </div>
           </div>
