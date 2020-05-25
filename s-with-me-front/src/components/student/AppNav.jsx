@@ -54,7 +54,11 @@ class AppNav extends PureComponent {
                 </NavLink>
               </div>
               <div style={{ flex: 1 }}>서점</div>
-              <div style={{ flex: 1 }}>프로필</div>
+              <div style={{ flex: 1 }}>
+              <NavLink to="/profile" activeStyle={activeStyle}>
+                프로필
+              </NavLink>
+              </div>
               <div style={{ flex: 1 }}>
                 <Button small onPress={() => this.handleLogout()}>
                   로그아웃

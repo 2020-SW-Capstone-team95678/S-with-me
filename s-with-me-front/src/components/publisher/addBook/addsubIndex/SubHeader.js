@@ -3,7 +3,7 @@ import '../addIndex/Header.css';
 
 class SubHeader extends React.Component {
   render() {
-    const { onAddNote, onDeleteNote, onDeleteHeader } = this.props;
+    const { onAddNote, onDeleteNote } = this.props;
     return (
       <div className="subHeader">
         <div className="title">

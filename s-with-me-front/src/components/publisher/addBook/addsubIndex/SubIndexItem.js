@@ -4,7 +4,7 @@ import './IndexItem.css';
 
 class SubIndexItem extends React.Component {
   render() {
-    const { Subactive, SubTitle, contents, onClick } = this.props;
+    const { Subactive, SubTitle,  onClick } = this.props;
     return (
       <div
         className={Subactive ? "sub-list-item active" : "sub-list-item"}

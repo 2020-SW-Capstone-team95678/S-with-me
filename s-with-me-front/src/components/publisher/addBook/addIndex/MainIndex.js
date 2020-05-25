@@ -1,8 +1,7 @@
 
 import React from 'react';
 import './MainIndex.css';
-import AddProblemApp from '../addProblem/AddProblemApp';
-import SubHeader from '../addsubIndex/SubHeader';
+
 import SubIndexApp from '../addsubIndex/SubIndexApp';
 
 
