@@ -37,7 +37,7 @@ public class FolderController {
 
     @CrossOrigin
     @GetMapping("/student/library/folder/display")
-    public List<FolderResponseDto> dispFolderAll(int studentId)
+    public List<FolderResponseDto> getFolderAll(int studentId)
     {
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다. studentId="+ studentId));

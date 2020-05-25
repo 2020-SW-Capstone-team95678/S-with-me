@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BookSaveRequestDto {
+public class BookCreateRequestDto {
 
     private int publisherId;
     private String subject;
@@ -17,8 +17,8 @@ public class BookSaveRequestDto {
     private String cover;
 
     @Builder
-    public BookSaveRequestDto(int publisherId, String subject, int price, String publishedDate,
-                              String name, short grade, String cover){
+    public BookCreateRequestDto(int publisherId, String subject, int price, String publishedDate,
+                                String name, short grade, String cover){
         this.publisherId = publisherId;
         this.subject = subject;
         this.price = price;

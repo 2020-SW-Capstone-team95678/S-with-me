@@ -22,7 +22,6 @@ public class ProblemService {
                 .subChapterId(problem.getSubChapter().getSubChapterId())
                 .content(problem.getContent())
                 .solution(problem.getSolution())
-                .pageNumber(problem.getPageNumber())
                 .problemNumber(problem.getProblemNumber())
                 .answer(problem.getAnswer())
                 .isOptional(problem.getIsOptional())

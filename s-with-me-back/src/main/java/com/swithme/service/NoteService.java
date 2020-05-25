@@ -23,7 +23,7 @@ public class NoteService {
     private final MyProblemRepository myProblemRepository;
 
     @Transactional
-    public String saveNote(NoteSaveRequestDto requestDto) {
+    public String saveNote(NoteCreateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(requestDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + requestDto.getMyProblemId()));
         Student student = myProblem.getMyBook().getFolder().getStudent();
