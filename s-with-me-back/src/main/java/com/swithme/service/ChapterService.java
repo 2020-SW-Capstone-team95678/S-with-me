@@ -6,10 +6,7 @@ import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
-import com.swithme.web.dto.ChapterResponseDto;
-import com.swithme.web.dto.MainChapterCreateDto;
-import com.swithme.web.dto.MainChapterResponseDto;
-import com.swithme.web.dto.SubChapterResponseDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,5 +60,17 @@ public class ChapterService {
                 .mainChapterName(createDto.getMainChapterName())
                 .build());
         return createDto.getMainChapterName() + " 대단원이 생성되었습니다.";
+    }
+
+    @Transactional
+    public String createSubChapter(SubChapterCreateDto createDto) {
+        MainChapter mainChapter = mainChapterRepository.findById(createDto.getMainChapterId())
+                .orElseThrow(() -> new IllegalArgumentException
+                        ("해당 main chapter가 없습니다. mainChapterId = " + createDto.getMainChapterId()));
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapter)
+                .subChapterName(createDto.getSubChapterName())
+                .build());
+        return createDto.getSubChapterName() + " 소단원이 생성되었습니다.";
     }
 }

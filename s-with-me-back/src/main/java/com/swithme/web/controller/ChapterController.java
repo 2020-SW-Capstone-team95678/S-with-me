@@ -3,6 +3,7 @@ package com.swithme.web.controller;
 import com.swithme.service.ChapterService;
 import com.swithme.web.dto.ChapterResponseDto;
 import com.swithme.web.dto.MainChapterCreateDto;
+import com.swithme.web.dto.SubChapterCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +24,11 @@ public class ChapterController {
     @PostMapping("/publisher/library/book/mainChapter")
     public String createMainChapter(@RequestBody MainChapterCreateDto createDto){
         return chapterService.createMainChapter(createDto);
+    }
+
+    @CrossOrigin
+    @PostMapping("/publisher/library/book/subChapter")
+    public String createSubChapter(@RequestBody SubChapterCreateDto createDto){
+        return chapterService.createSubChapter(createDto);
     }
 }

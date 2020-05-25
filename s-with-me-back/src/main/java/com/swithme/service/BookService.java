@@ -66,6 +66,7 @@ public class BookService {
         return responseDtoList;
     }
 
+    @Transactional
     public String saveBook(BookCreateDto createDto) {
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
