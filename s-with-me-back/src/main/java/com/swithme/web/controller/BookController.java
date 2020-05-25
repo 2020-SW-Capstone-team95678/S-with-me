@@ -2,7 +2,7 @@ package com.swithme.web.controller;
 
 import com.swithme.service.BookService;
 import com.swithme.web.dto.BookInformationResponseDto;
-import com.swithme.web.dto.BookSaveRequestDto;
+import com.swithme.web.dto.BookCreateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -27,7 +27,7 @@ public class BookController {
 
     @CrossOrigin
     @PostMapping("/publisher/library/book")
-    public String saveBook(@RequestBody BookSaveRequestDto bookSaveRequestDto){
+    public String saveBook(@RequestBody BookCreateRequestDto bookSaveRequestDto){
         return bookService.saveBook(bookSaveRequestDto);
     }
 

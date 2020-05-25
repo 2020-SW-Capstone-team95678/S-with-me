@@ -16,8 +16,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -67,6 +65,6 @@ public class MyBookControllerTest {
 
         myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my Book이 없습니다. myBookId = " + myBookId));
-        assertThat(myBook.getLastPageNumber()).isEqualTo(requestDto.getLastPageNumber());
+        assertThat(myBook.getLastProblemNumber()).isEqualTo(requestDto.getLastProblemNumber());
     }
 }
