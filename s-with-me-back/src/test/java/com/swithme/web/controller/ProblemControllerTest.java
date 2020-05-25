@@ -4,6 +4,7 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
+import com.swithme.web.dto.ProblemCreateDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,12 +37,14 @@ public class ProblemControllerTest {
     @Autowired
     private SubChapterRepository subChapterRepository;
 
+    private SubChapter subChapter;
+
     @Before
     public void setup(){
         subChapterRepository.save(new SubChapter());
-        SubChapter subchapter = subChapterRepository.findAll().get(0);
+        subChapter = subChapterRepository.findAll().get(0);
         problemRepository.save(Problem.builder()
-                .subChapter(subchapter)
+                .subChapter(subChapter)
                 .build());
 
     }
@@ -45,6 +52,7 @@ public class ProblemControllerTest {
     @After
     public void cleanup(){
         problemRepository.deleteAll();
+        subChapterRepository.deleteAll();
     }
 
     @Test
@@ -56,5 +64,32 @@ public class ProblemControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void createProblemsTest() {
+        ProblemCreateDto createDto = ProblemCreateDto.builder()
+                .subChapterId(subChapter.getSubChapterId())
+                .content("test content")
+                .solution("test solution")
+                .answer("test answer")
+                .problemNumber((short) 1)
+                .isOptional(false)
+                .option1(null)
+                .option2(null)
+                .option3(null)
+                .option4(null)
+                .option5(null)
+                .build();
+
+        List<ProblemCreateDto> createDtoList = new ArrayList<>();
+        createDtoList.add(createDto);
+
+        HttpEntity<List<ProblemCreateDto>> createEntity = new HttpEntity<>(createDtoList);
+        String url = "http://localhost:" + port + "/publisher/library/book/problems";
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(problemRepository.findAll().size()).isGreaterThan(1);
     }
 }
