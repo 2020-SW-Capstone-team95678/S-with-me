@@ -1,7 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_MY_BOOK_LIST = 'myBook/FETCH_MY_BOOK_LIST';
-export const UPDATE_LAST_PAGE_NUMBER = 'myBook/UPDATE_LAST_PAGE_NUMBER';
+export const UPDATE_LAST_PROBLEM_ID = 'myBook/UPDATE_LAST_PROBLEM_ID';
 
 export function requestMyBookList(params) {
   return {
@@ -15,9 +15,9 @@ export function requestMyBookList(params) {
   };
 }
 
-export function updateLastPageNumber(id, data, onComplete) {
+export function updateLastProblemId(id, data, onComplete) {
   return {
-    type: UPDATE_LAST_PAGE_NUMBER,
+    type: UPDATE_LAST_PROBLEM_ID,
     promise: Api.put(`/student/library/my-book/${id}`, data),
     meta: {
       onSuccess: onComplete,
