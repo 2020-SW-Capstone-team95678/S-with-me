@@ -1,5 +1,6 @@
 package com.swithme.web.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +10,8 @@ public class ProblemCreateDto {
     private int subChapterId;
     private String content;
     private String solution;
-    private short problemNumber;
     private String answer;
+    private short problemNumber;
     private Boolean isOptional;
     private String option1;
     private String option2;

@@ -28,7 +28,7 @@ public class FolderController {
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/folder")
+    @PutMapping("/student/library/folder/{folderId}")
     public String updateFolder(@PathVariable int folderId,
                                @RequestBody FolderUpdateRequestDto requestDto){
         return folderService.updateFolder(folderId, requestDto);
