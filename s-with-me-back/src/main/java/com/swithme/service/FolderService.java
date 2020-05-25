@@ -35,7 +35,7 @@ public class FolderService {
     }
 
     @Transactional
-    public List<FolderResponseDto> dispFolder(Student student)
+    public List<FolderResponseDto> getFolder(Student student)
     {
         List<Folder> folderList = folderRepository.findByStudent(student);
         List<FolderResponseDto> folderResponseDtoList = new ArrayList<>();
