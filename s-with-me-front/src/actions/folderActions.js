@@ -2,6 +2,7 @@ import Api from '../Api';
 
 export const FETCH_MY_FOLDER_LIST = 'folder/FETCH_MY_FOLDER_LIST';
 export const CREATE_FOLDER = 'folder/CREATE_FOLDER';
+export const DELETE_FOLDER = 'folder/DELETE_FOLDER';
 
 export function requestFolderList(params) {
   return {
@@ -22,6 +23,16 @@ export function createFolder(data, onComplete) {
   return {
     type: CREATE_FOLDER,
     promise: Api.post('/student/library/folder', params),
+    meta: {
+      onSuccess: onComplete,
+    },
+  };
+}
+
+export function deleteFolder(folderId, onComplete) {
+  return {
+    type: DELETE_FOLDER,
+    promise: Api.delete('/student/library/folder/delete', { params: { folderId: folderId } }),
     meta: {
       onSuccess: onComplete,
     },
