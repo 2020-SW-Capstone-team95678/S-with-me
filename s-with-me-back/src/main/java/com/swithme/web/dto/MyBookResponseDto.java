@@ -11,7 +11,7 @@ public class MyBookResponseDto {
     private int myBookId;
     private int folderId;
     private int bookId;
-    private short lastProblemId;
+    private int lastProblemId;
 
     @Builder
     public MyBookResponseDto(int myBookId, int folderId, int bookId, short lastProblemId){

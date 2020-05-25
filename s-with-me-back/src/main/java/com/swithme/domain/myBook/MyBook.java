@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Entity(name = "myBook")
 public class MyBook {
 
-    FolderRepository folderRepository;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "myBookId")
@@ -29,8 +28,9 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @Column(name = "lastPageNumber")
-    private short lastProblemId;
+    @Column(name = "lastProblemId")
+    private int lastProblemId;
+
 
     @Builder
     public MyBook(Folder folder, Book book, short lastProblemId){
