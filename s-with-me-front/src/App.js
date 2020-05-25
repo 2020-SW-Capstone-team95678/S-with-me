@@ -57,8 +57,7 @@ export default class App extends PureComponent {
               />
               <Route
                 path="/library/myBook/:myBookId/solve/:subChapterId"
-                exact
-                render={({ match }) => <ProblemApp match={match} />}
+                render={({ match, location }) => <ProblemApp match={(match, location)} />}
               />
               <Route path="/note" exact render={() => <NoteApp />} />
               <Route path="*" component={NotFound} />

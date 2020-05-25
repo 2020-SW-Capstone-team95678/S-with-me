@@ -46,9 +46,9 @@ export default class BookPreview extends PureComponent {
           <Link to={`/library/myBook/${myBook.myBookId}`}>
             <Button xsmall>목차 보기</Button>
           </Link>
-          <Link to={`/library/myBook/${myBook.myBookId}/solve/${myBook.lastPageNumber}`}>
-            <Button xsmall>이어 풀기</Button>
-          </Link>
+          {/* <Link to={`/library/myBook/${myBook.myBookId}/solve/${myBook.lastPageNumber}`}> */}
+          <Button xsmall>이어 풀기</Button>
+          {/* </Link> */}
         </InlineList>
       </Card>
     );
