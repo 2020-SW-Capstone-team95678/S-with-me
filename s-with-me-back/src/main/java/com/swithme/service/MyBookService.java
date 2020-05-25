@@ -16,7 +16,7 @@ public class MyBookService {
     private final MyBookRepository myBookRepository;
 
     @Transactional
-    public String updateLastPageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
+    public String updateLastProblemNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
         myBook.update(requestDto);
