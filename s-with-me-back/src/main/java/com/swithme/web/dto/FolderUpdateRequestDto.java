@@ -14,6 +14,6 @@ public class FolderUpdateRequestDto {
 
     @Builder
     public FolderUpdateRequestDto( String folderName) {
-        this. folderName = folderName;
+        this.folderName = folderName;
     }
 }
