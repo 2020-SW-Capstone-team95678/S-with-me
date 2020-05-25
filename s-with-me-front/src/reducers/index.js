@@ -4,6 +4,7 @@ import notification from './notificationReducer';
 import myBookList from './myBookReducer';
 import book from './bookReducer';
 import folderList from './folderReducer';
+import chapter from './chapterReducer';
 
 export default {
   myProblemList,
@@ -12,4 +13,5 @@ export default {
   myBookList,
   book,
   folderList,
+  chapter,
 };
