@@ -11,7 +11,6 @@ import AppNav, { HEIGHT } from '../AppNav';
 import Button from '../../../common-ui/Button';
 
 import './Profile.css';
-import { requestMyProfile } from '../../../actions/myProfileAction';
 
 class StudentProfile extends PureComponent {
 
@@ -30,7 +29,6 @@ class StudentProfile extends PureComponent {
   }
 
   componentDidMount() {
-    const { requestMyProfile } = this.props;
     const studentId = window.sessionStorage.getItem('studentId');
     Api.get('student/profile', {params: { studentId },
     }).then(({ data }) =>{
