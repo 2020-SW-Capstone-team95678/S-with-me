@@ -46,16 +46,7 @@ class AddBook extends PureComponent {
             </div>
           </div>
         </div>
-        <div {...css(styles.body)}>
-            <div style={{ display: 'flex', backgroundColor:'rgb(247, 207, 192)'  }} {...css(styles.container)}>
-                <div style={{ flex : 1}}> 문제등록</div>
-                <div style={{ width: 100, padding: 3 }}>
-                     <Button small>전체 저장</Button>
-                 </div>
-                
-            </div>
-
-        </div>
+        
        
       </div>
     );

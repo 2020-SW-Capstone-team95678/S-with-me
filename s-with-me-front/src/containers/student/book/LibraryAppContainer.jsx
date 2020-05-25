@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import { requestMyBookList } from '../../../actions/myBookPackActions';
+import { requestMyBookList, FETCH_MY_BOOK_LIST } from '../../../actions/myBookPackActions';
 import LibraryApp from '../../../components/student/libarary/LibraryApp';
 
 const mapStateToProps = state => {
-  const { ids, entities, loading } = state.myBookList;
-  const { entity } = state.user;
-  const user = entity;
+  const { ids, entities, loadingState } = state.myBookList;
+  const loading = loadingState[FETCH_MY_BOOK_LIST];
   const myBookList = ids.map(id => entities[id]);
 
-  return { myBookList, user, loading };
+  return { myBookList, loading };
 };
 
 const mapDispatchToProps = {

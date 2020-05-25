@@ -12,7 +12,9 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.NoteSaveRequestDto;
+import com.swithme.web.dto.NoteUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,15 +68,17 @@ public class NoteControllerTest {
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
+
         myBookRepository.save(MyBook.builder()
                 .folder(folderRepository.findAll().get(0))
                 .build());
+
         problemRepository.save(new Problem());
+
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBookRepository.findAll().get(0))
                 .problem(problemRepository.findAll().get(0))
                 .build());
-
         myProblem = myProblemRepository.findAll().get(0);
     }
 
@@ -97,9 +101,7 @@ public class NoteControllerTest {
                 .build();
 
         HttpEntity<NoteSaveRequestDto> requestEntity = new HttpEntity<>(requestDto);
-
         String url = "http://localhost:" + port + "/student/note";
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -114,26 +116,60 @@ public class NoteControllerTest {
                 .build());
 
         String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void deleteNoteTest(){
-        noteRepository.save(new Note());
+        noteRepository.save(Note.builder()
+                .myProblem(myProblem)
+                .build());
         assertThat(noteRepository.findAll()).isNotEmpty();
-
-        Note note = noteRepository.findAll().get(0);
-
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
-        String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
-
+        String url = "http://localhost:" + port + "/student/note?myProblemId=" + myProblem.getMyProblemId();
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(noteRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void updateNoteTest(){
+        noteRepository.save(Note.builder()
+                .addedDateTime(12345L)
+                .myProblem(myProblem)
+                .build());
+        Note note = noteRepository.findAll().get(0);
+        long expectedAddedDateTime = 54321L;
+
+        String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
+
+        MyProblemUpdateRequestDto myProblemUpdateRequestDto = MyProblemUpdateRequestDto.builder()
+                .isConfused(true)
+                .isSolved(true)
+                .solvedDateTime(12345L)
+                .myAnswer("test my answer")
+                .mySolution("test my solution")
+                .isRight(true)
+                .build();
+
+        NoteUpdateRequestDto requestDto = NoteUpdateRequestDto.builder()
+                .addedDateTime(expectedAddedDateTime)
+                .myProblemUpdateRequestDto(myProblemUpdateRequestDto)
+                .build();
+
+        HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        note = noteRepository.findAll().get(0);
+        myProblem = myProblemRepository.findAll().get(0);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
+        assertThat(myProblem.getIsConfused()).isEqualTo(true);
     }
 }

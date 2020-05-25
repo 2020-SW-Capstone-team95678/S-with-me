@@ -3,6 +3,7 @@ package com.swithme.web.controller;
 import com.swithme.service.NoteService;
 import com.swithme.web.dto.NoteResponseDto;
 import com.swithme.web.dto.NoteSaveRequestDto;
+import com.swithme.web.dto.NoteUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,15 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/student/note/{noteId}")
-    public String deleteNote(@PathVariable int noteId){
-        return noteService.deleteNote(noteId);
+    @DeleteMapping("/student/note")
+    public String deleteNote(@RequestParam int myProblemId){
+        return noteService.deleteNote(myProblemId);
+    }
+
+    @CrossOrigin
+    @PutMapping("/student/note/{noteId}")
+    public String updateNote(@PathVariable int noteId,
+                             @RequestBody NoteUpdateRequestDto requestDto){
+        return noteService.updateNote(noteId, requestDto);
     }
 }

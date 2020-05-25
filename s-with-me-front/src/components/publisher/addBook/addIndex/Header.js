@@ -5,7 +5,7 @@ class Header extends React.Component {
   render() {
     const { onAddNote, onDeleteNote } = this.props;
     return (
-      <div className="header">
+      <div className="mainHeader">
         <div className="title">
           <span>대단원 생성</span>
         </div>

@@ -7,24 +7,32 @@ import Input from '../common-ui/Input';
 import Form from '../common-ui/Form';
 import Button from '../common-ui/Button';
 import CheckBox from '../common-ui/CheckBox';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 
-export default class LoginApp extends react.PureComponent {
+class LoginApp extends react.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isStudent: false, isPublisher: false };
+    this.state = { isStudent: false, isPublisher: false, isLogin: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
-    const { setUser } = this.props;
+    const { setUser, history } = this.props;
     const { isStudent } = this.state;
     if (isStudent) {
-      setUser(values, () => <Link to="/library" />);
+      setUser(values, () => {
+        history.push('/');
+        window.sessionStorage.setItem('studentId', this.props.user.studentId);
+        this.setState({ isLogin: true });
+      });
     }
   }
+
   render() {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
+
+    if (this.props.logged || this.state.isLogin) return <Redirect to="library" />;
+
     return (
       <div className="login">
         <header className="loginHeader">
@@ -32,6 +40,7 @@ export default class LoginApp extends react.PureComponent {
           <div>
             <div className="checkBox">
               <CheckBox
+                name="isStudnet"
                 font-color="red"
                 onChange={() => this.setState({ isStudent: !isStudent })}
                 checked={isStudent}
@@ -39,37 +48,48 @@ export default class LoginApp extends react.PureComponent {
                 학생
               </CheckBox>
               <CheckBox
+                name="isPublisher"
                 onChange={() => this.setState({ isPublisher: !isPublisher })}
                 checked={isPublisher}
               >
                 출판사
               </CheckBox>
             </div>
-            <div className="mainBox">
-              <div className="loginInput">
-                <img src={user} className="userLogin" alt="user" />
-                <div className="input">
-                  <div className="inputID">
-                    ID
-                    <input name="userId" onChange={this.handleChange} />
+            <Form onSubmit={values => this.handleSubmit(values)}>
+              <Form.Consumer>
+                {({ onChange }) => (
+                  <div className="mainBox">
+                    <div className="loginInput">
+                      <img src={user} className="userLogin" alt="user" />
+                      <div className="input">
+                        <div className="inputID">
+                          ID
+                          <Input name="id" onChange={onChange} />
+                        </div>
+                        <div className="inputPW">
+                          PW
+                          <Input name="password" onChange={onChange} />
+                        </div>
+                      </div>
+                      <Button type="submit" disabled={loading}>
+                        로그인
+                      </Button>
+                    </div>
+                    <div className="loginSignUp">
+                      <Link to="/signup">
+                        <Button>학생으로 회원가입</Button>
+                      </Link>
+                      <Button>출판사로 회원가입</Button>
+                    </div>
                   </div>
-                  <div className="inputPW">
-                    PW
-                    <input name="password" onChange={this.handleChange} />
-                  </div>
-                </div>
-                <Button>로그인</Button>
-              </div>
-              <div className="loginSignUp">
-                <Link to="/signup">
-                  <Button>학생으로 회원가입</Button>
-                </Link>
-                <Button>출판사로 회원가입</Button>
-              </div>
-            </div>
+                )}
+              </Form.Consumer>
+            </Form>
           </div>
-          </header>
+        </header>
       </div>
     );
   }
 }
+
+export default withRouter(LoginApp);

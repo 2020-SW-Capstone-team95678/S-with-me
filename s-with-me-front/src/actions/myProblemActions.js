@@ -3,15 +3,16 @@ export const SET_IS_CONFUSED = 'myProblem/SET_IS_CONFUSED';
 export const SET_MY_SOLUTION = 'myProblem/SET_MY_SOLUTION';
 export const SET_SOLVED_DATETIME = 'myProblem/SET_SOLVED_DATETIME';
 export const SET_IS_RIGHT = 'myProblem/SET_IS_RIGHT';
+export const SET_IS_SOLVED = 'myProblem/SET_IS_SOLVED';
 
 export const setMyAnswer = (id, myAnswer) => ({
   type: SET_MY_ANSWER,
   payload: { id, myAnswer },
 });
 
-export const setIsConfused = (id, confused) => ({
+export const setIsConfused = (id, isConfused) => ({
   type: SET_IS_CONFUSED,
-  payload: { id, confused },
+  payload: { id, isConfused },
 });
 
 export const setMySolution = (id, mySolution) => ({
@@ -24,7 +25,12 @@ export const setSolvedDateTime = (id, solvedDateTime) => ({
   payload: { id, solvedDateTime },
 });
 
-export const setIsRight = (id, right) => ({
+export const setIsRight = (id, isRight) => ({
   type: SET_IS_RIGHT,
-  payload: { id, right },
+  payload: { id, isRight },
+});
+
+export const setIsSolved = (id, isSolved) => ({
+  type: SET_IS_SOLVED,
+  payload: { id, isSolved },
 });

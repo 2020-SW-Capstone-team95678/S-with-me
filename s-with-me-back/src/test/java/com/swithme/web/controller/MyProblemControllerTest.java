@@ -73,32 +73,26 @@ public class MyProblemControllerTest {
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
-        List<Folder> folderList = folderRepository.findByStudent(student);
-        folder = folderList.get(0);
+        folder = folderRepository.findByStudent(student).get(0);
 
-        problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
-                .build());
-        problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
-                .build());
+        for(int i = 0; i < 2; i++) {
+            problemRepository.save(Problem.builder()
+                    .pageNumber((short) 1)
+                    .build());
+        }
         problemList = problemRepository.findAll();
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .build());
-        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-        myBook = myBookList.get(0);
+        myBook = myBookRepository.findAll().get(0);
 
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(0))
-                .myBook(myBook)
-                .build());
-
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(1))
-                .myBook(myBook)
-                .build());
+        for(int i = 0; i< 1; i++) {
+            myProblemRepository.save(MyProblem.builder()
+                    .problem(problemList.get(i))
+                    .myBook(myBook)
+                    .build());
+        }
     }
 
     @After
@@ -124,52 +118,31 @@ public class MyProblemControllerTest {
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
                 .isRight(false)
-                .solvedDateTime(12345L)
+                .solvedDateTime(1412L)
+                .isSolved(true)
                 .build();
 
+        assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNull();
+
         String url = "http://localhost:" + port + "/student/library/my-book/my-problems/" + myProblemId;
-
         HttpEntity<MyProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         MyProblem updatedMyProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
         assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
-        assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
 
-        assertThat(noteRepository.findAll()).isNotNull();
+        assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNotNull();
     }
 
     @Test
-    public void getMyProblemList(){
+    public void getMyProblemListTest(){
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
                 + "/my-problems?page=" + problemList.get(0).getPageNumber();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
-//    public void updateMySolutionTest() throws Exception{
-//
-//        myProblemRepository.save(new MyProblem());
-//        myProblemRepository.save(new MyProblem());
-//        myProblemRepository.save(new MyProblem());
-//
-//        String expectedMySolution = "updated solution";
-//        String expectedMyAnswer = "updated answer";
-//        List<MyProblem> myProblemList = myProblemRepository.findAll();
-//
-//        MyProblemUpdateRequestDto requestDto = new MyProblemUpdateRequestDto(myProblemList);
-//
-//        String url = "http://localhost:" + port + "/student/library/my-book/my-problems";
-//
-//        HttpEntity<MyProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-//
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
-//
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//    }
 }

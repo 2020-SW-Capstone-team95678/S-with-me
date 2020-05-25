@@ -41,16 +41,16 @@ public class UserController {
     @PostMapping("/signup/student/dupcheck")
     public boolean studentIdDupCheck(String userId) {
         Student student = studentRepository.findByUserId(userId);
-        if(student==null){ throw new IllegalArgumentException("사용 가능한 아이디 입니다.");}
-        return true;
+        if(student==null) return true;
+        else return false;
     }
 
     @CrossOrigin
     @PostMapping("/signup/publisher/dupcheck")
     public boolean publisherIdDupCheck(String publisherId) {
         Publisher publisher = publisherRepository.findByUserId(publisherId);
-        if(publisher==null){ throw new IllegalArgumentException("사용 가능한 아이디 입니다.");}
-        return true;
+        if(publisher==null) return true;
+        else return false;
     }
         // 로그인
     @CrossOrigin

@@ -15,7 +15,7 @@ public class MyProblemController {
 
     @CrossOrigin
     @PutMapping("/student/library/my-book/my-problems/{myProblemId}")
-    public int updateMyProblem(@PathVariable int myProblemId,
+    public String updateMyProblem(@PathVariable int myProblemId,
                                @RequestBody MyProblemUpdateRequestDto requestDto){
         return myProblemService.updateMyProblem(myProblemId, requestDto);
     }

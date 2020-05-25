@@ -20,9 +20,11 @@ public class Note {
     private int noteId;
 
     @OneToOne
+    @JoinColumn(name = "studentId")
     private Student student;
 
     @OneToOne
+    @JoinColumn(name = "myProblemId")
     private MyProblem myProblem;
 
     @Column(name = "addedDateTime")
@@ -35,7 +37,7 @@ public class Note {
         this.addedDateTime = addedDateTime;
     }
 
-    public static void sort(List<Note> noteList){
+    public static void sort(List<Note> noteList) {
         Collections.sort(noteList, new Comparator<Note>() {
             @Override
             public int compare(Note note, Note targetNote) {
@@ -44,4 +46,7 @@ public class Note {
         });
     }
 
+    public void update(long addedDateTime) {
+        this.addedDateTime = addedDateTime;
+    }
 }

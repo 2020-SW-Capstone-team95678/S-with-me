@@ -1,88 +1,102 @@
 .publisherSingUp {
-    text-align: center;
-  }
-  
-  .logo {
-    height: 30vmin;
-    pointer-events: none;
-  }
-  
+  text-align: center;
+}
 
-  .userPublisherSignUp {
-    justify-content: center;
-    height: 100px;
-    pointer-events: none;
-    float: left;
-  }
-  
-  .header {
-    background-color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: white;
-  }
-  
-  .publisherSignUpBox {
-    background-color: rgb(247, 207, 192);
-    box-shadow: 5px 5px 5px darkgray;
-    height: 40vh;
-    min-height: 400px;
-    width: 50vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: rgb(173, 5, 5);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    padding-bottom: 10px;
-  }
-  
-  .signUp {
-    height: 200px;
-    width: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-  }
-  
-  .signUpButton {
-    width: 30vh;
+.logo {
+  height: 15rem;
+  min-height: 300px;
+  pointer-events: none;
+}
 
-  }
-  
-  .welcomeText {
-    box-shadow: 5px 5px 5px darkgray;
-    background-color:  rgb(252, 230, 222);
-    height: 5vh;
-    width: 50vh;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5vh;
-    color: gray;
-  }
-  
-  .signUpInput {
-    flex-direction: column;
-    display: flex;
-    align-items:  flex-start;
-    justify-content: center;
-    padding-right: 50px;
-    height: 15vh;
-  }
-  
-  
-  .inputCheck {
-    display: flex;
-    align-items: center;
-  }
 
-  div.inputCheck>button {
-    min-width:60px;
-    margin-left: 5px;
-  }
+.userPublisherSignUp {
+  justify-content: center;
+  height: 8rem;
+  pointer-events: none;
+  float: left;
+}
+
+.header {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.publisherSignUpBox {
+  background-color: rgb(247, 207, 192);
+  box-shadow: 5px 5px 5px darkgray;
+  height: 20rem;
+  min-height: 350px;
+  min-width: 250px;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(173, 5, 5);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 50px;
+}
+
+.signUp {
+  width: 15em;
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.signUpButtonP {
+  width: 5rem;
+  min-width: 175px;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.welcomeText {
+  box-shadow: 5px 5px 5px darkgray;
+  background-color:  rgb(252, 230, 222);
+  min-height: 30px;
+  min-width: 480px;
+  height: 1rem;
+  width: 30rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5vh;
+  color: gray;
+}
+
+.signUpInput {
+  flex-direction: column;
+  display: flex;
+  align-items:  flex-start;
+  justify-content: center;
+  padding-right: 50px;
+  height: 15vh;
+  height: 20em;
+  min-width: 150px;
+  width: 10em;
+  font-size: 0.4em;
+}
+
+
+.inputCheck {
+  display: flex;
+  align-items: center;
+  height:30px;
+}
+
+div.inputCheck>button {
+  min-width:100px;
+  margin-left: 5px;
+}

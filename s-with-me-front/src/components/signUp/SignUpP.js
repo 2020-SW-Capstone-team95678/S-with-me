@@ -38,7 +38,7 @@ export default class Login extends PureComponent {
                 </div>
                 
               </div>
-              <div className="signUpButton">
+              <div className="signUpButtonP">
                 <Button>로그인으로 돌아가기</Button>
                 <Button >확인</Button>
               </div>

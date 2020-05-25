@@ -4,6 +4,7 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
+import com.swithme.web.dto.BookSaveRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -47,7 +50,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void getBookTest(){
+    public void getBookInformationTest(){
         bookRepository.save(Book.builder()
                 .monthlySold(123)
                 .monthlyProfit(123)
@@ -61,14 +64,57 @@ public class BookControllerTest {
                 .publisher(publisher)
                 .price(12345)
                 .build());
-
         Book book = bookRepository.findAll().get(0);
 
         String url = "http://localhost:" + port + "/student/library/my-book?bookId=" + book.getBookId();
-
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void getBookListTest(){
+        for(int i = 0; i < 3; i++){
+            bookRepository.save(Book.builder()
+                    .monthlySold(123)
+                    .monthlyProfit(123)
+                    .totalProblemNumber((short)123)
+                    .isAdvertised(false)
+                    .cover("test cover")
+                    .grade((short)4)
+                    .publishedDate("2020-02-02")
+                    .name("test name")
+                    .subject("test subject")
+                    .publisher(publisher)
+                    .price(12345)
+                    .build());
+        }
+
+        String url = "http://localhost:" + port + "/publisher/library?publisherId=" + publisher.getPublisherId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void saveBookTest(){
+        assertThat(bookRepository.findAll()).isEmpty();
+
+        BookSaveRequestDto requestDto = BookSaveRequestDto.builder()
+                .publisherId(publisher.getPublisherId())
+                .subject("test subject")
+                .price(12345)
+                .publishedDate("2020-02-02")
+                .name("test name")
+                .grade((short)4)
+                .cover("test cover")
+                .build();
+
+        HttpEntity<BookSaveRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        String url = "http://localhost:" + port + "/publisher/library/book";
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(bookRepository.findAll()).isNotEmpty();
+    }
 }

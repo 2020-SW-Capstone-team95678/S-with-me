@@ -11,16 +11,15 @@ import AnswerInputContainer from '../../../containers/student/problem/AnswerInpu
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
 import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
+import ProblemResultViewContainer from '../../../containers/student/problem/ProblemResultViewContainer';
 
 import Api from '../../../Api';
-import ProblemResultView from './ProblemResultView';
 
 class ProblemView extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      isSolved: false,
       problemNum: null,
       content: '',
       isOptional: null,
@@ -40,7 +39,7 @@ class ProblemView extends PureComponent {
       this.setState({
         problemNum: data.problemNumber,
         content: data.content,
-        isOptional: data.optional,
+        isOptional: data.isOptional,
         answer: data.answer,
         option1: data.option1,
         option2: data.option2,
@@ -52,23 +51,25 @@ class ProblemView extends PureComponent {
   }
 
   handleSubmit() {
-    const { myProblem, updateMyProblem } = this.props;
+    const { myProblem, updateMyProblem, setIsSolved } = this.props;
+
     const formValue = {
-      confused: myProblem.confused,
-      myAnswer: myProblem.myAnswer,
+      isConfused: myProblem.isConfused,
+      isRight: myProblem.isRight,
+      isSolved: true,
+      myAnswer: String(myProblem.myAnswer),
       mySolution: myProblem.mySolution,
-      right: myProblem.right,
       solvedDateTime: myProblem.solvedDateTime,
     };
     updateMyProblem(myProblem.myProblemId, formValue, () => {
-      this.setState({ isSolved: true });
+      setIsSolved(myProblem.myProblemId, true);
     });
   }
 
   render() {
     const { myProblem, styles, loading, number } = this.props;
-    const { myProblemId, myAnswer, myBookId } = myProblem;
-    const { isSolved, problemNum, content, isOptional, answer } = this.state;
+    const { myProblemId, myAnswer, myBookId, isSolved } = myProblem;
+    const { problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -126,13 +127,13 @@ class ProblemView extends PureComponent {
       );
     } else {
       return (
-        <ProblemResultView
+        <ProblemResultViewContainer
           problemNum={problemNum}
           content={content}
           isOptional={isOptional}
           myProblemId={myProblemId}
-          isRight={myProblem.right}
-          isConfused={myProblem.confused}
+          isRight={myProblem.isRight}
+          isConfused={myProblem.isConfused}
           myAnswer={myAnswer}
           answer={answer}
           optionContents={optionContents}

@@ -6,6 +6,15 @@ import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
 class ProblemResultView extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleResolve = this.handleResolve.bind(this);
+  }
+  handleResolve(myProblemId) {
+    const { setIsSolved, setMyAnswer } = this.props;
+    setIsSolved(myProblemId, false);
+    setMyAnswer(myProblemId, null);
+  }
   render() {
     const {
       problemNum,
@@ -53,6 +62,7 @@ class ProblemResultView extends PureComponent {
         </div>
         <div style={{ display: 'flex' }}>
           <Button>문제 저장</Button>
+          <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
         </div>
       </VerticalList>
     );

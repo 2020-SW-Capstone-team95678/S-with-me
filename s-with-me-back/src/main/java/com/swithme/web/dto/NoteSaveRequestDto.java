@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class NoteSaveRequestDto {
 
     private int myProblemId;
-    private long addedDateTime;
+    private Long addedDateTime;
 
     @Builder
-    public NoteSaveRequestDto(int myProblemId, long addedDateTime){
+    public NoteSaveRequestDto(int myProblemId, Long addedDateTime){
         this.myProblemId = myProblemId;
         this.addedDateTime = addedDateTime;
     }

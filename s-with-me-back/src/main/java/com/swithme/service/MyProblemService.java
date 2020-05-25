@@ -23,18 +23,28 @@ public class MyProblemService {
     private final MyBookRepository myBookRepository;
 
     @Transactional
-    public int updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
+    public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
         myProblem.update(requestDto);
-//        if(!myProblem.isRight() || myProblem.isConfused())
-//            noteRepository.save(Note.builder()
-//                    .student(myProblem.getMyBook().getFolder().getStudent())
-//                    .myProblem(myProblem)
-//                    .build());
-        return myProblemId;
+        if(!myProblem.getIsRight() || myProblem.getIsConfused()) {
+            if (noteRepository.findByMyProblem(myProblem) == null) {
+                noteRepository.save(Note.builder()
+                        .student(myProblem.getMyBook().getFolder().getStudent())
+                        .myProblem(myProblem)
+                        .addedDateTime(myProblem.getSolvedDateTime())
+                        .build());
+                return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
+            } else {
+                Note note = noteRepository.findByMyProblem(myProblem);
+                note.update(myProblem.getSolvedDateTime());
+            }
+        }
+
+        return "최근 나의 풀이가 저장되었습니다.";
     }
 
+    @Transactional
     public List<MyProblemResponseDto> getMyProblemList(int myBookId, int pageNumber) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId = " + myBookId));
@@ -48,9 +58,10 @@ public class MyProblemService {
                         .problemId(myProblem.getProblem().getProblemId())
                         .mySolution(myProblem.getMySolution())
                         .myAnswer(myProblem.getMyAnswer())
-                        .isConfused(myProblem.isConfused())
-                        .isRight(myProblem.isRight())
-                        .isSolved(myProblem.isSolved())
+                        .isConfused(myProblem.getIsConfused())
+                        .isRight(myProblem.getIsRight())
+                        .isSolved(myProblem.getIsSolved())
+                        .solvedDateTime(myProblem.getSolvedDateTime())
                         .build());
         }
         return responseDtoList;
