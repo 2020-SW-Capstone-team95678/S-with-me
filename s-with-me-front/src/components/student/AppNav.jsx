@@ -1,10 +1,22 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
+
 import logo from '../../common-ui/logo.png';
+import Button from '../../common-ui/Button';
+
 import { NavLink } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    window.sessionStorage.clear();
+  }
+
   render() {
     const { styles } = this.props;
     const activeStyle = {
@@ -15,7 +27,7 @@ class AppNav extends PureComponent {
       <div>
         <div {...css(styles.wrapper)}>
           <div style={{ display: 'flex' }} {...css(styles.container)}>
-            <div style={{ flex: 1, padding: 30 }}>
+            <div style={{ flex: 1 }}>
               <NavLink to="/">
                 <img
                   src={logo}
@@ -28,18 +40,25 @@ class AppNav extends PureComponent {
                 />
               </NavLink>
             </div>
-            <div style={{ flex: 1, padding: 30 }}>
+            <div style={{ flex: 1 }}>
               <NavLink to="/library" activeStyle={activeStyle}>
                 서재
               </NavLink>
             </div>
-            <div style={{ flex: 1, padding: 30 }}>
+            <div style={{ flex: 1 }}>
               <NavLink to="/note" activeStyle={activeStyle}>
                 오답노트
               </NavLink>
             </div>
-            <div style={{ flex: 1, padding: 30 }}>서점</div>
-            <div style={{ flex: 1, padding: 30 }}>프로필</div>
+            <div style={{ flex: 1 }}>서점</div>
+            <div style={{ flex: 1 }}>프로필</div>
+            <div style={{ flex: 1 }}>
+              <NavLink to="/">
+                <Button small onPress={() => this.handleLogout()}>
+                  로그아웃
+                </Button>
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>
