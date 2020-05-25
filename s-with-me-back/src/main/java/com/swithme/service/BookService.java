@@ -2,11 +2,10 @@ package com.swithme.service;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
-import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
-import com.swithme.web.dto.BookSaveRequestDto;
+import com.swithme.web.dto.BookCreateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +66,7 @@ public class BookService {
         return responseDtoList;
     }
 
-    public String saveBook(BookSaveRequestDto bookSaveRequestDto) {
+    public String saveBook(BookCreateRequestDto bookSaveRequestDto) {
         Publisher publisher = publisherRepository.findById(bookSaveRequestDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + bookSaveRequestDto.getPublisherId()));

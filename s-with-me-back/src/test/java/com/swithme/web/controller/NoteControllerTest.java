@@ -13,7 +13,7 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import com.swithme.web.dto.NoteSaveRequestDto;
+import com.swithme.web.dto.NoteCreateRequestDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -95,12 +95,12 @@ public class NoteControllerTest {
     @Test
     public void saveNoteTest(){
         assertThat(noteRepository.findAll()).isEmpty();
-        NoteSaveRequestDto requestDto = NoteSaveRequestDto.builder()
+        NoteCreateRequestDto requestDto = NoteCreateRequestDto.builder()
                 .myProblemId(myProblem.getMyProblemId())
                 .addedDateTime(12345L)
                 .build();
 
-        HttpEntity<NoteSaveRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        HttpEntity<NoteCreateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         String url = "http://localhost:" + port + "/student/note";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
@@ -110,10 +110,13 @@ public class NoteControllerTest {
 
     @Test
     public void getNoteListTest(){
-        noteRepository.save(Note.builder()
-                .student(student)
-                .myProblem(myProblem)
-                .build());
+        for(int i =0; i < 3; i++) {
+            noteRepository.save(Note.builder()
+                    .student(student)
+                    .myProblem(myProblem)
+                    .addedDateTime(12345L)
+                    .build());
+        }
 
         String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);

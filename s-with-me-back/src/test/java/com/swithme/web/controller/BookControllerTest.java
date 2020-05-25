@@ -4,7 +4,7 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
-import com.swithme.web.dto.BookSaveRequestDto;
+import com.swithme.web.dto.BookCreateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,7 +100,7 @@ public class BookControllerTest {
     public void saveBookTest(){
         assertThat(bookRepository.findAll()).isEmpty();
 
-        BookSaveRequestDto requestDto = BookSaveRequestDto.builder()
+        BookCreateRequestDto requestDto = BookCreateRequestDto.builder()
                 .publisherId(publisher.getPublisherId())
                 .subject("test subject")
                 .price(12345)
@@ -110,7 +110,7 @@ public class BookControllerTest {
                 .cover("test cover")
                 .build();
 
-        HttpEntity<BookSaveRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        HttpEntity<BookCreateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         String url = "http://localhost:" + port + "/publisher/library/book";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 

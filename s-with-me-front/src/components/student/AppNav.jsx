@@ -1,41 +1,72 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
+
 import logo from '../../common-ui/logo.png';
-import { Link } from 'react-router-dom';
+import Button from '../../common-ui/Button';
+
+import { NavLink, Redirect } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.state = { isLogin: true };
+  }
+
+  handleLogout() {
+    window.sessionStorage.clear();
+    this.setState({ isLogin: false });
+  }
+
   render() {
     const { styles } = this.props;
-    return (
-      <div>
-        <div {...css(styles.wrapper)}>
-          <div style={{ display: 'flex' }} {...css(styles.container)}>
-            <div style={{ flex: 1, padding: 30 }}>
-              <Link to="/">
-                <img
-                  src={logo}
-                  alt="s-with-me logo"
-                  style={{
-                    height: 80,
-                    top: this.props.top,
-                    left: this.props.left,
-                  }}
-                />
-              </Link>
+    const activeStyle = {
+      fontWeight: 'bold',
+      fontSize: '2rem',
+    };
+    if (this.state.isLogin) {
+      return (
+        <div>
+          <div {...css(styles.wrapper)}>
+            <div style={{ display: 'flex' }} {...css(styles.container)}>
+              <div style={{ flex: 1 }}>
+                <NavLink to="/">
+                  <img
+                    src={logo}
+                    alt="s-with-me logo"
+                    style={{
+                      height: 80,
+                      top: this.props.top,
+                      left: this.props.left,
+                    }}
+                  />
+                </NavLink>
+              </div>
+              <div style={{ flex: 1 }}>
+                <NavLink to="/library" activeStyle={activeStyle}>
+                  서재
+                </NavLink>
+              </div>
+              <div style={{ flex: 1 }}>
+                <NavLink to="/note" activeStyle={activeStyle}>
+                  오답노트
+                </NavLink>
+              </div>
+              <div style={{ flex: 1 }}>서점</div>
+              <div style={{ flex: 1 }}>프로필</div>
+              <div style={{ flex: 1 }}>
+                <Button small onPress={() => this.handleLogout()}>
+                  로그아웃
+                </Button>
+              </div>
             </div>
-            <div style={{ flex: 1, padding: 30 }}>
-              <Link to="/library">서재</Link>
-            </div>
-            <div style={{ flex: 1, padding: 30 }}>
-              <Link to="/note">오답노트</Link>
-            </div>
-            <div style={{ flex: 1, padding: 30 }}>서점</div>
-            <div style={{ flex: 1, padding: 30 }}>프로필</div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <Redirect to="/" />;
+    }
   }
 }
 

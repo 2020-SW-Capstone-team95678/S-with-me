@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class PublisherCreateDto {
     int publisherId;
-    String id;
+    String userId;
     String password;
     String name;
     String code;
@@ -20,7 +18,7 @@ public class PublisherCreateDto {
     @Builder
     public PublisherCreateDto(int publisherId,String id, String password, String name, String code) {
         this.publisherId = publisherId;
-        this.id = id;
+        this.userId = id;
         this.password = password;
         this.name = name;
         this.code = code;

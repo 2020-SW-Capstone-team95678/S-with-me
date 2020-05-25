@@ -3,6 +3,7 @@ import user from './userReducer';
 import notification from './notificationReducer';
 import myBookList from './myBookReducer';
 import book from './bookReducer';
+import folderList from './folderReducer';
 
 export default {
   myProblemList,
@@ -10,5 +11,5 @@ export default {
   notification,
   myBookList,
   book,
-  
+  folderList,
 };
