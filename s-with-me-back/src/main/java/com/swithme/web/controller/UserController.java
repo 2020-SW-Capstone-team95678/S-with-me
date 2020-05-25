@@ -7,10 +7,15 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.UserService;
 import com.swithme.signup.JwtTokenProvider;
 import com.swithme.web.dto.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -69,9 +74,9 @@ public class UserController {
 
     /*@CrossOrigin
     @GetMapping("/logout/")
-    public void logout()
+    public Jws<Claims> logout(HttpServletRequest request)
     {
-        jwtTokenProvider.logout();
+        return jwtTokenProvider.logout(request);
     }*/
 
     @CrossOrigin

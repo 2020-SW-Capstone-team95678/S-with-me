@@ -66,10 +66,13 @@ public class JwtTokenProvider {
         return request.getHeader("X-AUTH-TOKEN");
     }
 
-    public void logout()
+    /*public Jws<Claims> logout(HttpServletRequest request)
     {
-        this.isLogin=false;
-    }
+        String jwtToken = request.getHeader("X-AUTH-TOKEN");
+        Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+        claims.getBody().setExpiration(new Date());
+        return  claims;
+    }*/
     // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
