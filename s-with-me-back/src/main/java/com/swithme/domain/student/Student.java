@@ -13,10 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 @NoArgsConstructor
-@Builder
-@Entity
+@Entity(name="student")
 public class Student implements UserDetails {
 
     @Id

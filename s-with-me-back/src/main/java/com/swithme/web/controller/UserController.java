@@ -7,6 +7,7 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.UserService;
 import com.swithme.signup.JwtTokenProvider;
 import com.swithme.web.dto.*;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +65,13 @@ public class UserController {
         }
         jwtTokenProvider.createToken(student.getUsername());
         return new StudentResponseDto(student);
+    }
+
+    @CrossOrigin
+    @GetMapping("/logout/")
+    public void logout()
+    {
+        jwtTokenProvider.logout();
     }
 
     @CrossOrigin

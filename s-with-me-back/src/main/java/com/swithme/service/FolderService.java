@@ -5,10 +5,14 @@ import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.FolderCreateDto;
+import com.swithme.web.dto.FolderResponseDto;
 import com.swithme.web.dto.FolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -31,10 +35,26 @@ public class FolderService {
     }
 
     @Transactional
-    public int updatefolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
+    public List<FolderResponseDto> dispFolder(Student student)
+    {
+        List<Folder> folderList = folderRepository.findByStudent(student);
+        List<FolderResponseDto> folderResponseDtoList = new ArrayList<>();
+        for( Folder folder : folderList)
+        {
+            folderResponseDtoList.add(FolderResponseDto.builder()
+                    .folderId(folder.getFolderId())
+                    .folderName(folder.getFolderName())
+                    .studentId(folder.getStudent().getStudentId())
+                    .build());
+        }
+        return folderResponseDtoList;
+    }
+    @Transactional
+    public String updateFolder(int folderId , FolderUpdateRequestDto folderUpdateRequestDto){
         Folder folder = folderRepository.findById(folderId)
-                .orElseThrow(()-> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
+        //if(folder.getFolderName().equals("분류되지 않음")){throw new IllegalArgumentException("기본 폴더는 변경할 수 없습니다.");}
         folder.update(folderUpdateRequestDto.getFolderName());
-        return folderId;
+        return folderUpdateRequestDto.getFolderName();
     }
 }
