@@ -7,10 +7,12 @@ import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ChapterResponseDto;
+import com.swithme.web.dto.MainChapterCreateDto;
 import com.swithme.web.dto.MainChapterResponseDto;
 import com.swithme.web.dto.SubChapterResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class ChapterService {
     private final SubChapterRepository subChapterRepository;
     private final BookRepository bookRepository;
 
+    @Transactional
     public List<ChapterResponseDto> getChapterList(int bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + bookId));
@@ -49,5 +52,16 @@ public class ChapterService {
                     .build());
         }
         return responseDtoList;
+    }
+
+    @Transactional
+    public String createMainChapter(MainChapterCreateDto createDto) {
+        Book book = bookRepository.findById(createDto.getBookId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + createDto.getBookId()));
+        mainChapterRepository.save(MainChapter.builder()
+                .book(book)
+                .mainChapterName(createDto.getMainChapterName())
+                .build());
+        return createDto.getMainChapterName() + " 대단원이 생성되었습니다.";
     }
 }

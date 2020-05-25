@@ -2,11 +2,9 @@ package com.swithme.web.controller;
 
 import com.swithme.service.ChapterService;
 import com.swithme.web.dto.ChapterResponseDto;
+import com.swithme.web.dto.MainChapterCreateDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 @RequiredArgsConstructor
@@ -19,5 +17,11 @@ public class ChapterController {
     @GetMapping("/student/library/my-book/chapters")
     public List<ChapterResponseDto> getChapterList(@RequestParam int bookId){
         return chapterService.getChapterList(bookId);
+    }
+
+    @CrossOrigin
+    @PostMapping("/publisher/library/book/mainChapter")
+    public String createMainChapter(@RequestBody MainChapterCreateDto createDto){
+        return chapterService.createMainChapter(createDto);
     }
 }
