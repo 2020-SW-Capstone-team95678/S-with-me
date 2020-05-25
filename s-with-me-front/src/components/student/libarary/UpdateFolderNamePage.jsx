@@ -4,6 +4,7 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Form from '../../../common-ui/Form';
 import Spacing from '../../../common-ui/Spacing';
 import Text from '../../../common-ui/Text';
+import Input from '../../../common-ui/Input';
 import InlineList from '../../../common-ui/InlineList';
 import Button from '../../../common-ui/Button';
 
@@ -16,10 +17,9 @@ export default class UpdateFolderNamePage extends PureComponent {
   handleSubmit(values, closeModal) {
     const { requestFolderList, folderId, studentId, updateFolderName } = this.props;
     const formValue = {
-      folderId: folderId,
       folderName: values.folderName,
     };
-    updateFolderName(formValue, () => {
+    updateFolderName(folderId, formValue, () => {
       closeModal();
       requestFolderList({ studentId: studentId });
     });

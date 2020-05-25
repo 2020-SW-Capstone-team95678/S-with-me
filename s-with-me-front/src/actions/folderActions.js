@@ -40,10 +40,10 @@ export function deleteFolder(folderId, onComplete) {
   };
 }
 
-export function updateFolderName(data, onComplete) {
+export function updateFolderName(id, data, onComplete) {
   return {
     type: UPDATE_FOLDER_NAME,
-    promise: Api.put('/student/library/folder', { params: data }),
+    promise: Api.put(`/student/library/folder/${id}`, data),
     meta: {
       onSuccess: onComplete,
     },

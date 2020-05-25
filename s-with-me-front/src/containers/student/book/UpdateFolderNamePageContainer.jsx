@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
 import { requestFolderList, updateFolderName } from '../../../actions/folderActions';
-import CreateFolderPage from '../../../components/student/libarary/CreateFolderPage';
+import UpdateFolderNamePage from '../../../components/student/libarary/UpdateFolderNamePage';
 
-export default connect(null, { updateFolderName, requestFolderList })(CreateFolderPage);
+export default connect(null, { updateFolderName, requestFolderList })(UpdateFolderNamePage);
