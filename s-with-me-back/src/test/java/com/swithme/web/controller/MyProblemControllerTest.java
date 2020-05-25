@@ -77,7 +77,6 @@ public class MyProblemControllerTest {
 
         for(int i = 0; i < 2; i++) {
             problemRepository.save(Problem.builder()
-                    .pageNumber((short) 1)
                     .build());
         }
         problemList = problemRepository.findAll();

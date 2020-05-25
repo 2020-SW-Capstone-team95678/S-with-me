@@ -14,7 +14,7 @@ public class MyBookResponseDto {
     private int lastProblemId;
 
     @Builder
-    public MyBookResponseDto(int myBookId, int folderId, int bookId, short lastProblemId){
+    public MyBookResponseDto(int myBookId, int folderId, int bookId, int lastProblemId){
         this.myBookId = myBookId;
         this.folderId = folderId;
         this.bookId = bookId;

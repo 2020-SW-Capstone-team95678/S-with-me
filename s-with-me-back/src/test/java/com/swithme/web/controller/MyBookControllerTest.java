@@ -54,11 +54,8 @@ public class MyBookControllerTest {
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
-<<<<<<< HEAD
                 .lastProblemId(1)
-=======
-                .lastProblemId((short)1)
->>>>>>> 0374ebde3cdb2ac83119264dc6559f85202671fc
+                .lastProblemId(1)
                 .build();
 
         String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;
