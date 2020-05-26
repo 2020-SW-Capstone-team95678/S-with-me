@@ -22,13 +22,13 @@ public class ChapterController {
 
     @CrossOrigin
     @PostMapping("/publisher/library/book/mainChapter")
-    public String createMainChapter(@RequestBody MainChapterCreateDto createDto){
+    public int createMainChapter(@RequestBody MainChapterCreateDto createDto){
         return chapterService.createMainChapter(createDto);
     }
 
     @CrossOrigin
     @PostMapping("/publisher/library/book/subChapter")
-    public String createSubChapter(@RequestBody SubChapterCreateDto createDto){
+    public int createSubChapter(@RequestBody SubChapterCreateDto createDto){
         return chapterService.createSubChapter(createDto);
     }
 }

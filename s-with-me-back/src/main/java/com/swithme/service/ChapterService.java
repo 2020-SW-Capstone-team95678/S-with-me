@@ -52,18 +52,19 @@ public class ChapterService {
     }
 
     @Transactional
-    public String createMainChapter(MainChapterCreateDto createDto) {
+    public int createMainChapter(MainChapterCreateDto createDto) {
         Book book = bookRepository.findById(createDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + createDto.getBookId()));
         mainChapterRepository.save(MainChapter.builder()
                 .book(book)
                 .mainChapterName(createDto.getMainChapterName())
                 .build());
-        return createDto.getMainChapterName() + " 대단원이 생성되었습니다.";
+        int index = mainChapterRepository.findByBook(book).size() - 1;
+        return mainChapterRepository.findByBook(book).get(index).getMainChapterId();
     }
 
     @Transactional
-    public String createSubChapter(SubChapterCreateDto createDto) {
+    public int createSubChapter(SubChapterCreateDto createDto) {
         MainChapter mainChapter = mainChapterRepository.findById(createDto.getMainChapterId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 main chapter가 없습니다. mainChapterId = " + createDto.getMainChapterId()));
@@ -71,6 +72,7 @@ public class ChapterService {
                 .mainChapter(mainChapter)
                 .subChapterName(createDto.getSubChapterName())
                 .build());
-        return createDto.getSubChapterName() + " 소단원이 생성되었습니다.";
+        int index = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
+        return subChapterRepository.findByMainChapter(mainChapter).get(index).getSubChapterId();
     }
 }

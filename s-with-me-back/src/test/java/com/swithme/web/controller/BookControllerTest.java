@@ -116,5 +116,9 @@ public class BookControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(bookRepository.findAll()).isNotEmpty();
+
+        int index = bookRepository.findByPublisher(publisher).size() - 1;
+        assertThat(bookRepository.findByPublisher(publisher).get(index).getName())
+                .isEqualTo("test name");
     }
 }

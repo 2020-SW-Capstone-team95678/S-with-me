@@ -67,7 +67,7 @@ public class BookService {
     }
 
     @Transactional
-    public String saveBook(BookCreateDto createDto) {
+    public int saveBook(BookCreateDto createDto) {
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
@@ -80,6 +80,7 @@ public class BookService {
                 .grade(createDto.getGrade())
                 .cover(createDto.getCover())
                 .build());
-        return "문제집 기본 정보를 등록하였습니다.";
+        int index = bookRepository.findByPublisher(publisher).size()-1;
+        return bookRepository.findByPublisher(publisher).get(index).getBookId();
     }
 }
