@@ -8,6 +8,8 @@ import { generateId } from './utils';
 
 
 class App extends React.Component {
+  
+  
   state = {
     notes: [    ],
     activeId: null

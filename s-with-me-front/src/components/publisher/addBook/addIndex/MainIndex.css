@@ -4,7 +4,7 @@ div.note {
     padding: 40px 70px 0px 30px;
   }
   
-  div.note > input.title {
+  div.note > div.line>input.title {
     display: block;
     font-size: 24px;
     font-weight: 800;
@@ -15,6 +15,7 @@ div.note {
     margin-bottom: 30px;
     width: 100%;
     outline: none;
+    flex: 7;
   }
   
   div.note > textarea.note-contents {
@@ -34,4 +35,18 @@ div.note {
   div.note > view.fail {
     display: none;
     
+  }
+  div.note > div.line{
+    display: flex;
+    border-bottom: 1px solid gray;
+  }
+
+  div.note > div.line>button {
+    flex: 1;
+    border: 0px;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #fff;
+    cursor: pointer;
+    padding-bottom: 30px;
   }
