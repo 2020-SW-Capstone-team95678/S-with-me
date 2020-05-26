@@ -1,8 +1,8 @@
 
 import React from 'react';
 import './IndexItem.css';
-import Form from '../../../../common-ui/Form';
-import {createMainChapter} from '../../../../actions/bookAction'
+
+import {createMainChapter} from '../../../../actions/createMainChapterAction'
 
 
 class IndexItem extends React.Component {
@@ -13,21 +13,21 @@ class IndexItem extends React.Component {
   }
   
   handleSubmit=()=> {
-    const {title}=this.state;
+    const {title}=this.props;
+    console.log("ok"+title);
     createMainChapter(title, () => this.setState({ registerComplete: true }));
     
-    console.log("ok");
   }
   
   render() {
     const { loading,active, title, onClick} = this.props;
     return (<div>
-      <div
+      <div 
         className={active ? "list-item active" : "list-item"}
         onClick={onClick}
       >
         
-        <div className="title">{title ? title : '제목'}</div>
+        <div className="title">{title ? title : '제목을 작성해주세요'}</div>
      
       </div>
       <button type="submit" disabled={loading} onClick={this.handleSubmit}>저장</button>

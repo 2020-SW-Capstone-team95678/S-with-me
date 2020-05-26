@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { CREATE_MAIN_CHAPTER, createMainChapter} from '../../actions/bookAction';
-import MainIndex from '../../components/publisher/addBook/addIndex/IndexItem';
+import { CREATE_MAIN_CHAPTER, createMainChapter} from '../../actions/createMainChapterAction';
+import IndexItem from '../../components/publisher/addBook/addIndex/IndexItem';
 
 const mapDispatchToProps = state => {
   const { loadingState} = state.mainChapter;
@@ -8,4 +8,4 @@ const mapDispatchToProps = state => {
   return { loading};
 };
 
-export default connect(mapDispatchToProps, { createMainChapter })(MainIndex);
+export default connect(mapDispatchToProps, { createMainChapter })(IndexItem);

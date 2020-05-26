@@ -1,4 +1,4 @@
-import { CREATE_MAIN_CHAPTER} from '../actions/bookAction';
+import { CREATE_MAIN_CHAPTER} from '../actions/createMainChapterAction';
 import { handle } from 'redux-pack';
 
 const initState = {

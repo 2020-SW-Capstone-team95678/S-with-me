@@ -3,7 +3,7 @@ import user from './userReducer';
 import notification from './notificationReducer';
 import myBookList from './myBookReducer';
 import book from './bookReducer';
-import createMain from './createMainChapter';
+import createMain from './createMainChapterReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
 
