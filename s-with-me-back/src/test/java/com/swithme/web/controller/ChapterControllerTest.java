@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -86,6 +87,10 @@ public class ChapterControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(mainChapterRepository.findAll().size()).isGreaterThan(1);
+
+        int index = mainChapterRepository.findByBook(book).size() - 1;
+        assertThat(mainChapterRepository.findByBook(book).get(index).getMainChapterName())
+                .isEqualTo("test name");
     }
 
     @Test
@@ -101,5 +106,9 @@ public class ChapterControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(subChapterRepository.findAll().size()).isGreaterThan(1);
+
+        int index = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
+        assertThat(subChapterRepository.findByMainChapter(mainChapter).get(index).getSubChapterName())
+                .isEqualTo("test name");
     }
 }

@@ -27,7 +27,7 @@ public class BookController {
 
     @CrossOrigin
     @PostMapping("/publisher/library/book")
-    public String saveBook(@RequestBody BookCreateDto createDto){
+    public int saveBook(@RequestBody BookCreateDto createDto){
         return bookService.saveBook(createDto);
     }
 
