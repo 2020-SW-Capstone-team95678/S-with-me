@@ -21,8 +21,8 @@ public class MyProblemController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/mainChapter")
-    public List<MyProblemResponseDto> getMyProblemList(@RequestParam("subChapterId") int subChapterId,
+    @GetMapping("/student/library/my-book/mainChapter/subChapter/{subChapterId}")
+    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int subChapterId,
                                                        @RequestParam("page") short lastPageNumber){
         return myProblemService.getMyProblemList(subChapterId, lastPageNumber);
     }
