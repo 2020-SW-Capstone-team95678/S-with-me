@@ -7,7 +7,7 @@ export const CREATE_MAIN_CHAPTER = 'book/CREATE_MAIN_CHAPTER';
 export function createMainChapter(data, onComplete) {
 
     const formValue = {
-        bookId:1,
+        bookId:1, //현재 있는 책 아이디 임시 설정
         mainChapterName: data.mainChapterName,
     }
     console.log("Here!!!!"+data);

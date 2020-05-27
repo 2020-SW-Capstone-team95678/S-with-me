@@ -1,6 +1,6 @@
 import React from 'react';
 import './IndexList.css';
-import IndexItem from './IndexItem';
+import CreateMainChapterContainer from '../../../../containers/publisher/CreateMainChapterContainer';
 
 
 
@@ -13,7 +13,7 @@ class IndexList extends React.Component {
           const { MchapId, title, contents } = item;
           return (
             <div>
-            <IndexItem
+            <CreateMainChapterContainer
               key={MchapId}
               MchapId={MchapId}
               active={MchapId === activeId}

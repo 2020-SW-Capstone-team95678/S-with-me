@@ -3,7 +3,7 @@ import user from './userReducer';
 import notification from './notificationReducer';
 import myBookList from './myBookReducer';
 import book from './bookReducer';
-import createMain from './createMainChapterReducer';
+import mainChapter from './createMainChapterReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
 
@@ -13,7 +13,7 @@ export default {
   notification,
   myBookList,
   book,
-  createMain,
+  mainChapter,
   folderList,
   chapter,
 };

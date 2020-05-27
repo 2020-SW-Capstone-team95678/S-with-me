@@ -3,9 +3,10 @@ import { CREATE_MAIN_CHAPTER, createMainChapter} from '../../actions/createMainC
 import IndexItem from '../../components/publisher/addBook/addIndex/IndexItem';
 
 const mapDispatchToProps = state => {
-  const { loadingState} = state.mainChapter;
+  const { loadingState,entity} = state.mainChapter;
   const loading = loadingState[CREATE_MAIN_CHAPTER];
-  return { loading};
+  const mainChapterId=entity;
+  return { loading, mainChapterId};
 };
 
 export default connect(mapDispatchToProps, { createMainChapter })(IndexItem);
