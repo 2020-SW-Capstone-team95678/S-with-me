@@ -21,10 +21,10 @@ public class MyBookService {
     private final FolderRepository folderRepository;
     private final BookRepository bookRepository;
     @Transactional
-    public String updateLastProblemNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
+    public String updateLastPageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
-        myBook.updateLastProblemNumber(requestDto);
+        myBook.updateLastPageNumber(requestDto);
         return "문제집의 최근 페이지 번호가 업데이트 되었습니다.";
     }
 
@@ -32,13 +32,13 @@ public class MyBookService {
     public String createMyBook(MyBookCreateDto myBookCreateDto)
     {
         Folder folder = folderRepository.findById(myBookCreateDto.getFolderId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. myBookId="));
+                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. folderId=" + myBookCreateDto.getFolderId()));
         Book book = bookRepository.findById(myBookCreateDto.getBookId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId="));
+                .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .book(book)
-                .lastProblemId(myBookCreateDto.getLastProblemId())
+                .lastPageNumber(myBookCreateDto.getLastPageNumber())
                 .build());
         return "mybook 생성 완료";
     }
@@ -48,7 +48,7 @@ public class MyBookService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
         Folder folder = folderRepository.findById(requestDto.getFolderId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. folderId=" + requestDto.getFolderId()));
         myBook.updateFolder(folder);
         return requestDto.getFolderId();
     }

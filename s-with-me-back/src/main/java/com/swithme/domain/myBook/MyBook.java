@@ -26,18 +26,18 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @Column(name = "lastProblemId")
-    private int lastProblemId;
+    @Column(name = "lastPageNumber")
+    private short lastPageNumber;
 
     @Builder
-    public MyBook(Folder folder, Book book, int lastProblemId){
+    public MyBook(Folder folder, Book book, short lastPageNumber){
         this.folder = folder;
         this.book = book;
-        this.lastProblemId = lastProblemId;
+        this.lastPageNumber = lastPageNumber;
     }
 
-    public void updateLastProblemNumber(MyBookUpdateRequestDto requestDto) {
-        this.lastProblemId = requestDto.getLastProblemId();
+    public void updateLastPageNumber(MyBookUpdateRequestDto requestDto) {
+        this.lastPageNumber = requestDto.getLastPageNumber();
     }
 
     public void updateFolder(Folder folder) {

@@ -31,10 +31,10 @@ public class MyBookController {
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{myBookId}/problemId")
-    public String updateProblemId(@PathVariable int myBookId,
-                                  @RequestBody MyBookUpdateRequestDto requestDto){
-        return myBookService.updateLastProblemNumber(myBookId, requestDto);
+    @PutMapping("/student/library/my-book/{myBookId}/lastPageNumber")
+    public String updateLastPageNumber(@PathVariable int myBookId,
+                                       @RequestBody MyBookUpdateRequestDto requestDto){
+        return myBookService.updateLastPageNumber(myBookId, requestDto);
     }
 
     @CrossOrigin

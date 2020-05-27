@@ -67,7 +67,7 @@ public class LibraryControllerTest {
             myBookRepository.save(MyBook.builder()
                     .folder(folder)
                     .book(book)
-                    .lastProblemId((short)1)
+                    .lastPageNumber((short)1)
                     .build());
         }
     }
@@ -86,7 +86,7 @@ public class LibraryControllerTest {
         Student student = studentList.get(0);
 
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
-                .lastProblemId((short)1)
+                .lastPageNumber((short)1)
                 .build();
 
         String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();

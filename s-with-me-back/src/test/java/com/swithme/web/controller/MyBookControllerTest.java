@@ -49,14 +49,14 @@ public class MyBookControllerTest {
     }
 
     @Test
-    public void updateProblemIdTest(){
+    public void updateLastPageNumberTest(){
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
-                .lastProblemId(1)
+                .lastPageNumber((short)1)
                 .build();
 
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId + "/problemId";
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId + "/lastPageNumber";
         HttpEntity<MyBookUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 
@@ -64,6 +64,6 @@ public class MyBookControllerTest {
 
         myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my Book이 없습니다. myBookId = " + myBookId));
-        assertThat(myBook.getLastProblemId()).isEqualTo(requestDto.getLastProblemId());
+        assertThat(myBook.getLastPageNumber()).isEqualTo(requestDto.getLastPageNumber());
     }
 }
