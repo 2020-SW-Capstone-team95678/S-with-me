@@ -15,18 +15,18 @@ export default class ProblemList extends PureComponent {
   }
 
   render() {
-    const { myProblemList, loading, subChapterId } = this.props;
+    const { myProblemList, loading, subChapterId, number } = this.props;
     return (
       <React.Fragment>
+        <ProblemPaginationContainer subChapterId={subChapterId} />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ flex: 1, padding: 3 }}>
-            <ProblemBar myProblemList={myProblemList} isLoading={loading} />
+            <ProblemBar myProblemList={myProblemList} isLoading={loading} number={number} />
           </div>
           <div style={{ flex: 1, padding: 3 }}>
             {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}
           </div>
         </div>
-        <ProblemPaginationContainer subChapterId={subChapterId} />
       </React.Fragment>
     );
   }
