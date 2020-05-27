@@ -26,7 +26,7 @@ public class MyBook {
     @JoinColumn(name= "bookId")
     private Book book;
 
-    @Column(name = "subChapterId")
+    @Column(name = "lastSubChapterId")
     private int lastSubChapterId;
 
     @Column(name = "lastPageNumber")
