@@ -14,13 +14,13 @@ public class MyBookCreateDto {
     int myBookId;
     int folderId;
     int bookId;
-    int lastProblemId;
+    short lastPageNumber;
 
     @Builder
-    public MyBookCreateDto(int myBookId,int folderId,int bookId,int lastProblemId) {
+    public MyBookCreateDto(int myBookId,int folderId,int bookId, short lastPageNumber) {
         this.myBookId = myBookId;
         this.folderId = folderId;
         this.bookId = bookId;
-        this.lastProblemId = lastProblemId;
+        this.lastPageNumber = lastPageNumber;
     }
 }

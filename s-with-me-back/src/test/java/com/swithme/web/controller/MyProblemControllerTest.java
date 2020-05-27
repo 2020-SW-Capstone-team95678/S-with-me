@@ -92,6 +92,7 @@ public class MyProblemControllerTest {
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
+                .lastPageNumber((short)1)
                 .build());
         myBook = myBookRepository.findAll().get(0);
 
@@ -148,7 +149,8 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/my-problems/subChapter/" + subChapter.getSubChapterId();
+        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter?subChapterId="
+                + subChapter.getSubChapterId() + "&page=" + myBook.getLastPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
