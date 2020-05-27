@@ -21,7 +21,7 @@ class ProblemApp extends PureComponent {
         <div {...css(styles.body)}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ hight: 5, padding: 3 }}>
-              <ProblemHeadContainer id={myBookId} />
+              <ProblemHeadContainer subChapterId={subChapterId} id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
               <MyProblemListContainer subChapterId={subChapterId} page={page} />

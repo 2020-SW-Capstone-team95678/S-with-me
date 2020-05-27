@@ -19,8 +19,9 @@ class BookDetail extends PureComponent {
   }
 
   render() {
-    const { styles, chapterList } = this.props;
+    const { styles, chapterList, myBook } = this.props;
     const { myBookId } = this.props.match.params;
+    const { lastPageNumber, lastSubChapterId } = myBook;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -48,9 +49,11 @@ class BookDetail extends PureComponent {
               </div>
             </div>
             <div style={{ flex: 4, flexDirection: 'row', padding: 3 }}>
-              {/* <Link to={`/library/myBook/${myBookId}/solve/${subChapterId}?page=${lastPage}`}> */}
-              <Button xsmall>이어 풀기</Button>
-              {/* </Link> */}
+              <Link
+                to={`/library/myBook/${myBookId}/solve/${lastSubChapterId}?page=${lastPageNumber}`}
+              >
+                <Button xsmall>이어 풀기</Button>
+              </Link>
               <ChapterList myBookId={myBookId} chapterList={chapterList} />
             </div>
           </div>
