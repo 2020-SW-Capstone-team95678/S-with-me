@@ -29,10 +29,10 @@ public class MyBookService {
     private final StudentRepository studentRepository;
 
     @Transactional
-    public String updateLastPageNumber(int myBookId, MyBookUpdateRequestDto requestDto) {
+    public String bringUpToDate(int myBookId, MyBookUpdateRequestDto requestDto) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
-        myBook.updateLastPageNumber(requestDto);
+        myBook.bringUpToDate(requestDto);
         return "문제집의 최근 페이지 번호가 업데이트 되었습니다.";
     }
 
@@ -46,6 +46,7 @@ public class MyBookService {
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
                 .book(book)
+                .lastSubChapterId(0)
                 .lastPageNumber(myBookCreateDto.getLastPageNumber())
                 .build());
         return "mybook 생성 완료";
@@ -74,6 +75,7 @@ public class MyBookService {
                         .myBookId(myBook.getMyBookId())
                         .bookId(myBook.getBook().getBookId())
                         .folderId(myBook.getFolder().getFolderId())
+                        .lastSubChapterId(myBook.getLastSubChapterId())
                         .lastPageNumber(myBook.getLastPageNumber())
                         .build());
             }

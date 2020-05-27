@@ -57,14 +57,15 @@ public class MyBookControllerTest {
     }
 
     @Test
-    public void updateLastPageNumberTest(){
+    public void bringUpToDateTest(){
         MyBook myBook = myBookRepository.findAll().get(0);
         int myBookId = myBook.getMyBookId();
         MyBookUpdateRequestDto requestDto = MyBookUpdateRequestDto.builder()
+                .lastSubChapterId(1)
                 .lastPageNumber((short)1)
                 .build();
 
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId + "/lastPageNumber";
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBookId;
         HttpEntity<MyBookUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 

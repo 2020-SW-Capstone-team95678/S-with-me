@@ -41,10 +41,10 @@ public class MyBookController {
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{myBookId}/lastPageNumber")
-    public String updateLastPageNumber(@PathVariable int myBookId,
-                                       @RequestBody MyBookUpdateRequestDto requestDto){
-        return myBookService.updateLastPageNumber(myBookId, requestDto);
+    @PutMapping("/student/library/my-book/{myBookId}")
+    public String bringUpToDate(@PathVariable int myBookId,
+                                 @RequestBody MyBookUpdateRequestDto requestDto){
+        return myBookService.bringUpToDate(myBookId, requestDto);
     }
 
     @CrossOrigin
