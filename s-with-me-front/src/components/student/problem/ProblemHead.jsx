@@ -34,12 +34,12 @@ class ProblemHead extends PureComponent {
   }
 
   handleCloseBook() {
-    const { updateLastPageNumber, myBook, subChapterId } = this.props;
+    const { updateMyBook, myBook, subChapterId } = this.props;
     const formValue = {
       lastPageNumber: myBook.lastPageNumber * 1,
       lastSubChapterId: subChapterId,
     };
-    updateLastPageNumber(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
+    updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
   }
 
   handleTotalScroing() {
