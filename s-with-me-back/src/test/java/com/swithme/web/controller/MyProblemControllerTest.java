@@ -92,6 +92,7 @@ public class MyProblemControllerTest {
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
+                .lastSubChapterId(1)
                 .lastPageNumber((short)1)
                 .build());
         myBook = myBookRepository.findAll().get(0);

@@ -50,9 +50,9 @@ public class MyProblemService {
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemList(int subChapterId, short lastPageNumber) {
-        SubChapter subChapter = subChapterRepository.findById(subChapterId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + subChapterId));
+    public List<MyProblemResponseDto> getMyProblemList(int lastSubChapterId, short lastPageNumber) {
+        SubChapter subChapter = subChapterRepository.findById(lastSubChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + lastSubChapterId));
         List<Problem> allProblemList = problemRepository.findBySubChapter(subChapter);
         List<Problem> problemList = new ArrayList<>();
         try {
