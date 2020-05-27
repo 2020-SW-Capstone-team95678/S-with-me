@@ -4,10 +4,13 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
 import com.swithme.web.dto.MyBookCreateDto;
+import com.swithme.web.dto.MyBookResponseDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import com.swithme.web.dto.MybookFolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,6 +26,13 @@ public class MyBookController {
                 .orElseThrow(() -> new IllegalArgumentException("my book이 없습니다."));
         return myBook;
     }*/
+
+    @CrossOrigin
+    @GetMapping("/student/library")
+    public List<MyBookResponseDto> getMyBookList(@RequestParam("studentId") int studentId){
+        return myBookService.findMyBookList(studentId);
+
+    }
 
     @CrossOrigin
     @PostMapping("/student/library/my-book")

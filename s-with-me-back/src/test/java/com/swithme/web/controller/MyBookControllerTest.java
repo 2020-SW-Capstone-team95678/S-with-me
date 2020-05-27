@@ -4,6 +4,8 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
+import com.swithme.domain.student.Student;
+import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +17,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,9 +35,13 @@ public class MyBookControllerTest {
     private MyBookRepository myBookRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Before
     public void setup(){
+        studentRepository.save(new Student());
+
         bookRepository.save(new Book());
         Book book = bookRepository.findAll().get(0);
 
@@ -65,5 +73,15 @@ public class MyBookControllerTest {
         myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my Book이 없습니다. myBookId = " + myBookId));
         assertThat(myBook.getLastPageNumber()).isEqualTo(requestDto.getLastPageNumber());
+    }
+
+    @Test
+    public void getMyBookListTest(){
+        Student student = studentRepository.findAll().get(0);
+
+        String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }
