@@ -2,23 +2,23 @@
 import React from 'react';
 import './IndexItem.css';
 
-//import {createMainChapter} from '../../../../actions/createMainChapterAction'
 
 
 class IndexItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { registerComplete: false};
+    this.state = { mainChapter:'',registerComplete: false};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
   handleSubmit=()=> {
-    const {createMainChapter} = this.props
+    const {createMainChapter,mainChapterId,bookId} = this.props;
     const {title}=this.props;
     console.log("ok"+title);
+    console.log(bookId);
     createMainChapter(title, () => this.setState({ registerComplete: true }));
   }
-  
+
   render() {
     const { loading,active, title, onClick} = this.props;
     return (<div>

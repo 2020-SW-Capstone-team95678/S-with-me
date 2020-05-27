@@ -32,6 +32,7 @@ export default (state = initState, action) => {
             return {
               ...prevState,
               ...loadingAndErrorState,
+              entity: data,
             };
           
         },

@@ -10,11 +10,12 @@ class IndexList extends React.Component {
     return (
       <div className="list">
         {notes.map((item) => {
-          const { MchapId, title, contents } = item;
+          const { MchapId,bookId, title, contents } = item;
           return (
             <div>
             <CreateMainChapterContainer
               key={MchapId}
+              bookId={bookId}
               MchapId={MchapId}
               active={MchapId === activeId}
               title={title}

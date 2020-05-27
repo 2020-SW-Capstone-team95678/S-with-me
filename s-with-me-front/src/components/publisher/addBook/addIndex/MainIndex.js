@@ -7,10 +7,13 @@ import SubIndexApp from '../addsubIndex/SubIndexApp';
 
 class MainIndex extends React.Component {
   
+  
+  
   render() {
-    const { note, onEditNote } = this.props;
-    const { MchapId, title} = note;
+    const { note, onEditNote,mainChapterId } = this.props;
+    const { MchapId, title } = note;
     console.log(MchapId);
+    
     return (
       <div>
         <div style={{border: "1px gray solid"}}></div>

@@ -3,7 +3,7 @@ import './AddBookApp.css';
 import Header from './addIndex/Header';
 import List from './addIndex/IndexList';
 import Note from './addIndex/MainIndex';
-import Bookinfo from '../../../containers/publisher/AddBookContainer';
+import Bookinfo from '../../../containers/publisher/AddBookContainer'; 
 import { generateId } from './utils';
 
 
@@ -20,11 +20,14 @@ class App extends React.Component {
   }
 
   handleAddNote = () => {
+    const {bookId} =this.state; 
+    console.log(bookId);
     const MchapId = generateId();
     this.setState({
       notes: [
         ...this.state.notes,
         {
+          bookId:bookId,
           MchapId: MchapId,
           title: '대단원 이름을 입력하세요.',
           contents: '내용',
@@ -51,13 +54,19 @@ class App extends React.Component {
     });
   }
 
+  handleGetBookId = (value)=>{
+    this.setState({bookId:value});
+    console.log(value);
+  }
+
   render() {
-    const { notes, activeId,MchapId } = this.state;
+    const { notes, activeId,MchapId,bookId } = this.state;
     const activeNote = notes.filter((item) => item.MchapId === activeId)[0];
+    console.log(notes);
     return (
       <div className="app" >
 
-        <Bookinfo/>
+        <Bookinfo onGetBookId={this.handleGetBookId}/>
         
           <div className="bar">
               <span>문제등록</span>
@@ -72,6 +81,7 @@ class App extends React.Component {
         <div className="container">
           <List
             notes={notes}
+            bookId={bookId}
             activeId={activeId}
             onListItemClick={this.handleListItemClick}
             MchapId={MchapId}
