@@ -151,18 +151,11 @@ public class NoteControllerTest {
 
         String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
 
-        MyProblemUpdateRequestDto myProblemUpdateRequestDto = MyProblemUpdateRequestDto.builder()
-                .isConfused(true)
-                .isSolved(true)
-                .solvedDateTime(12345L)
-                .myAnswer("test my answer")
-                .mySolution("test my solution")
-                .isRight(true)
-                .build();
-
         NoteUpdateRequestDto requestDto = NoteUpdateRequestDto.builder()
-                .addedDateTime(expectedAddedDateTime)
-                .myProblemUpdateRequestDto(myProblemUpdateRequestDto)
+                .solvedDateTime(expectedAddedDateTime)
+                .isRight(true)
+                .myAnswer("test answer")
+                .mySolution("test solution")
                 .build();
 
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
@@ -173,6 +166,6 @@ public class NoteControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
-        assertThat(myProblem.getIsConfused()).isEqualTo(true);
+        assertThat(myProblem.getIsRight()).isEqualTo(true);
     }
 }

@@ -3,6 +3,7 @@ package com.swithme.domain.myProblem;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.problem.Problem;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import com.swithme.web.dto.NoteUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,6 +67,13 @@ public class MyProblem {
         this.solvedDateTime = requestDto.getSolvedDateTime();
         this.myAnswer = requestDto.getMyAnswer();
         this.isSolved = requestDto.getIsSolved();
+    }
+
+    public void update(NoteUpdateRequestDto requestDto){
+        this.solvedDateTime = requestDto.getSolvedDateTime();
+        this.isRight = requestDto.getIsRight();
+        this.myAnswer = requestDto.getMyAnswer();
+        this.mySolution = requestDto.getMySolution();
     }
 
 //    public void update(MyProblem entity) {

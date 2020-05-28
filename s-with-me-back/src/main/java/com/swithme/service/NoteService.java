@@ -80,8 +80,8 @@ public class NoteService{
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 my problem이 없습니다. myProblemID=" + note.getMyProblem().getMyProblemId()));
 
-        note.update(requestDto.getAddedDateTime());
-        myProblem.update(requestDto.getMyProblemUpdateRequestDto());
+        note.update(requestDto.getSolvedDateTime());
+        myProblem.update(requestDto);
         return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에서 수정되었습니다.";
     }
 }
