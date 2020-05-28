@@ -10,9 +10,9 @@ class MainIndex extends React.Component {
   
   
   render() {
-    const { note, onEditNote,mainChapterId } = this.props;
-    const { MchapId, title } = note;
-    console.log(MchapId);
+    const { mainChapterId, title,note, onEditNote } = this.props;
+    //const { mainChapterId, title } = note;
+    console.log(mainChapterId);
     
     return (
       <div>
@@ -24,7 +24,7 @@ class MainIndex extends React.Component {
             onChange={(e) => onEditNote('title', e)}
           />
          
-         <SubIndexApp MchapId={MchapId}/>
+         <SubIndexApp MchapId={mainChapterId}/>
 
         
         </div>

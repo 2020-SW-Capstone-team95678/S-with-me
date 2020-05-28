@@ -6,21 +6,22 @@ import CreateMainChapterContainer from '../../../../containers/publisher/CreateM
 
 class IndexList extends React.Component {
   render() {
-    const { notes, activeId, onListItemClick } = this.props;
+    const { notes, activeId, onListItemClick,onGetMainChapterId } = this.props;
     return (
       <div className="list">
         {notes.map((item) => {
-          const { MchapId,bookId, title, contents } = item;
+          const { mainChapterId,bookId, title, contents } = item;
           return (
             <div>
             <CreateMainChapterContainer
-              key={MchapId}
+              key={mainChapterId}
               bookId={bookId}
-              MchapId={MchapId}
-              active={MchapId === activeId}
+              mainChapterId={mainChapterId}
+              active={mainChapterId === activeId}
               title={title}
               contents={contents}
-              onClick={() => onListItemClick(MchapId)}
+              onGetMainChapterId={onGetMainChapterId}
+              onClick={() => onListItemClick(mainChapterId)}
             />
             </div>
             
