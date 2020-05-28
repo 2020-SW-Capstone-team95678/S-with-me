@@ -1,6 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_NOTE_LIST = 'note/FETCH_NOTE_LIST';
+export const UPDATE_NOTE = 'note/UPDATE_NOTE';
 export const DELETE_NOTE = 'note/DELETE_NOTE';
 export const SET_RESOLVE = 'note/SET_RESOLVE';
 export const SET_MY_NEW_ANSWER = 'note/SET_MY_NEW_ANSWER';
@@ -33,11 +34,22 @@ export function deleteNote(params, onComplete) {
   };
 }
 
-export function updateNote()
+export function updateNote(id, data, onComplete) {
+  return {
+    type: UPDATE_NOTE,
+    promise: Api.put(`/student/note/${id}`, data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        error: '오답노트 업데이트에 실패했습니다',
+      },
+    },
+  };
+}
 
-export const setResolve = (id, isSolved) => ({
+export const setResolve = (id, resolve) => ({
   type: SET_RESOLVE,
-  payload: { id, isSolved },
+  payload: { id, resolve },
 });
 
 export const setMyNewAnswer = (id, myAnswer) => ({

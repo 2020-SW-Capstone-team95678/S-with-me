@@ -73,12 +73,12 @@ export default (state = initState, action) => {
       });
     }
     case SET_RESOLVE: {
-      const { id, isSolved } = payload;
+      const { id, resolve } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], isSolved },
+          [id]: { ...state.entities[id], resolve },
         },
       };
     }

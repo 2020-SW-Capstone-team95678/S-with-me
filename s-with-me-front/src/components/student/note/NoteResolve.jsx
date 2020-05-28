@@ -18,24 +18,21 @@ class NoteResolve extends PureComponent {
   }
 
   handleSubmit() {
-    const { note, updateNote, setResolve } = this.props;
-    const formValue = {};
-    updateNote(note.noteId, formValue, () => {
-      setResolve(note.noteId, true);
-    });
+    const { note, setResolve } = this.props;
+    setResolve(note.noteId, 'COMPLETE');
   }
 
   render() {
-    const { propblem, note } = this.props;
-    const { problemNum, content, isOptional, isOptional, answer } = problem;
-    const { noteId } = note;
+    const { problem, note, styles } = this.props;
+    const { problemNum, content, isOptional, answer } = problem;
+    const { noteId, myAnswer } = note;
     let optionContents = [];
     if (isOptional) {
-      optionContents.push(propblem.option1);
-      optionContents.push(propblem.option2);
-      optionContents.push(propblem.option3);
-      optionContents.push(propblem.option4);
-      optionContents.push(propblem.option5);
+      optionContents.push(problem.option1);
+      optionContents.push(problem.option2);
+      optionContents.push(problem.option3);
+      optionContents.push(problem.option4);
+      optionContents.push(problem.option5);
     }
 
     return (

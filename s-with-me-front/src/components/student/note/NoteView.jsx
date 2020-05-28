@@ -30,11 +30,12 @@ class NoteView extends PureComponent {
 
   handleResolve() {
     const { setResolve, note } = this.props;
-    setResolve(note.noteId, false);
+    setResolve(note.noteId, 'PROGRESS');
   }
 
   componentDidMount() {
-    const { note } = this.props;
+    const { note, setResolve } = this.props;
+    setResolve(note.noteId, 'INIT');
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: note.problemId },
     }).then(({ data }) =>
@@ -53,8 +54,8 @@ class NoteView extends PureComponent {
   }
   render() {
     const { styles, note } = this.props;
-    const { isConfused, isRight, myAnswer, myProblemId, isSolved } = note;
-    const { problemNum, content, isOptional, answer } = this.state;
+    const { isConfused, isRight, myProblemId, resolve } = note;
+    const { problemNum, content, isOptional } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -63,7 +64,9 @@ class NoteView extends PureComponent {
       optionContents.push(this.state.option4);
       optionContents.push(this.state.option5);
     }
-    if (isSolved) {
+    if (resolve === 'PROGRESS') {
+      return <NoteResolveContainer problem={this.state} note={note} />;
+    } else {
       return (
         <VerticalList spacingBetween={2}>
           <div style={{ border: '1px solid' }}>
@@ -84,41 +87,37 @@ class NoteView extends PureComponent {
               </VerticalList>
             ) : null}
           </div>
-          <div style={{ border: '1px solid' }}>
-            {isRight ? null : (
-              <Text>
-                지난 나의 정답은 {myAnswer}
-                {isOptional ? <Text>번</Text> : null}입니다.
-              </Text>
-            )}
-            <br />
-            <Text>
-              정답은 {answer}
-              {isOptional ? <Text>번</Text> : null} 입니다.
-            </Text>
-          </div>
           <div {...css(styles.container)}>
             <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-              <Button>내 풀이 보기</Button>
+              {resolve === 'INIT' ? (
+                <Button>내 풀이 보기</Button>
+              ) : (
+                <div style={{ display: 'flex' }}>
+                  <Button>이전 풀이 보기</Button>
+                  <Button>새 풀이 보기</Button>
+                </div>
+              )}
             </div>
             <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-              <Button>해설 보기</Button>
+              <Button>해답과 해설 보기</Button>
             </div>
           </div>
           <div style={{ display: 'flex' }}>
-            <Modal>
-              {({ openModal }) => (
-                <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
-                  문제 삭제
-                </Button>
-              )}
-            </Modal>
+            {resolve === 'INIT' ? (
+              <Modal>
+                {({ openModal }) => (
+                  <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
+                    문제 삭제
+                  </Button>
+                )}
+              </Modal>
+            ) : (
+              <Button>새 풀이 저장</Button>
+            )}
             <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
           </div>
         </VerticalList>
       );
-    } else {
-      <NoteResolveContainer problem={this.state} note={note} />;
     }
   }
 }
