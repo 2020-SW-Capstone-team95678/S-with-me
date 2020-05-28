@@ -19,7 +19,7 @@ class AddBook extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { registerComplete: false, isValidForm: false };
+    this.state = { bookId: '',registerComplete: false, isValidForm: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
@@ -28,6 +28,17 @@ class AddBook extends PureComponent {
     if (this.state.isValidForm) {
       createBook(values, () => this.setState({ registerComplete: true }));
     }
+
+  }
+
+  
+
+  handleSendBookId=()=>{
+
+    const {bookId} = this.props;
+    console.log("handleSendBookId"+bookId);
+    this.setState({bookId:bookId});
+    this.props.onGetBookId(bookId)
   }
 
   render() {
@@ -95,7 +106,7 @@ class AddBook extends PureComponent {
                   </Form.Consumer>
                 </div>
                 <div className="button" style={{ display:'flex', flex: 1 , padding: 3, flexDirection: 'column' }}>
-                  <Button type="submit" disabled={loading} >      등록      </Button>
+                  <Button type="submit" disabled={loading} onClick={this.handleSendBookId(this)}>      등록      </Button>
                   <Link to="/library">
                     <Button >      취소      </Button>
                   </Link>

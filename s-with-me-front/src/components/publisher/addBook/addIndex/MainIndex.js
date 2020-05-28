@@ -7,10 +7,13 @@ import SubIndexApp from '../addsubIndex/SubIndexApp';
 
 class MainIndex extends React.Component {
   
+  
+  
   render() {
-    const { note, onEditNote } = this.props;
-    const { MchapId, title, contents } = note;
-    console.log(MchapId);
+    const { mainChapterId, title,note, onEditNote } = this.props;
+    //const { mainChapterId, title } = note;
+    console.log(mainChapterId);
+    
     return (
       <div>
         <div style={{border: "1px gray solid"}}></div>
@@ -21,13 +24,9 @@ class MainIndex extends React.Component {
             onChange={(e) => onEditNote('title', e)}
           />
          
-         <SubIndexApp 
-            MchapId={MchapId}/>
-          <textarea
-          className="note-contents"
-          value={contents}
-          onChange={(e) => onEditNote('contents', e)}
-        />
+         <SubIndexApp MchapId={mainChapterId}/>
+
+        
         </div>
       </div>
     );
