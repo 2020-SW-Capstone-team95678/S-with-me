@@ -12,8 +12,14 @@ class NoteApp extends PureComponent {
     children: PropTypes.node,
   };
 
+  componentDidMount() {
+    const { requestNoteList } = this.props;
+    const studentId = window.sessionStorage.getItem('studentId');
+    requestNoteList({ studentId: studentId });
+  }
+
   render() {
-    const { styles } = this.props;
+    const { styles, noteList } = this.props;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -23,7 +29,7 @@ class NoteApp extends PureComponent {
               <NoteHead />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <NoteList />
+              <NoteList noteList={noteList} />
             </div>
           </div>
         </div>

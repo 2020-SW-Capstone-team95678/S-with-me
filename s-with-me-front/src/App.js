@@ -8,12 +8,12 @@ import ModalProvider from './ModalProvider';
 import AddBookApp from './components/publisher/addBook/AddBookApp';
 import NotFound from './components/NotFound';
 import ProblemApp from './components/student/problem/ProblemApp';
-import NoteApp from './components/student/note/NoteApp';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
 import LoginContainer from './containers/student/signUp/LoginContainer';
 import BookDetailContainer from './containers/student/book/BookDetailContainer';
 import Profile from './components/student/profile/Profile';
+import NoteAppContainer from './containers/student/note/NoteAppContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -62,7 +62,7 @@ export default class App extends PureComponent {
                 path="/library/myBook/:myBookId/solve/:subChapterId"
                 render={({ match, location }) => <ProblemApp match={match} location={location} />}
               />
-              <Route path="/note" exact render={() => <NoteApp />} />
+              <Route path="/note" exact render={() => <NoteAppContainer />} />
               <Route
                 path="/publisher/library/book"
                 exact

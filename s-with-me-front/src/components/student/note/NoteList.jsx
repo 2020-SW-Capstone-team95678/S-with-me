@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import VerticalList from '../../../common-ui/VerticalList';
 import NoteView from './NoteView';
 
-export default class ProblemList extends PureComponent {
+export default class NoteList extends PureComponent {
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>

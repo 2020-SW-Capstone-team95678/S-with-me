@@ -7,7 +7,7 @@ import Button from '../../../common-ui/Button';
 import AnswerInput from '../problem/AnswerInput';
 import VerticalList from '../../../common-ui/VerticalList';
 
-class ProblemView extends PureComponent {
+class NoteView extends PureComponent {
   render() {
     const { problemNum, content, isOptional, styles } = this.props;
     return (
@@ -16,7 +16,7 @@ class ProblemView extends PureComponent {
           <Text>
             {problemNum}.{content}
           </Text>
-          <AnswerInput isOptional={isOptional} />
+          {/* <AnswerInput isOptional={isOptional} /> */}
         </div>
         <div {...css(styles.container)}>
           <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
@@ -48,4 +48,4 @@ export default withStyles(() => ({
     flexDirection: 'row',
     height: 150,
   },
-}))(ProblemView);
+}))(NoteView);
