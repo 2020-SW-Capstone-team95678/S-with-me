@@ -1,23 +1,38 @@
 import React, { PureComponent } from 'react';
 
+import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
+import Spacing from '../../../common-ui/Spacing';
+import withLoading from '../../../common-ui/withLoading';
+
 import NoteView from './NoteView';
 
-export default class NoteList extends PureComponent {
+const LoadingMessage = (
+  <Spacing vertical={4} horizontal={2}>
+    <Text large>데이터를 불러들이고 있습니다.</Text>
+  </Spacing>
+);
+
+class NoteList extends PureComponent {
   render() {
+    const { noteList } = this.props;
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            <NoteView problemNum={10} content="예시 객관식 문제입니다" isOptional isNote />
+            {noteList.map((note, index) => (
+              <NoteView note={note} key={index} />
+            ))}
           </VerticalList>
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            <NoteView problemNum={11} content="예시 주관식 문제입니다" isNote />
+            {/* <NoteView problemNum={11} content="예시 주관식 문제입니다" isNote /> */}
           </VerticalList>
         </div>
       </div>
     );
   }
 }
+
+export default withLoading(LoadingMessage)(NoteList);

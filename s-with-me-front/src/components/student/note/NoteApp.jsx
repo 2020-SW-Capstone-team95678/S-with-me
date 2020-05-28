@@ -19,7 +19,7 @@ class NoteApp extends PureComponent {
   }
 
   render() {
-    const { styles, noteList } = this.props;
+    const { styles, noteList, laoding } = this.props;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
@@ -29,7 +29,7 @@ class NoteApp extends PureComponent {
               <NoteHead />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <NoteList noteList={noteList} />
+              <NoteList noteList={noteList} isLoading={laoding} />
             </div>
           </div>
         </div>

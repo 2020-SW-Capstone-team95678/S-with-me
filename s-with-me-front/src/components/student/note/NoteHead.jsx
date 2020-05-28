@@ -13,9 +13,6 @@ class NoteHead extends PureComponent {
     const { styles } = this.props;
     return (
       <div {...css(styles.container)}>
-        <div style={{ width: 200, padding: 3 }}>
-          <Heading level={4}>기본 문제집</Heading>
-        </div>
         <div style={{ flex: 1, padding: 3 }}>
           <Button small>과목별 보기</Button>
         </div>
