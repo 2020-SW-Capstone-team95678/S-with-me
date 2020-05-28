@@ -5,7 +5,6 @@ import {
   setMyNewSolution,
   setNewIsRight,
   setNewSolvedDateTime,
-  updateNote,
 } from '../../../actions/noteActions';
 import NoteResolve from '../../../components/student/note/NoteResolve';
 
@@ -15,7 +14,6 @@ const mapDispatchToProps = {
   setMyNewSolution,
   setNewIsRight,
   setNewSolvedDateTime,
-  updateNote,
 };
 
 export default connect(null, mapDispatchToProps)(NoteResolve);

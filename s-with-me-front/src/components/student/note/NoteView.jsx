@@ -26,6 +26,7 @@ class NoteView extends PureComponent {
       option5: '',
     };
     this.handleResolve = this.handleResolve.bind(this);
+    this.handleSaveNote = this.handleSaveNote.bind(this);
   }
 
   handleResolve() {
@@ -33,6 +34,16 @@ class NoteView extends PureComponent {
     setResolve(note.noteId, 'PROGRESS');
   }
 
+  handleSaveNote() {
+    const { updateNote, setResolve, note } = this.props;
+    const formValue = {
+      solvedDateTime: note.solvedDateTime,
+      isRight: note.isRight,
+      myAnswer: note.myAnswer,
+      mySolution: note.mySolution,
+    };
+    updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
+  }
   componentDidMount() {
     const { note, setResolve } = this.props;
     setResolve(note.noteId, 'INIT');
@@ -112,7 +123,7 @@ class NoteView extends PureComponent {
                 )}
               </Modal>
             ) : (
-              <Button>새 풀이 저장</Button>
+              <Button onPress={() => this.handleSaveNote()}>새 풀이 저장</Button>
             )}
             <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
           </div>

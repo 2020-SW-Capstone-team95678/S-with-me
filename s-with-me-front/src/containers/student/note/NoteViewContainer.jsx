@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setResolve } from '../../../actions/noteActions';
+import { setResolve, updateNote } from '../../../actions/noteActions';
 import NoteView from '../../../components/student/note/NoteView';
 
-export default connect(null, { setResolve })(NoteView);
+export default connect(null, { setResolve, updateNote })(NoteView);
