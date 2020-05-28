@@ -117,7 +117,7 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void updateMyProblemTest() throws Exception{
+    public void updateMyProblemTest() {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
