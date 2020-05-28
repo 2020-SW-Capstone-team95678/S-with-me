@@ -40,7 +40,7 @@ class NoteView extends PureComponent {
       solvedDateTime: note.solvedDateTime,
       isRight: note.isRight,
       myAnswer: note.myAnswer,
-      mySolution: note.mySolution,
+      mySolution: note.myNewSolution,
     };
     updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
   }
