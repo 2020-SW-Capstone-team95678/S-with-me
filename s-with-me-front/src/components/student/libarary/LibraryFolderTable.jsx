@@ -1,29 +1,50 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import Table from '../../../common-ui/table/Table';
 import TableBody from '../../../common-ui/table/TableBody';
 import TableRow from '../../../common-ui/table/TableRow';
 import TableCell from '../../../common-ui/table/TableCell';
+import Button from '../../../common-ui/Button';
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import { DELETE_FOLDER, UPDATE_FOLDER_NAME } from '../../../constants/modals';
 
 export default class LibraryFolderTable extends PureComponent {
-  static propTypes = {
-    folders: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-      }),
-    ),
-  };
-
   render() {
     const { folders } = this.props;
+    const studentId = window.sessionStorage.getItem('studentId');
     return (
       <Table>
         <TableBody>
-          {folders.map(({ id, name }) => (
-            <TableRow key={id}>
-              <TableCell>{name}</TableCell>
+          {folders.map(({ folderId, folderName }) => (
+            <TableRow key={folderId}>
+              <TableCell>
+                <Button>{folderName}</Button>
+                <Modal>
+                  {({ openModal }) => (
+                    <div>
+                      <Button
+                        xsmall
+                        onPress={() =>
+                          openModal(DELETE_FOLDER, { studentId: studentId, folderId: folderId })
+                        }
+                      >
+                        삭제
+                      </Button>
+                      <Button
+                        xsmall
+                        onPress={() =>
+                          openModal(UPDATE_FOLDER_NAME, {
+                            studentId: studentId,
+                            folderId: folderId,
+                          })
+                        }
+                      >
+                        수정
+                      </Button>
+                    </div>
+                  )}
+                </Modal>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
