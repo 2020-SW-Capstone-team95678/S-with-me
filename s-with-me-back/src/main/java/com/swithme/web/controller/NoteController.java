@@ -4,6 +4,7 @@ import com.swithme.service.NoteService;
 import com.swithme.web.dto.NoteResponseDto;
 import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,13 @@ public class NoteController {
     @GetMapping("/student/note")
     public List<NoteResponseDto> getNoteList(@RequestParam("studentId") int studentId){
         return noteService.getNoteList(studentId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/{studentId}/note/folderFilter")
+    public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
+                                                             @RequestParam("folderId") int folderId){
+        return noteService.getNoteListFilteredByFolder(studentId, folderId);
     }
 
     @CrossOrigin
