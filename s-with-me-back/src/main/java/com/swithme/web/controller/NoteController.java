@@ -17,8 +17,8 @@ public class NoteController {
 
     @CrossOrigin
     @PostMapping("/student/note")
-    public String saveNote(@RequestBody NoteCreateDto createDto){
-        return noteService.saveNote(createDto);
+    public String createNote(@RequestBody NoteCreateDto createDto){
+        return noteService.createNote(createDto);
     }
 
     @CrossOrigin
@@ -32,6 +32,13 @@ public class NoteController {
     public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
                                                              @RequestParam("folderId") int folderId){
         return noteService.getNoteListFilteredByFolder(studentId, folderId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/{studentId}/note/subjectFilter")
+    public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
+                                                              @RequestParam("subject") String subject){
+        return noteService.getNoteListFilteredBySubject(studentId, subject);
     }
 
     @CrossOrigin

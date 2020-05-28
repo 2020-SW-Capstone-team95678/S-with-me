@@ -32,7 +32,7 @@ public class NoteService{
     private final MyBookRepository myBookRepository;
 
     @Transactional
-    public String saveNote(NoteCreateDto createDto) {
+    public String createNote(NoteCreateDto createDto) {
         MyProblem myProblem = myProblemRepository.findById(createDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + createDto.getMyProblemId()));
         Student student = myProblem.getMyBook().getFolder().getStudent();
@@ -98,9 +98,37 @@ public class NoteService{
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
         List<Note> noteList = noteRepository.findByStudent(student);
+        Collections.sort(noteList);
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteList){
             if(note.getMyProblem().getMyBook().getFolder().getFolderId() == folderId){
+                MyProblem myProblem = note.getMyProblem();
+                responseDtoList.add(NoteResponseDto.builder()
+                        .noteId(note.getNoteId())
+                        .myProblemId(myProblem.getMyProblemId())
+                        .myBookId(myProblem.getMyBook().getMyBookId())
+                        .problemId(myProblem.getProblem().getProblemId())
+                        .mySolution(myProblem.getMySolution())
+                        .myAnswer(myProblem.getMyAnswer())
+                        .isConfused(myProblem.getIsConfused())
+                        .isRight(myProblem.getIsRight())
+                        .isSolved(myProblem.getIsSolved())
+                        .solvedDateTime(myProblem.getSolvedDateTime())
+                        .build());
+            }
+        }
+        return responseDtoList;
+    }
+
+    @Transactional
+    public List<NoteResponseDto> getNoteListFilteredBySubject(int studentId, String subject) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+        List<Note> noteList =  noteRepository.findByStudent(student);
+        Collections.sort(noteList);
+        List<NoteResponseDto> responseDtoList = new ArrayList<>();
+        for(Note note: noteList){
+            if(note.getMyProblem().getMyBook().getBook().getSubject() == subject) {
                 MyProblem myProblem = note.getMyProblem();
                 responseDtoList.add(NoteResponseDto.builder()
                         .noteId(note.getNoteId())

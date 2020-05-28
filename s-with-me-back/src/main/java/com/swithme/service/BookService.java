@@ -67,7 +67,7 @@ public class BookService {
     }
 
     @Transactional
-    public int saveBook(BookCreateDto createDto) {
+    public int createBook(BookCreateDto createDto) {
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
