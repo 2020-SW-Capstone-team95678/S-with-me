@@ -14,6 +14,8 @@ import LoginContainer from './containers/student/signUp/LoginContainer';
 import BookDetailContainer from './containers/student/book/BookDetailContainer';
 import Profile from './components/student/profile/Profile';
 import NoteAppContainer from './containers/student/note/NoteAppContainer';
+import AppLayout from './components/student/AppLayout';
+import NotificationContainer from './containers/NotificationContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -43,7 +45,6 @@ export default class App extends PureComponent {
   }
   render() {
     const { logged } = this.state;
-
     return (
       <Provider store={this.store}>
         <ModalProvider>
@@ -51,22 +52,29 @@ export default class App extends PureComponent {
             <Switch>
               <Route path="/" exact render={() => <LoginContainer logged={logged} />} />
               <Route path="/signup" exact render={() => <SignUpInputContainer />} />
-              <Route path="/library" exact render={() => <LibraryAppContainer />} />
-              <Route path="/profile" exact render={() => <Profile />} />
-              <Route
-                path="/library/myBook/:myBookId/solve/:subChapterId"
-                render={({ match, location }) => <ProblemApp match={match} location={location} />}
-              />
-              <Route
-                path="/library/myBook/:myBookId"
-                render={({ match }) => <BookDetailContainer match={match} />}
-              />
-              <Route path="/note" exact render={() => <NoteAppContainer />} />
-              <Route
-                path="/publisher/library/book"
-                exact
-                render={({ match }) => <AddBookApp match={match} />}
-              />
+              <AppLayout>
+                <Switch>
+                  <Route path="/profile" exact render={() => <Profile />} />
+                  <Route
+                    path="/library/myBook/:myBookId/solve/:subChapterId"
+                    render={({ match, location }) => (
+                      <ProblemApp match={match} location={location} />
+                    )}
+                  />
+                  <Route
+                    path="/library/myBook/:myBookId"
+                    render={({ match }) => <BookDetailContainer match={match} />}
+                  />
+                  <Route path="/library" render={() => <LibraryAppContainer />} />
+                  <Route path="/note" exact render={() => <NoteAppContainer />} />
+                  <Route
+                    path="/publisher/library/book"
+                    exact
+                    render={({ match }) => <AddBookApp match={match} />}
+                  />
+                  <NotificationContainer />
+                </Switch>
+              </AppLayout>
               <Route path="*" component={NotFound} />
             </Switch>
           </Router>

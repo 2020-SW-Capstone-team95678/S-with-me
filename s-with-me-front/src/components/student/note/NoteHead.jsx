@@ -1,14 +1,9 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Button from '../../../common-ui/Button';
-import Heading from '../../../common-ui/Heading';
 
 class NoteHead extends PureComponent {
-  static propTypes = {
-    ...withStylesPropTypes,
-  };
-
   render() {
     const { styles } = this.props;
     return (
