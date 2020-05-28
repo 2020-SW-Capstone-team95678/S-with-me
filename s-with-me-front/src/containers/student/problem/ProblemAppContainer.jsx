@@ -8,7 +8,10 @@ const mapStateToProps = state => {
   const myProblemList = ids.map(id => entities[id]);
   const { number } = pagination;
 
-  return { myProblemList, loading, number };
+  const { entities: filterEntities } = state.filterList;
+  const { viewWrongOnly } = filterEntities;
+
+  return { myProblemList, loading, number, viewWrongOnly };
 };
 
 const mapDispatchToProps = {

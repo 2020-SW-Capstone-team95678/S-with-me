@@ -19,7 +19,7 @@ export default class ProblemApp extends PureComponent {
 
   render() {
     const { myBookId, subChapterId } = this.props.match.params;
-    const { number, myProblemList, loading } = this.props;
+    const { number, myProblemList, loading, viewWrongOnly } = this.props;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ hight: 5, padding: 3 }}>
@@ -29,7 +29,7 @@ export default class ProblemApp extends PureComponent {
           <ProblemList
             subChapterId={subChapterId}
             page={number}
-            myProblemList={myProblemList}
+            myProblemList={viewWrongOnly ? null : myProblemList}
             loading={loading}
           />
         </div>
