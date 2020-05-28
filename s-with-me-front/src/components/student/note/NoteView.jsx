@@ -3,8 +3,11 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
-
 import VerticalList from '../../../common-ui/VerticalList';
+
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import { DELETE_NOTE } from '../../../constants/modals';
+
 import Api from '../../../Api';
 
 class NoteView extends PureComponent {
@@ -43,7 +46,7 @@ class NoteView extends PureComponent {
   }
   render() {
     const { styles, note } = this.props;
-    const { isConfused, isRight, myAnswer } = note;
+    const { isConfused, isRight, myAnswer, myProblemId } = note;
     const { problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
@@ -96,7 +99,13 @@ class NoteView extends PureComponent {
           </div>
         </div>
         <div style={{ display: 'flex' }}>
-          <Button>문제 삭제</Button>
+          <Modal>
+            {({ openModal }) => (
+              <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
+                문제 삭제
+              </Button>
+            )}
+          </Modal>
           <Button>다시 풀기</Button>
         </div>
       </VerticalList>
