@@ -48,7 +48,7 @@ public class MyBookController {
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{mybookId}/folder")
+    @PutMapping("/student/library/my-book/{myBookId}/folder")
     public int updateFolder(@PathVariable int myBookId,
                             @RequestBody MybookFolderUpdateRequestDto requestDto){
         return myBookService.updateFolder(myBookId, requestDto);

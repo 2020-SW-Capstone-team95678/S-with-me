@@ -1,5 +1,7 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.book.Book;
+import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
@@ -48,9 +50,14 @@ public class NoteControllerTest {
     private MyBookRepository myBookRepository;
     @Autowired
     private FolderRepository folderRepository;
+    @Autowired
+    private BookRepository bookRepository;
+
 
     private Student student;
     private MyProblem myProblem;
+    private Folder folder;
+    private Book book;
 
     @Before
     public void setup(){
@@ -68,9 +75,16 @@ public class NoteControllerTest {
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
+        folder = folderRepository.findAll().get(0);
+
+        bookRepository.save(Book.builder()
+                .subject("test subject")
+                .build());
+        book = bookRepository.findAll().get(0);
 
         myBookRepository.save(MyBook.builder()
-                .folder(folderRepository.findAll().get(0))
+                .folder(folder)
+                .book(book)
                 .build());
 
         problemRepository.save(new Problem());
@@ -119,6 +133,40 @@ public class NoteControllerTest {
         }
 
         String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getNoteListFilteredByFolderTest(){
+        for(int i = 0; i < 3; i++){
+            noteRepository.save(Note.builder()
+                    .student(student)
+                    .myProblem(myProblem)
+                    .addedDateTime(12345L)
+                    .build());
+        }
+
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId()
+                + "/note/folderFilter?folderId=" + folder.getFolderId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getNoteListFilteredBySubjectTest(){
+        for(int i = 0; i < 3; i++){
+            noteRepository.save(Note.builder()
+                    .student(student)
+                    .myProblem(myProblem)
+                    .addedDateTime(12345L)
+                    .build());
+        }
+
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId()
+                + "/note/subjectFilter?subject=" + book.getSubject();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
