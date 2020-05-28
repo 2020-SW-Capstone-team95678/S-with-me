@@ -18,7 +18,7 @@ public class Curriculum {
     @Column(name = "curriculumId")
     private int curriculumId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "myBookId")
     private MyBook myBook;
 
