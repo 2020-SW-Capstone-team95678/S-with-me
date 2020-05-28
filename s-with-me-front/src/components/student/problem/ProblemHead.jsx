@@ -34,10 +34,12 @@ class ProblemHead extends PureComponent {
   }
 
   handleCloseBook() {
-    const { updateLastProblemId, myBook } = this.props;
-    updateLastProblemId(myBook.myBookId, { lastProblemId: myBook.lastProblemId * 1 }, () =>
-      this.setState({ isFinished: true }),
-    );
+    const { updateMyBook, myBook, subChapterId } = this.props;
+    const formValue = {
+      lastPageNumber: myBook.lastPageNumber * 1,
+      lastSubChapterId: subChapterId,
+    };
+    updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
   }
 
   handleTotalScroing() {
@@ -48,7 +50,8 @@ class ProblemHead extends PureComponent {
       setIsSolved,
       setIsRight,
       setSolvedDateTime,
-      setLastMyProblemId,
+      setLastMyProblemPage,
+      pagination,
     } = this.props;
     for (let myProblem of myProblemList) {
       Api.get('/student/library/my-book/my-problems', {
@@ -58,7 +61,7 @@ class ProblemHead extends PureComponent {
           if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
           else setIsRight(myProblem.myProblemId, false);
           setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
-          setLastMyProblemId(id, myProblem.myProblemId);
+          setLastMyProblemPage(id, pagination.number);
         }
       });
       const formValue = {

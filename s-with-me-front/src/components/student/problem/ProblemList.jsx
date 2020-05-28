@@ -10,24 +10,32 @@ export default class ProblemList extends PureComponent {
   };
 
   componentDidMount() {
-    const { id, number, continuePageNumber } = this.props;
-    const pageNumber = continuePageNumber || number || 1;
-    this.props.requestMyProblemList(id, { page: pageNumber }, pageNumber);
+    const { subChapterId, page } = this.props;
+    this.props.requestMyProblemList({ subChapterId: subChapterId }, page);
   }
 
   render() {
-    const { myProblemList, loading, id } = this.props;
+    const { myProblemList, loading, subChapterId, number } = this.props;
     return (
       <React.Fragment>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            paddingTop: '3px',
+            paddingBottom: '3px',
+          }}
+        >
+          <ProblemPaginationContainer subChapterId={subChapterId} />
+        </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ flex: 1, padding: 3 }}>
-            <ProblemBar myProblemList={myProblemList} isLoading={loading} />
+            <ProblemBar myProblemList={myProblemList} isLoading={loading} number={number} />
           </div>
           <div style={{ flex: 1, padding: 3 }}>
             {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}
           </div>
         </div>
-        <ProblemPaginationContainer id={id} />
       </React.Fragment>
     );
   }

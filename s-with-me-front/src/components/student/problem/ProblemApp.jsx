@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import queryString from 'query-string';
 
 import AppNav, { HEIGHT } from '../AppNav';
 
@@ -11,17 +12,19 @@ import ProblemHeadContainer from '../../../containers/student/problem/ProblemHea
 class ProblemApp extends PureComponent {
   render() {
     const { styles } = this.props;
-    const { myBookId, continuePageNumber } = this.props.match.params;
+    const { myBookId, subChapterId } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
+    const page = query.page || 1;
     return (
       <div {...css(styles.wrapper)}>
         <AppNav />
         <div {...css(styles.body)}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ hight: 5, padding: 3 }}>
-              <ProblemHeadContainer id={myBookId} />
+              <ProblemHeadContainer subChapterId={subChapterId} id={myBookId} />
             </div>
             <div style={{ flex: 1, padding: 3 }}>
-              <MyProblemListContainer id={myBookId} continuePageNumber={continuePageNumber} />
+              <MyProblemListContainer subChapterId={subChapterId} page={page} />
             </div>
           </div>
           <NotificationContainer />

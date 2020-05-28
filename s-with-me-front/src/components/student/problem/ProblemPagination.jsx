@@ -18,13 +18,13 @@ export default class ProblemPagination extends PureComponent {
   }
 
   handleNextPress() {
-    const { requestMyProblemList, id, pageNumber } = this.props;
-    requestMyProblemList(id, { page: pageNumber * 1 + 1 }, pageNumber * 1 + 1);
+    const { requestMyProblemList, pageNumber, subChapterId } = this.props;
+    requestMyProblemList({ subChapterId: subChapterId }, pageNumber * 1 + 1);
   }
 
   handlePrevPress() {
-    const { requestMyProblemList, id, pageNumber } = this.props;
-    requestMyProblemList(id, { page: pageNumber * 1 - 1 }, pageNumber * 1 - 1);
+    const { requestMyProblemList, pageNumber, subChapterId } = this.props;
+    requestMyProblemList({ subChapterId: subChapterId }, pageNumber * 1 - 1);
   }
   render() {
     const { loading, pageNumber, hasNext } = this.props;
