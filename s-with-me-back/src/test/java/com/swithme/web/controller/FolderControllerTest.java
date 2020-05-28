@@ -12,6 +12,7 @@ import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ public class FolderControllerTest {
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
-
+    @Ignore
     @Test
     public void getFolderTest()
     {
@@ -99,7 +100,7 @@ public class FolderControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
+    @Ignore
     @Test
     public void deleteFolderTest(){
         //assertThat(folderRepository.findAll().get(1).getFolderId()).isEqualTo(2);
