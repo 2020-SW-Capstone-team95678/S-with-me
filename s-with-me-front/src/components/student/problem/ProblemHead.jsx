@@ -14,6 +14,7 @@ class ProblemHead extends PureComponent {
     super(props);
     this.handleCloseBook = this.handleCloseBook.bind(this);
     this.handleTotalScroing = this.handleTotalScroing.bind(this);
+    this.handleViewWrongOnly = this.handleViewWrongOnly.bind(this);
     this.state = {
       isFinished: false,
       date: new Date(),
@@ -40,6 +41,10 @@ class ProblemHead extends PureComponent {
       lastSubChapterId: subChapterId,
     };
     updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
+  }
+
+  handleViewWrongOnly() {
+    this.props.viewWrongOlny(true);
   }
 
   handleTotalScroing() {
@@ -94,6 +99,11 @@ class ProblemHead extends PureComponent {
               disabled={loadingUpdatePageNumber}
             >
               문제집 닫기
+            </Button>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
+            <Button xsmall onPress={() => this.handleViewWrongOnly()}>
+              틀린 문제만 보기
             </Button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>

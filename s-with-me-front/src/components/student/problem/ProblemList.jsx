@@ -4,18 +4,8 @@ import ProblemBar from './ProblemBar';
 import ProblemPaginationContainer from '../../../containers/student/problem/ProblemPaginationContainer';
 
 export default class ProblemList extends PureComponent {
-  static defaultProps = {
-    myProblemList: [],
-    requestMyProblemList: () => {},
-  };
-
-  componentDidMount() {
-    const { subChapterId, page } = this.props;
-    this.props.requestMyProblemList({ subChapterId: subChapterId }, page);
-  }
-
   render() {
-    const { myProblemList, loading, subChapterId, number } = this.props;
+    const { myProblemList, loading, subChapterId, page } = this.props;
     return (
       <React.Fragment>
         <div
@@ -30,7 +20,7 @@ export default class ProblemList extends PureComponent {
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ flex: 1, padding: 3 }}>
-            <ProblemBar myProblemList={myProblemList} isLoading={loading} number={number} />
+            <ProblemBar myProblemList={myProblemList} isLoading={loading} page={page} />
           </div>
           <div style={{ flex: 1, padding: 3 }}>
             {/* <ProblemBar myProblemList={myProblemList} isLoading={loading} /> */}

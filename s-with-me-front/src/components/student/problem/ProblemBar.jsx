@@ -15,11 +15,11 @@ const LoadingMessage = (
 
 class ProblemBar extends PureComponent {
   render() {
-    const { myProblemList, number } = this.props;
+    const { myProblemList, page } = this.props;
     return (
       <VerticalList spacingBetween={10}>
         {myProblemList.map((myProblem, index) => (
-          <ProblemViewContainer myProblem={myProblem} key={index} number={number} />
+          <ProblemViewContainer myProblem={myProblem} key={index} page={page} />
         ))}
       </VerticalList>
     );
