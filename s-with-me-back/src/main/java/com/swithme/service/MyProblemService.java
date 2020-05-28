@@ -6,6 +6,10 @@ import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +24,8 @@ public class MyProblemService {
 
     private final MyProblemRepository myProblemRepository;
     private final NoteRepository noteRepository;
-    private final MyBookRepository myBookRepository;
+    private final SubChapterRepository subChapterRepository;
+    private final ProblemRepository problemRepository;
 
     @Transactional
     public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
@@ -45,16 +50,25 @@ public class MyProblemService {
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemList(int myBookId) {
-        MyBook myBook = myBookRepository.findById(myBookId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId = " + myBookId));
-        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+    public List<MyProblemResponseDto> getMyProblemList(int lastSubChapterId, short lastPageNumber) {
+        SubChapter subChapter = subChapterRepository.findById(lastSubChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + lastSubChapterId));
+        List<Problem> allProblemList = problemRepository.findBySubChapter(subChapter);
+        List<Problem> problemList = new ArrayList<>();
+        try {
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8 - 1);
+        }
+        catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, allProblemList.size());
+        }
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
-        for(MyProblem myProblem : myProblemList){
+        for(Problem problem : problemList){
+            MyProblem myProblem = myProblemRepository.findByProblem(problem);
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
-                    .myBookId(myBookId)
-                    .problemId(myProblem.getProblem().getProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(problem.getProblemId())
                     .mySolution(myProblem.getMySolution())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())

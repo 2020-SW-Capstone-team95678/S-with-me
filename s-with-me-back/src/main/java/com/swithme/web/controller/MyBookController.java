@@ -4,10 +4,13 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
 import com.swithme.web.dto.MyBookCreateDto;
+import com.swithme.web.dto.MyBookResponseDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import com.swithme.web.dto.MybookFolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,22 +28,29 @@ public class MyBookController {
     }*/
 
     @CrossOrigin
+    @GetMapping("/student/library")
+    public List<MyBookResponseDto> getMyBookList(@RequestParam("studentId") int studentId){
+        return myBookService.findMyBookList(studentId);
+
+    }
+
+    @CrossOrigin
     @PostMapping("/student/library/my-book")
     public String createMyBook(@RequestBody MyBookCreateDto myBookCreateDto){
         return myBookService.createMyBook(myBookCreateDto);
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{myBookId}/problemNumber")
-    public String updateProblemNumber(@PathVariable int myBookId,
-                                      @RequestBody MyBookUpdateRequestDto requestDto){
-        return myBookService.updateLastProblemNumber(myBookId, requestDto);
+    @PutMapping("/student/library/my-book/{myBookId}")
+    public String bringUpToDate(@PathVariable int myBookId,
+                                 @RequestBody MyBookUpdateRequestDto requestDto){
+        return myBookService.bringUpToDate(myBookId, requestDto);
     }
 
     @CrossOrigin
     @PutMapping("/student/library/my-book/{mybookId}/folder")
     public int updateFolder(@PathVariable int myBookId,
-                               @RequestBody MybookFolderUpdateRequestDto requestDto){
+                            @RequestBody MybookFolderUpdateRequestDto requestDto){
         return myBookService.updateFolder(myBookId, requestDto);
     }
 }

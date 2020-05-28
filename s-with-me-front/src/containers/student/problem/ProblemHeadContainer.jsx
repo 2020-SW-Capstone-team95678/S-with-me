@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { updateLastProblemId, UPDATE_LAST_PROBLEM_ID } from '../../../actions/myBookPackActions';
+import { updateMyBook, UPDATE_MY_BOOK } from '../../../actions/myBookPackActions';
 import { updateMyProblem, UPDATE_MY_PROBLEM } from '../../../actions/myProblemPackActions';
 import { setIsSolved, setIsRight, setSolvedDateTime } from '../../../actions/myProblemActions';
-import { setLastMyProblemId } from '../../../actions/myBookActions';
+import { setLastMyProblemPage } from '../../../actions/myBookActions';
 import ProblemHead from '../../../components/student/problem/ProblemHead';
 
 const mapStateToProps = (state, props) => {
@@ -11,7 +11,7 @@ const mapStateToProps = (state, props) => {
     ids: myBookListIds,
     entities: myBookListEntities,
   } = state.myBookList;
-  const loadingUpdatePageNumber = myBookListLoadingState[UPDATE_LAST_PROBLEM_ID];
+  const loadingUpdatePageNumber = myBookListLoadingState[UPDATE_MY_BOOK];
   const myBookList = myBookListIds.map(id => myBookListEntities[id]);
   const myBook = myBookList[myBookListIds.indexOf(props.id * 1)];
 
@@ -29,10 +29,10 @@ const mapStateToProps = (state, props) => {
 };
 
 export default connect(mapStateToProps, {
-  updateLastProblemId,
+  updateMyBook,
   updateMyProblem,
   setIsSolved,
   setIsRight,
-  setLastMyProblemId,
+  setLastMyProblemPage,
   setSolvedDateTime,
 })(ProblemHead);

@@ -13,7 +13,7 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import com.swithme.web.dto.NoteCreateRequestDto;
+import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -95,12 +95,12 @@ public class NoteControllerTest {
     @Test
     public void saveNoteTest(){
         assertThat(noteRepository.findAll()).isEmpty();
-        NoteCreateRequestDto requestDto = NoteCreateRequestDto.builder()
+        NoteCreateDto requestDto = NoteCreateDto.builder()
                 .myProblemId(myProblem.getMyProblemId())
                 .addedDateTime(12345L)
                 .build();
 
-        HttpEntity<NoteCreateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        HttpEntity<NoteCreateDto> requestEntity = new HttpEntity<>(requestDto);
         String url = "http://localhost:" + port + "/student/note";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
@@ -151,18 +151,11 @@ public class NoteControllerTest {
 
         String url = "http://localhost:" + port + "/student/note/" + note.getNoteId();
 
-        MyProblemUpdateRequestDto myProblemUpdateRequestDto = MyProblemUpdateRequestDto.builder()
-                .isConfused(true)
-                .isSolved(true)
-                .solvedDateTime(12345L)
-                .myAnswer("test my answer")
-                .mySolution("test my solution")
-                .isRight(true)
-                .build();
-
         NoteUpdateRequestDto requestDto = NoteUpdateRequestDto.builder()
-                .addedDateTime(expectedAddedDateTime)
-                .myProblemUpdateRequestDto(myProblemUpdateRequestDto)
+                .solvedDateTime(expectedAddedDateTime)
+                .isRight(true)
+                .myAnswer("test answer")
+                .mySolution("test solution")
                 .build();
 
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
@@ -173,6 +166,6 @@ public class NoteControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
-        assertThat(myProblem.getIsConfused()).isEqualTo(true);
+        assertThat(myProblem.getIsRight()).isEqualTo(true);
     }
 }

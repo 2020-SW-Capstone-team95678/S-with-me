@@ -1,7 +1,7 @@
 import React from 'react';
 import './IndexList.css';
 import IndexItem from './IndexItem';
-import SubIndexList from '../addsubIndex/SubIndexList';
+
 
 
 class IndexList extends React.Component {

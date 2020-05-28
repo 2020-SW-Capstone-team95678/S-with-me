@@ -11,6 +11,8 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -50,12 +52,15 @@ public class MyProblemControllerTest {
     @Autowired
     private MyBookRepository myBookRepository;
     @Autowired
+    private SubChapterRepository subChapterRepository;
+    @Autowired
     private ProblemRepository problemRepository;
 
     private Student student;
     private Folder folder;
     private List<Problem> problemList;
     private MyBook myBook;
+    private SubChapter subChapter;
 
     @Before
     public void setup(){
@@ -75,18 +80,24 @@ public class MyProblemControllerTest {
                 .build());
         folder = folderRepository.findByStudent(student).get(0);
 
+        subChapterRepository.save(new SubChapter());
+        subChapter = subChapterRepository.findAll().get(0);
+
         for(int i = 0; i < 2; i++) {
             problemRepository.save(Problem.builder()
+                    .subChapter(subChapter)
                     .build());
         }
         problemList = problemRepository.findAll();
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
+                .lastSubChapterId(1)
+                .lastPageNumber((short)1)
                 .build());
         myBook = myBookRepository.findAll().get(0);
 
-        for(int i = 0; i< 1; i++) {
+        for(int i = 0; i < 2; i++) {
             myProblemRepository.save(MyProblem.builder()
                     .problem(problemList.get(i))
                     .myBook(myBook)
@@ -100,6 +111,7 @@ public class MyProblemControllerTest {
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
         problemRepository.deleteAll();
+        subChapterRepository.deleteAll();
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
@@ -138,8 +150,8 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
-                + "/my-problems";
+        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter/subChapter/"
+                + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

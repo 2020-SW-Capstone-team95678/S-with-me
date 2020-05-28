@@ -1,4 +1,4 @@
-export function validate(values, isCheck, isOnlyId) {
+export function validate(values,) {
   const { bookName, bookInfo, bookPrice, bookGrade, bookSubject } = values;
   let errors = {};
   if (!bookName) errors['bookName'] = '책이름을 입력해 주세요';
@@ -8,6 +8,6 @@ export function validate(values, isCheck, isOnlyId) {
   // if (!birthday) errors['birthday'] = '생일을 입력해주세요';
   
   if (!bookPrice) errors['bookPrice'] = '가격을 입력해주세요';
-  if (!bookPrice) errors['bookSubject'] = '과목을 입력해주세요';
+  if (!bookSubject) errors['bookSubject'] = '과목을 입력해주세요';
   return errors;
 }

@@ -3,15 +3,15 @@ import Api from '../Api';
 export const FETCH_MY_PROBLEM_LIST = 'myProblem/FETCH_MY_PROBLEM_LIST';
 export const UPDATE_MY_PROBLEM = 'myProblem/UPDATE_MY_PROBLEM';
 
-const PAGE_SIZE = 8;
-
-export function requestMyProblemList(id, params, pageNumber) {
+export function requestMyProblemList(params, pageNumber = 1) {
+  const subChapterId = params.subChapterId;
   return {
     type: FETCH_MY_PROBLEM_LIST,
-    promise: Api.get(`/student/library/my-book/${id}/my-problems`, { params }),
+    promise: Api.get(`/student/library/my-book/mainChapter/subChapter/${subChapterId}`, {
+      params: { page: pageNumber },
+    }),
     meta: {
       pageNumber: pageNumber,
-      pageSize: PAGE_SIZE,
       notification: {
         error: '문제 목록을 가져오는 중에 문제가 발생했습니다.',
       },

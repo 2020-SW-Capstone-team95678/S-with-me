@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class NoteCreateRequestDto {
+public class NoteCreateDto {
 
     private int myProblemId;
     private Long addedDateTime;
 
     @Builder
-    public NoteCreateRequestDto(int myProblemId, Long addedDateTime){
+    public NoteCreateDto(int myProblemId, Long addedDateTime){
         this.myProblemId = myProblemId;
         this.addedDateTime = addedDateTime;
     }

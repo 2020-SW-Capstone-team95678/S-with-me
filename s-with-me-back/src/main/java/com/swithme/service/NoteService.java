@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,12 +24,12 @@ public class NoteService{
     private final MyProblemRepository myProblemRepository;
 
     @Transactional
-    public String saveNote(NoteCreateRequestDto requestDto) {
-        MyProblem myProblem = myProblemRepository.findById(requestDto.getMyProblemId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + requestDto.getMyProblemId()));
+    public String saveNote(NoteCreateDto createDto) {
+        MyProblem myProblem = myProblemRepository.findById(createDto.getMyProblemId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + createDto.getMyProblemId()));
         Student student = myProblem.getMyBook().getFolder().getStudent();
 
-        long addedDateTime = requestDto.getAddedDateTime();
+        long addedDateTime = createDto.getAddedDateTime();
         noteRepository.save(Note.builder()
                 .student(student)
                 .myProblem(myProblem)
@@ -57,6 +56,7 @@ public class NoteService{
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
+                    .isSolved(myProblem.getIsSolved())
                     .solvedDateTime(myProblem.getSolvedDateTime())
                     .build());
         }
@@ -80,8 +80,8 @@ public class NoteService{
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 my problem이 없습니다. myProblemID=" + note.getMyProblem().getMyProblemId()));
 
-        note.update(requestDto.getAddedDateTime());
-        myProblem.update(requestDto.getMyProblemUpdateRequestDto());
+        note.update(requestDto.getSolvedDateTime());
+        myProblem.update(requestDto);
         return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에서 수정되었습니다.";
     }
 }
