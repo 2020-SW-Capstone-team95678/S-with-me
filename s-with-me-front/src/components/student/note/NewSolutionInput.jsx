@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 
-export default class SolutionInput extends PureComponent {
+export default class NewSolutionInput extends PureComponent {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(e) {
-    const { setMySolution, id } = this.props;
+    const { setMyNewSolution, id } = this.props;
     e.preventDefault();
-    setMySolution(id, e.target.value);
+    setMyNewSolution(id, e.target.value);
   }
   render() {
     return (

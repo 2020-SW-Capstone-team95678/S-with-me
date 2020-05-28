@@ -1,5 +1,13 @@
 import { handle } from 'redux-pack';
-import { FETCH_NOTE_LIST, DELETE_NOTE } from '../actions/noteActions';
+import {
+  FETCH_NOTE_LIST,
+  DELETE_NOTE,
+  SET_RESOLVE,
+  SET_MY_NEW_ANSWER,
+  SET_MY_NEW_SOLUTION,
+  SET_NEW_IS_RIGHT,
+  SET_NEW_SOLVED_DATE_TIME,
+} from '../actions/noteActions';
 
 const initState = {
   ids: [],
@@ -63,6 +71,56 @@ export default (state = initState, action) => {
           };
         },
       });
+    }
+    case SET_RESOLVE: {
+      const { id, isSolved } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], isSolved },
+        },
+      };
+    }
+    case SET_MY_NEW_ANSWER: {
+      const { id, myAnswer } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], myAnswer },
+        },
+      };
+    }
+    case SET_MY_NEW_SOLUTION: {
+      const { id, myNewSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], myNewSolution },
+        },
+      };
+    }
+    case SET_NEW_IS_RIGHT: {
+      const { id, isRight } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], isRight },
+        },
+      };
+    }
+    case SET_NEW_SOLVED_DATE_TIME: {
+      const { id, solvedDateTime } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], solvedDateTime },
+        },
+      };
     }
     default:
       return state;

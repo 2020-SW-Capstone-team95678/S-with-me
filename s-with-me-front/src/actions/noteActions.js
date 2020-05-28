@@ -2,6 +2,11 @@ import Api from '../Api';
 
 export const FETCH_NOTE_LIST = 'note/FETCH_NOTE_LIST';
 export const DELETE_NOTE = 'note/DELETE_NOTE';
+export const SET_RESOLVE = 'note/SET_RESOLVE';
+export const SET_MY_NEW_ANSWER = 'note/SET_MY_NEW_ANSWER';
+export const SET_MY_NEW_SOLUTION = 'note/SET_MY_NEW_SOLUTION';
+export const SET_NEW_IS_RIGHT = 'note/SET_NEW_IS_RIGHT';
+export const SET_NEW_SOLVED_DATE_TIME = 'note/SET_NEW_SOLVED_DATE_TIME';
 
 export function requestNoteList(params) {
   return {
@@ -27,3 +32,30 @@ export function deleteNote(params, onComplete) {
     },
   };
 }
+
+export function updateNote()
+
+export const setResolve = (id, isSolved) => ({
+  type: SET_RESOLVE,
+  payload: { id, isSolved },
+});
+
+export const setMyNewAnswer = (id, myAnswer) => ({
+  type: SET_MY_NEW_ANSWER,
+  payload: { id, myAnswer },
+});
+
+export const setMyNewSolution = (id, myNewSolution) => ({
+  type: SET_MY_NEW_SOLUTION,
+  payload: { id, myNewSolution },
+});
+
+export const setNewIsRight = (id, isRight) => ({
+  type: SET_NEW_IS_RIGHT,
+  payload: { id, isRight },
+});
+
+export const setNewSolvedDateTime = (id, solvedDateTime) => ({
+  type: SET_NEW_SOLVED_DATE_TIME,
+  payload: { id, solvedDateTime },
+});

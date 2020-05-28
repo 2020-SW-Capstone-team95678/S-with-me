@@ -5,7 +5,7 @@ import VerticalList from '../../../common-ui/VerticalList';
 import Spacing from '../../../common-ui/Spacing';
 import withLoading from '../../../common-ui/withLoading';
 
-import NoteView from './NoteView';
+import NoteViewContainer from '../../../containers/student/note/NoteViewContainer';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -21,13 +21,13 @@ class NoteList extends PureComponent {
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
             {noteList.map((note, index) => (
-              <NoteView note={note} key={index} />
+              <NoteViewContainer note={note} key={index} />
             ))}
           </VerticalList>
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {/* <NoteView problemNum={11} content="예시 주관식 문제입니다" isNote /> */}
+            {/* <NoteViewContainer note={note} key={index} /> */}
           </VerticalList>
         </div>
       </div>

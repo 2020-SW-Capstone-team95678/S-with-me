@@ -9,6 +9,7 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { DELETE_NOTE } from '../../../constants/modals';
 
 import Api from '../../../Api';
+import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
 
 class NoteView extends PureComponent {
   constructor(props) {
@@ -24,6 +25,12 @@ class NoteView extends PureComponent {
       option4: '',
       option5: '',
     };
+    this.handleResolve = this.handleResolve.bind(this);
+  }
+
+  handleResolve() {
+    const { setResolve, note } = this.props;
+    setResolve(note.noteId, false);
   }
 
   componentDidMount() {
@@ -46,7 +53,7 @@ class NoteView extends PureComponent {
   }
   render() {
     const { styles, note } = this.props;
-    const { isConfused, isRight, myAnswer, myProblemId } = note;
+    const { isConfused, isRight, myAnswer, myProblemId, isSolved } = note;
     const { problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
@@ -56,60 +63,63 @@ class NoteView extends PureComponent {
       optionContents.push(this.state.option4);
       optionContents.push(this.state.option5);
     }
-
-    return (
-      <VerticalList spacingBetween={2}>
-        <div style={{ border: '1px solid' }}>
-          {isRight ? <Text>(맞았어요)</Text> : <Text>(틀렸어요)</Text>}
-          {isConfused ? <Text>(+헷갈렸어요)</Text> : null}
-        </div>
-        <div {...css(styles.body)}>
-          <Text>
-            {problemNum}.{content}
-          </Text>
-          {isOptional ? (
-            <VerticalList spacingBetween={1}>
-              {optionContents.map((option, index) => (
-                <Text>
-                  {index + 1} : {option}
-                </Text>
-              ))}
-            </VerticalList>
-          ) : null}
-        </div>
-        <div style={{ border: '1px solid' }}>
-          {isRight ? null : (
+    if (isSolved) {
+      return (
+        <VerticalList spacingBetween={2}>
+          <div style={{ border: '1px solid' }}>
+            {isRight ? <Text>(맞았어요)</Text> : <Text>(틀렸어요)</Text>}
+            {isConfused ? <Text>(+헷갈렸어요)</Text> : null}
+          </div>
+          <div {...css(styles.body)}>
             <Text>
-              지난 나의 정답은 {myAnswer}
-              {isOptional ? <Text>번</Text> : null}입니다.
+              {problemNum}.{content}
             </Text>
-          )}
-          <br />
-          <Text>
-            정답은 {answer}
-            {isOptional ? <Text>번</Text> : null} 입니다.
-          </Text>
-        </div>
-        <div {...css(styles.container)}>
-          <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-            <Button>내 풀이 보기</Button>
+            {isOptional ? (
+              <VerticalList spacingBetween={1}>
+                {optionContents.map((option, index) => (
+                  <Text>
+                    {index + 1} : {option}
+                  </Text>
+                ))}
+              </VerticalList>
+            ) : null}
           </div>
-          <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-            <Button>해설 보기</Button>
-          </div>
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Modal>
-            {({ openModal }) => (
-              <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
-                문제 삭제
-              </Button>
+          <div style={{ border: '1px solid' }}>
+            {isRight ? null : (
+              <Text>
+                지난 나의 정답은 {myAnswer}
+                {isOptional ? <Text>번</Text> : null}입니다.
+              </Text>
             )}
-          </Modal>
-          <Button>다시 풀기</Button>
-        </div>
-      </VerticalList>
-    );
+            <br />
+            <Text>
+              정답은 {answer}
+              {isOptional ? <Text>번</Text> : null} 입니다.
+            </Text>
+          </div>
+          <div {...css(styles.container)}>
+            <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+              <Button>내 풀이 보기</Button>
+            </div>
+            <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+              <Button>해설 보기</Button>
+            </div>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <Modal>
+              {({ openModal }) => (
+                <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
+                  문제 삭제
+                </Button>
+              )}
+            </Modal>
+            <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+          </div>
+        </VerticalList>
+      );
+    } else {
+      <NoteResolveContainer problem={this.state} note={note} />;
+    }
   }
 }
 
