@@ -13,12 +13,12 @@ import ProfileEditPageStudent from './components/student/profile/ProfileEditPage
 import CreateFolderPageContainer from './containers/student/book/CreateFolderPageContainer';
 import DeleteFolderPageContainer from './containers/student/book/DeleteFolderPageContainer';
 import UpdateFolderNamePageContainer from './containers/student/book/UpdateFolderNamePageContainer';
-import DeleteNote from './components/student/note/DeleteNote';
+import DeleteNoteContainer from './containers/student/note/DeleteNoteContainer';
 
 export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,
   [S_PROFILE_EDIT_MODAL]: ProfileEditPageStudent,
-  [DELETE_NOTE]: DeleteNote,
+  [DELETE_NOTE]: DeleteNoteContainer,
   [CREATE_FOLDER]: CreateFolderPageContainer,
   [DELETE_FOLDER]: DeleteFolderPageContainer,
   [UPDATE_FOLDER_NAME]: UpdateFolderNamePageContainer,

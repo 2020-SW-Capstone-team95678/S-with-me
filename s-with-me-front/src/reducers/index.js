@@ -5,6 +5,7 @@ import myBookList from './myBookReducer';
 import book from './bookReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
+import note from './noteReducer';
 
 export default {
   myProblemList,
@@ -14,4 +15,5 @@ export default {
   book,
   folderList,
   chapter,
+  note,
 };
