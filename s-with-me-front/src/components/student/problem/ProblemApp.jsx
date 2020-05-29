@@ -30,7 +30,6 @@ export default class ProblemApp extends PureComponent {
     const { myBookId, subChapterId } = this.props.match.params;
     const { number, myProblemList, loading } = this.props;
     const { viewWrongOnly } = this.state;
-    const onlyWrongMyProblemList = myProblemList.filter(myProblem => myProblem.isRight === false);
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ hight: 5, padding: 3 }}>
@@ -44,7 +43,11 @@ export default class ProblemApp extends PureComponent {
           <ProblemList
             subChapterId={subChapterId}
             page={number}
-            myProblemList={viewWrongOnly ? onlyWrongMyProblemList : myProblemList}
+            myProblemList={
+              viewWrongOnly
+                ? myProblemList.filter(myProblem => myProblem.isRight === false)
+                : myProblemList
+            }
             loading={loading}
           />
         </div>

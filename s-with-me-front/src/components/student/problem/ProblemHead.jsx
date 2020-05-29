@@ -19,6 +19,7 @@ class ProblemHead extends PureComponent {
       isFinished: false,
       date: new Date(),
       bookName: '',
+      viewWrongOnly: false,
     };
     this.tick = this.tick.bind(this);
   }
@@ -44,7 +45,9 @@ class ProblemHead extends PureComponent {
   }
 
   handleViewWrongOnly() {
+    const { viewWrongOnly } = this.state;
     this.props.handleViewWrongOnly();
+    this.setState({ viewWrongOnly: !viewWrongOnly });
   }
 
   handleTotalScroing() {
@@ -87,7 +90,7 @@ class ProblemHead extends PureComponent {
 
   render() {
     const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
-    const { bookName } = this.state;
+    const { bookName, viewWrongOnly } = this.state;
 
     if (!this.state.isFinished) {
       return (
@@ -103,7 +106,7 @@ class ProblemHead extends PureComponent {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
             <Button xsmall onPress={() => this.handleViewWrongOnly()}>
-              틀린 문제만 보기
+              {viewWrongOnly ? '전체 보기' : '틀린 문제만 보기'}
             </Button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>

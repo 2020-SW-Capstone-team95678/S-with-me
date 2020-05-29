@@ -36,24 +36,14 @@ class ProblemResultView extends PureComponent {
   handleViewSolution() {
     this.setState({ showSolution: true });
   }
-
   componentDidMount() {
     clearInterval(this.timerId);
   }
+
   render() {
-    const {
-      problemNum,
-      content,
-      isOptional,
-      styles,
-      myProblemId,
-      isRight,
-      isConfused,
-      myAnswer,
-      answer,
-      solution,
-    } = this.props;
-    const { optionContents } = this.props;
+    const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
+    const { problemNum, content, isOptional, answer, solution } = this.props.problem;
+    const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
     return (
       <VerticalList spacingBetween={2}>
@@ -66,7 +56,7 @@ class ProblemResultView extends PureComponent {
           {isOptional ? (
             <VerticalList spacingBetween={1}>
               {optionContents.map((option, index) => (
-                <Text>
+                <Text key={index}>
                   {index + 1} : {option}
                 </Text>
               ))}
