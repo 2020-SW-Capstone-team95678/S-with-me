@@ -209,11 +209,11 @@ public class NoteControllerTest {
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 
-        note = noteRepository.findAll().get(0);
+        Note updatedNote = noteRepository.findAll().get(0);
         myProblem = myProblemRepository.findAll().get(0);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(note.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
+        assertThat(updatedNote.getAddedDateTime()).isEqualTo(expectedAddedDateTime);
         assertThat(myProblem.getIsRight()).isEqualTo(true);
     }
 }

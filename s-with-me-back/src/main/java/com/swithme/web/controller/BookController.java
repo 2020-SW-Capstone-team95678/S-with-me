@@ -3,6 +3,8 @@ package com.swithme.web.controller;
 import com.swithme.service.BookService;
 import com.swithme.web.dto.BookInformationResponseDto;
 import com.swithme.web.dto.BookCreateDto;
+import com.swithme.web.dto.BookUpdateRequestDto;
+import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -29,6 +31,13 @@ public class BookController {
     @PostMapping("/publisher/library/book")
     public int createBook(@RequestBody BookCreateDto createDto){
         return bookService.createBook(createDto);
+    }
+
+    @CrossOrigin
+    @PutMapping("/publisher/library/book/{bookId}")
+    public String updateBook(@PathVariable int bookId,
+                             @RequestBody BookUpdateRequestDto requestDto){
+        return bookService.updateBook(bookId, requestDto);
     }
 
 }
