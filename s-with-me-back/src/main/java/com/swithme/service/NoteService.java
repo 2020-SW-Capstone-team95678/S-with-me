@@ -35,15 +35,18 @@ public class NoteService{
     public String createNote(NoteCreateDto createDto) {
         MyProblem myProblem = myProblemRepository.findById(createDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + createDto.getMyProblemId()));
-        Student student = myProblem.getMyBook().getFolder().getStudent();
+        if(noteRepository.findByMyProblem(myProblem) == null) {
+            Student student = myProblem.getMyBook().getFolder().getStudent();
 
-        long addedDateTime = createDto.getAddedDateTime();
-        noteRepository.save(Note.builder()
-                .student(student)
-                .myProblem(myProblem)
-                .addedDateTime(addedDateTime)
-                .build());
-        return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
+            long addedDateTime = createDto.getAddedDateTime();
+            noteRepository.save(Note.builder()
+                    .student(student)
+                    .myProblem(myProblem)
+                    .addedDateTime(addedDateTime)
+                    .build());
+            return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
+        }
+        else return "이미 오답노트에 있는 문제입니다.";
     }
 
     @Transactional
@@ -128,7 +131,7 @@ public class NoteService{
         Collections.sort(noteList);
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteList){
-            if(note.getMyProblem().getMyBook().getBook().getSubject() == subject) {
+            if(note.getMyProblem().getMyBook().getBook().getSubject().equals(subject)) {
                 MyProblem myProblem = note.getMyProblem();
                 responseDtoList.add(NoteResponseDto.builder()
                         .noteId(note.getNoteId())

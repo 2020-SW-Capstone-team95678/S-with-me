@@ -78,7 +78,7 @@ public class NoteControllerTest {
         folder = folderRepository.findAll().get(0);
 
         bookRepository.save(Book.builder()
-                .subject("test subject")
+                .subject("국어")
                 .build());
         book = bookRepository.findAll().get(0);
 
