@@ -75,4 +75,12 @@ public class ChapterService {
         int index = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
         return subChapterRepository.findByMainChapter(mainChapter).get(index).getSubChapterId();
     }
+
+    @Transactional
+    public String updateMainChapter(int mainChapterId, MainChapterUpdateRequestDto requestDto) {
+        MainChapter mainChapter = mainChapterRepository.findById(mainChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
+        mainChapter.update(requestDto);
+        return "대단원이 수정되었습니다.";
+    }
 }
