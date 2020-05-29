@@ -24,6 +24,9 @@ class NoteView extends PureComponent {
       option3: '',
       option4: '',
       option5: '',
+      showMySolution: false,
+      showSolution: false,
+      showMyNewSolution: false,
     };
     this.handleResolve = this.handleResolve.bind(this);
     this.handleSaveNote = this.handleSaveNote.bind(this);
@@ -55,6 +58,7 @@ class NoteView extends PureComponent {
         content: data.content,
         isOptional: data.isOptional,
         answer: data.answer,
+        solution: data.solution,
         option1: data.option1,
         option2: data.option2,
         option3: data.option3,
@@ -65,8 +69,17 @@ class NoteView extends PureComponent {
   }
   render() {
     const { styles, note } = this.props;
-    const { isConfused, isRight, myProblemId, resolve } = note;
-    const { problemNum, content, isOptional } = this.state;
+    const { isConfused, isRight, myProblemId, resolve, mySolution, myAnswer, myNewSolution } = note;
+    const {
+      problemNum,
+      content,
+      isOptional,
+      showMySolution,
+      showSolution,
+      showMyNewSolution,
+      solution,
+      answer,
+    } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -91,7 +104,7 @@ class NoteView extends PureComponent {
             {isOptional ? (
               <VerticalList spacingBetween={1}>
                 {optionContents.map((option, index) => (
-                  <Text>
+                  <Text key={index}>
                     {index + 1} : {option}
                   </Text>
                 ))}
@@ -99,19 +112,61 @@ class NoteView extends PureComponent {
             ) : null}
           </div>
           <div {...css(styles.container)}>
-            <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-              {resolve === 'INIT' ? (
-                <Button>내 풀이 보기</Button>
-              ) : (
-                <div style={{ display: 'flex' }}>
-                  <Button>이전 풀이 보기</Button>
-                  <Button>새 풀이 보기</Button>
+            {showMySolution || showMyNewSolution ? (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                <div>
+                  <Text>나의 답: {myAnswer}</Text>
+                  <br />
+                  {showMyNewSolution ? (
+                    myNewSolution ? (
+                      <Text>새 풀이: {myNewSolution}</Text>
+                    ) : (
+                      <Text>새 풀이가 없습니다.</Text>
+                    )
+                  ) : mySolution ? (
+                    <Text>내 풀이: {mySolution}</Text>
+                  ) : (
+                    <Text>내 풀이가 없습니다.</Text>
+                  )}
                 </div>
-              )}
-            </div>
-            <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-              <Button>해답과 해설 보기</Button>
-            </div>
+                <Button
+                  onPress={() => this.setState({ showMySolution: false, showMyNewSolution: false })}
+                >
+                  돌아 가기
+                </Button>
+              </div>
+            ) : (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                {resolve === 'INIT' ? (
+                  <Button onPress={() => this.setState({ showMySolution: true })}>
+                    나의 답과 풀이 보기
+                  </Button>
+                ) : (
+                  <div style={{ display: 'flex' }}>
+                    <Button onPress={() => this.setState({ showMySolution: true })}>
+                      이전 풀이 보기
+                    </Button>
+                    <Button onPress={() => this.setState({ showMyNewSolution: true })}>
+                      새 풀이 보기
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+            {showSolution ? (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                <Text>
+                  정답:{answer} <br /> 해설: {solution}
+                </Text>
+                <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
+              </div>
+            ) : (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                <Button onPress={() => this.setState({ showSolution: true })}>
+                  해답과 해설 보기
+                </Button>
+              </div>
+            )}
           </div>
           <div style={{ display: 'flex' }}>
             {resolve === 'INIT' ? (
