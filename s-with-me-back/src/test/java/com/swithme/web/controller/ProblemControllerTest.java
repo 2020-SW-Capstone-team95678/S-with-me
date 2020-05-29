@@ -47,7 +47,6 @@ public class ProblemControllerTest {
         problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .build());
-
     }
 
     @After
@@ -62,6 +61,18 @@ public class ProblemControllerTest {
 
         String url = "http://localhost:" + port +
                 "/student/library/my-book/my-problems?problemId=" + problem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getProblemListTest(){
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .build());
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/"
+                 + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -87,7 +98,7 @@ public class ProblemControllerTest {
         createDtoList.add(createDto);
 
         HttpEntity<List<ProblemCreateDto>> createEntity = new HttpEntity<>(createDtoList);
-        String url = "http://localhost:" + port + "/publisher/library/book/problems";
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problems";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -112,7 +123,7 @@ public class ProblemControllerTest {
 
         Problem problem = problemRepository.findAll().get(0);
 
-        String url = "http://localhost:" + port + "/publisher/library/book/problem/" + problem.getProblemId();
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problem/" + problem.getProblemId();
 
         HttpEntity<ProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);

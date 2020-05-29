@@ -92,12 +92,24 @@ public class BookControllerTest {
                     .build());
         }
 
-        String url = "http://localhost:" + port + "/publisher/library?publisherId=" + publisher.getPublisherId();
+        String url = "http://localhost:" + port + "/publisher/library/book?publisherId=" + publisher.getPublisherId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void getBookTest(){
+        bookRepository.save(Book.builder()
+                .subject("test subject")
+                .build());
+        Book book = bookRepository.findAll().get(0);
+
+        String url = "http://localhost:" + port + "/publisher/library/book/" + book.getBookId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
     @Test
     public void saveBookTest(){
         assertThat(bookRepository.findAll()).isEmpty();

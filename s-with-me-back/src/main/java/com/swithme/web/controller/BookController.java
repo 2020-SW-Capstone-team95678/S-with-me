@@ -1,10 +1,7 @@
 package com.swithme.web.controller;
 
 import com.swithme.service.BookService;
-import com.swithme.web.dto.BookInformationResponseDto;
-import com.swithme.web.dto.BookCreateDto;
-import com.swithme.web.dto.BookUpdateRequestDto;
-import com.swithme.web.dto.MyBookUpdateRequestDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -22,7 +19,13 @@ public class BookController {
     }
 
     @CrossOrigin
-    @GetMapping("/publisher/library")
+    @GetMapping("/publisher/library/book/{bookId}")
+    public BookResponseDto getBook(@PathVariable int bookId){
+        return bookService.getBook(bookId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/publisher/library/book")
     public List<BookInformationResponseDto> getBookList(@RequestParam("publisherId") int publisherId){
         return bookService.getBookList(publisherId);
     }
