@@ -13,8 +13,8 @@ public class ChapterController {
     private final ChapterService chapterService;
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/chapters")
-    public List<ChapterResponseDto> getChapterList(@RequestParam int bookId){
+    @GetMapping("/library/book/{bookId}/chapters")
+    public List<ChapterResponseDto> getChapterList(@PathVariable int bookId){
         return chapterService.getChapterList(bookId);
     }
 
@@ -25,7 +25,7 @@ public class ChapterController {
     }
 
     @CrossOrigin
-    @PostMapping("/publisher/library/book/subChapter")
+    @PostMapping("/publisher/library/book/mainChapter/subChapter")
     public int createSubChapter(@RequestBody SubChapterCreateDto createDto){
         return chapterService.createSubChapter(createDto);
     }
@@ -38,7 +38,7 @@ public class ChapterController {
     }
 
     @CrossOrigin
-    @PutMapping("/publisher/library/book/subChapter/{subChapterId}")
+    @PutMapping("/publisher/library/book/mainChapter/subChapter/{subChapterId}")
     public String updateSubChapter(@PathVariable int subChapterId,
                                    @RequestBody SubChapterUpdateRequestDto requestDto){
         return chapterService.updateSubChapter(subChapterId, requestDto);

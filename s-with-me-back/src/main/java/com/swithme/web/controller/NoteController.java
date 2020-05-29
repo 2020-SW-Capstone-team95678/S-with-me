@@ -38,13 +38,12 @@ public class NoteController {
     @GetMapping(value = "/student/{studentId}/note/subjectFilter")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
                                                               @RequestParam("subject") String subject){
-        System.out.println(subject);
         return noteService.getNoteListFilteredBySubject(studentId, subject);
     }
 
     @CrossOrigin
     @DeleteMapping("/student/note")
-    public String deleteNote(@RequestParam int myProblemId){
+    public String deleteNote(@RequestParam("myProblemId") int myProblemId){
         return noteService.deleteNote(myProblemId);
     }
 

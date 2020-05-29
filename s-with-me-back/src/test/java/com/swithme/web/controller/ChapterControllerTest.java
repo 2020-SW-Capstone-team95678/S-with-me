@@ -72,7 +72,7 @@ public class ChapterControllerTest {
 
     @Test
     public void getChapterListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/chapters?bookId=" + book.getBookId();
+        String url = "http://localhost:" + port + "/library/book/" + book.getBookId() + "/chapters";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -104,7 +104,7 @@ public class ChapterControllerTest {
                 .subChapterName("test name")
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/subChapter";
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter";
 
         HttpEntity<SubChapterCreateDto> createEntity = new HttpEntity<>(createDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
@@ -142,7 +142,7 @@ public class ChapterControllerTest {
                 .subChapterName(expectedName)
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/subChapter/" + subChapter.getSubChapterId();
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/" + subChapter.getSubChapterId();
 
         HttpEntity<SubChapterUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);

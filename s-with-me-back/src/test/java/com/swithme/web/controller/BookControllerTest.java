@@ -92,7 +92,7 @@ public class BookControllerTest {
                     .build());
         }
 
-        String url = "http://localhost:" + port + "/publisher/library?publisherId=" + publisher.getPublisherId();
+        String url = "http://localhost:" + port + "/publisher/library/book?publisherId=" + publisher.getPublisherId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

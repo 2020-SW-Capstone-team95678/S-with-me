@@ -73,4 +73,29 @@ public class ProblemService {
         problem.update(subChapter, requestDto);
         return problem.getProblemNumber() + "번 문제가 수정되었습니다.";
     }
+
+    @Transactional
+    public List<ProblemResponseDto> getProblemList(int subChapterId) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
+        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+        List<ProblemResponseDto> responseDtoList = new ArrayList<>();
+        for(Problem problem : problemList){
+            responseDtoList.add(ProblemResponseDto.builder()
+                    .problemId(problem.getProblemId())
+                    .subChapterId(subChapterId)
+                    .content(problem.getContent())
+                    .solution(problem.getSolution())
+                    .problemNumber(problem.getProblemNumber())
+                    .answer(problem.getAnswer())
+                    .isOptional(problem.getIsOptional())
+                    .option1(problem.getOption1())
+                    .option2(problem.getOption2())
+                    .option3(problem.getOption3())
+                    .option4(problem.getOption4())
+                    .option5(problem.getOption5())
+                    .build());
+        }
+        return responseDtoList;
+    }
 }
