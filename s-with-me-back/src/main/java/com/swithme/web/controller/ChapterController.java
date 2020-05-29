@@ -1,10 +1,7 @@
 package com.swithme.web.controller;
 
 import com.swithme.service.ChapterService;
-import com.swithme.web.dto.ChapterResponseDto;
-import com.swithme.web.dto.MainChapterCreateDto;
-import com.swithme.web.dto.MainChapterUpdateRequestDto;
-import com.swithme.web.dto.SubChapterCreateDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +35,12 @@ public class ChapterController {
     public String updateMainChapter(@PathVariable int mainChapterId,
                                     @RequestBody MainChapterUpdateRequestDto requestDto){
         return chapterService.updateMainChapter(mainChapterId, requestDto);
+    }
+
+    @CrossOrigin
+    @PutMapping("/publisher/library/book/subChapter/{subChapterId}")
+    public String updateSubChapter(@PathVariable int subChapterId,
+                                   @RequestBody SubChapterUpdateRequestDto requestDto){
+        return chapterService.updateSubChapter(subChapterId, requestDto);
     }
 }

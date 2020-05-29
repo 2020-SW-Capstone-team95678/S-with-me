@@ -83,4 +83,14 @@ public class ChapterService {
         mainChapter.update(requestDto);
         return "대단원이 수정되었습니다.";
     }
+
+    @Transactional
+    public String updateSubChapter(int subChapterId, SubChapterUpdateRequestDto requestDto) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
+        MainChapter mainChapter = mainChapterRepository.findById(requestDto.getMainChapterId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + requestDto.getMainChapterId()));
+        subChapter.update(mainChapter, requestDto);
+        return "소단원이 수정되었습니다.";
+    }
 }
