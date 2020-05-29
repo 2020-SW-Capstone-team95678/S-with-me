@@ -15,11 +15,14 @@ import java.util.List;
 public class CurriculumController {
     private final CurriculumService curriculumService;
     private final CurriculumRepository curriculumRepository;
+
+    @CrossOrigin
     @PostMapping("/student/library/curriculum")
     public int createCurriculum(@RequestBody CurriculumCreateDto curriculumCreateDto){
         return curriculumService.createCurriculum(curriculumCreateDto);
     }
 
+    @CrossOrigin
     @GetMapping("/student/library/curriculum/")
     public List<CurriculumResponseDto> getCurriculumList(@RequestParam("studentId") int studentId){
         return curriculumService.getCurriculumList(studentId);
