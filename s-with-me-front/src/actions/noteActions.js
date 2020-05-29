@@ -1,6 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_NOTE_LIST = 'note/FETCH_NOTE_LIST';
+export const FETCH_FILTERED_NOTE_LIST = 'note/FETCH_FILTERED_NOTE_LIST';
 export const UPDATE_NOTE = 'note/UPDATE_NOTE';
 export const DELETE_NOTE = 'note/DELETE_NOTE';
 export const SET_RESOLVE = 'note/SET_RESOLVE';
@@ -13,6 +14,18 @@ export function requestNoteList(params) {
   return {
     type: FETCH_NOTE_LIST,
     promise: Api.get('student/note', { params }),
+    meta: {
+      notification: {
+        error: '오답노트 목록을 가져오는 중에 문제가 발생했습니다.',
+      },
+    },
+  };
+}
+
+export function requestFilteredNoteList(id, params) {
+  return {
+    type: FETCH_FILTERED_NOTE_LIST,
+    promise: Api.get(`/student/${id}/note/folderFilter`, { params }),
     meta: {
       notification: {
         error: '오답노트 목록을 가져오는 중에 문제가 발생했습니다.',

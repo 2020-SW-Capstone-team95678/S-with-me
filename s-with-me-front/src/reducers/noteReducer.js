@@ -7,6 +7,7 @@ import {
   SET_MY_NEW_SOLUTION,
   SET_NEW_IS_RIGHT,
   SET_NEW_SOLVED_DATE_TIME,
+  FETCH_FILTERED_NOTE_LIST,
 } from '../actions/noteActions';
 
 const initState = {
@@ -26,6 +27,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case FETCH_FILTERED_NOTE_LIST:
     case DELETE_NOTE:
     case FETCH_NOTE_LIST: {
       return handle(state, action, {
@@ -40,7 +42,7 @@ export default (state = initState, action) => {
             loadingState: { ...prevState.loadingState, [type]: false },
             errorState: { ...prevState.errorState, [type]: false },
           };
-          if (type === FETCH_NOTE_LIST) {
+          if (type === FETCH_NOTE_LIST || FETCH_FILTERED_NOTE_LIST) {
             const ids = data.map(entity => entity['noteId']);
             const entities = data.reduce(
               (finalEntities, entity) => ({
