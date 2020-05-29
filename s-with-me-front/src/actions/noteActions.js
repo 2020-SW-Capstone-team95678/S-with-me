@@ -22,10 +22,13 @@ export function requestNoteList(params) {
   };
 }
 
-export function requestFilteredNoteList(id, params) {
+export function requestFilteredNoteList(id, filterType, params) {
   return {
     type: FETCH_FILTERED_NOTE_LIST,
-    promise: Api.get(`/student/${id}/note/folderFilter`, { params }),
+    promise:
+      filterType === 'FOLDER'
+        ? Api.get(`/student/${id}/note/folderFilter`, { params })
+        : Api.get(`/student/${id}/note/subjectFilter`, { params }),
     meta: {
       notification: {
         error: '오답노트 목록을 가져오는 중에 문제가 발생했습니다.',

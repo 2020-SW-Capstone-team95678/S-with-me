@@ -67,6 +67,27 @@ class NoteView extends PureComponent {
       }),
     );
   }
+
+  componentDidUpdate() {
+    const { note } = this.props;
+    Api.get('/student/library/my-book/my-problems', {
+      params: { problemId: note.problemId },
+    }).then(({ data }) =>
+      this.setState({
+        problemNum: data.problemNumber,
+        content: data.content,
+        isOptional: data.isOptional,
+        answer: data.answer,
+        solution: data.solution,
+        option1: data.option1,
+        option2: data.option2,
+        option3: data.option3,
+        option4: data.option4,
+        option5: data.option5,
+      }),
+    );
+  }
+
   render() {
     const { styles, note } = this.props;
     const { isConfused, isRight, myProblemId, resolve, mySolution, myAnswer, myNewSolution } = note;

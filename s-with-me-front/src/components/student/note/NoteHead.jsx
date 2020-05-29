@@ -3,20 +3,24 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Button from '../../../common-ui/Button';
 import NoteFolderFilterContainer from '../../../containers/student/note/NoteFolderFilterContainer';
+import NoteSubjectFilterContainer from '../../../containers/student/note/NoteSubjectFilterContainer';
 
 class NoteHead extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { viewFolderList: false };
+    this.state = { viewFolderList: false, viewSubjectList: false };
   }
 
   render() {
     const { styles } = this.props;
-    const { viewFolderList } = this.state;
+    const { viewFolderList, viewSubjectList } = this.state;
     return (
       <div {...css(styles.container)}>
-        <div style={{ flex: 1, padding: 3 }}>
-          <Button small>과목별 보기</Button>
+        <div style={{ flex: 1, padding: 3, display: 'flex' }}>
+          <Button small onPress={() => this.setState({ viewSubjectList: !viewSubjectList })}>
+            과목별 보기
+          </Button>
+          {viewSubjectList ? <NoteSubjectFilterContainer /> : null}
         </div>
         <div style={{ flex: 1, padding: 3, display: 'flex' }}>
           <Button small onPress={() => this.setState({ viewFolderList: !viewFolderList })}>
@@ -25,7 +29,15 @@ class NoteHead extends PureComponent {
           {viewFolderList ? <NoteFolderFilterContainer /> : null}
         </div>
         <div style={{ flex: 1, padding: 3 }}>
-          <Button small>최신순 보기</Button>
+          <Button
+            small
+            onPress={() => {
+              this.setState({ viewFolderList: false, viewSubjectList: false });
+              this.props.handleViewOrigin();
+            }}
+          >
+            최신순 보기
+          </Button>
         </div>
       </div>
     );
