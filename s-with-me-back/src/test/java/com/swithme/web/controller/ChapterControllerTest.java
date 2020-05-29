@@ -7,7 +7,9 @@ import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MainChapterCreateDto;
+import com.swithme.web.dto.MainChapterUpdateRequestDto;
 import com.swithme.web.dto.SubChapterCreateDto;
+import com.swithme.web.dto.SubChapterUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +45,7 @@ public class ChapterControllerTest {
 
     private Book book;
     private MainChapter mainChapter;
+    private SubChapter subChapter;
 
     @Before
     public void setup() {
@@ -57,6 +60,7 @@ public class ChapterControllerTest {
         subChapterRepository.save(SubChapter.builder()
                 .mainChapter(mainChapter)
                 .build());
+        subChapter = subChapterRepository.findAll().get(0);
     }
 
     @After
@@ -110,5 +114,42 @@ public class ChapterControllerTest {
         int index = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
         assertThat(subChapterRepository.findByMainChapter(mainChapter).get(index).getSubChapterName())
                 .isEqualTo("test name");
+    }
+
+    @Test
+    public void updateMainChapterTest(){
+        String expectedName = "expected name";
+        MainChapterUpdateRequestDto requestDto = MainChapterUpdateRequestDto.builder()
+                .mainChapterName(expectedName)
+                .build();
+
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/" + mainChapter.getMainChapterId();
+
+        HttpEntity<MainChapterUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        MainChapter updatedMainChapter = mainChapterRepository.findAll().get(0);
+        assertThat(updatedMainChapter.getMainChapterName()).isEqualTo(expectedName);
+    }
+
+    @Test
+    public void updateSubChapterTest(){
+        String expectedName = "expected name";
+        SubChapterUpdateRequestDto requestDto = SubChapterUpdateRequestDto.builder()
+                .mainChapterId(mainChapter.getMainChapterId())
+                .subChapterName(expectedName)
+                .build();
+
+        String url = "http://localhost:" + port + "/publisher/library/book/subChapter/" + subChapter.getSubChapterId();
+
+        HttpEntity<SubChapterUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        SubChapter updatedSubChapter = subChapterRepository.findAll().get(0);
+        assertThat(updatedSubChapter.getSubChapterName()).isEqualTo(expectedName);
     }
 }

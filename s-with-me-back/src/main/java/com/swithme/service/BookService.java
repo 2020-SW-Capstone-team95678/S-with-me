@@ -6,6 +6,7 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
 import com.swithme.web.dto.BookCreateDto;
+import com.swithme.web.dto.BookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,5 +83,13 @@ public class BookService {
                 .build());
         int index = bookRepository.findByPublisher(publisher).size()-1;
         return bookRepository.findByPublisher(publisher).get(index).getBookId();
+    }
+
+    @Transactional
+    public String updateBook(int bookId, BookUpdateRequestDto requestDto) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + bookId));
+        book.update(requestDto);
+        return "문제집이 수정되었습니다.";
     }
 }

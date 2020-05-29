@@ -1,6 +1,7 @@
 package com.swithme.domain.subChapter;
 
 import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.web.dto.SubChapterUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,8 @@ public class SubChapter {
         this.subChapterName = subChapterName;
     }
 
+    public void update(MainChapter mainChapter, SubChapterUpdateRequestDto requestDto) {
+        this.mainChapter = mainChapter;
+        this.subChapterName = requestDto.getSubChapterName();
+    }
 }

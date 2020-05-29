@@ -5,6 +5,7 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
+import com.swithme.web.dto.ProblemUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,5 +92,34 @@ public class ProblemControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(problemRepository.findAll().size()).isGreaterThan(1);
+    }
+
+    @Test
+    public void updateProblemTest(){
+        ProblemUpdateRequestDto requestDto = ProblemUpdateRequestDto.builder()
+                .subChapterId(subChapter.getSubChapterId())
+                .content("test content")
+                .solution("test solution")
+                .answer("test answer")
+                .problemNumber((short)123)
+                .isOptional(false)
+                .option1(null)
+                .option2(null)
+                .option3(null)
+                .option4(null)
+                .option5(null)
+                .build();
+
+        Problem problem = problemRepository.findAll().get(0);
+
+        String url = "http://localhost:" + port + "/publisher/library/book/problem/" + problem.getProblemId();
+
+        HttpEntity<ProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Problem updatedProblem = problemRepository.findAll().get(0);
+        assertThat(updatedProblem.getProblemNumber()).isEqualTo((short)123);
     }
 }

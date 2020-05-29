@@ -108,10 +108,11 @@ public class CurriculumControllerTest {
     public void curriculumCreateTest()
     {
         assertThat(myBookRepository.findAll()).isNotEmpty();
+        MyBook mybook = myBookRepository.findAll().get(0);
         CurriculumCreateDto curriculumCreateDto= CurriculumCreateDto.builder()
                 .goalNumber(3)
                 .type("week")
-                .myBookId(1)
+                .myBookId(mybook.getMyBookId())
                 .build();
         HttpEntity<CurriculumCreateDto> requestEntity = new HttpEntity<>(curriculumCreateDto);
         String url="http://localhost:"+port+"/student/library/curriculum";
