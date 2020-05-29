@@ -22,6 +22,7 @@ class ProblemView extends PureComponent {
     this.state = {
       problemNum: null,
       content: '',
+      solution: '',
       isOptional: null,
       answer: '',
       option1: '',
@@ -31,16 +32,19 @@ class ProblemView extends PureComponent {
       option5: '',
     };
   }
+
   componentDidMount() {
     const { myProblem } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: myProblem.problemId },
     }).then(({ data }) =>
       this.setState({
+        problemId: data.problemId,
         problemNum: data.problemNumber,
         content: data.content,
         isOptional: data.isOptional,
         answer: data.answer,
+        solution: data.solution,
         option1: data.option1,
         option2: data.option2,
         option3: data.option3,
@@ -64,6 +68,27 @@ class ProblemView extends PureComponent {
     updateMyProblem(myProblem.myProblemId, formValue, () => {
       setIsSolved(myProblem.myProblemId, true);
     });
+  }
+
+  componentDidUpdate() {
+    const { myProblem } = this.props;
+    Api.get('/student/library/my-book/my-problems', {
+      params: { problemId: myProblem.problemId },
+    }).then(({ data }) =>
+      this.setState({
+        problemId: data.problemId,
+        problemNum: data.problemNumber,
+        content: data.content,
+        isOptional: data.isOptional,
+        answer: data.answer,
+        solution: data.solution,
+        option1: data.option1,
+        option2: data.option2,
+        option3: data.option3,
+        option4: data.option4,
+        option5: data.option5,
+      }),
+    );
   }
 
   render() {
@@ -128,14 +153,8 @@ class ProblemView extends PureComponent {
     } else {
       return (
         <ProblemResultViewContainer
-          problemNum={problemNum}
-          content={content}
-          isOptional={isOptional}
-          myProblemId={myProblemId}
-          isRight={myProblem.isRight}
-          isConfused={myProblem.isConfused}
-          myAnswer={myAnswer}
-          answer={answer}
+          myProblem={myProblem}
+          problem={this.state}
           optionContents={optionContents}
         />
       );

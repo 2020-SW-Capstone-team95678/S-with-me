@@ -3,7 +3,6 @@ import { updateMyBook, UPDATE_MY_BOOK } from '../../../actions/myBookPackActions
 import { updateMyProblem, UPDATE_MY_PROBLEM } from '../../../actions/myProblemPackActions';
 import { setIsSolved, setIsRight, setSolvedDateTime } from '../../../actions/myProblemActions';
 import { setLastMyProblemPage } from '../../../actions/myBookActions';
-import { viewWrongOlny } from '../../../actions/filterActions';
 import ProblemHead from '../../../components/student/problem/ProblemHead';
 
 const mapStateToProps = (state, props) => {
@@ -36,5 +35,4 @@ export default connect(mapStateToProps, {
   setIsRight,
   setLastMyProblemPage,
   setSolvedDateTime,
-  viewWrongOlny,
 })(ProblemHead);

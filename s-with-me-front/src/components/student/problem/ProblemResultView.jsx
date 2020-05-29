@@ -12,7 +12,7 @@ import Api from '../../../Api';
 class ProblemResultView extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { date: new Date(), isSavedNote: false };
+    this.state = { date: new Date(), isSavedNote: false, showSolution: false };
     this.handleResolve = this.handleResolve.bind(this);
     this.tick = this.tick.bind(this);
     this.handleSaveProblem = this.handleSaveProblem.bind(this);
@@ -32,24 +32,15 @@ class ProblemResultView extends PureComponent {
     };
     Api.post('/student/note', formValue).then(() => this.setState({ isSavedNote: true }));
   }
-
   componentDidMount() {
     clearInterval(this.timerId);
   }
+
   render() {
-    const {
-      problemNum,
-      content,
-      isOptional,
-      styles,
-      myProblemId,
-      isRight,
-      isConfused,
-      myAnswer,
-      answer,
-    } = this.props;
-    const { optionContents } = this.props;
-    const { isSavedNote } = this.state;
+    const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
+    const { problemNum, content, isOptional, answer, solution } = this.props.problem;
+    const { styles, optionContents } = this.props;
+    const { isSavedNote, showSolution } = this.state;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -61,7 +52,7 @@ class ProblemResultView extends PureComponent {
           {isOptional ? (
             <VerticalList spacingBetween={1}>
               {optionContents.map((option, index) => (
-                <Text>
+                <Text key={index}>
                   {index + 1} : {option}
                 </Text>
               ))}
@@ -69,18 +60,33 @@ class ProblemResultView extends PureComponent {
           ) : null}
         </div>
         <div {...css(styles.container)}>
-          {isRight ? null : (
-            <Text>
-              지난 나의 정답은 {myAnswer}
-              {isOptional ? <Text>번</Text> : null}입니다.
-            </Text>
+          {showSolution ? (
+            <div>
+              <div style={{ paddingBottom: '5px' }}>{solution}</div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div style={{ paddingBottom: '5px' }}>
+                {isRight ? null : (
+                  <Text>
+                    지난 나의 정답은 {myAnswer}
+                    {isOptional ? <Text>번</Text> : null}입니다.
+                  </Text>
+                )}
+                <br />
+                <Text>
+                  정답은 {answer}
+                  {isOptional ? <Text>번</Text> : null} 입니다.
+                </Text>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onPress={() => this.setState({ showSolution: true })}>해설 보기</Button>
+              </div>
+            </div>
           )}
-          <Text>
-            정답은 {answer}
-            {isOptional ? <Text>번</Text> : null} 입니다.
-          </Text>
-          <div>해설</div>
-          <Button>보기</Button>
         </div>
         <Modal>
           {({ openModal }) => (
@@ -118,8 +124,9 @@ export default withStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 5,
-    justifyContent: 'flex-end',
     height: 150,
     border: '1px solid',
   },

@@ -7,7 +7,6 @@ import mainChapter from './createMainChapterReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
 import note from './noteReducer';
-import filterList from './filterReducer';
 
 export default {
   myProblemList,
@@ -19,5 +18,4 @@ export default {
   folderList,
   chapter,
   note,
-  filterList,
 };

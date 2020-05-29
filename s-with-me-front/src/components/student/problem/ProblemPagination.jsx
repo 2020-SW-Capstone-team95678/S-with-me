@@ -6,7 +6,6 @@ import InlineList from '../../../common-ui/InlineList';
 export default class ProblemPagination extends PureComponent {
   static propTypes = {
     hasNext: PropTypes.bool,
-    pageNumber: PropTypes.number,
     loading: PropTypes.bool,
     requestMyProblemList: PropTypes.func.isRequired,
   };

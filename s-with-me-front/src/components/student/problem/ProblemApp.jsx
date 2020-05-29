@@ -9,6 +9,15 @@ export default class ProblemApp extends PureComponent {
     myProblemList: [],
     requestMyProblemList: () => {},
   };
+  constructor(props) {
+    super(props);
+    this.state = { viewWrongOnly: false };
+  }
+
+  handleViewWrongOnly = () => {
+    const { viewWrongOnly } = this.state;
+    this.setState({ viewWrongOnly: !viewWrongOnly });
+  };
 
   componentDidMount() {
     const { subChapterId } = this.props.match.params;
@@ -19,18 +28,26 @@ export default class ProblemApp extends PureComponent {
 
   render() {
     const { myBookId, subChapterId } = this.props.match.params;
-    const { number, myProblemList, loading, viewWrongOnly } = this.props;
-    const onlyWrongMyProblemList = myProblemList.filter(myProblem => myProblem.isRight === false);
+    const { number, myProblemList, loading } = this.props;
+    const { viewWrongOnly } = this.state;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ hight: 5, padding: 3 }}>
-          <ProblemHeadContainer subChapterId={subChapterId} id={myBookId} />
+          <ProblemHeadContainer
+            subChapterId={subChapterId}
+            id={myBookId}
+            handleViewWrongOnly={this.handleViewWrongOnly}
+          />
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <ProblemList
             subChapterId={subChapterId}
             page={number}
-            myProblemList={viewWrongOnly ? onlyWrongMyProblemList : myProblemList}
+            myProblemList={
+              viewWrongOnly
+                ? myProblemList.filter(myProblem => myProblem.isRight === false)
+                : myProblemList
+            }
             loading={loading}
           />
         </div>
