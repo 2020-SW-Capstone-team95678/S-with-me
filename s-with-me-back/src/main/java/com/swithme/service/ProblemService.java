@@ -6,6 +6,7 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
 import com.swithme.web.dto.ProblemResponseDto;
+import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,5 +62,15 @@ public class ProblemService {
                     .build());
         }
         return "문제 등록이 완료되었습니다.";
+    }
+
+    @Transactional
+    public String updateProblem(int problemId, ProblemUpdateRequestDto requestDto) {
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
+        SubChapter subChapter = subChapterRepository.findById(requestDto.getSubChapterId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + requestDto.getSubChapterId()));
+        problem.update(subChapter, requestDto);
+        return problem.getProblemNumber() + "번 문제가 수정되었습니다.";
     }
 }
