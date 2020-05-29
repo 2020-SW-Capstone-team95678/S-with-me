@@ -12,10 +12,11 @@ import Api from '../../../Api';
 class ProblemResultView extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { date: new Date(), isSavedNote: false };
+    this.state = { date: new Date(), isSavedNote: false, showSolution: false };
     this.handleResolve = this.handleResolve.bind(this);
     this.tick = this.tick.bind(this);
     this.handleSaveProblem = this.handleSaveProblem.bind(this);
+    this.handleViewSolution = this.handleViewSolution.bind(this);
   }
   tick() {
     this.setState({ date: new Date() });
@@ -32,6 +33,9 @@ class ProblemResultView extends PureComponent {
     };
     Api.post('/student/note', formValue).then(() => this.setState({ isSavedNote: true }));
   }
+  handleViewSolution() {
+    this.setState({ showSolution: true });
+  }
 
   componentDidMount() {
     clearInterval(this.timerId);
@@ -47,9 +51,10 @@ class ProblemResultView extends PureComponent {
       isConfused,
       myAnswer,
       answer,
+      solution,
     } = this.props;
     const { optionContents } = this.props;
-    const { isSavedNote } = this.state;
+    const { isSavedNote, showSolution } = this.state;
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
@@ -69,18 +74,28 @@ class ProblemResultView extends PureComponent {
           ) : null}
         </div>
         <div {...css(styles.container)}>
-          {isRight ? null : (
-            <Text>
-              지난 나의 정답은 {myAnswer}
-              {isOptional ? <Text>번</Text> : null}입니다.
-            </Text>
+          {showSolution ? (
+            <div>{solution}</div>
+          ) : (
+            <div>
+              <div>
+                {isRight ? null : (
+                  <Text>
+                    지난 나의 정답은 {myAnswer}
+                    {isOptional ? <Text>번</Text> : null}입니다.
+                  </Text>
+                )}
+                <br />
+                <Text>
+                  정답은 {answer}
+                  {isOptional ? <Text>번</Text> : null} 입니다.
+                </Text>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onPress={() => this.handleViewSolution()}>해설 보기</Button>
+              </div>
+            </div>
           )}
-          <Text>
-            정답은 {answer}
-            {isOptional ? <Text>번</Text> : null} 입니다.
-          </Text>
-          <div>해설</div>
-          <Button>보기</Button>
         </div>
         <Modal>
           {({ openModal }) => (
@@ -118,8 +133,9 @@ export default withStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 5,
-    justifyContent: 'flex-end',
     height: 150,
     border: '1px solid',
   },

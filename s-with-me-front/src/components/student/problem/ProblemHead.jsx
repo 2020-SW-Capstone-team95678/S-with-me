@@ -44,7 +44,7 @@ class ProblemHead extends PureComponent {
   }
 
   handleViewWrongOnly() {
-    this.props.viewWrongOlny(true);
+    this.props.handleViewWrongOnly();
   }
 
   handleTotalScroing() {

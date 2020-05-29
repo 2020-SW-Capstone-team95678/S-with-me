@@ -22,6 +22,7 @@ class ProblemView extends PureComponent {
     this.state = {
       problemNum: null,
       content: '',
+      solution: '',
       isOptional: null,
       answer: '',
       option1: '',
@@ -41,6 +42,7 @@ class ProblemView extends PureComponent {
         content: data.content,
         isOptional: data.isOptional,
         answer: data.answer,
+        solution: data.solution,
         option1: data.option1,
         option2: data.option2,
         option3: data.option3,
@@ -69,7 +71,7 @@ class ProblemView extends PureComponent {
   render() {
     const { myProblem, styles, loading, page } = this.props;
     const { myProblemId, myAnswer, myBookId, isSolved } = myProblem;
-    const { problemNum, content, isOptional, answer } = this.state;
+    const { problemNum, content, isOptional, answer, solution } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -137,6 +139,7 @@ class ProblemView extends PureComponent {
           myAnswer={myAnswer}
           answer={answer}
           optionContents={optionContents}
+          solution={solution}
         />
       );
     }
