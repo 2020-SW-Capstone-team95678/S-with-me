@@ -16,7 +16,6 @@ class ProblemResultView extends PureComponent {
     this.handleResolve = this.handleResolve.bind(this);
     this.tick = this.tick.bind(this);
     this.handleSaveProblem = this.handleSaveProblem.bind(this);
-    this.handleViewSolution = this.handleViewSolution.bind(this);
   }
   tick() {
     this.setState({ date: new Date() });
@@ -32,9 +31,6 @@ class ProblemResultView extends PureComponent {
       addedDateTime: this.state.date.getTime(),
     };
     Api.post('/student/note', formValue).then(() => this.setState({ isSavedNote: true }));
-  }
-  handleViewSolution() {
-    this.setState({ showSolution: true });
   }
   componentDidMount() {
     clearInterval(this.timerId);
@@ -65,10 +61,15 @@ class ProblemResultView extends PureComponent {
         </div>
         <div {...css(styles.container)}>
           {showSolution ? (
-            <div>{solution}</div>
+            <div>
+              <div style={{ paddingBottom: '5px' }}>{solution}</div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
+              </div>
+            </div>
           ) : (
             <div>
-              <div>
+              <div style={{ paddingBottom: '5px' }}>
                 {isRight ? null : (
                   <Text>
                     지난 나의 정답은 {myAnswer}
@@ -82,7 +83,7 @@ class ProblemResultView extends PureComponent {
                 </Text>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button onPress={() => this.handleViewSolution()}>해설 보기</Button>
+                <Button onPress={() => this.setState({ showSolution: true })}>해설 보기</Button>
               </div>
             </div>
           )}
@@ -123,8 +124,8 @@ export default withStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 5,
     height: 150,
     border: '1px solid',
