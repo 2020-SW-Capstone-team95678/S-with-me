@@ -35,7 +35,7 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/{studentId}/note/subjectFilter")
+    @GetMapping(value = "/student/{studentId}/note/subjectFilter", produces="text/plain;charset=UTF-8")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
                                                               @RequestParam("subject") String subject){
         return noteService.getNoteListFilteredBySubject(studentId, subject);
