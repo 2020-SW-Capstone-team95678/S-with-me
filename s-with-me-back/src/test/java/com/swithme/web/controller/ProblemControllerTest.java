@@ -71,7 +71,7 @@ public class ProblemControllerTest {
         problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .build());
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/"
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
                  + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
