@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import Card from '../../../common-ui/Card';
 import LibraryFolderFilter from './LibraryFolderFilter';
-import LibraryFolderTable from './LibraryFolderTable';
+import LibraryFolderTableContainer from '../../../containers/student/book/LibraryFolderTableContainer';
 
 export default class LibraryFolderList extends PureComponent {
   render() {
@@ -13,7 +13,7 @@ export default class LibraryFolderList extends PureComponent {
           <LibraryFolderFilter />
         </Card>
         <Card>
-          <LibraryFolderTable folders={folders} />
+          <LibraryFolderTableContainer folders={folders} />
         </Card>
       </div>
     );
