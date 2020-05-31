@@ -1,7 +1,8 @@
 import Api from '../Api';
 
 export const FETCH_MY_BOOK_LIST = 'myBook/FETCH_MY_BOOK_LIST';
-export const UPDATE_LAST_PROBLEM_ID = 'myBook/UPDATE_LAST_PROBLEM_ID';
+export const UPDATE_MY_BOOK = 'myBook/UPDATE_MY_BOOK';
+export const MOVE_MY_BOOK = 'myBook/MOVE_MY_BOOK';
 
 export function requestMyBookList(params) {
   return {
@@ -15,14 +16,27 @@ export function requestMyBookList(params) {
   };
 }
 
-export function updateLastProblemId(id, data, onComplete) {
+export function updateMyBook(id, data, onComplete) {
   return {
-    type: UPDATE_LAST_PROBLEM_ID,
+    type: UPDATE_MY_BOOK,
     promise: Api.put(`/student/library/my-book/${id}`, data),
     meta: {
       onSuccess: onComplete,
       notification: {
         success: '마지막으로 푼 문제가 성공적으로 저장되었습니다.',
+      },
+    },
+  };
+}
+
+export function moveMyBook(id, data, onComplete) {
+  return {
+    type: MOVE_MY_BOOK,
+    promise: Api.put(`/student/library/my-book/${id}/folder`, data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '폴더 이동이 성공적으로 완료되었습니다.',
       },
     },
   };

@@ -50,10 +50,18 @@ public class MyProblemService {
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemList(int subChapterId) {
-        SubChapter subChapter = subChapterRepository.findById(subChapterId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + subChapterId));
-        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+    public List<MyProblemResponseDto> getMyProblemList(int lastSubChapterId, short lastPageNumber) {
+        SubChapter subChapter = subChapterRepository.findById(lastSubChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 sub chapter가 없습니다. subChapterId = " + lastSubChapterId));
+        List<Problem> allProblemList = problemRepository.findBySubChapter(subChapter);
+        List<Problem> problemList = new ArrayList<>();
+        try {
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8 - 1);
+        }
+        catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, allProblemList.size());
+        }
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for(Problem problem : problemList){
             MyProblem myProblem = myProblemRepository.findByProblem(problem);

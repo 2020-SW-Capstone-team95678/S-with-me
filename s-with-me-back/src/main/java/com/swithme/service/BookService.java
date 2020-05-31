@@ -6,6 +6,8 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
 import com.swithme.web.dto.BookCreateDto;
+import com.swithme.web.dto.BookResponseDto;
+import com.swithme.web.dto.BookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +69,7 @@ public class BookService {
     }
 
     @Transactional
-    public String saveBook(BookCreateDto createDto) {
+    public int createBook(BookCreateDto createDto) {
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
@@ -80,6 +82,30 @@ public class BookService {
                 .grade(createDto.getGrade())
                 .cover(createDto.getCover())
                 .build());
-        return "문제집 기본 정보를 등록하였습니다.";
+        int index = bookRepository.findByPublisher(publisher).size()-1;
+        return bookRepository.findByPublisher(publisher).get(index).getBookId();
+    }
+
+    @Transactional
+    public String updateBook(int bookId, BookUpdateRequestDto requestDto) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + bookId));
+        book.update(requestDto);
+        return "문제집이 수정되었습니다.";
+    }
+
+    @Transactional
+    public BookResponseDto getBook(int bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + bookId));
+        BookResponseDto responseDto = BookResponseDto.builder()
+                .subject(book.getSubject())
+                .price(book.getPrice())
+                .name(book.getName())
+                .publishedDate(book.getPublishedDate())
+                .grade(book.getGrade())
+                .cover(book.getCover())
+                .build();
+        return responseDto;
     }
 }

@@ -6,6 +6,7 @@ import book from './bookReducer';
 import mainChapter from './createMainChapterReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
+import note from './noteReducer';
 
 export default {
   myProblemList,
@@ -16,4 +17,5 @@ export default {
   mainChapter,
   folderList,
   chapter,
+  note,
 };

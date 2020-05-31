@@ -5,6 +5,7 @@ import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookCreateDto;
+import com.swithme.web.dto.BookUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -90,12 +92,24 @@ public class BookControllerTest {
                     .build());
         }
 
-        String url = "http://localhost:" + port + "/publisher/library?publisherId=" + publisher.getPublisherId();
+        String url = "http://localhost:" + port + "/publisher/library/book?publisherId=" + publisher.getPublisherId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    @Test
+    public void getBookTest(){
+        bookRepository.save(Book.builder()
+                .subject("test subject")
+                .build());
+        Book book = bookRepository.findAll().get(0);
+
+        String url = "http://localhost:" + port + "/publisher/library/book/" + book.getBookId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
     @Test
     public void saveBookTest(){
         assertThat(bookRepository.findAll()).isEmpty();
@@ -116,5 +130,33 @@ public class BookControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(bookRepository.findAll()).isNotEmpty();
+
+        int index = bookRepository.findByPublisher(publisher).size() - 1;
+        assertThat(bookRepository.findByPublisher(publisher).get(index).getName())
+                .isEqualTo("test name");
+    }
+
+    @Test
+    public void updateBookTest(){
+        bookRepository.save(new Book());
+        BookUpdateRequestDto requestDto = BookUpdateRequestDto.builder()
+                .subject("test subject")
+                .price(123)
+                .name("test name")
+                .publishedDate("2020-02-02")
+                .grade((short)4)
+                .cover("test cover")
+                .build();
+        Book book = bookRepository.findAll().get(0);
+        System.out.println(book.getBookId());
+        String url = "http://localhost:" + port + "/publisher/library/book/" + book.getBookId();
+
+        HttpEntity<BookUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Book updatedBook = bookRepository.findById(book.getBookId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + book.getBookId()));
+        assertThat(updatedBook.getPrice()).isEqualTo(123);
     }
 }

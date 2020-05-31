@@ -1,6 +1,7 @@
 package com.swithme.domain.problem;
 
 import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,5 +67,19 @@ public class Problem {
         this.option3 = option3;
         this.option4 = option4;
         this.option5 = option5;
+    }
+
+    public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {
+        this.subChapter = subChapter;
+        this.content = requestDto.getContent();
+        this.solution = requestDto.getSolution();
+        this.problemNumber = requestDto.getProblemNumber();
+        this.answer = requestDto.getAnswer();
+        this.isOptional = requestDto.getIsOptional();
+        this.option1 = requestDto.getOption1();
+        this.option2 = requestDto.getOption2();
+        this.option3 = requestDto.getOption3();
+        this.option4 = requestDto.getOption4();
+        this.option5 = requestDto.getOption5();
     }
 }

@@ -1,13 +1,15 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
 import com.swithme.web.dto.MyBookCreateDto;
+import com.swithme.web.dto.MyBookResponseDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import com.swithme.web.dto.MybookFolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,22 +27,41 @@ public class MyBookController {
     }*/
 
     @CrossOrigin
+    @GetMapping("/student/library")
+    public List<MyBookResponseDto> getMyBookList(@RequestParam("studentId") int studentId){
+        return myBookService.findMyBookList(studentId);
+
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/library/my-book/folderFilter")
+    public List<MyBookResponseDto> getMyBookListFilteredByFolder(@RequestParam("folderId") int folderId){
+        return myBookService.findMyBookListFilteredByFolder(folderId);
+    }
+
+    @CrossOrigin
     @PostMapping("/student/library/my-book")
     public String createMyBook(@RequestBody MyBookCreateDto myBookCreateDto){
         return myBookService.createMyBook(myBookCreateDto);
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{myBookId}/problemId")
-    public String updateProblemId(@PathVariable int myBookId,
-                                  @RequestBody MyBookUpdateRequestDto requestDto){
-        return myBookService.updateLastProblemNumber(myBookId, requestDto);
+    @PutMapping("/student/library/my-book/{myBookId}")
+    public String bringUpToDate(@PathVariable int myBookId,
+                                 @RequestBody MyBookUpdateRequestDto requestDto){
+        return myBookService.bringUpToDate(myBookId, requestDto);
     }
 
     @CrossOrigin
-    @PutMapping("/student/library/my-book/{mybookId}/folder")
+    @PutMapping("/student/library/my-book/{myBookId}/folder")
     public int updateFolder(@PathVariable int myBookId,
                             @RequestBody MybookFolderUpdateRequestDto requestDto){
         return myBookService.updateFolder(myBookId, requestDto);
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/student/library/my-book/{myBookId}")
+    public String deleteMyBook(@PathVariable int myBookId){
+        return myBookService.deleteMyBook(myBookId);
     }
 }

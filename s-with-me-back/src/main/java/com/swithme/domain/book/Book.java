@@ -1,6 +1,7 @@
 package com.swithme.domain.book;
 
 import com.swithme.domain.publisher.Publisher;
+import com.swithme.web.dto.BookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,5 +67,14 @@ public class Book {
         this.totalProblemNumber = totalProblemNumber;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
+    }
+
+    public void update(BookUpdateRequestDto requestDto) {
+        this.subject = requestDto.getSubject();
+        this.price = requestDto.getPrice();
+        this.publishedDate = requestDto.getPublishedDate();
+        this.name = requestDto.getName();
+        this.grade = requestDto.getGrade();
+        this.cover = requestDto.getCover();
     }
 }

@@ -89,7 +89,7 @@ public class FolderControllerTest {
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
-
+    @Ignore
     @Test
     public void getFolderTest()
     {

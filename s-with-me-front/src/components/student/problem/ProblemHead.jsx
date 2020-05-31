@@ -14,10 +14,12 @@ class ProblemHead extends PureComponent {
     super(props);
     this.handleCloseBook = this.handleCloseBook.bind(this);
     this.handleTotalScroing = this.handleTotalScroing.bind(this);
+    this.handleViewWrongOnly = this.handleViewWrongOnly.bind(this);
     this.state = {
       isFinished: false,
       date: new Date(),
       bookName: '',
+      viewWrongOnly: false,
     };
     this.tick = this.tick.bind(this);
   }
@@ -34,10 +36,18 @@ class ProblemHead extends PureComponent {
   }
 
   handleCloseBook() {
-    const { updateLastProblemId, myBook } = this.props;
-    updateLastProblemId(myBook.myBookId, { lastProblemId: myBook.lastProblemId * 1 }, () =>
-      this.setState({ isFinished: true }),
-    );
+    const { updateMyBook, myBook, subChapterId } = this.props;
+    const formValue = {
+      lastPageNumber: myBook.lastPageNumber * 1,
+      lastSubChapterId: subChapterId,
+    };
+    updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
+  }
+
+  handleViewWrongOnly() {
+    const { viewWrongOnly } = this.state;
+    this.props.handleViewWrongOnly();
+    this.setState({ viewWrongOnly: !viewWrongOnly });
   }
 
   handleTotalScroing() {
@@ -48,7 +58,8 @@ class ProblemHead extends PureComponent {
       setIsSolved,
       setIsRight,
       setSolvedDateTime,
-      setLastMyProblemId,
+      setLastMyProblemPage,
+      pagination,
     } = this.props;
     for (let myProblem of myProblemList) {
       Api.get('/student/library/my-book/my-problems', {
@@ -58,7 +69,7 @@ class ProblemHead extends PureComponent {
           if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
           else setIsRight(myProblem.myProblemId, false);
           setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
-          setLastMyProblemId(id, myProblem.myProblemId);
+          setLastMyProblemPage(id, pagination.number);
         }
       });
       const formValue = {
@@ -79,7 +90,7 @@ class ProblemHead extends PureComponent {
 
   render() {
     const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
-    const { bookName } = this.state;
+    const { bookName, viewWrongOnly } = this.state;
 
     if (!this.state.isFinished) {
       return (
@@ -91,6 +102,11 @@ class ProblemHead extends PureComponent {
               disabled={loadingUpdatePageNumber}
             >
               문제집 닫기
+            </Button>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
+            <Button xsmall onPress={() => this.handleViewWrongOnly()}>
+              {viewWrongOnly ? '전체 보기' : '틀린 문제만 보기'}
             </Button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>

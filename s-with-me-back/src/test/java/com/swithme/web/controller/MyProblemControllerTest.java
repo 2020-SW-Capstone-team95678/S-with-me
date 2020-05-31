@@ -92,6 +92,8 @@ public class MyProblemControllerTest {
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
+                .lastSubChapterId(1)
+                .lastPageNumber((short)1)
                 .build());
         myBook = myBookRepository.findAll().get(0);
 
@@ -115,7 +117,7 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void updateMyProblemTest() throws Exception{
+    public void updateMyProblemTest() {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
@@ -148,7 +150,8 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/my-problems/subChapter/" + subChapter.getSubChapterId();
+        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter/subChapter/"
+                + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

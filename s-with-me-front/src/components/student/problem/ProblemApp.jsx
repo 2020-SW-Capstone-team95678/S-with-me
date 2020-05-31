@@ -1,46 +1,57 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import queryString from 'query-string';
 
-import AppNav, { HEIGHT } from '../AppNav';
-
-import MyProblemListContainer from '../../../containers/student/problem/MyProblemListContainer';
-import NotificationContainer from '../../../containers/NotificationContainer';
 import ProblemHeadContainer from '../../../containers/student/problem/ProblemHeadContainer';
+import ProblemList from './ProblemList';
 
-class ProblemApp extends PureComponent {
+export default class ProblemApp extends PureComponent {
+  static defaultProps = {
+    myProblemList: [],
+    requestMyProblemList: () => {},
+  };
+  constructor(props) {
+    super(props);
+    this.state = { viewWrongOnly: false };
+  }
+
+  handleViewWrongOnly = () => {
+    const { viewWrongOnly } = this.state;
+    this.setState({ viewWrongOnly: !viewWrongOnly });
+  };
+
+  componentDidMount() {
+    const { subChapterId } = this.props.match.params;
+    const query = queryString.parse(this.props.location.search);
+    const page = query.page || 1;
+    this.props.requestMyProblemList({ subChapterId: subChapterId }, page);
+  }
+
   render() {
-    const { styles } = this.props;
-    const { myBookId, continuePageNumber } = this.props.match.params;
+    const { myBookId, subChapterId } = this.props.match.params;
+    const { number, myProblemList, loading } = this.props;
+    const { viewWrongOnly } = this.state;
     return (
-      <div {...css(styles.wrapper)}>
-        <AppNav />
-        <div {...css(styles.body)}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ hight: 5, padding: 3 }}>
-              <ProblemHeadContainer id={myBookId} />
-            </div>
-            <div style={{ flex: 1, padding: 3 }}>
-              <MyProblemListContainer id={myBookId} continuePageNumber={continuePageNumber} />
-            </div>
-          </div>
-          <NotificationContainer />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ hight: 5, padding: 3 }}>
+          <ProblemHeadContainer
+            subChapterId={subChapterId}
+            id={myBookId}
+            handleViewWrongOnly={this.handleViewWrongOnly}
+          />
+        </div>
+        <div style={{ flex: 1, padding: 3 }}>
+          <ProblemList
+            subChapterId={subChapterId}
+            page={number}
+            myProblemList={
+              viewWrongOnly
+                ? myProblemList.filter(myProblem => myProblem.isRight === false)
+                : myProblemList
+            }
+            loading={loading}
+          />
         </div>
       </div>
     );
   }
 }
-
-ProblemApp.propTypes = {
-  ...withStylesPropTypes,
-  children: PropTypes.node,
-};
-
-export default withStyles(({ unit }) => ({
-  wrapper: {
-    marginTop: HEIGHT,
-  },
-  body: {
-    padding: unit * 4,
-  },
-}))(ProblemApp);

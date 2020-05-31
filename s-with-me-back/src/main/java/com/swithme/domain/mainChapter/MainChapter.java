@@ -1,6 +1,7 @@
 package com.swithme.domain.mainChapter;
 
 import com.swithme.domain.book.Book;
+import com.swithme.web.dto.MainChapterUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,9 @@ public class MainChapter {
     public MainChapter(Book book, String mainChapterName){
         this.book = book;
         this.mainChapterName = mainChapterName;
+    }
+
+    public void update(MainChapterUpdateRequestDto requestDto) {
+        this.mainChapterName = requestDto.getMainChapterName();
     }
 }

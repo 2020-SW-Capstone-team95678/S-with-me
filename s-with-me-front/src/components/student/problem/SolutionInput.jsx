@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 export default class SolutionInput extends PureComponent {
   constructor(props) {
     super(props);
-    this.hadleChange = this.hadleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  hadleChange(e) {
+  handleChange(e) {
     const { setMySolution, id } = this.props;
     e.preventDefault();
     setMySolution(id, e.target.value);
@@ -16,7 +16,7 @@ export default class SolutionInput extends PureComponent {
         type="text"
         name="textSolutionInput"
         label="텍스트 풀이 입력"
-        onChange={this.hadleChange}
+        onChange={this.handleChange}
       />
     );
   }

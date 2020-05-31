@@ -31,7 +31,7 @@ class AppNav extends PureComponent {
           <div {...css(styles.wrapper)}>
             <div style={{ display: 'flex' }} {...css(styles.container)}>
               <div style={{ flex: 1 }}>
-                <NavLink to="/">
+                <NavLink to="/library">
                   <img
                     src={logo}
                     alt="s-with-me logo"
@@ -55,14 +55,16 @@ class AppNav extends PureComponent {
               </div>
               <div style={{ flex: 1 }}>서점</div>
               <div style={{ flex: 1 }}>
-              <NavLink to="/profile" activeStyle={activeStyle}>
-                프로필
-              </NavLink>
+                <NavLink to="/profile" activeStyle={activeStyle}>
+                  프로필
+                </NavLink>
               </div>
               <div style={{ flex: 1 }}>
-                <Button small onPress={() => this.handleLogout()}>
-                  로그아웃
-                </Button>
+                <NavLink to="/">
+                  <Button small onPress={() => this.handleLogout()}>
+                    로그아웃
+                  </Button>
+                </NavLink>
               </div>
             </div>
           </div>

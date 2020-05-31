@@ -1,29 +1,43 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Button from '../../../common-ui/Button';
-import Heading from '../../../common-ui/Heading';
+import NoteFolderFilterContainer from '../../../containers/student/note/NoteFolderFilterContainer';
+import NoteSubjectFilterContainer from '../../../containers/student/note/NoteSubjectFilterContainer';
 
 class NoteHead extends PureComponent {
-  static propTypes = {
-    ...withStylesPropTypes,
-  };
+  constructor(props) {
+    super(props);
+    this.state = { viewFolderList: false, viewSubjectList: false };
+  }
 
   render() {
     const { styles } = this.props;
+    const { viewFolderList, viewSubjectList } = this.state;
     return (
       <div {...css(styles.container)}>
-        <div style={{ width: 200, padding: 3 }}>
-          <Heading level={4}>기본 문제집</Heading>
+        <div style={{ flex: 1, padding: 3, display: 'flex' }}>
+          <Button small onPress={() => this.setState({ viewSubjectList: !viewSubjectList })}>
+            과목별 보기
+          </Button>
+          {viewSubjectList ? <NoteSubjectFilterContainer /> : null}
+        </div>
+        <div style={{ flex: 1, padding: 3, display: 'flex' }}>
+          <Button small onPress={() => this.setState({ viewFolderList: !viewFolderList })}>
+            폴더별 보기
+          </Button>
+          {viewFolderList ? <NoteFolderFilterContainer /> : null}
         </div>
         <div style={{ flex: 1, padding: 3 }}>
-          <Button small>과목별 보기</Button>
-        </div>
-        <div style={{ flex: 1, padding: 3 }}>
-          <Button small>폴더별 보기</Button>
-        </div>
-        <div style={{ flex: 1, padding: 3 }}>
-          <Button small>최신순 보기</Button>
+          <Button
+            small
+            onPress={() => {
+              this.setState({ viewFolderList: false, viewSubjectList: false });
+              this.props.handleViewOrigin();
+            }}
+          >
+            최신순 보기
+          </Button>
         </div>
       </div>
     );

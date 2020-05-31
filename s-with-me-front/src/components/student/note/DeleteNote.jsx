@@ -6,7 +6,6 @@ import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
 import InlineList from '../../../common-ui/InlineList';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
-import Api from '../../../Api';
 
 export default class DeleteNote extends PureComponent {
   static propTypes = {
@@ -19,10 +18,12 @@ export default class DeleteNote extends PureComponent {
   }
 
   handleSubmit(closeModal) {
-    const { myProblemId } = this.props;
-    Api.delete('/student/note', { params: { myProblemId: myProblemId } })
-      .then(() => closeModal())
-      .catch(() => closeModal());
+    const studentId = window.sessionStorage.getItem('studentId');
+    const { myProblemId, deleteNote, requestNoteList } = this.props;
+    deleteNote({ myProblemId: myProblemId }, () => {
+      closeModal();
+      requestNoteList({ studentId: studentId });
+    });
   }
 
   render() {
