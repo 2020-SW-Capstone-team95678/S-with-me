@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
 import com.swithme.web.dto.MyBookCreateDto;
@@ -35,6 +34,12 @@ public class MyBookController {
     }
 
     @CrossOrigin
+    @GetMapping("/student/library/my-book/folderFilter")
+    public List<MyBookResponseDto> getMyBookListFilteredByFolder(@RequestParam("folderId") int folderId){
+        return myBookService.findMyBookListFilteredByFolder(folderId);
+    }
+
+    @CrossOrigin
     @PostMapping("/student/library/my-book")
     public String createMyBook(@RequestBody MyBookCreateDto myBookCreateDto){
         return myBookService.createMyBook(myBookCreateDto);
@@ -52,5 +57,11 @@ public class MyBookController {
     public int updateFolder(@PathVariable int myBookId,
                             @RequestBody MybookFolderUpdateRequestDto requestDto){
         return myBookService.updateFolder(myBookId, requestDto);
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/student/library/my-book/{myBookId}")
+    public String deleteMyBook(@PathVariable int myBookId){
+        return myBookService.deleteMyBook(myBookId);
     }
 }

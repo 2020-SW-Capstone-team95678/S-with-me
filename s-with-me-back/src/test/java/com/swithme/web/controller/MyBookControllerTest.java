@@ -2,8 +2,14 @@ package com.swithme.web.controller;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.folder.Folder;
+import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
+import com.swithme.domain.note.Note;
+import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
@@ -18,6 +24,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +44,14 @@ public class MyBookControllerTest {
     private BookRepository bookRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FolderRepository folderRepository;
+    @Autowired
+    private MyProblemRepository myProblemRepository;
+    @Autowired
+    private NoteRepository noteRepository;
+
+    private Folder folder;
 
     @Before
     public void setup(){
@@ -45,8 +60,12 @@ public class MyBookControllerTest {
         bookRepository.save(new Book());
         Book book = bookRepository.findAll().get(0);
 
+        folderRepository.save(new Folder());
+        folder = folderRepository.findAll().get(0);
+
         myBookRepository.save(MyBook.builder()
                 .book(book)
+                .folder(folder)
                 .build());
     }
 
@@ -84,5 +103,42 @@ public class MyBookControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMyBookListFilteredByFolder(){
+        String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folder.getFolderId();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void deleteMyBookTest(){
+        MyBook myBook = myBookRepository.findAll().get(0);
+
+        myProblemRepository.save(MyProblem.builder()
+                .myBook(myBook)
+                .build());
+        MyProblem myProblem = myProblemRepository.findAll().get(0);
+
+        noteRepository.save(Note.builder()
+                .myProblem(myProblem)
+                .build());
+
+        assertThat(myBookRepository.findAll()).isNotEmpty();
+        assertThat(myProblemRepository.findAll()).isNotEmpty();
+        assertThat(noteRepository.findAll()).isNotEmpty();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(myBookRepository.findAll()).isEmpty();
+        assertThat(myProblemRepository.findAll()).isEmpty();
+        assertThat(noteRepository.findAll()).isEmpty();
     }
 }
