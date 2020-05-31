@@ -1,7 +1,7 @@
 import { SET_LAST_MY_PROBLEM_PAGE } from '../actions/myBookActions';
 
 import { handle } from 'redux-pack';
-import { FETCH_MY_BOOK_LIST, UPDATE_MY_BOOK } from '../actions/myBookPackActions';
+import { FETCH_MY_BOOK_LIST, UPDATE_MY_BOOK, MOVE_MY_BOOK } from '../actions/myBookPackActions';
 
 const initState = {
   ids: [],
@@ -9,10 +9,12 @@ const initState = {
   loadingState: {
     [FETCH_MY_BOOK_LIST]: false,
     [UPDATE_MY_BOOK]: false,
+    [MOVE_MY_BOOK]: false,
   },
   errorState: {
     [FETCH_MY_BOOK_LIST]: false,
     [UPDATE_MY_BOOK]: false,
+    [MOVE_MY_BOOK]: false,
   },
 };
 
@@ -20,6 +22,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case MOVE_MY_BOOK:
     case UPDATE_MY_BOOK:
     case FETCH_MY_BOOK_LIST: {
       return handle(state, action, {
@@ -57,11 +60,11 @@ export default (state = initState, action) => {
           }
         },
         failure: prevState => {
-          const { errorMessage } = payload.response.data;
+          const { message } = payload.response.data;
           return {
             ...prevState,
             loadingState: { ...prevState.loadingState, [type]: false },
-            errorState: { ...prevState.errorState, [type]: errorMessage || true },
+            errorState: { ...prevState.errorState, [type]: message || true },
           };
         },
       });
