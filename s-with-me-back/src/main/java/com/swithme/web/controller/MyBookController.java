@@ -35,6 +35,12 @@ public class MyBookController {
     }
 
     @CrossOrigin
+    @GetMapping("/student/library/my-book/folderFilter")
+    public List<MyBookResponseDto> getMyBookListFilteredByFolder(@RequestParam("folderId") int folderId){
+        return myBookService.findMyBookListFilteredByFolder(folderId);
+    }
+
+    @CrossOrigin
     @PostMapping("/student/library/my-book")
     public String createMyBook(@RequestBody MyBookCreateDto myBookCreateDto){
         return myBookService.createMyBook(myBookCreateDto);

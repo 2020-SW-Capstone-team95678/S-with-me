@@ -2,6 +2,8 @@ package com.swithme.web.controller;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.folder.Folder;
+import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.student.Student;
@@ -37,6 +39,10 @@ public class MyBookControllerTest {
     private BookRepository bookRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FolderRepository folderRepository;
+
+    private Folder folder;
 
     @Before
     public void setup(){
@@ -45,8 +51,12 @@ public class MyBookControllerTest {
         bookRepository.save(new Book());
         Book book = bookRepository.findAll().get(0);
 
+        folderRepository.save(new Folder());
+        folder = folderRepository.findAll().get(0);
+
         myBookRepository.save(MyBook.builder()
                 .book(book)
+                .folder(folder)
                 .build());
     }
 
@@ -81,6 +91,15 @@ public class MyBookControllerTest {
         Student student = studentRepository.findAll().get(0);
 
         String url = "http://localhost:" + port + "/student/library?studentId=" + student.getStudentId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMyBookListFilteredByFolder(){
+        String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folder.getFolderId();
+
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

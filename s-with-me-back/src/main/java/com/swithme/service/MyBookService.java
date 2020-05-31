@@ -82,4 +82,22 @@ public class MyBookService {
         }
         return responseDtoList;
     }
+
+    @Transactional
+    public List<MyBookResponseDto> findMyBookListFilteredByFolder(int folderId) {
+        Folder folder = folderRepository.findById(folderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. folderId = " + folderId));
+        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
+        List<MyBookResponseDto> responseDtoList = new ArrayList<>();
+        for(MyBook myBook : myBookList){
+            responseDtoList.add(MyBookResponseDto.builder()
+                    .myBookId(myBook.getMyBookId())
+                    .bookId(myBook.getBook().getBookId())
+                    .folderId(myBook.getFolder().getFolderId())
+                    .lastSubChapterId(myBook.getLastSubChapterId())
+                    .lastPageNumber(myBook.getLastPageNumber())
+                    .build());
+        }
+        return responseDtoList;
+    }
 }
