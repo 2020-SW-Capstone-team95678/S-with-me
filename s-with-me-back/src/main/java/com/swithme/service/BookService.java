@@ -6,10 +6,7 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
-import com.swithme.web.dto.BookInformationResponseDto;
-import com.swithme.web.dto.BookCreateDto;
-import com.swithme.web.dto.BookResponseDto;
-import com.swithme.web.dto.BookUpdateRequestDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,10 +114,13 @@ public class BookService {
     }
 
     @Transactional
-    public int getBookId(int myBookId) {
+    public BookIdResponseDto getBookId(int myBookId) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
         Book book = myBook.getBook();
-        return book.getBookId();
+        BookIdResponseDto responseDto = BookIdResponseDto.builder()
+                .bookId(book.getBookId())
+                .build();
+        return responseDto;
     }
 }

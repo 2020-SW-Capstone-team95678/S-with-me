@@ -14,7 +14,7 @@ public class MyProblemResponseDto {
     private int myBookId;
     private int problemId;
     private Integer linkSolutionId;
-    private Byte[] imageSolution;
+    private String imageSolution;
     private String textSolution;
     private String solutionType;
     private String myAnswer;
@@ -25,7 +25,7 @@ public class MyProblemResponseDto {
 
     @Builder
     public MyProblemResponseDto(int myProblemId, int myBookId, int problemId, Integer linkSolutionId,
-                                Byte[] imageSolution, String textSolution, String solutionType,
+                                String imageSolution, String textSolution, String solutionType,
                                 Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved){
         this.myProblemId = myProblemId;
         this.myBookId = myBookId;

@@ -74,7 +74,6 @@ public class CurriculumControllerTest {
     private SubChapterRepository subChapterRepository;
 
     private Student student;
-    private MyProblem myProblem;
 
     @Before
     public void setup(){

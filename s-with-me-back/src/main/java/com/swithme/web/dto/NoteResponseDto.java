@@ -14,7 +14,7 @@ public class NoteResponseDto {
     private int myBookId;
     private int problemId;
     private Integer linkSolutionId;
-    private Byte[] imageSolution;
+    private String imageSolution;
     private String textSolution;
     private String solutionType;
     private String myAnswer;
@@ -25,8 +25,8 @@ public class NoteResponseDto {
 
     @Builder
     public NoteResponseDto(int noteId, int myProblemId, int myBookId, int problemId, Integer linkSolutionId,
-                                Byte[] imageSolution, String textSolution, String solutionType,
-                                Boolean isConfused, Boolean isRight, Boolean isSolved, Long solvedDateTime, String myAnswer){
+                           String imageSolution, String textSolution, String solutionType,
+                           Boolean isConfused, Boolean isRight, Boolean isSolved, Long solvedDateTime, String myAnswer){
         this.noteId = noteId;
         this.myProblemId = myProblemId;
         this.myBookId = myBookId;

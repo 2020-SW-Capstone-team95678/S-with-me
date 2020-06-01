@@ -1,10 +1,13 @@
 package com.swithme.service;
 
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
+import com.swithme.web.dto.ProblemIdResponseDto;
 import com.swithme.web.dto.ProblemResponseDto;
 import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final SubChapterRepository subChapterRepository;
+    private final MyProblemRepository myProblemRepository;
 
     @Transactional
     public ProblemResponseDto findById(int problemId) {
@@ -97,5 +101,16 @@ public class ProblemService {
                     .build());
         }
         return responseDtoList;
+    }
+
+    @Transactional
+    public ProblemIdResponseDto getProblemId(int myProblemId) {
+        MyProblem myProblem = myProblemRepository.findById(myProblemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 myProblem이 없습니다. myProblemId = " + myProblemId));
+        Problem problem = myProblem.getProblem();
+        ProblemIdResponseDto responseDto = ProblemIdResponseDto.builder()
+                .problemId(problem.getProblemId())
+                .build();
+        return responseDto;
     }
 }
