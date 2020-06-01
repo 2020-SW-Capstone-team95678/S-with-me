@@ -52,8 +52,8 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/signup/publisher/dupcheck")
-    public boolean checkDupPublisherId(String publisherId) {
-        Publisher publisher = publisherRepository.findByUserId(publisherId);
+    public boolean checkDupPublisherId(String userId) {
+        Publisher publisher = publisherRepository.findByUserId(userId);
         if(publisher==null) return true;
         else return false;
     }

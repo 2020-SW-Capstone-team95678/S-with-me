@@ -6,6 +6,8 @@ import com.swithme.domain.curriculum.Curriculum;
 import com.swithme.domain.curriculum.CurriculumRepository;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
+import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -17,6 +19,8 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.CurriculumResponseDto;
 import com.swithme.web.dto.NoteCreateDto;
@@ -63,6 +67,10 @@ public class CurriculumControllerTest {
     private BookRepository bookRepository;
     @Autowired
     private CurriculumRepository curriculumRepository;
+    @Autowired
+    private MainChapterRepository mainChapterRepository;
+    @Autowired
+    private SubChapterRepository subChapterRepository;
 
     private Student student;
     private MyProblem myProblem;
@@ -132,6 +140,46 @@ public class CurriculumControllerTest {
         String url="http://localhost:"+port+"/student/library/curriculum/?studentId="+student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void curriculumArchievementTest()
+    {
+        assertThat(myBookRepository.findAll()).isNotEmpty();
+        curriculumRepository.save(Curriculum.builder()
+                .type("Weekly")
+                .myBook(myBookRepository.findAll().get(0))
+                .goalNumber(3)
+                .build());
+        assertThat(curriculumRepository.findAll()).isNotEmpty();
+        assertThat(bookRepository.findAll()).isNotEmpty();
+        mainChapterRepository.save(MainChapter.builder()
+                .mainChapterName("AA")
+                .build());
+        assertThat(mainChapterRepository.findAll()).isNotEmpty();
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapterRepository.findAll().get(0))
+                .build());
+        assertThat(subChapterRepository.findAll()).isNotEmpty();
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapterRepository.findAll().get(0))
+                .build());
+        assertThat(problemRepository.findAll()).isNotEmpty();
+
+        MyBook mybook = myBookRepository.findAll().get(0);
+        myProblemRepository.save(MyProblem.builder()
+                //.myBook(mybook) //이부분 지우면 에러 안남
+                .problem(problemRepository.findAll().get(0))
+                .solvedDateTime(1590937200001L)
+                .build());
+
+        //assertThat(myProblemRepository.findAll().get(0).getMyBook()).isEqualTo("AA");
+        assertThat(myProblemRepository.findAll()).isNotEmpty();
+
+        String url="http://localhost:"+port+"/student/library/curriculum/achievement?myBookId=1";
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(responseEntity.getBody()).isEqualTo("1");
     }
 }
 
