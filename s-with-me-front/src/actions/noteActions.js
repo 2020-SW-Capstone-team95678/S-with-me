@@ -6,9 +6,12 @@ export const UPDATE_NOTE = 'note/UPDATE_NOTE';
 export const DELETE_NOTE = 'note/DELETE_NOTE';
 export const SET_RESOLVE = 'note/SET_RESOLVE';
 export const SET_MY_NEW_ANSWER = 'note/SET_MY_NEW_ANSWER';
-export const SET_MY_NEW_SOLUTION = 'note/SET_MY_NEW_SOLUTION';
+export const SET_MY_NEW_TEXT_SOLUTION = 'note/SET_MY_NEW_TEXT_SOLUTION';
+export const SET_MY_NEW_IMAGE_SOLUTION = 'note/SET_MY_NEW_IMAGE_SOLUTION';
+export const SET_MY_NEW_LINK_SOLUTION = 'note/SET_MY_NEW_LINK_SOLUTION';
 export const SET_NEW_IS_RIGHT = 'note/SET_NEW_IS_RIGHT';
 export const SET_NEW_SOLVED_DATE_TIME = 'note/SET_NEW_SOLVED_DATE_TIME';
+export const SET_TEMP_SOLUTION_TYPE = 'note/SET_TEMP_SOLUTION_TYPE';
 
 export function requestNoteList(params) {
   return {
@@ -73,9 +76,19 @@ export const setMyNewAnswer = (id, myAnswer) => ({
   payload: { id, myAnswer },
 });
 
-export const setMyNewSolution = (id, myNewSolution) => ({
-  type: SET_MY_NEW_SOLUTION,
-  payload: { id, myNewSolution },
+export const setMyNewTextSolution = (id, myNewTextSolution) => ({
+  type: SET_MY_NEW_TEXT_SOLUTION,
+  payload: { id, myNewTextSolution },
+});
+
+export const setMyNewImageSolution = (id, myNewImageSolution) => ({
+  type: SET_MY_NEW_IMAGE_SOLUTION,
+  payload: { id, myNewImageSolution },
+});
+
+export const setMyNewLinkSolution = (id, myNewLinkSolution) => ({
+  type: SET_MY_NEW_LINK_SOLUTION,
+  payload: { id, myNewLinkSolution },
 });
 
 export const setNewIsRight = (id, isRight) => ({
@@ -86,4 +99,9 @@ export const setNewIsRight = (id, isRight) => ({
 export const setNewSolvedDateTime = (id, solvedDateTime) => ({
   type: SET_NEW_SOLVED_DATE_TIME,
   payload: { id, solvedDateTime },
+});
+
+export const setTempSolutionType = (id, tempSolutionType) => ({
+  type: SET_TEMP_SOLUTION_TYPE,
+  payload: { id, tempSolutionType },
 });

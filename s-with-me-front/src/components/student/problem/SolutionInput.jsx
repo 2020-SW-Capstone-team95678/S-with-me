@@ -20,7 +20,7 @@ export default class SolutionInput extends PureComponent {
     const { myBookId, requestChapterList } = this.props;
     Api.get('/student/library/my-book/book-id', { params: { myBookId: myBookId } }).then(
       ({ data }) => {
-        requestChapterList({ bookId: data });
+        requestChapterList({ bookId: data.bookId });
       },
     );
   }
@@ -65,34 +65,7 @@ export default class SolutionInput extends PureComponent {
         <img className="profile_preview" src={previewURL} height="100" alt="solution_preview" />
       );
     }
-    if (solutionType === 'text') {
-      return (
-        <div style={{ padding: '5px', paddingTop: 5 }}>
-          <textarea
-            type="text"
-            onChange={this.handleChange}
-            name="textSolutionInput"
-            style={{
-              width: '100%',
-              height: '110px',
-              resize: 'none',
-            }}
-          />
-        </div>
-      );
-    } else if (solutionType === 'img') {
-      return (
-        <div style={{ padding: '5px', paddingTop: 5 }}>
-          <input
-            type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
-            name="mySolutionImage"
-            onChange={this.handleFileOnChange}
-          />
-          {solution_preview}
-        </div>
-      );
-    } else {
+    if (solutionType === 'link') {
       return (
         <div style={{ padding: 5, paddingTop: 30 }}>
           <Text>참고할 문제를 선택해주세요!</Text>
@@ -161,6 +134,33 @@ export default class SolutionInput extends PureComponent {
               선택
             </div>
           </div>
+        </div>
+      );
+    } else if (solutionType === 'img') {
+      return (
+        <div style={{ padding: '5px', paddingTop: 5 }}>
+          <input
+            type="file"
+            accept="image/jpg,impge/png,image/jpeg,image/gif"
+            name="mySolutionImage"
+            onChange={this.handleFileOnChange}
+          />
+          {solution_preview}
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ padding: '5px', paddingTop: 5 }}>
+          <textarea
+            type="text"
+            onChange={this.handleChange}
+            name="textSolutionInput"
+            style={{
+              width: '100%',
+              height: '110px',
+              resize: 'none',
+            }}
+          />
         </div>
       );
     }

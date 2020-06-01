@@ -34,7 +34,7 @@ class ProblemHead extends PureComponent {
       params: { myBookId: this.props.id },
     }).then(({ data }) => {
       Api.get('/student/library/my-book', {
-        params: { bookId: data },
+        params: { bookId: data.bookId },
       }).then(({ data }) => this.setState({ bookName: data.name }));
     });
   }
