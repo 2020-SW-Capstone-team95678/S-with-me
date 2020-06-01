@@ -108,10 +108,15 @@ public class CurriculumControllerTest {
     @After
     public void cleanup(){
         curriculumRepository.deleteAll();
+        myProblemRepository.deleteAll();
+        noteRepository.deleteAll();
+        problemRepository.deleteAll();
+        subChapterRepository.deleteAll();
+        mainChapterRepository.deleteAll();
         myBookRepository.deleteAll();
         bookRepository.deleteAll();
-        publisherRepository.deleteAll();
         folderRepository.deleteAll();
+        publisherRepository.deleteAll();
         studentRepository.deleteAll();
     }
     @Test
@@ -137,7 +142,7 @@ public class CurriculumControllerTest {
         MyBook mybook = myBookRepository.findAll().get(0);
         CurriculumCreateDto curriculumCreateDto= CurriculumCreateDto.builder()
                 .dailyGoal(3)
-                .subChapterId(1)
+                .subChapterId(subChapterRepository.findAll().get(0).getSubChapterId())
                 .type("week")
                 .myBookId(mybook.getMyBookId())
                 .build();
@@ -151,6 +156,12 @@ public class CurriculumControllerTest {
     @Test
     public void curriculumResponseTest()
     {
+        mainChapterRepository.save(MainChapter.builder()
+                .mainChapterName("AA")
+                .build());
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapterRepository.findAll().get(0))
+                .build());
         assertThat(myBookRepository.findAll()).isNotEmpty();
         curriculumRepository.save(Curriculum.builder()
                 .type("asd")

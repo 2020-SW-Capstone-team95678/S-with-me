@@ -29,6 +29,7 @@ public class MyProblem {
     @JoinColumn(name = "problemId")
     private Problem problem;
 
+    @Lob
     @Column(name = "mySolution")
     private String mySolution;
 
