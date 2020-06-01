@@ -4,6 +4,11 @@ import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
 import Button from '../../../common-ui/Button';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+
 export default class SolutionFilter extends PureComponent {
   render() {
     return (
@@ -11,40 +16,16 @@ export default class SolutionFilter extends PureComponent {
         <Form.Consumer>
           {({ values }) => (
             <InlineList spacingBetween={1}>
-              <Button
-                onPress={() => {
-                  values['solutionType'] = 'text';
-                }}
-                type="submit"
-                small
-              >
+              <Button>
+                <FontAwesomeIcon icon={faAlignLeft} size="lg" />
                 텍스트 풀이 입력
               </Button>
-              <Button
-                onPress={() => {
-                  values['solutionType'] = 'hand';
-                }}
-                type="submit"
-                small
-              >
-                손글씨 풀이 입력
+              <Button>
+                <FontAwesomeIcon icon={faCamera} size="lg" />
+                사진 첨부 하기
               </Button>
-              <Button
-                onPress={() => {
-                  values['solutionType'] = 'img';
-                }}
-                type="submit"
-                small
-              >
-                사진 첨부
-              </Button>
-              <Button
-                onPress={() => {
-                  values['solutionType'] = 'link';
-                }}
-                type="submit"
-                small
-              >
+              <Button>
+                <FontAwesomeIcon icon={faPaperclip} size="lg" />
                 링크 연결하기
               </Button>
             </InlineList>

@@ -19,3 +19,11 @@ button {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'silgothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
