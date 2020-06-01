@@ -40,6 +40,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -131,6 +132,7 @@ public class CurriculumControllerTest {
         subChapterRepository.save(SubChapter.builder()
                 .mainChapter(mainChapterRepository.findAll().get(0))
                 .build());
+        assertThat(subChapterRepository.findAll()).isNotEmpty();
         assertThat(myBookRepository.findAll()).isNotEmpty();
         MyBook mybook = myBookRepository.findAll().get(0);
         CurriculumCreateDto curriculumCreateDto= CurriculumCreateDto.builder()
@@ -153,9 +155,10 @@ public class CurriculumControllerTest {
         curriculumRepository.save(Curriculum.builder()
                 .type("asd")
                 .myBook(myBookRepository.findAll().get(0))
+                .subChapter(subChapterRepository.findAll().get(0))
                 .dailyGoal(3)
                 .build());
-        String url="http://localhost:"+port+"/student/library/curriculum/?studentId="+student.getStudentId();
+        String url="http://localhost:"+port+"/student/library/curriculum/list/?studentId="+student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }

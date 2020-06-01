@@ -30,7 +30,7 @@ public class CurriculumController {
         return curriculumService.getCurriculum(myBookId);
     }
     @CrossOrigin
-    @GetMapping("/student/library/curriculum/List")
+    @GetMapping("/student/library/curriculum/list")
     public List<CurriculumResponseDto> getCurriculumList(@RequestParam("studentId") int studentId){
         return curriculumService.getCurriculumList(studentId);
     }
