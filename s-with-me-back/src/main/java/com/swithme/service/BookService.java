@@ -114,12 +114,13 @@ public class BookService {
     }
 
     @Transactional
-    public BookIdResponseDto getBookId(int myBookId) {
+    public BookNameResponseDto getBookName(int myBookId) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
         Book book = myBook.getBook();
-        BookIdResponseDto responseDto = BookIdResponseDto.builder()
+        BookNameResponseDto responseDto = BookNameResponseDto.builder()
                 .bookId(book.getBookId())
+                .bookName(book.getName())
                 .build();
         return responseDto;
     }

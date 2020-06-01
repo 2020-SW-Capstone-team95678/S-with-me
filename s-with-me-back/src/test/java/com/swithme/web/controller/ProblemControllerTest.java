@@ -39,8 +39,6 @@ public class ProblemControllerTest {
     private ProblemRepository problemRepository;
     @Autowired
     private SubChapterRepository subChapterRepository;
-    @Autowired
-    private MyProblemRepository myProblemRepository;
 
     private SubChapter subChapter;
 
@@ -51,14 +49,10 @@ public class ProblemControllerTest {
         Problem problem = problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .build());
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problem)
-                .build());
     }
 
     @After
     public void cleanup(){
-        myProblemRepository.deleteAll();
         problemRepository.deleteAll();
         subChapterRepository.deleteAll();
     }
@@ -81,16 +75,6 @@ public class ProblemControllerTest {
                 .build());
         String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
                  + subChapter.getSubChapterId();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
-    @Test
-    public void getProblemIdTest(){
-        MyProblem myProblem = myProblemRepository.findAll().get(0);
-        String url = "http://localhost:" + port + "/student/library/my-book/my-problem/problem-id?myProblemId="
-                +myProblem.getMyProblemId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -18,12 +18,6 @@ public class ProblemController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/my-problem/problem-id")
-    public ProblemIdResponseDto getProblemId(@RequestParam("myProblemId") int myProblemId){
-        return problemService.getProblemId(myProblemId);
-    }
-
-    @CrossOrigin
     @GetMapping("/publisher/library/book/mainChapter")
     public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId){
         return problemService.getProblemList(subChapterId);

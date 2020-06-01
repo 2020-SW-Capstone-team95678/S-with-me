@@ -8,8 +8,10 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
+import com.swithme.web.dto.MySolutionResponseDto;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import com.swithme.web.dto.ProblemInformationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,5 +106,36 @@ public class MyProblemService {
                     .build());
         }
         return responseDtoList;
+    }
+
+    @Transactional
+    public MySolutionResponseDto getMySolution(int myProblemId) {
+        MyProblem myProblem = myProblemRepository.findById(myProblemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 myProblem이 없습니다. myProblemId = " + myProblemId));
+        Problem problem = myProblem.getProblem();
+        SubChapter subChapter = problem.getSubChapter();
+        ProblemInformationResponseDto problemInformationResponseDto = ProblemInformationResponseDto.builder()
+                .problemId(problem.getProblemId())
+                .subChapterId(subChapter.getSubChapterId())
+                .content(problem.getContent())
+                .solution(problem.getSolution())
+                .answer(problem.getAnswer())
+                .problemNumber(problem.getProblemNumber())
+                .isOptional(problem.getIsOptional())
+                .option1(problem.getOption1())
+                .option2(problem.getOption2())
+                .option3(problem.getOption3())
+                .option4(problem.getOption4())
+                .option5(problem.getOption5())
+                .build();
+        MySolutionResponseDto responseDto = MySolutionResponseDto.builder()
+                .problemInformationResponseDto(problemInformationResponseDto)
+                .textSolution(myProblem.getTextSolution())
+                .imageSolution(myProblem.getImageSolution())
+                .linkSolutionId(myProblem.getLinkSolutionId())
+                .solutionType(myProblem.getSolutionType())
+                .myAnswer(myProblem.getMyAnswer())
+                .build();
+        return responseDto;
     }
 }
