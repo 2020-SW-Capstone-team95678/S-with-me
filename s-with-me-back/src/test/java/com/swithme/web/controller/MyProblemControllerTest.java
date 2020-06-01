@@ -122,11 +122,14 @@ public class MyProblemControllerTest {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
-        String expectedMySolution = "updated solution";
+        String expectedTextSolution = "updated solution";
         String expectedMyAnswer = "updated answer";
 
         MyProblemUpdateRequestDto requestDto = MyProblemUpdateRequestDto.builder()
-                .mySolution(expectedMySolution)
+                .linkSolutionId(null)
+                .imageSolution(null)
+                .textSolution(expectedTextSolution)
+                .solutionType("text")
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
                 .isRight(false)
@@ -145,7 +148,7 @@ public class MyProblemControllerTest {
 
         MyProblem updatedMyProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
-        assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
+        assertThat(updatedMyProblem.getTextSolution()).isEqualTo(expectedTextSolution);
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNotNull();
     }

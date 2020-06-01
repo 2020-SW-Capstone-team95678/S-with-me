@@ -1,7 +1,5 @@
 package com.swithme.service;
 
-import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
@@ -32,7 +30,7 @@ public class MyProblemService {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
         myProblem.update(requestDto);
-        if(!myProblem.getIsRight() || myProblem.getIsConfused()) {
+        if (!myProblem.getIsRight() || myProblem.getIsConfused()) {
             if (noteRepository.findByMyProblem(myProblem) == null) {
                 noteRepository.save(Note.builder()
                         .student(myProblem.getMyBook().getFolder().getStudent())
@@ -57,19 +55,21 @@ public class MyProblemService {
         List<Problem> problemList = new ArrayList<>();
         try {
             problemList = allProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8 - 1);
-        }
-        catch(IndexOutOfBoundsException indexOutOfBoundsException){
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
             problemList = allProblemList.subList(lastPageNumber * 8 - 8, allProblemList.size());
         }
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
-        for(Problem problem : problemList){
+        for (Problem problem : problemList) {
             MyProblem myProblem = myProblemRepository.findByProblem(problem);
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(problem.getProblemId())
-                    .mySolution(myProblem.getMySolution())
+                    .linkSolutionId(myProblem.getLinkSolutionId())
+                    .imageSolution(myProblem.getImageSolution())
+                    .textSolution(myProblem.getTextSolution())
+                    .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
@@ -83,16 +83,19 @@ public class MyProblemService {
     @Transactional
     public List<MyProblemResponseDto> getMyProblemListInSubChapter(int subChapterId) {
         SubChapter subChapter = subChapterRepository.findById(subChapterId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 subChapter가 없습니다. subChapterId = " + subChapterId));
+                .orElseThrow(() -> new IllegalArgumentException("해당 subChapter가 없습니다. subChapterId = " + subChapterId));
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
-        for(Problem problem : problemList){
+        for (Problem problem : problemList) {
             MyProblem myProblem = myProblemRepository.findByProblem(problem);
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(problem.getProblemId())
-                    .mySolution(myProblem.getMySolution())
+                    .linkSolutionId(myProblem.getLinkSolutionId())
+                    .imageSolution(myProblem.getImageSolution())
+                    .textSolution(myProblem.getTextSolution())
+                    .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
@@ -102,16 +105,4 @@ public class MyProblemService {
         }
         return responseDtoList;
     }
-
-//    @Transactional
-//    public int updateMyProblem(MyProblemUpdateRequestDto requestDto){
-//        List<MyProblem> myProblemToUpdateList = requestDto.getMyProblemList();
-//        for(MyProblem myProblemToUpdate : myProblemToUpdateList){
-//            MyProblem myProblem = myProblemRepository.findById(myProblemToUpdate.getMyProblemId())
-//                    .orElseThrow(() -> new IllegalArgumentException
-//                            ("해당 my problem이 없습니다. myProblemId=" + myProblemToUpdate.getMyProblemId()));
-//            myProblem.update(myProblemToUpdate);
-//        }
-//        return 1;
-//    }
 }
