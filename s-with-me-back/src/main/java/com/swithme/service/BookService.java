@@ -108,6 +108,7 @@ public class BookService {
                 .publishedDate(book.getPublishedDate())
                 .grade(book.getGrade())
                 .cover(book.getCover())
+                .introduction(book.getIntroduction())
                 .build();
         return responseDto;
     }
