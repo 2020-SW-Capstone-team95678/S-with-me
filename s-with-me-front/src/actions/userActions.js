@@ -4,13 +4,13 @@ export const SET_USER = 'user/SET_USER';
 export const CREATE_USER = 'user/CREATE_USER';
 export const CHECK_ID_DUPLICATION = 'user/CHECK_ID_DUPLICATION';
 
-export function setUser(data, onComplete) {
+export function setUser(isStudent, data, onComplete) {
   const params = new URLSearchParams();
   params.append('id', data.id);
   params.append('password', data.password);
   return {
     type: SET_USER,
-    promise: Api.post('/login/student', params),
+    promise: isStudent ? Api.post('/login/student', params) : Api.post('/login/publisher', params),
     meta: {
       onSuccess: onComplete,
       notification: {

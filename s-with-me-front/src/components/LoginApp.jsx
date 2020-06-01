@@ -16,13 +16,22 @@ class LoginApp extends react.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
-    const { setUser, history } = this.props;
-    const { isStudent } = this.state;
+    const { setUser, history, setUserType } = this.props;
+    const { isStudent, isPublisher } = this.state;
     if (isStudent) {
-      setUser(values, () => {
+      setUser(true, values, () => {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
         this.setState({ isLogin: true });
+        setUserType(true);
+      });
+    }
+    if (isPublisher) {
+      setUser(false, values, () => {
+        history.push('/');
+        window.sessionStorage.setItem('publisherId', this.props.user.publisherId);
+        this.setState({ isLogin: true });
+        setUserType(false);
       });
     }
   }
@@ -31,7 +40,8 @@ class LoginApp extends react.PureComponent {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
 
-    if (this.props.logged || this.state.isLogin) return <Redirect to="library" />;
+    if (this.props.logged || this.state.isLogin & isStudent) return <Redirect to="/library" />;
+    if (this.props.logged || this.state.isLogin & isPublisher) return <Redirect to="/library" />;
 
     return (
       <div className="login">
@@ -44,6 +54,10 @@ class LoginApp extends react.PureComponent {
                 font-color="red"
                 onChange={() => this.setState({ isStudent: !isStudent })}
                 checked={isStudent}
+                errorMessage={
+                  (isPublisher && isStudent && '중복 선택') ||
+                  (!isStudent && !isPublisher && '선택요망')
+                }
               >
                 학생
               </CheckBox>
@@ -51,6 +65,10 @@ class LoginApp extends react.PureComponent {
                 name="isPublisher"
                 onChange={() => this.setState({ isPublisher: !isPublisher })}
                 checked={isPublisher}
+                errorMessage={
+                  (isPublisher && isStudent && '중복 선택') ||
+                  (!isStudent && !isPublisher && '선택요망')
+                }
               >
                 출판사
               </CheckBox>
