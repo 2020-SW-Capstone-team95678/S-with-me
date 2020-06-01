@@ -168,7 +168,6 @@ export default withStyles(({ unit, color }) => ({
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
     padding: 5,
-    height: 150,
   },
   container: {
     display: 'flex',
