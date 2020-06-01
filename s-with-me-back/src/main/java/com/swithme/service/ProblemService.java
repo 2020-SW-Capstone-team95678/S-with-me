@@ -1,13 +1,11 @@
 package com.swithme.service;
 
-import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
-import com.swithme.web.dto.ProblemInformationResponseDto;
 import com.swithme.web.dto.ProblemResponseDto;
 import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
