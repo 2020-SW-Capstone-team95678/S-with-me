@@ -2,6 +2,8 @@ package com.swithme.service;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookInformationResponseDto;
@@ -21,6 +23,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
+    private final MyBookRepository myBookRepository;
 
     @Transactional
     public BookInformationResponseDto getBookInformation(int bookId){
@@ -111,5 +114,13 @@ public class BookService {
                 .introduction(book.getIntroduction())
                 .build();
         return responseDto;
+    }
+
+    @Transactional
+    public int getBookId(int myBookId) {
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
+        Book book = myBook.getBook();
+        return book.getBookId();
     }
 }
