@@ -118,7 +118,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void getBookId(){
+    public void getBookNameTest(){
         Book book = bookRepository.save(new Book());
         MyBook myBook = myBookRepository.save(MyBook.builder()
                 .book(book)

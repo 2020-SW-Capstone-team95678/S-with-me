@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BookIdResponseDto {
+public class BookNameResponseDto {
 
     private int bookId;
+    private String bookName;
 
     @Builder
-    public BookIdResponseDto(int bookId){
+    public BookNameResponseDto(int bookId, String bookName){
         this.bookId = bookId;
+        this.bookName = bookName;
     }
 }

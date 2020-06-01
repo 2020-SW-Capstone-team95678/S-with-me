@@ -170,4 +170,15 @@ public class MyProblemControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    public void getMySolutionTest(){
+        MyProblem myProblem = myProblemRepository.findAll().get(0);
+        String url = "http://localhost:" + port + "/student/library/my-book/my-problem/problem-id?myProblemId="
+                +myProblem.getMyProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 }

@@ -3,6 +3,8 @@ package com.swithme.web.controller;
 import com.swithme.service.MyProblemService;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import com.swithme.web.dto.MySolutionResponseDto;
+import com.swithme.web.dto.ProblemInformationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,9 @@ public class MyProblemController {
         return myProblemService.getMyProblemListInSubChapter(subChapterId);
     }
 
-//    @PutMapping("/student/library/my-book/my-problems")
-//    public int updateMyProblem(@RequestBody MyProblemUpdateRequestDto requestDto){
-//        return myBookService.updateMyProblem(requestDto);
-//    }
+    @CrossOrigin
+    @GetMapping("/student/library/my-book/my-problem/problem-id")
+    public MySolutionResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId){
+        return myProblemService.getMySolution(myProblemId);
+    }
 }

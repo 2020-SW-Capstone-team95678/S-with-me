@@ -7,7 +7,7 @@ import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
-import com.swithme.web.dto.ProblemIdResponseDto;
+import com.swithme.web.dto.ProblemInformationResponseDto;
 import com.swithme.web.dto.ProblemResponseDto;
 import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -101,16 +101,5 @@ public class ProblemService {
                     .build());
         }
         return responseDtoList;
-    }
-
-    @Transactional
-    public ProblemIdResponseDto getProblemId(int myProblemId) {
-        MyProblem myProblem = myProblemRepository.findById(myProblemId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 myProblem이 없습니다. myProblemId = " + myProblemId));
-        Problem problem = myProblem.getProblem();
-        ProblemIdResponseDto responseDto = ProblemIdResponseDto.builder()
-                .problemId(problem.getProblemId())
-                .build();
-        return responseDto;
     }
 }
