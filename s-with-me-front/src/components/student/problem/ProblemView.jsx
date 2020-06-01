@@ -30,8 +30,13 @@ class ProblemView extends PureComponent {
       option3: '',
       option4: '',
       option5: '',
+      solutionFilterType: null,
     };
   }
+
+  selectSolutionFilterType = solutionFilterType => {
+    this.setState({ solutionFilterType: solutionFilterType });
+  };
 
   componentDidMount() {
     const { myProblem } = this.props;
@@ -94,7 +99,7 @@ class ProblemView extends PureComponent {
   render() {
     const { myProblem, styles, loading, page } = this.props;
     const { myProblemId, myAnswer, myBookId, isSolved } = myProblem;
-    const { problemNum, content, isOptional, answer } = this.state;
+    const { problemNum, content, isOptional, answer, solutionFilterType } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -128,9 +133,12 @@ class ProblemView extends PureComponent {
                       border: '1px solid',
                     }}
                   >
-                    <SolutionFilter />
+                    <SolutionFilter selectSolutionFilterType={this.selectSolutionFilterType} />
                   </div>
-                  <SolutionInputContainer id={myProblemId} />
+                  <SolutionInputContainer
+                    id={myProblemId}
+                    solutionFilterType={solutionFilterType}
+                  />
                 </div>
                 <div style={{ display: 'flex' }}>
                   <IsConfusedContainer id={myProblemId} />
@@ -168,6 +176,7 @@ export default withStyles(({ unit, color }) => ({
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
     padding: 5,
+    borderRadius: 2,
   },
   container: {
     display: 'flex',

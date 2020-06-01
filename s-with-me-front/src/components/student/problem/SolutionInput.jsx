@@ -11,13 +11,24 @@ export default class SolutionInput extends PureComponent {
     setMySolution(id, e.target.value);
   }
   render() {
+    const { solutionFilterType } = this.props;
     return (
-      <input
-        type="text"
-        name="textSolutionInput"
-        label="텍스트 풀이 입력"
-        onChange={this.handleChange}
-      />
+      <div style={{ padding: '5px' }}>
+        {solutionFilterType === 'text' ? (
+          <textarea
+            type="text"
+            onChange={this.handleChange}
+            name="textSolutionInput"
+            style={{
+              width: '100%',
+              height: '110px',
+              resize: 'none',
+            }}
+          />
+        ) : (
+          <div>Hello</div>
+        )}
+      </div>
     );
   }
 }
