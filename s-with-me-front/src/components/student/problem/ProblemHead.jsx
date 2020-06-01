@@ -20,6 +20,7 @@ class ProblemHead extends PureComponent {
       date: new Date(),
       bookName: '',
       viewWrongOnly: false,
+      bookId: '',
     };
     this.tick = this.tick.bind(this);
   }
@@ -29,10 +30,13 @@ class ProblemHead extends PureComponent {
   }
   componentDidMount() {
     clearInterval(this.timerId);
-    const { myBook } = this.props;
-    Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
-      this.setState({ bookName: data.name }),
-    );
+    Api.get('/student/library/my-book/book-id', {
+      params: { myBookId: this.props.id },
+    }).then(({ data }) => {
+      Api.get('/student/library/my-book', {
+        params: { bookId: data },
+      }).then(({ data }) => this.setState({ bookName: data.name }));
+    });
   }
 
   handleCloseBook() {

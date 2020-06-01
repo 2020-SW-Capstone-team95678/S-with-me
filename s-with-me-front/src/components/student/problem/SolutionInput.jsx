@@ -1,11 +1,33 @@
 import React, { PureComponent } from 'react';
 
+import Text from '../../../common-ui/Text';
+import Select, { Option } from '../../../common-ui/Select';
+import SelectSubChapter from '../libarary/SelectSubChapter';
+import Api from '../../../Api';
+
 export default class SolutionInput extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { file: '', previewURL: '' };
+    this.state = { file: '', previewURL: '', myProblemListForLink: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleFileOnChange = this.handleFileOnChange.bind(this);
+  }
+  componentDidMount() {
+    const { myBookId, requestChapterList } = this.props;
+    Api.get('/student/library/my-book/book-id', { params: { myBookId: myBookId } }).then(
+      ({ data }) => {
+        requestChapterList({ bookId: data });
+      },
+    );
+  }
+
+  componentDidUpdate() {
+    const { values } = this.props;
+    if (values.selectSubChapterId) {
+      Api.get('/student/library/my-book/main-chapter/sub-chapter/my-problems', {
+        params: { subChapterId: values.selectSubChapterId },
+      }).then(({ data }) => this.setState({ myProblemListForLink: data }));
+    }
   }
   handleChange(e) {
     const { setMySolution, id } = this.props;
@@ -27,16 +49,12 @@ export default class SolutionInput extends PureComponent {
     reader.readAsDataURL(file);
   }
   render() {
-    const { solutionFilterType } = this.props;
+    const { solutionFilterType, onChange, values, chapterList } = this.props;
+    const { file, previewURL, myProblemListForLink } = this.state;
     let solution_preview = null;
-    if (this.state.file) {
+    if (file) {
       solution_preview = (
-        <img
-          className="profile_preview"
-          src={this.state.previewURL}
-          height="100"
-          alt="solution_preview"
-        />
+        <img className="profile_preview" src={previewURL} height="100" alt="solution_preview" />
       );
     }
     if (solutionFilterType === 'text') {
@@ -67,7 +85,39 @@ export default class SolutionInput extends PureComponent {
         </div>
       );
     } else {
-      return <div style={{ padding: '5px' }}>링~크</div>;
+      return (
+        <div style={{ padding: '5px' }}>
+          <Text>참고할 문제를 선택해주세요!</Text>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <Select name="selectMainChapterId" onChange={onChange}>
+                <Option label="선택해 주세요" value="" />
+                {chapterList.map(({ mainChapter }) => (
+                  <Option label={mainChapter.mainChapterName} value={mainChapter.mainChapterId} />
+                ))}
+              </Select>
+            </div>
+            <div style={{ flex: 1 }}>
+              <SelectSubChapter
+                chapterList={this.props.chapterList}
+                mainChapterId={values.selectMainChapterId}
+                onChange={onChange}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <Select name="selectMyProblem" onChange={onChange}>
+                <Option label="선택해 주세요" value="" />
+                {myProblemListForLink.map(myProblem => (
+                  <Option label={myProblem.myProblemId} value={myProblem.myProblemId} />
+                ))}
+              </Select>
+            </div>
+            <div onClick={() => this.viewProblem} style={{ padding: 1, border: '1px solid' }}>
+              문제 미리 보기
+            </div>
+          </div>
+        </div>
+      );
     }
   }
 }

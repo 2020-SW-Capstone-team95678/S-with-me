@@ -7,7 +7,7 @@ export function requestMyProblemList(params, pageNumber = 1) {
   const subChapterId = params.subChapterId;
   return {
     type: FETCH_MY_PROBLEM_LIST,
-    promise: Api.get(`/student/library/my-book/mainChapter/subChapter/${subChapterId}`, {
+    promise: Api.get(`/student/library/my-book/main-chapter/sub-chapter/${subChapterId}`, {
       params: { page: pageNumber },
     }),
     meta: {

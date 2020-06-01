@@ -112,7 +112,7 @@ class ProblemView extends PureComponent {
       return (
         <Form onSubmit={this.handleSubmit}>
           <Form.Consumer>
-            {() => (
+            {({ onChange, values }) => (
               <VerticalList spacingBetween={2}>
                 <div {...css(styles.body)}>
                   <Text large>
@@ -138,6 +138,9 @@ class ProblemView extends PureComponent {
                   <SolutionInputContainer
                     id={myProblemId}
                     solutionFilterType={solutionFilterType}
+                    onChange={onChange}
+                    values={values}
+                    myBookId={myBookId}
                   />
                 </div>
                 <div style={{ display: 'flex' }}>
