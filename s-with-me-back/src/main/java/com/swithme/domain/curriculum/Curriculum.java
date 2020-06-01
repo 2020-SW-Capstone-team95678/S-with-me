@@ -22,7 +22,7 @@ public class Curriculum {
     @JoinColumn(name = "myBookId")
     private MyBook myBook;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "subChapterId")
     private SubChapter subChapter;
 

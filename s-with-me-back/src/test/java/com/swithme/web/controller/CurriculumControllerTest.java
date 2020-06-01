@@ -101,6 +101,7 @@ public class CurriculumControllerTest {
                 .book(bookRepository.findAll().get(0))
                 .folder(folderRepository.findAll().get(0))
                 .build());
+
     }
 
     @After
@@ -116,9 +117,25 @@ public class CurriculumControllerTest {
     public void curriculumCreateTest()
     {
         assertThat(myBookRepository.findAll()).isNotEmpty();
+        curriculumRepository.save(Curriculum.builder()
+                .type("Weekly")
+                .myBook(myBookRepository.findAll().get(0))
+                .dailyGoal(3)
+                .build());
+        assertThat(curriculumRepository.findAll()).isNotEmpty();
+        assertThat(bookRepository.findAll()).isNotEmpty();
+        mainChapterRepository.save(MainChapter.builder()
+                .mainChapterName("AA")
+                .build());
+        assertThat(mainChapterRepository.findAll()).isNotEmpty();
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapterRepository.findAll().get(0))
+                .build());
+        assertThat(myBookRepository.findAll()).isNotEmpty();
         MyBook mybook = myBookRepository.findAll().get(0);
         CurriculumCreateDto curriculumCreateDto= CurriculumCreateDto.builder()
-                .goalNumber(3)
+                .dailyGoal(3)
+                .subChapterId(1)
                 .type("week")
                 .myBookId(mybook.getMyBookId())
                 .build();
@@ -136,7 +153,7 @@ public class CurriculumControllerTest {
         curriculumRepository.save(Curriculum.builder()
                 .type("asd")
                 .myBook(myBookRepository.findAll().get(0))
-                .goalNumber(3)
+                .dailyGoal(3)
                 .build());
         String url="http://localhost:"+port+"/student/library/curriculum/?studentId="+student.getStudentId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
@@ -147,12 +164,7 @@ public class CurriculumControllerTest {
     public void curriculumArchievementTest()
     {
         assertThat(myBookRepository.findAll()).isNotEmpty();
-        curriculumRepository.save(Curriculum.builder()
-                .type("Weekly")
-                .myBook(myBookRepository.findAll().get(0))
-                .goalNumber(3)
-                .build());
-        assertThat(curriculumRepository.findAll()).isNotEmpty();
+
         assertThat(bookRepository.findAll()).isNotEmpty();
         mainChapterRepository.save(MainChapter.builder()
                 .mainChapterName("AA")
@@ -162,6 +174,19 @@ public class CurriculumControllerTest {
                 .mainChapter(mainChapterRepository.findAll().get(0))
                 .build());
         assertThat(subChapterRepository.findAll()).isNotEmpty();
+        curriculumRepository.save(Curriculum.builder()
+                .type("Weekly")
+                .myBook(myBookRepository.findAll().get(0))
+                .subChapter(subChapterRepository.findAll().get(0))
+                .dailyGoal(3)
+                .build());
+        assertThat(curriculumRepository.findAll()).isNotEmpty();
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapterRepository.findAll().get(0))
+                .build());
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapterRepository.findAll().get(0))
+                .build());
         problemRepository.save(Problem.builder()
                 .subChapter(subChapterRepository.findAll().get(0))
                 .build());
@@ -180,7 +205,7 @@ public class CurriculumControllerTest {
         String url="http://localhost:"+port+"/student/library/curriculum/achievement?myBookId=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        //assertThat(responseEntity.getBody()).isEqualTo("1");
+        //assertThat(responseEntity.getBody()).isEqualTo("33");
     }
 }
 
