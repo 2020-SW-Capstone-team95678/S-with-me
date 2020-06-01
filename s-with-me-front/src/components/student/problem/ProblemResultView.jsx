@@ -9,6 +9,9 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { DELETE_NOTE } from '../../../constants/modals';
 import Api from '../../../Api';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPoo } from '@fortawesome/free-solid-svg-icons';
+
 class ProblemResultView extends PureComponent {
   constructor(props) {
     super(props);
@@ -41,19 +44,26 @@ class ProblemResultView extends PureComponent {
     const { problemNum, content, isOptional, answer, solution } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
+    let numbers = ['①', '②', '③', '④', '⑤'];
     return (
       <VerticalList spacingBetween={2}>
         <div {...css(styles.body)}>
-          {isRight ? <Text>딩동댕</Text> : <Text>땡!</Text>}
-          {isConfused ? <Text>헷갈렸어요!!</Text> : null}
-          <Text>
+          {isRight ? (
+            <Text>딩동댕</Text>
+          ) : (
+            <Text primary>
+              <FontAwesomeIcon icon={faPoo} />땡
+            </Text>
+          )}
+          {isConfused ? <Text>헷갈렸어요</Text> : null}
+          <Text large>
             {problemNum}.{content}
           </Text>
           {isOptional ? (
             <VerticalList spacingBetween={1}>
               {optionContents.map((option, index) => (
                 <Text key={index}>
-                  {index + 1} : {option}
+                  {numbers[index]} : {option}
                 </Text>
               ))}
             </VerticalList>

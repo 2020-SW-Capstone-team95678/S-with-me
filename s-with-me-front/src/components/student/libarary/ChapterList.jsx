@@ -15,7 +15,10 @@ export default class ChapterList extends PureComponent {
               <Heading level={2}>{mainChapter.mainChapterName}</Heading>
               {subChapters.map(subChapter => (
                 <Heading level={4}>
-                  <Link to={`/library/myBook/${myBookId}/solve/${subChapter.subChapterId}`}>
+                  <Link
+                    to={`/library/myBook/${myBookId}/solve/${subChapter.subChapterId}`}
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
                     {subChapter.subChapterName}
                   </Link>
                 </Heading>

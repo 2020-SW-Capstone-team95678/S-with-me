@@ -1,5 +1,24 @@
 import { connect } from 'react-redux';
-import { setMyNewSolution } from '../../../actions/noteActions';
+import {
+  setMyNewImageSolution,
+  setMyNewLinkSolution,
+  setMyNewTextSolution,
+} from '../../../actions/noteActions';
+import { requestChapterList } from '../../../actions/chapterActions';
 import NewSolutionInput from '../../../components/student/note/NewSolutionInput';
 
-export default connect(null, { setMyNewSolution })(NewSolutionInput);
+const mapStateToProps = state => {
+  const { ids, entities } = state.chapter;
+  const chapterList = ids.map(id => entities[id]);
+
+  return { chapterList };
+};
+
+const mapDispatchToProps = {
+  setMyNewImageSolution,
+  setMyNewLinkSolution,
+  setMyNewTextSolution,
+  requestChapterList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewSolutionInput);

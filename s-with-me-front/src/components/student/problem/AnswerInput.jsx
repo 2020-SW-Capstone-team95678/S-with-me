@@ -63,7 +63,15 @@ export default class AnswerInput extends PureComponent {
         </VerticalList>
       );
     } else {
-      return <input type="text" name="subjectiveAnswer" onChange={this.handleSubjectiveAnswer} />;
+      return (
+        <input
+          type="text"
+          style={{ fontSize: 'medium' }}
+          placeholder="답을 입력해주세요"
+          name="subjectiveAnswer"
+          onChange={this.handleSubjectiveAnswer}
+        />
+      );
     }
   }
 }

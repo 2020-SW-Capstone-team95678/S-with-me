@@ -1,11 +1,24 @@
 import { connect } from 'react-redux';
-import { setMySolution } from '../../../actions/myProblemActions';
+import {
+  setImageSolution,
+  setTextSolution,
+  setLinkSolutionId,
+} from '../../../actions/myProblemActions';
+import { requestChapterList } from '../../../actions/chapterActions';
 import SolutionInput from '../../../components/student/problem/SolutionInput';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setMySolution: (id, mySolution) => dispatch(setMySolution(id, mySolution)),
-  };
+const mapStateToProps = state => {
+  const { ids, entities } = state.chapter;
+  const chapterList = ids.map(id => entities[id]);
+
+  return { chapterList };
 };
 
-export default connect(null, mapDispatchToProps)(SolutionInput);
+const mapDispatchToProps = {
+  setImageSolution,
+  setTextSolution,
+  setLinkSolutionId,
+  requestChapterList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SolutionInput);

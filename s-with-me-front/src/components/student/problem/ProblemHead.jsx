@@ -20,6 +20,7 @@ class ProblemHead extends PureComponent {
       date: new Date(),
       bookName: '',
       viewWrongOnly: false,
+      bookId: '',
     };
     this.tick = this.tick.bind(this);
   }
@@ -29,10 +30,9 @@ class ProblemHead extends PureComponent {
   }
   componentDidMount() {
     clearInterval(this.timerId);
-    const { myBook } = this.props;
-    Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
-      this.setState({ bookName: data.name }),
-    );
+    Api.get('/student/library/my-book/book-id', {
+      params: { myBookId: this.props.id },
+    }).then(({ data }) => this.setState({ bookName: data.bookName }));
   }
 
   handleCloseBook() {
@@ -72,14 +72,21 @@ class ProblemHead extends PureComponent {
           setLastMyProblemPage(id, pagination.number);
         }
       });
-      const formValue = {
+      let formValue = {
         isConfused: myProblem.isConfused,
         isRight: myProblem.isRight,
         isSolved: true,
+        solutionType: myProblem.solutionType,
         myAnswer: String(myProblem.myAnswer),
-        mySolution: myProblem.mySolution,
         solvedDateTime: myProblem.solvedDateTime,
       };
+      if (myProblem.solutionType === 'text') {
+        formValue = { ...formValue, textSolution: myProblem.textSolution };
+      } else if (myProblem.solutionType === 'img') {
+        formValue = { ...formValue, imageSolution: myProblem.imageSolution };
+      } else {
+        formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+      }
       if (myProblem.myAnswer && !myProblem.isSolved) {
         updateMyProblem(myProblem.myProblemId, formValue, () => {
           setIsSolved(myProblem.myProblemId, true);
