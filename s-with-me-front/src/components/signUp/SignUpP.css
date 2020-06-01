@@ -1,4 +1,4 @@
-.publisherSingUp {
+.publisherSignUp {
   text-align: center;
 }
 
@@ -8,65 +8,74 @@
   pointer-events: none;
 }
 
-
-.userPublisherSignUp {
-  justify-content: center;
-  height: 8rem;
-  pointer-events: none;
-  float: left;
+.signUpInput {
+  flex-direction: column;
+  height: 200px;
+  min-width: 100px;
+  width: 10em;
+  font-size: 0.4em;
+  padding-left: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.header {
-  background-color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: white;
-}
-
-.publisherSignUpBox {
-  background-color: rgb(247, 207, 192);
-  box-shadow: 5px 5px 5px darkgray;
-  height: 20rem;
-  min-height: 350px;
-  min-width: 250px;
-  width: 30rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: rgb(173, 5, 5);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 50px;
+div.inputCheck > button {
+  min-width: 60px;
+  margin-left: 5px;
 }
 
 .signUp {
   width: 15em;
   height: 10em;
-  display: flex;
+  min-height: 270px;
+  display: inline-flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  
 }
 
-.signUpButtonP {
-  width: 5rem;
-  min-width: 175px;
+.header {
+  background-color: white;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
+.publisherSignUpBox {
+  background-color: rgb(247, 207, 192);
+  box-shadow: 5px 5px 5px darkgrey;
+  min-width: 250px;
+  width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(173, 5, 5);
+  padding-top: 2em;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.signUpButton {
+  width: 30vh;
+  min-width: 200px;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .welcomeText {
   box-shadow: 5px 5px 5px darkgray;
-  background-color:  rgb(252, 230, 222);
+  background-color: rgb(252, 230, 222);
   min-height: 30px;
   min-width: 480px;
   height: 1rem;
-  width: 30rem;
+  width: 35rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
@@ -76,27 +85,13 @@
   color: gray;
 }
 
-.signUpInput {
-  flex-direction: column;
-  display: flex;
-  align-items:  flex-start;
-  justify-content: center;
-  padding-right: 50px;
-  height: 15vh;
-  height: 20em;
-  min-width: 150px;
-  width: 10em;
-  font-size: 0.4em;
-}
-
-
 .inputCheck {
-  display: flex;
-  align-items: center;
-  height:30px;
+  min-width: 150px;
+  flex: 1;
+  margin-left: 100px;
 }
 
-div.inputCheck>button {
-  min-width:100px;
-  margin-left: 5px;
+.input {
+  min-width: 130px;
+  margin-left: 45px;
 }

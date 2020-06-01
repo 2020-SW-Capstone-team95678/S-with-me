@@ -179,6 +179,7 @@ class NoteView extends PureComponent {
                 <Text>
                   정답:{answer} <br /> 해설: {solution}
                 </Text>
+                <br />
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>
             ) : (

@@ -2,6 +2,8 @@ package com.swithme.web.controller;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookCreateDto;
@@ -36,6 +38,8 @@ public class BookControllerTest {
     private BookRepository bookRepository;
     @Autowired
     private PublisherRepository publisherRepository;
+    @Autowired
+    private MyBookRepository myBookRepository;
 
     private Publisher publisher;
 
@@ -47,6 +51,7 @@ public class BookControllerTest {
 
     @After
     public void cleanup(){
+        myBookRepository.deleteAll();
         bookRepository.deleteAll();
         publisherRepository.deleteAll();
     }
@@ -65,6 +70,7 @@ public class BookControllerTest {
                 .subject("test subject")
                 .publisher(publisher)
                 .price(12345)
+                .introduction("test")
                 .build());
         Book book = bookRepository.findAll().get(0);
 
@@ -89,6 +95,7 @@ public class BookControllerTest {
                     .subject("test subject")
                     .publisher(publisher)
                     .price(12345)
+                    .introduction("test")
                     .build());
         }
 
@@ -110,6 +117,20 @@ public class BookControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    public void getBookId(){
+        Book book = bookRepository.save(new Book());
+        MyBook myBook = myBookRepository.save(MyBook.builder()
+                .book(book)
+                .build());
+
+        String url = "http://localhost:" + port + "/student/library/my-book/book-id?myBookId=" + myBook.getMyBookId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
     @Test
     public void saveBookTest(){
         assertThat(bookRepository.findAll()).isEmpty();
@@ -122,6 +143,7 @@ public class BookControllerTest {
                 .name("test name")
                 .grade((short)4)
                 .cover("test cover")
+                .introduction("test")
                 .build();
 
         HttpEntity<BookCreateDto> requestEntity = new HttpEntity<>(requestDto);
@@ -146,6 +168,7 @@ public class BookControllerTest {
                 .publishedDate("2020-02-02")
                 .grade((short)4)
                 .cover("test cover")
+                .introduction("test")
                 .build();
         Book book = bookRepository.findAll().get(0);
         System.out.println(book.getBookId());

@@ -24,9 +24,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -71,8 +68,12 @@ public class MyBookControllerTest {
 
     @After
     public void cleanup(){
+        noteRepository.deleteAll();
+        myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
         bookRepository.deleteAll();
+        folderRepository.deleteAll();
+        studentRepository.deleteAll();
     }
 
     @Test

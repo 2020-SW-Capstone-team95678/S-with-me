@@ -29,8 +29,8 @@ export default (state = initState, action) => {
         success: prevState => {
           const { data } = payload;
           const loadingAndErrorState = {
-            loadingState: { ...prevState, [type]: false },
-            errorState: { ...prevState, [type]: false },
+            loadingState: { ...prevState.loadingState, [type]: false },
+            errorState: { ...prevState.errorState, [type]: false },
           };
           if (type === SET_USER || CHECK_ID_DUPLICATION) {
             return {

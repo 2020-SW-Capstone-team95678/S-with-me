@@ -1,6 +1,7 @@
 import Api from '../Api';
 
 export const FETCH_MY_BOOK_LIST = 'myBook/FETCH_MY_BOOK_LIST';
+export const FETCH_FILTERED_MY_BOOK_LIST = 'myBook/FETCH_FILTERED_MY_BOOK_LIST';
 export const UPDATE_MY_BOOK = 'myBook/UPDATE_MY_BOOK';
 export const MOVE_MY_BOOK = 'myBook/MOVE_MY_BOOK';
 
@@ -11,6 +12,18 @@ export function requestMyBookList(params) {
     meta: {
       notification: {
         error: '문제집을 불러오는 중에 문제가 발생했습니다.',
+      },
+    },
+  };
+}
+
+export function requestFilteredMyBookList(params) {
+  return {
+    type: FETCH_FILTERED_MY_BOOK_LIST,
+    promise: Api.get('/student/library/my-book/folderFilter', { params }),
+    meta: {
+      notification: {
+        error: '폴더별 문제집을 불러오는 중에 문제가 발생했습니다.',
       },
     },
   };

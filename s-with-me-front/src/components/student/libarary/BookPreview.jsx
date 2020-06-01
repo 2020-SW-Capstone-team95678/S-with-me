@@ -25,6 +25,17 @@ export default class BookPreview extends PureComponent {
       }),
     );
   }
+  componentDidUpdate() {
+    const { myBook } = this.props;
+    Api.get('student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
+      this.setState({
+        subject: data.subject,
+        name: data.name,
+        cover: data.cover,
+        grade: data.grade,
+      }),
+    );
+  }
   render() {
     const { myBook } = this.props;
     return <BookCard book={this.state} myBook={myBook} />;

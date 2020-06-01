@@ -28,6 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -117,7 +118,7 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void updateMyProblemTest() {
+    public void updateMyProblemTest() throws SQLException {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
@@ -132,6 +133,7 @@ public class MyProblemControllerTest {
                 .solvedDateTime(1412L)
                 .isSolved(true)
                 .build();
+
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNull();
 
@@ -150,8 +152,17 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter/subChapter/"
+        String url = "http://localhost:" + port + "/student/library/my-book/main-chapter/sub-chapter/"
                 + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMyProblemListInSubChapterTest(){
+        String url = "http://localhost:" + port +
+                "/student/library/my-book/main-chapter/sub-chapter/my-problems?subChapterId=" + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -31,7 +31,7 @@ export default class SignUpS extends PureComponent {
   handleSubmit(values) {
     const { createUser } = this.props;
     if (this.state.isValidForm) {
-      createUser(values, () => this.setState({ registerComplete: true }));
+      createUser(true, values, () => this.setState({ registerComplete: true }));
     }
   }
   render() {
@@ -117,12 +117,12 @@ export default class SignUpS extends PureComponent {
                       </Form>
                     </div>
                   </div>
-                  <div className="inputCheck" style={{ flex: 1}}>
+                  <div className="inputCheck" style={{ flex: 1 }}>
                     <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
                       중복 확인
                     </Button>
-                    <div >
-                      {isCheck && (isOnlyId ? <Text>사용 가능한 아이디입니다. </Text> : <Text>중복된 아이디입니다.</Text>)}
+                    <div>
+                      {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
                     </div>
                   </div>
                 </div>

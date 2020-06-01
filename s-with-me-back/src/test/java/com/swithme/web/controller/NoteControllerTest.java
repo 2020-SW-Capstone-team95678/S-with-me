@@ -14,7 +14,6 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
 import org.junit.After;
@@ -27,6 +26,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
@@ -101,6 +102,7 @@ public class NoteControllerTest {
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
+        bookRepository.deleteAll();
         folderRepository.deleteAll();
         problemRepository.deleteAll();
         studentRepository.deleteAll();
@@ -189,7 +191,7 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void updateNoteTest(){
+    public void updateNoteTest() throws SQLException {
         noteRepository.save(Note.builder()
                 .addedDateTime(12345L)
                 .myProblem(myProblem)
@@ -205,6 +207,7 @@ public class NoteControllerTest {
                 .myAnswer("test answer")
                 .mySolution("test solution")
                 .build();
+
 
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);

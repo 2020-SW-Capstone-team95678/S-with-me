@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-
 import CheckBox from '../../../common-ui/CheckBox';
 import VerticalList from '../../../common-ui/VerticalList';
 
@@ -23,7 +22,7 @@ export default class AnswerInput extends PureComponent {
   setCheckState(answer) {
     const { options } = this.state;
     this.setState({
-      options: options.map((option) =>
+      options: options.map(option =>
         answer === option.optionNum ? { ...option, isChecked: !option.isChecked } : option,
       ),
     });
