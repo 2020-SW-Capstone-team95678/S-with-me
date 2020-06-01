@@ -10,15 +10,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CurriculumCreateDto {
     int curriculumId;
+    int subChapterId;
     int myBookId;
     String type;
-    int goalNumber;
+    int dailyGoal;
+    String monthlyGoal;
 
     @Builder
-    public CurriculumCreateDto(int curriculumId, int myBookId, String type,int goalNumber) {
+    public CurriculumCreateDto(int curriculumId,int subChapterId, int myBookId, String type,int dailyGoal,String monthlyGoal) {
         this.curriculumId = curriculumId;
+        this.subChapterId = subChapterId;
         this.myBookId = myBookId;
         this.type = type;
-        this.goalNumber = goalNumber;
+        this.dailyGoal = dailyGoal;
+        this.monthlyGoal = monthlyGoal;
     }
 }

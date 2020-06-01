@@ -1,7 +1,7 @@
 package com.swithme.domain.curriculum;
 
 import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.student.Student;
+import com.swithme.domain.subChapter.SubChapter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,16 +22,25 @@ public class Curriculum {
     @JoinColumn(name = "myBookId")
     private MyBook myBook;
 
+    @OneToOne
+    @JoinColumn(name = "subChapterId")
+    private SubChapter subChapter;
+
+    @Column(name = "monthlyGoal")
+    private String monthlyGoal;
+
     @Column(name = "type")
     private String type;
 
     @Column(name = "goalNumber")
-    private int goalNumber;
+    private int dailyGoal;
 
     @Builder
-    public Curriculum(MyBook myBook, String type, int goalNumber) {
+    public Curriculum(MyBook myBook,SubChapter subChapter,String monthlyGoal, String type, int dailyGoal) {
         this.myBook = myBook;
+        this.subChapter = subChapter;
+        this.monthlyGoal = monthlyGoal;
         this.type = type;
-        this.goalNumber = goalNumber;
+        this.dailyGoal = dailyGoal;
     }
 }
