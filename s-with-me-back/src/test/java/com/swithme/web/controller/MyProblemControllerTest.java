@@ -152,8 +152,17 @@ public class MyProblemControllerTest {
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter/subChapter/"
+        String url = "http://localhost:" + port + "/student/library/my-book/main-chapter/sub-chapter/"
                 + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMyProblemListInSubChapterTest(){
+        String url = "http://localhost:" + port +
+                "/student/library/my-book/main-chapter/sub-chapter/my-problems?subChapterId=" + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
