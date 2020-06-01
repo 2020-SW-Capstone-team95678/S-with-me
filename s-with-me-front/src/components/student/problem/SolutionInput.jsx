@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
+import Api from '../../../Api';
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
 import Text from '../../../common-ui/Text';
 import Select, { Option } from '../../../common-ui/Select';
+
 import SelectSubChapter from '../libarary/SelectSubChapter';
-import Api from '../../../Api';
+import { PREVIEW_PROBLEM } from '../../../constants/modals';
 
 export default class SolutionInput extends PureComponent {
   constructor(props) {
@@ -104,17 +107,39 @@ export default class SolutionInput extends PureComponent {
                 onChange={onChange}
               />
             </div>
-            <div style={{ flex: 1 }}>
-              <Select name="selectMyProblem" onChange={onChange}>
-                <Option label="선택해 주세요" value="" />
-                {myProblemListForLink.map(myProblem => (
-                  <Option label={myProblem.myProblemId} value={myProblem.myProblemId} />
-                ))}
-              </Select>
-            </div>
-            <div onClick={() => this.viewProblem} style={{ padding: 1, border: '1px solid' }}>
-              문제 미리 보기
-            </div>
+            <Modal>
+              {({ openModal }) => (
+                <div style={{ flex: 2, display: 'flex' }}>
+                  <Select name="selectMyProblem" onChange={onChange}>
+                    <Option label="선택해 주세요" value="" />
+                    {myProblemListForLink.map((myProblem, index) => (
+                      <Option
+                        key={index}
+                        label={myProblem.myProblemId}
+                        value={myProblem.problemId}
+                      />
+                    ))}
+                  </Select>
+                  <div
+                    onClick={() =>
+                      openModal(PREVIEW_PROBLEM, {
+                        problemId: values.selectMyProblem,
+                        // myAnswer: values.selectMyProblem.myAnswer,
+                        // mySolution: values.selectMyProblem.mySolution,
+                      })
+                    }
+                    style={{
+                      padding: 1,
+                      border: '1px solid',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    문제 미리 보기
+                  </div>
+                </div>
+              )}
+            </Modal>
           </div>
         </div>
       );
