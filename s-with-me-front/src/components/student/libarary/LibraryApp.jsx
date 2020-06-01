@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import LibraryFolderList from './LibraryFolderList';
+import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';
 
 export default class LibraryApp extends PureComponent {
@@ -26,7 +26,7 @@ export default class LibraryApp extends PureComponent {
       <DndProvider backend={HTML5Backend}>
         <div style={{ display: 'flex' }}>
           <div style={{ flex: 1, padding: 3 }}>
-            <LibraryFolderList folders={folderList} isLoading={folderLoading} />
+            <LibraryFilterList folders={folderList} isLoading={folderLoading} />
           </div>
           <div style={{ flex: 3, padding: 3 }}>
             <BookOverview myBookList={myBookList} isLoading={bookListLoading} />

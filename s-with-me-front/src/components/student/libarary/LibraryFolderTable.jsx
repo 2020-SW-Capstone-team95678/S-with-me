@@ -9,7 +9,7 @@ import Button from '../../../common-ui/Button';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { DELETE_FOLDER, UPDATE_FOLDER_NAME } from '../../../constants/modals';
 
-import FolderButton from './FolderButton';
+import FolderButtonContainer from '../../../containers/student/book/FolderButtonContainer';
 
 export default class LibraryFolderTable extends PureComponent {
   render() {
@@ -21,7 +21,11 @@ export default class LibraryFolderTable extends PureComponent {
           {folders.map(({ folderId, folderName }) => (
             <TableRow key={folderId}>
               <TableCell>
-                <FolderButton folderId={folderId} folderName={folderName} moveMyBook={moveMyBook} />
+                <FolderButtonContainer
+                  folderId={folderId}
+                  folderName={folderName}
+                  moveMyBook={moveMyBook}
+                />
                 <Modal>
                   {({ openModal }) => (
                     <div>
