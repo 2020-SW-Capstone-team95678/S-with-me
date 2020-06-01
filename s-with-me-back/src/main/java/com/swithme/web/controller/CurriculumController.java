@@ -3,6 +3,7 @@ package com.swithme.web.controller;
 import com.swithme.domain.curriculum.Curriculum;
 import com.swithme.domain.curriculum.CurriculumRepository;
 import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.service.CurriculumService;
 import com.swithme.web.dto.CurriculumCreateDto;
@@ -16,8 +17,6 @@ import java.util.List;
 @RestController
 public class CurriculumController {
     private final CurriculumService curriculumService;
-    private final CurriculumRepository curriculumRepository;
-
     @CrossOrigin
     @PostMapping("/student/library/curriculum")
     public int createCurriculum(@RequestBody CurriculumCreateDto curriculumCreateDto){

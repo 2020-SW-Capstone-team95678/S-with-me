@@ -9,6 +9,8 @@ import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -32,6 +34,7 @@ public class CurriculumService {
     private final FolderRepository folderRepository;
     private final MyProblemRepository myProblemRepository;
     private final SubChapterRepository subChapterRepository;
+    private final ProblemRepository problemRepository;
     private final long standardMonday=1590332400000L; // 2020-5-25:00:00
     private final long milliSecPerWeek = 1000*60*60*24*7;
     private final long milliSecPerDay = 1000*60*60*24;
@@ -105,8 +108,9 @@ public class CurriculumService {
                 problemArchievement++;
             }
         }
-
+        List<Problem> problemList = problemRepository.findBySubChapter(curriculum.getSubChapter());
+        int subChapterSize = problemList.size();
         
-        return problemArchievement;
+        return (problemArchievement*100/subChapterSize);
     }
 }
