@@ -11,7 +11,7 @@ import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MySolutionResponseDto;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import com.swithme.web.dto.ProblemInformationResponseDto;
+import com.swithme.web.dto.ProblemResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,7 +114,7 @@ public class MyProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 myProblem이 없습니다. myProblemId = " + myProblemId));
         Problem problem = myProblem.getProblem();
         SubChapter subChapter = problem.getSubChapter();
-        ProblemInformationResponseDto problemInformationResponseDto = ProblemInformationResponseDto.builder()
+        ProblemResponseDto problemResponseDto = ProblemResponseDto.builder().build().builder()
                 .problemId(problem.getProblemId())
                 .subChapterId(subChapter.getSubChapterId())
                 .content(problem.getContent())
@@ -129,7 +129,7 @@ public class MyProblemService {
                 .option5(problem.getOption5())
                 .build();
         MySolutionResponseDto responseDto = MySolutionResponseDto.builder()
-                .problemInformationResponseDto(problemInformationResponseDto)
+                .problem(problemResponseDto)
                 .textSolution(myProblem.getTextSolution())
                 .imageSolution(myProblem.getImageSolution())
                 .linkSolutionId(myProblem.getLinkSolutionId())

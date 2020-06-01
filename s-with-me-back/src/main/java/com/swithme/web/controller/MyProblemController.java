@@ -4,7 +4,6 @@ import com.swithme.service.MyProblemService;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.MySolutionResponseDto;
-import com.swithme.web.dto.ProblemInformationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

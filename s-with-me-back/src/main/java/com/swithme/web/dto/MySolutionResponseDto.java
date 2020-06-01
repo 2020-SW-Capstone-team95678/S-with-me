@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MySolutionResponseDto {
 
-    private ProblemInformationResponseDto problemInformationResponseDto;
+    private ProblemResponseDto problem;
     private String textSolution;
     private String imageSolution;
     private Integer linkSolutionId;
@@ -16,10 +16,10 @@ public class MySolutionResponseDto {
     private String myAnswer;
 
     @Builder
-    public MySolutionResponseDto(ProblemInformationResponseDto problemInformationResponseDto,
+    public MySolutionResponseDto(ProblemResponseDto problem,
                                  String textSolution, String imageSolution, Integer linkSolutionId,
                                  String solutionType, String myAnswer){
-        this.problemInformationResponseDto = problemInformationResponseDto;
+        this.problem = problem;
         this.textSolution = textSolution;
         this.imageSolution = imageSolution;
         this.linkSolutionId = linkSolutionId;
