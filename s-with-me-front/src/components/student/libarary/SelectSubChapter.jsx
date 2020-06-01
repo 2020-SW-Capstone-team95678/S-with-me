@@ -8,7 +8,6 @@ export default function SelectSubChapter(props) {
     return result;
   });
   const resultList = filteredList.filter(item => item.length > 0)[0];
-  console.log(resultList);
   return (
     <Select name="selectSubChapterId" onChange={onChange}>
       <Option label="선택해 주세요" value="" />
