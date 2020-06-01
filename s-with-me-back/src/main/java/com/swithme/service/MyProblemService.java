@@ -80,6 +80,29 @@ public class MyProblemService {
         return responseDtoList;
     }
 
+    @Transactional
+    public List<MyProblemResponseDto> getMyProblemListInSubChapter(int subChapterId) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+            .orElseThrow(() -> new IllegalArgumentException("해당 subChapter가 없습니다. subChapterId = " + subChapterId));
+        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+        List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
+        for(Problem problem : problemList){
+            MyProblem myProblem = myProblemRepository.findByProblem(problem);
+            responseDtoList.add(new MyProblemResponseDto().builder()
+                    .myProblemId(myProblem.getMyProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(problem.getProblemId())
+                    .mySolution(myProblem.getMySolution())
+                    .myAnswer(myProblem.getMyAnswer())
+                    .isConfused(myProblem.getIsConfused())
+                    .isRight(myProblem.getIsRight())
+                    .isSolved(myProblem.getIsSolved())
+                    .solvedDateTime(myProblem.getSolvedDateTime())
+                    .build());
+        }
+        return responseDtoList;
+    }
+
 //    @Transactional
 //    public int updateMyProblem(MyProblemUpdateRequestDto requestDto){
 //        List<MyProblem> myProblemToUpdateList = requestDto.getMyProblemList();
