@@ -115,7 +115,7 @@ class ProblemView extends PureComponent {
             {() => (
               <VerticalList spacingBetween={2}>
                 <div {...css(styles.body)}>
-                  <Text>
+                  <Text large>
                     {problemNum}.{content}
                   </Text>
                   <AnswerInputContainer

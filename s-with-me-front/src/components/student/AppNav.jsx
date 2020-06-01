@@ -23,6 +23,7 @@ class AppNav extends PureComponent {
     const { styles } = this.props;
     const activeStyle = {
       fontWeight: 'bold',
+      color: '#9C2D17',
       fontSize: '2rem',
     };
     if (this.state.isLogin) {
@@ -31,41 +32,49 @@ class AppNav extends PureComponent {
           <div {...css(styles.wrapper)}>
             <div style={{ display: 'flex' }} {...css(styles.container)}>
               <div style={{ flex: 1 }}>
-                <NavLink to="/library">
-                  <img
-                    src={logo}
-                    alt="s-with-me logo"
-                    style={{
-                      height: 80,
-                      top: this.props.top,
-                      left: this.props.left,
-                    }}
-                  />
-                </NavLink>
-              </div>
-              <div style={{ flex: 1 }}>
-                <NavLink to="/library" activeStyle={activeStyle}>
-                  서재
-                </NavLink>
-              </div>
-              <div style={{ flex: 1 }}>
-                <NavLink to="/note" activeStyle={activeStyle}>
-                  오답노트
-                </NavLink>
-              </div>
-              <div style={{ flex: 1 }}>서점</div>
-              <div style={{ flex: 1 }}>
-                <NavLink to="/profile" activeStyle={activeStyle}>
-                  프로필
-                </NavLink>
-              </div>
-              <div style={{ flex: 1 }}>
                 <NavLink to="/">
-                  <Button small onPress={() => this.handleLogout()}>
-                    로그아웃
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <img src={logo} alt="s-with-me logo" style={{ height: 80 }} />
+                  </div>
                 </NavLink>
               </div>
+              <div style={{ flex: 1 }}>
+                <NavLink
+                  to="/library"
+                  activeStyle={activeStyle}
+                  style={{ textDecoration: 'none', color: '#333333' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>서재</div>
+                </NavLink>
+              </div>
+              <div style={{ flex: 1 }}>
+                <NavLink
+                  to="/note"
+                  activeStyle={activeStyle}
+                  style={{ textDecoration: 'none', color: '#333333' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>오답노트</div>
+                </NavLink>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>서점</div>
+              </div>
+              <div style={{ flex: 1, color: '#333333' }}>
+                <NavLink
+                  to="/profile"
+                  activeStyle={activeStyle}
+                  style={{ textDecoration: 'none', color: '#333333' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>프로필</div>
+                </NavLink>
+              </div>
+              <NavLink to="/">
+                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 10 }}>
+                  <Button small onPress={() => this.handleLogout()}>
+                    Logout
+                  </Button>
+                </div>
+              </NavLink>
             </div>
           </div>
         </div>
