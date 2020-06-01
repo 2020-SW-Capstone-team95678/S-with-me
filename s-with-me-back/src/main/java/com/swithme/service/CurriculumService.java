@@ -11,17 +11,15 @@ import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.CurriculumResponseDto;
-import com.swithme.web.dto.FolderResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.method.support.CompositeUriComponentsContributor;
 
-import javax.swing.plaf.ComponentUI;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ public class CurriculumService {
     private final StudentRepository studentRepository;
     private final FolderRepository folderRepository;
     private final MyProblemRepository myProblemRepository;
+    private final SubChapterRepository subChapterRepository;
     private final long standardMonday=1590332400000L; // 2020-5-25:00:00
     private final long milliSecPerWeek = 1000*60*60*24*7;
     private final long milliSecPerDay = 1000*60*60*24;
@@ -40,9 +39,13 @@ public class CurriculumService {
     public int createCurriculum(CurriculumCreateDto curriculumCreateDto){
         MyBook myBook=myBookRepository.findById(curriculumCreateDto.getMyBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 존재하지 않습니다."));
+        SubChapter subChapter = subChapterRepository.findById(curriculumCreateDto.getSubChapterId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
         curriculumRepository.save(Curriculum.builder()
-                .goalNumber(curriculumCreateDto.getGoalNumber())
+                .subChapter(subChapter)
                 .myBook(myBook)
+                .dailyGoal(curriculumCreateDto.getDailyGoal())
+                .monthlyGoal(curriculumCreateDto.getMonthlyGoal())
                 .type(curriculumCreateDto.getType())
                 .build());
         return myBook.getMyBookId();
@@ -69,7 +72,7 @@ public class CurriculumService {
         {
             curriculumResponseDtoList.add(CurriculumResponseDto.builder()
                     .curriculumId(curriculum.getCurriculumId())
-                    .goalNumber(curriculum.getGoalNumber())
+                    .goalNumber(curriculum.getDailyGoal())
                     .type(curriculum.getType())
                     .myBookId(curriculum.getMyBook().getMyBookId())
                     .build());
@@ -102,6 +105,8 @@ public class CurriculumService {
                 problemArchievement++;
             }
         }
+
+        
         return problemArchievement;
     }
 }
