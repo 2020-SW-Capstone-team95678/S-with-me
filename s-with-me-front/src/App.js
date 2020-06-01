@@ -16,6 +16,7 @@ import NoteAppContainer from './containers/student/note/NoteAppContainer';
 import AppLayout from './components/student/AppLayout';
 import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
+import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -52,6 +53,11 @@ export default class App extends PureComponent {
             <Switch>
               <Route path="/" exact render={() => <LoginContainer logged={logged} />} />
               <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+              <Route
+                path="/signup-publisher"
+                exact
+                render={() => <SignUpPublisherInputContainer />}
+              />
               <AppLayout>
                 <Switch>
                   <Route path="/profile" exact render={() => <Profile />} />

@@ -79,7 +79,9 @@ class LoginApp extends react.PureComponent {
                       <Link to="/signup">
                         <Button>학생으로 회원가입</Button>
                       </Link>
-                      <Button>출판사로 회원가입</Button>
+                      <Link to="/signup-publisher">
+                        <Button>출판사로 회원가입</Button>
+                      </Link>
                     </div>
                   </div>
                 )}

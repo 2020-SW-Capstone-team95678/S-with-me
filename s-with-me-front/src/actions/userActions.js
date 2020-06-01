@@ -20,17 +20,26 @@ export function setUser(data, onComplete) {
   };
 }
 
-export function createUser(data, onComplete) {
+export function createUser(isStudnet, data, onComplete) {
   const params = new URLSearchParams();
-  params.append('birthday', data.birthday);
-  params.append('grade', data.grade);
-  params.append('name', data.name);
-  params.append('password', data.password);
-  params.append('phoneNumber', data.phoneNumber);
-  params.append('userId', data.userId);
+  if (isStudnet) {
+    params.append('birthday', data.birthday);
+    params.append('grade', data.grade);
+    params.append('name', data.name);
+    params.append('password', data.password);
+    params.append('phoneNumber', data.phoneNumber);
+    params.append('userId', data.userId);
+  } else {
+    params.append('code', data.code);
+    params.append('name', data.name);
+    params.append('password', data.password);
+    params.append('userId', data.userId);
+  }
   return {
     type: CREATE_USER,
-    promise: Api.post('/signup/student', params),
+    promise: isStudnet
+      ? Api.post('/signup/student', params)
+      : Api.post('/signup/publisher', params),
     meta: {
       onSuccess: onComplete,
       notification: {
@@ -43,14 +52,15 @@ export function createUser(data, onComplete) {
 
 export function checkIdDuplication(isStudent, data, onComplete) {
   const params = new URLSearchParams();
-  params.append('userId', data.userId);
-  if (isStudent) {
-    return {
-      type: CHECK_ID_DUPLICATION,
-      promise: Api.post('/signup/student/dupcheck', params),
-      meta: {
-        onSuccess: onComplete,
-      },
-    };
-  }
+  if (isStudent) params.append('userId', data.userId);
+  else params.append('publisherId', data.userId);
+  return {
+    type: CHECK_ID_DUPLICATION,
+    promise: isStudent
+      ? Api.post('/signup/student/dupcheck', params)
+      : Api.post('/signup/publisher/dupcheck', params),
+    meta: {
+      onSuccess: onComplete,
+    },
+  };
 }
