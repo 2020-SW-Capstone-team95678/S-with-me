@@ -164,7 +164,6 @@ public class CurriculumControllerTest {
     public void curriculumArchievementTest()
     {
         assertThat(myBookRepository.findAll()).isNotEmpty();
-
         assertThat(bookRepository.findAll()).isNotEmpty();
         mainChapterRepository.save(MainChapter.builder()
                 .mainChapterName("AA")
