@@ -205,7 +205,10 @@ public class NoteControllerTest {
                 .solvedDateTime(expectedAddedDateTime)
                 .isRight(true)
                 .myAnswer("test answer")
-                .mySolution("test solution")
+                .linkSolutionId(null)
+                .imageSolution(null)
+                .textSolution("test solution")
+                .solutionType("text")
                 .build();
 
 

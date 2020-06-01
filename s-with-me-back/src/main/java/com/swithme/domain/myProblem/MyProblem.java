@@ -29,9 +29,18 @@ public class MyProblem {
     @JoinColumn(name = "problemId")
     private Problem problem;
 
+    @Column(name = "linkSolutionId")
+    private Integer linkSolutionId;
+
     @Lob
-    @Column(name = "mySolution")
-    private String mySolution;
+    @Column(name = "imageSolution")
+    private Byte[] imageSolution;
+
+    @Column(name = "textSolution")
+    private String textSolution;
+
+    @Column(name = "solutionType")
+    private String solutionType;
 
     @Column(name = "isConfused")
     private Boolean isConfused;
@@ -49,11 +58,15 @@ public class MyProblem {
     private Boolean isSolved;
 
     @Builder
-    public MyProblem(MyBook myBook, Problem problem, String mySolution, Boolean isConfused, Boolean isRight,
-                     Long solvedDateTime, String myAnswer, Boolean isSolved){
+    public MyProblem(MyBook myBook, Problem problem, Integer linkSolutionId,
+                     Byte[] imageSolution, String textSolution, String solutionType,
+                     Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved) {
         this.myBook = myBook;
         this.problem = problem;
-        this.mySolution = mySolution;
+        this.linkSolutionId = linkSolutionId;
+        this.imageSolution = imageSolution;
+        this.textSolution = textSolution;
+        this.solutionType = solutionType;
         this.isConfused = isConfused;
         this.isRight = isRight;
         this.solvedDateTime = solvedDateTime;
@@ -62,7 +75,10 @@ public class MyProblem {
     }
 
     public void update(MyProblemUpdateRequestDto requestDto) {
-        this.mySolution = requestDto.getMySolution();
+        this.linkSolutionId = requestDto.getLinkSolutionId();
+        this.imageSolution = requestDto.getImageSolution();
+        this.textSolution = requestDto.getTextSolution();
+        this.solutionType = requestDto.getSolutionType();
         this.isConfused = requestDto.getIsConfused();
         this.isRight = requestDto.getIsRight();
         this.solvedDateTime = requestDto.getSolvedDateTime();
@@ -70,18 +86,13 @@ public class MyProblem {
         this.isSolved = requestDto.getIsSolved();
     }
 
-    public void update(NoteUpdateRequestDto requestDto){
+    public void update(NoteUpdateRequestDto requestDto) {
         this.solvedDateTime = requestDto.getSolvedDateTime();
         this.isRight = requestDto.getIsRight();
         this.myAnswer = requestDto.getMyAnswer();
-        this.mySolution = requestDto.getMySolution();
+        this.linkSolutionId = requestDto.getLinkSolutionId();
+        this.imageSolution = requestDto.getImageSolution();
+        this.textSolution = requestDto.getTextSolution();
+        this.solutionType = requestDto.getSolutionType();
     }
-
-//    public void update(MyProblem entity) {
-//        this.mySolution = entity.getMySolution();
-//        this.isConfused = entity.isConfused();
-//        this.isRight = entity.isRight();
-//        this.solvedDateTime = entity.getSolvedDateTime();
-//        this.myAnswer = entity.getMyAnswer();
-//    }
 }
