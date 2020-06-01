@@ -34,7 +34,7 @@ public class MyProblem {
 
     @Lob
     @Column(name = "imageSolution")
-    private Byte[] imageSolution;
+    private String imageSolution;
 
     @Column(name = "textSolution")
     private String textSolution;
@@ -59,7 +59,7 @@ public class MyProblem {
 
     @Builder
     public MyProblem(MyBook myBook, Problem problem, Integer linkSolutionId,
-                     Byte[] imageSolution, String textSolution, String solutionType,
+                     String imageSolution, String textSolution, String solutionType,
                      Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved) {
         this.myBook = myBook;
         this.problem = problem;

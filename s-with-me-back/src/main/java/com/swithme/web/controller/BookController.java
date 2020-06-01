@@ -26,7 +26,7 @@ public class BookController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/book-id")
-    public int getBookId(@RequestParam("myBookId") int myBookId){
+    public BookIdResponseDto getBookId(@RequestParam("myBookId") int myBookId){
         return bookService.getBookId(myBookId);
     }
 

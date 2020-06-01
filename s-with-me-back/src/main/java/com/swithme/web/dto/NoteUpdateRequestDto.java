@@ -14,13 +14,13 @@ public class NoteUpdateRequestDto {
     private Boolean isRight;
     private String myAnswer;
     private Integer linkSolutionId;
-    private Byte[] imageSolution;
+    private String imageSolution;
     private String textSolution;
     private String solutionType;
 
     @Builder
     public NoteUpdateRequestDto(Long solvedDateTime, Boolean isRight, String myAnswer, Integer linkSolutionId,
-                                Byte[] imageSolution, String textSolution, String solutionType){
+                                String imageSolution, String textSolution, String solutionType){
         this.solvedDateTime = solvedDateTime;
         this.isRight = isRight;
         this.myAnswer = myAnswer;

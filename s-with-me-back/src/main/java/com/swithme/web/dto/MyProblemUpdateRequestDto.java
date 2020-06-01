@@ -11,7 +11,7 @@ public class MyProblemUpdateRequestDto {
     private Boolean isConfused;
     private Boolean isRight;
     private Integer linkSolutionId;
-    private Byte[] imageSolution;
+    private String imageSolution;
     private String textSolution;
     private String solutionType;
     private String myAnswer;
@@ -19,7 +19,7 @@ public class MyProblemUpdateRequestDto {
     private Boolean isSolved;
 
     @Builder
-    public MyProblemUpdateRequestDto(Boolean isConfused, Boolean isRight, Integer linkSolutionId, Byte[] imageSolution,
+    public MyProblemUpdateRequestDto(Boolean isConfused, Boolean isRight, Integer linkSolutionId, String imageSolution,
                                      String textSolution, String solutionType,
                                      String myAnswer, Long solvedDateTime, Boolean isSolved){
         this.isConfused = isConfused;

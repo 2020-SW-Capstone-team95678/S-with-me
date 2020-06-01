@@ -1,5 +1,7 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -37,6 +39,8 @@ public class ProblemControllerTest {
     private ProblemRepository problemRepository;
     @Autowired
     private SubChapterRepository subChapterRepository;
+    @Autowired
+    private MyProblemRepository myProblemRepository;
 
     private SubChapter subChapter;
 
@@ -44,13 +48,17 @@ public class ProblemControllerTest {
     public void setup(){
         subChapterRepository.save(new SubChapter());
         subChapter = subChapterRepository.findAll().get(0);
-        problemRepository.save(Problem.builder()
+        Problem problem = problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
+                .build());
+        myProblemRepository.save(MyProblem.builder()
+                .problem(problem)
                 .build());
     }
 
     @After
     public void cleanup(){
+        myProblemRepository.deleteAll();
         problemRepository.deleteAll();
         subChapterRepository.deleteAll();
     }
@@ -73,6 +81,16 @@ public class ProblemControllerTest {
                 .build());
         String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
                  + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getProblemIdTest(){
+        MyProblem myProblem = myProblemRepository.findAll().get(0);
+        String url = "http://localhost:" + port + "/student/library/my-book/my-problem/problem-id?myProblemId="
+                +myProblem.getMyProblemId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
