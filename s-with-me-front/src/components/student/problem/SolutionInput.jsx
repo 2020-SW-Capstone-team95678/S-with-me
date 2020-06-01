@@ -14,6 +14,7 @@ export default class SolutionInput extends PureComponent {
     this.state = { file: '', previewURL: '', myProblemListForLink: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleFileOnChange = this.handleFileOnChange.bind(this);
+    this.handleLinkSolution = this.handleLinkSolution.bind(this);
   }
   componentDidMount() {
     const { myBookId, requestChapterList } = this.props;
@@ -33,12 +34,12 @@ export default class SolutionInput extends PureComponent {
     }
   }
   handleChange(e) {
-    const { setMySolution, id } = this.props;
+    const { setTextSolution, id } = this.props;
     e.preventDefault();
-    setMySolution(id, e.target.value);
+    setTextSolution(id, e.target.value);
   }
   handleFileOnChange(event) {
-    const { setMySolution, id } = this.props;
+    const { setImageSolution, id } = this.props;
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
@@ -47,12 +48,16 @@ export default class SolutionInput extends PureComponent {
         file: file,
         previewURL: reader.result,
       });
-      setMySolution(id, reader.result);
+      setImageSolution(id, reader.result);
     };
     reader.readAsDataURL(file);
   }
+  handleLinkSolution(selectedId) {
+    const { id, setLinkSolutionId } = this.props;
+    setLinkSolutionId(id, selectedId);
+  }
   render() {
-    const { solutionFilterType, onChange, values, chapterList } = this.props;
+    const { solutionType, onChange, values, chapterList } = this.props;
     const { file, previewURL, myProblemListForLink } = this.state;
     let solution_preview = null;
     if (file) {
@@ -60,9 +65,9 @@ export default class SolutionInput extends PureComponent {
         <img className="profile_preview" src={previewURL} height="100" alt="solution_preview" />
       );
     }
-    if (solutionFilterType === 'text') {
+    if (solutionType === 'text') {
       return (
-        <div style={{ padding: '5px' }}>
+        <div style={{ padding: '5px', paddingTop: 5 }}>
           <textarea
             type="text"
             onChange={this.handleChange}
@@ -75,9 +80,9 @@ export default class SolutionInput extends PureComponent {
           />
         </div>
       );
-    } else if (solutionFilterType === 'img') {
+    } else if (solutionType === 'img') {
       return (
-        <div style={{ padding: '5px' }}>
+        <div style={{ padding: '5px', paddingTop: 5 }}>
           <input
             type="file"
             accept="image/jpg,impge/png,image/jpeg,image/gif"
@@ -89,10 +94,10 @@ export default class SolutionInput extends PureComponent {
       );
     } else {
       return (
-        <div style={{ padding: '5px' }}>
+        <div style={{ padding: 5, paddingTop: 30 }}>
           <Text>참고할 문제를 선택해주세요!</Text>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 2 }}>
               <Select name="selectMainChapterId" onChange={onChange}>
                 <Option label="선택해 주세요" value="" />
                 {chapterList.map(({ mainChapter }) => (
@@ -100,7 +105,7 @@ export default class SolutionInput extends PureComponent {
                 ))}
               </Select>
             </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 2 }}>
               <SelectSubChapter
                 chapterList={this.props.chapterList}
                 mainChapterId={values.selectMainChapterId}
@@ -109,37 +114,52 @@ export default class SolutionInput extends PureComponent {
             </div>
             <Modal>
               {({ openModal }) => (
-                <div style={{ flex: 2, display: 'flex' }}>
+                <div style={{ flex: 3, display: 'flex' }}>
                   <Select name="selectMyProblem" onChange={onChange}>
                     <Option label="선택해 주세요" value="" />
-                    {myProblemListForLink.map((myProblem, index) => (
-                      <Option
-                        key={index}
-                        label={myProblem.myProblemId}
-                        value={myProblem.problemId}
-                      />
-                    ))}
+                    {myProblemListForLink.map((myProblem, index) => {
+                      return (
+                        <Option
+                          key={index}
+                          label={myProblem.myProblemId}
+                          value={myProblem.myProblemId}
+                        />
+                      );
+                    })}
                   </Select>
                   <div
-                    onClick={() =>
+                    onClick={() => {
                       openModal(PREVIEW_PROBLEM, {
-                        problemId: values.selectMyProblem,
-                        // myAnswer: values.selectMyProblem.myAnswer,
-                        // mySolution: values.selectMyProblem.mySolution,
-                      })
-                    }
+                        myProblemId: values.selectMyProblem,
+                      });
+                    }}
                     style={{
-                      padding: 1,
                       border: '1px solid',
                       display: 'flex',
                       alignItems: 'center',
+                      fontSize: 'small',
+                      padding: 3,
                     }}
                   >
-                    문제 미리 보기
+                    미리 보기
                   </div>
                 </div>
               )}
             </Modal>
+            <div
+              onClick={() => this.handleLinkSolution(values.selectMyProblem)}
+              style={{
+                flex: 1,
+                border: '1px solid',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 'small',
+                padding: 3,
+              }}
+            >
+              선택
+            </div>
           </div>
         </div>
       );

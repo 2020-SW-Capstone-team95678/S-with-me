@@ -76,14 +76,21 @@ class ProblemHead extends PureComponent {
           setLastMyProblemPage(id, pagination.number);
         }
       });
-      const formValue = {
+      let formValue = {
         isConfused: myProblem.isConfused,
         isRight: myProblem.isRight,
         isSolved: true,
+        solutionType: myProblem.solutionType,
         myAnswer: String(myProblem.myAnswer),
-        mySolution: myProblem.mySolution,
         solvedDateTime: myProblem.solvedDateTime,
       };
+      if (myProblem.solutionType === 'text') {
+        formValue = { ...formValue, textSolution: myProblem.textSolution };
+      } else if (myProblem.solutionType === 'img') {
+        formValue = { ...formValue, imageSolution: myProblem.imageSolution };
+      } else {
+        formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+      }
       if (myProblem.myAnswer && !myProblem.isSolved) {
         updateMyProblem(myProblem.myProblemId, formValue, () => {
           setIsSolved(myProblem.myProblemId, true);

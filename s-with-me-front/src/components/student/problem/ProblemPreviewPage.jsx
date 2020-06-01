@@ -43,7 +43,6 @@ export default class ProblemPreviewPage extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const { problemNumber, content, isOptional, answer, solution } = this.state;
     let optionContents = [];
     let numbers = ['①', '②', '③', '④', '⑤'];

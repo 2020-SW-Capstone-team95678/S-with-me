@@ -1,10 +1,13 @@
 import {
   SET_MY_ANSWER,
   SET_IS_CONFUSED,
-  SET_MY_SOLUTION,
   SET_SOLVED_DATETIME,
   SET_IS_RIGHT,
   SET_IS_SOLVED,
+  SET_MY_TEXT_SOLUTION,
+  SET_MY_IMAGE_SOLUTION,
+  SET_MY_LINK_SOLUTION,
+  SET_SOLUTION_TYPE,
 } from '../actions/myProblemActions';
 
 import { FETCH_MY_PROBLEM_LIST, UPDATE_MY_PROBLEM } from '../actions/myProblemPackActions';
@@ -101,13 +104,44 @@ export default (state = initState, action) => {
         },
       };
     }
-    case SET_MY_SOLUTION: {
-      const { id, mySolution } = payload;
+    case SET_SOLUTION_TYPE: {
+      const { id, solutionType } = payload;
+      console.log(id, solutionType);
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], mySolution },
+          [id]: { ...state.entities[id], solutionType },
+        },
+      };
+    }
+    case SET_MY_TEXT_SOLUTION: {
+      const { id, textSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], textSolution },
+        },
+      };
+    }
+    case SET_MY_IMAGE_SOLUTION: {
+      const { id, imageSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], imageSolution },
+        },
+      };
+    }
+    case SET_MY_LINK_SOLUTION: {
+      const { id, linkSolutionId } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], linkSolutionId },
         },
       };
     }

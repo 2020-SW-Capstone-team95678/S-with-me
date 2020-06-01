@@ -66,6 +66,7 @@ export default class AnswerInput extends PureComponent {
       return (
         <input
           type="text"
+          style={{ fontSize: 'medium' }}
           placeholder="답을 입력해주세요"
           name="subjectiveAnswer"
           onChange={this.handleSubjectiveAnswer}
