@@ -11,39 +11,31 @@ export default class ProblemPreviewPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      problemNumber: null,
-      content: null,
-      isOptional: false,
-      answer: null,
-      solution: null,
-      option1: null,
-      option2: null,
-      option3: null,
-      option4: null,
-      option5: null,
+      problem: {},
+      myAnswer: null,
+      solutionType: null,
+      textSolution: null,
+      imageSolution: null,
+      linkSolutionId: null,
     };
   }
   componentDidMount() {
-    Api.get('/student/library/my-book/my-problems', {
-      params: { problemId: this.props.problemId },
+    Api.get('/student/library/my-book/my-problem/problem-id', {
+      params: { myProblemId: this.props.myProblemId },
     }).then(({ data }) =>
       this.setState({
-        problemNumber: data.problemNumber,
-        content: data.content,
-        isOptional: data.isOptional,
-        answer: data.answer,
-        solution: data.solution,
-        option1: data.option1,
-        option2: data.option2,
-        option3: data.option3,
-        option4: data.option4,
-        option5: data.option5,
+        problem: data.problem,
+        myAnswer: data.myAnswer,
+        solutionType: data.solutionType,
+        textSolution: data.textSolution,
+        imageSolution: data.imageSolution,
       }),
     );
   }
 
   render() {
-    const { problemNumber, content, isOptional, answer, solution } = this.state;
+    const { myAnswer, solutionType, textSolution, imageSolution, problem } = this.state;
+    const { problemNumber, content, isOptional, answer, solution } = problem;
     let optionContents = [];
     let numbers = ['①', '②', '③', '④', '⑤'];
     if (isOptional) {
@@ -69,10 +61,24 @@ export default class ProblemPreviewPage extends PureComponent {
                 ))}
               </VerticalList>
             ) : null}
+            <br />
             <div>
               <Text>정답: {answer}</Text>
               <br />
               <Text>해설: {solution}</Text>
+            </div>
+            <div>---------------------------------</div>
+            <div>
+              <Text>나의 정답: {myAnswer}</Text>
+              <br />
+              <Text>나의 풀이↓</Text> <br />
+              {solutionType === 'text' ? (
+                <Text>{textSolution}</Text>
+              ) : solutionType === 'img' ? (
+                <img src={imageSolution} alt="나의 이미지 풀이" />
+              ) : (
+                <Text>링크 풀이 입니다.</Text>
+              )}
             </div>
             <Button onPress={closeModal}>닫기</Button>
           </Spacing>

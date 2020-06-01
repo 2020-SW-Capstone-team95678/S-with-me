@@ -32,11 +32,7 @@ class ProblemHead extends PureComponent {
     clearInterval(this.timerId);
     Api.get('/student/library/my-book/book-id', {
       params: { myBookId: this.props.id },
-    }).then(({ data }) => {
-      Api.get('/student/library/my-book', {
-        params: { bookId: data.bookId },
-      }).then(({ data }) => this.setState({ bookName: data.name }));
-    });
+    }).then(({ data }) => this.setState({ bookName: data.bookName }));
   }
 
   handleCloseBook() {

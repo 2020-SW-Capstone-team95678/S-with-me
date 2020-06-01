@@ -106,7 +106,6 @@ export default (state = initState, action) => {
     }
     case SET_SOLUTION_TYPE: {
       const { id, solutionType } = payload;
-      console.log(id, solutionType);
       return {
         ...state,
         entities: {
