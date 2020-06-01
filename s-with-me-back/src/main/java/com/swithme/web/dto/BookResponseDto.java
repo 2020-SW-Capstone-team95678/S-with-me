@@ -14,14 +14,17 @@ public class BookResponseDto {
     private String name;
     private short grade;
     private String cover;
+    private String introduction;
 
     @Builder
-    public BookResponseDto(String subject, int price, String publishedDate, String name, short grade, String cover){
+    public BookResponseDto(String subject, int price, String publishedDate, String name,
+                           short grade, String cover, String introduction){
         this.subject = subject;
         this.price = price;
         this.publishedDate = publishedDate;
         this.name = name;
         this.grade = grade;
         this.cover = cover;
+        this.introduction = introduction;
     }
 }

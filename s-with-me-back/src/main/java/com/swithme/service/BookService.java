@@ -39,6 +39,7 @@ public class BookService {
                 .totalProblemNumber(book.getTotalProblemNumber())
                 .monthlyProfit(book.getMonthlyProfit())
                 .monthlySold(book.getMonthlySold())
+                .introduction(book.getIntroduction())
                 .build();
         return responseDto;
     }
@@ -63,6 +64,7 @@ public class BookService {
                     .totalProblemNumber(book.getTotalProblemNumber())
                     .monthlyProfit(book.getMonthlyProfit())
                     .monthlySold(book.getMonthlySold())
+                    .introduction(book.getIntroduction())
                     .build());
         }
         return responseDtoList;
@@ -81,6 +83,7 @@ public class BookService {
                 .name(createDto.getName())
                 .grade(createDto.getGrade())
                 .cover(createDto.getCover())
+                .introduction(createDto.getIntroduction())
                 .build());
         int index = bookRepository.findByPublisher(publisher).size()-1;
         return bookRepository.findByPublisher(publisher).get(index).getBookId();
@@ -105,6 +108,7 @@ public class BookService {
                 .publishedDate(book.getPublishedDate())
                 .grade(book.getGrade())
                 .cover(book.getCover())
+                .introduction(book.getIntroduction())
                 .build();
         return responseDto;
     }

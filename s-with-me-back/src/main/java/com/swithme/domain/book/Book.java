@@ -52,10 +52,13 @@ public class Book {
     @Column(name = "monthlySold")
     private int monthlySold;
 
+    @Column(name = "introduction")
+    private String introduction;
+
     @Builder
     public Book(Publisher publisher, String subject, int price, String publishedDate,
                 String name, short grade, String cover, Boolean isAdvertised,
-                short totalProblemNumber, int monthlyProfit, int monthlySold){
+                short totalProblemNumber, int monthlyProfit, int monthlySold, String introduction){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
@@ -67,6 +70,7 @@ public class Book {
         this.totalProblemNumber = totalProblemNumber;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
+        this.introduction = introduction;
     }
 
     public void update(BookUpdateRequestDto requestDto) {
@@ -76,5 +80,6 @@ public class Book {
         this.name = requestDto.getName();
         this.grade = requestDto.getGrade();
         this.cover = requestDto.getCover();
+        this.introduction = requestDto.getIntroduction();
     }
 }

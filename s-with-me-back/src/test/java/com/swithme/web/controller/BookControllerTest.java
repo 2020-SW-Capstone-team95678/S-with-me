@@ -65,6 +65,7 @@ public class BookControllerTest {
                 .subject("test subject")
                 .publisher(publisher)
                 .price(12345)
+                .introduction("test")
                 .build());
         Book book = bookRepository.findAll().get(0);
 
@@ -89,6 +90,7 @@ public class BookControllerTest {
                     .subject("test subject")
                     .publisher(publisher)
                     .price(12345)
+                    .introduction("test")
                     .build());
         }
 
@@ -122,6 +124,7 @@ public class BookControllerTest {
                 .name("test name")
                 .grade((short)4)
                 .cover("test cover")
+                .introduction("test")
                 .build();
 
         HttpEntity<BookCreateDto> requestEntity = new HttpEntity<>(requestDto);
@@ -146,6 +149,7 @@ public class BookControllerTest {
                 .publishedDate("2020-02-02")
                 .grade((short)4)
                 .cover("test cover")
+                .introduction("test")
                 .build();
         Book book = bookRepository.findAll().get(0);
         System.out.println(book.getBookId());
