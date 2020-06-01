@@ -14,10 +14,8 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
-import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +27,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.Reader;
-import java.sql.Clob;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -106,6 +102,7 @@ public class NoteControllerTest {
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
+        bookRepository.deleteAll();
         folderRepository.deleteAll();
         problemRepository.deleteAll();
         studentRepository.deleteAll();

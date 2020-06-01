@@ -207,7 +207,7 @@ public class CurriculumControllerTest {
 
         MyBook mybook = myBookRepository.findAll().get(0);
         myProblemRepository.save(MyProblem.builder()
-                //.myBook(mybook) //이부분 지우면 에러 안남
+                .myBook(mybook)
                 .problem(problemRepository.findAll().get(0))
                 .solvedDateTime(1590937200001L)
                 .build());
