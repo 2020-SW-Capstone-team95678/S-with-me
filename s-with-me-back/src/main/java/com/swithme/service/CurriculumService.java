@@ -20,6 +20,7 @@ import com.swithme.web.dto.CurriculumResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.method.support.CompositeUriComponentsContributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,21 @@ public class CurriculumService {
     }
 
     @Transactional
+    public CurriculumResponseDto getCurriculum(int myBookId)
+    {
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
+        Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        return CurriculumResponseDto.builder()
+                .curriculumId(curriculum.getCurriculumId())
+                .myBookId(myBookId)
+                .subChapterId(curriculum.getSubChapter().getSubChapterId())
+                .type(curriculum.getType())
+                .dailyGoal(curriculum.getDailyGoal())
+                .monthlyGoal(curriculum.getMonthlyGoal())
+                .build();
+    }
+    @Transactional
     public List<CurriculumResponseDto> getCurriculumList(int studentId){
         Student student=studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
@@ -75,7 +91,8 @@ public class CurriculumService {
         {
             curriculumResponseDtoList.add(CurriculumResponseDto.builder()
                     .curriculumId(curriculum.getCurriculumId())
-                    .goalNumber(curriculum.getDailyGoal())
+                    .subChapterId(curriculum.getSubChapter().getSubChapterId())
+                    .dailyGoal(curriculum.getDailyGoal())
                     .type(curriculum.getType())
                     .myBookId(curriculum.getMyBook().getMyBookId())
                     .build());
@@ -89,28 +106,36 @@ public class CurriculumService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
-
+        SubChapter subChapter = subChapterRepository.findById(curriculum.getSubChapter().getSubChapterId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
         if(curriculum.getType().equals("Daily")) {
             Start = ((nowTime/milliSecPerDay)*milliSecPerDay);
             End = Start + milliSecPerDay -1;
+            for(MyProblem myProblem : myProblemList)
+            {
+                if (Start < myProblem.getSolvedDateTime() && myProblem.getSolvedDateTime() < End) {
+                    problemArchievement++;
+                }
+            }
+            return problemArchievement*100/curriculum.getDailyGoal();
         }
         else {
             Start = standardMonday + (((nowTime - standardMonday) / milliSecPerWeek) * milliSecPerWeek);
             End = Start + milliSecPerWeek - 1;
-        }
-        for(MyProblem myProblem : myProblemList)
-        {
-            if(Start<myProblem.getSolvedDateTime() && myProblem.getSolvedDateTime()<End)
+            for(MyProblem myProblem : myProblemList)
             {
-                problemArchievement++;
+                if(myProblem.getProblem().getSubChapter().equals(subChapter)) {
+                    if (Start < myProblem.getSolvedDateTime() && myProblem.getSolvedDateTime() < End) {
+                        problemArchievement++;
+                    }
+                }
             }
+            List<Problem> problemList = problemRepository.findBySubChapter(curriculum.getSubChapter());
+            int subChapterSize = problemList.size();
+            return (problemArchievement*100/subChapterSize);
         }
-        List<Problem> problemList = problemRepository.findBySubChapter(curriculum.getSubChapter());
-        int subChapterSize = problemList.size();
-        
-        return (problemArchievement*100/subChapterSize);
     }
 }
