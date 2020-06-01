@@ -14,6 +14,7 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -117,7 +121,7 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void updateMyProblemTest() {
+    public void updateMyProblemTest() throws SQLException {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
@@ -132,6 +136,7 @@ public class MyProblemControllerTest {
                 .solvedDateTime(1412L)
                 .isSolved(true)
                 .build();
+
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNull();
 

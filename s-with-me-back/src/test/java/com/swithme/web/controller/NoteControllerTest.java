@@ -17,6 +17,7 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
 import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,10 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
@@ -189,7 +194,7 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void updateNoteTest(){
+    public void updateNoteTest() throws SQLException {
         noteRepository.save(Note.builder()
                 .addedDateTime(12345L)
                 .myProblem(myProblem)
@@ -205,6 +210,7 @@ public class NoteControllerTest {
                 .myAnswer("test answer")
                 .mySolution("test solution")
                 .build();
+
 
         HttpEntity<NoteUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
