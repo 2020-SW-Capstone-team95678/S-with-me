@@ -15,10 +15,11 @@ public class BookCreateDto {
     private String name;
     private short grade;
     private String cover;
+    private String introduction;
 
     @Builder
     public BookCreateDto(int publisherId, String subject, int price, String publishedDate,
-                         String name, short grade, String cover){
+                         String name, short grade, String cover, String introduction){
         this.publisherId = publisherId;
         this.subject = subject;
         this.price = price;
@@ -26,5 +27,6 @@ public class BookCreateDto {
         this.name = name;
         this.grade = grade;
         this.cover = cover;
+        this.introduction = introduction;
     }
 }

@@ -21,11 +21,12 @@ public class BookInformationResponseDto {
     private short totalProblemNumber;
     private int monthlyProfit;
     private int monthlySold;
+    private String introduction;
 
     @Builder
     public BookInformationResponseDto(int bookId, int publisherId, String subject, int price, String publishedDate,
                                       String name, short grade, String cover, Boolean isAdvertised,
-                                      short totalProblemNumber, int monthlyProfit, int monthlySold){
+                                      short totalProblemNumber, int monthlyProfit, int monthlySold, String introduction){
         this.bookId = bookId;
         this.publisherId = publisherId;
         this.subject = subject;
@@ -38,5 +39,6 @@ public class BookInformationResponseDto {
         this.totalProblemNumber = totalProblemNumber;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
+        this.introduction = introduction;
     }
 }
