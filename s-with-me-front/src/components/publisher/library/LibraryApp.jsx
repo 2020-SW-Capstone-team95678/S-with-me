@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
- 
+import { useHistory } from 'react-router-dom';
+import { CREATE_BOOK } from '../../../constants/modals';
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
+
 import {
   Accordion,
   AccordionItem,
@@ -17,6 +19,8 @@ import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import CheckBox from '../../../common-ui/CheckBox';
+import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
+import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
@@ -40,9 +44,13 @@ const LibraryApp = () => {
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: 1, padding: 3 }}>
-        <Button primary onPress={() => {}}>
-          추가
-        </Button>
+        <Modal>
+          {({ openModal }) => (
+            <Button primary onPress={() => openModal(CREATE_BOOK, { type: 'edit' })}>
+              추가
+            </Button>
+          )}
+        </Modal>
         <div>
           <ol style={{ overflow: 'hidden', 'overflow-y': 'scroll' }}>
             {books.map(book => {
@@ -52,18 +60,15 @@ const LibraryApp = () => {
         </div>
       </div>
       <div style={{ flex: 4, padding: 3 }}>
-        {
-          (() => {
-            if(selectedBook)
-              return <BookInfo book={selectedBook} setBooks={setBooks}/>
-          })()
-        }
+        {(() => {
+          if (selectedBook) return <BookInfo book={selectedBook} setBooks={setBooks} />;
+        })()}
       </div>
     </div>
   );
 };
 
-const SideBookInfo = ({ book, onClick}) => {
+const SideBookInfo = ({ book, onClick }) => {
   return (
     <li onClick={onClick}>
       <div>
@@ -82,11 +87,12 @@ const BookInfo = ({ book, setBooks }) => {
 
   const [name, setName] = useState(book.name);
   const [price, setPrice] = useState(book.price);
+  console.log(book.bookId);
 
   useEffect(() => {
-    setName(book.name ? book.name : "");
-    setPrice(book.price ? book.price: 0);
-  }, [book])
+    setName(book.name ? book.name : '');
+    setPrice(book.price ? book.price : 0);
+  }, [book]);
 
   function handleEnter(event) {
     if (event.keyCode === 13) {
@@ -99,7 +105,7 @@ const BookInfo = ({ book, setBooks }) => {
       <div>
         <p>제목</p>
         <input
-        type="text"
+          type="text"
           value={name}
           onKeyDown={handleEnter}
           onChange={e => setName(e.target.value)}
@@ -108,9 +114,11 @@ const BookInfo = ({ book, setBooks }) => {
               book.name = name;
 
               Api.put(`/publisher/library/book/${book.bookId}`, book)
-                .then(response => setBooks(prev => {
-                  return [...prev, book];
-                }))
+                .then(response =>
+                  setBooks(prev => {
+                    return [...prev, book];
+                  }),
+                )
                 .catch(reason => setName(book.name));
             }
           }}
@@ -119,7 +127,7 @@ const BookInfo = ({ book, setBooks }) => {
       <div>
         <p>가격</p>
         <input
-        type="number"
+          type="number"
           value={price}
           onKeyDown={handleEnter}
           onChange={e => setPrice(e.target.value)}
@@ -128,9 +136,11 @@ const BookInfo = ({ book, setBooks }) => {
               book.price = price;
 
               Api.put(`/publisher/library/book/${book.bookId}`, book)
-                .then(response => setBooks(prev => {
-                  return [...prev, book];
-                }))
+                .then(response =>
+                  setBooks(prev => {
+                    return [...prev, book];
+                  }),
+                )
                 .catch(reason => setPrice(book.price));
             }
           }}
@@ -145,6 +155,18 @@ const BookInfo = ({ book, setBooks }) => {
         <input value={book.introduction}></input>
       </div>
 
+      <Modal bookId={book.bookId}>
+        {({ openModal }) => (
+          <Button
+            bookId={book.bookId}
+            primary
+            onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
+          >
+            추가
+          </Button>
+        )}
+      </Modal>
+
       <ChapterInfo
         bookId={book.bookId}
         onClick={subChapterId => {
@@ -156,7 +178,7 @@ const BookInfo = ({ book, setBooks }) => {
   );
 };
 
-const ChapterInfo = ({bookId, onClick}) => {
+const ChapterInfo = ({ bookId, onClick }) => {
   const [chapters, setChapters] = useState([]);
 
   useEffect(() => {
@@ -165,8 +187,7 @@ const ChapterInfo = ({bookId, onClick}) => {
       setChapters(data.data);
     };
 
-    if(bookId)
-    {
+    if (bookId) {
       fetchData();
     }
   }, [bookId]);
@@ -178,14 +199,36 @@ const ChapterInfo = ({bookId, onClick}) => {
           <AccordionItem>
             <AccordionItemHeading>
               <AccordionItemButton>
-                {chapter.mainChapterResponseDto.mainChapterId}
+                {chapter.mainChapterResponseDto.mainChapterName}
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-              <button>추가</button>
+              <Modal>
+                {({ openModal }) => (
+                  <Button
+                    primary
+                    onPress={() =>
+                      openModal(CREATE_SUB_CHAPTER, {
+                        type: 'edit',
+                        mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
+                      })
+                    }
+                  >
+                    추가
+                  </Button>
+                )}
+              </Modal>
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
-                  return <li onClick={() => {onClick(subChapter.subChapterId);}}>{subChapter.subChapterName}</li>;
+                  return (
+                    <li
+                      onClick={() => {
+                        onClick(subChapter.subChapterId);
+                      }}
+                    >
+                      {subChapter.subChapterName}
+                    </li>
+                  );
                 })}
               </ol>
             </AccordionItemPanel>
@@ -218,7 +261,7 @@ const ProblemInfo = ({ subChapterId }) => {
   return (
     <div>
       {problems.map(problem => {
-        return <ProblemItem problem={problem}/>;
+        return <ProblemItem problem={problem} />;
       })}
     </div>
   );
@@ -227,18 +270,27 @@ const ProblemInfo = ({ subChapterId }) => {
 const ProblemItem = ({ problem }) => {
   const [isOptional, setIsOptional] = useState(problem.isOptional);
 
+  console.log(problem);
+
   return (
     <div>
       <p>{problem.content}</p>
       <p>{problem.solution}</p>
       <p>{problem.answer}</p>
-      <CheckBox checked={isOptional} onChange={(name, value) => {
-        Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problem.problemId}`, {
-          params: {
-            isOptional: !value,
-          },
-        }).then(response => setIsOptional(prevValue => !prevValue));
-      }}>주관식 객관식</CheckBox>
+      <CheckBox
+        checked={isOptional}
+        onChange={(name, value) => {
+          console.log(problem.subChapterId);
+          Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problem.problemId}`, {
+            params: {
+              //subChapterId: problem.subChapterId,
+              isOptional: !value,
+            },
+          }).then(response => setIsOptional(prevValue => !prevValue));
+        }}
+      >
+        주관식 객관식
+      </CheckBox>
     </div>
   );
 };

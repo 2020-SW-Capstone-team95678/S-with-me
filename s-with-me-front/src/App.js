@@ -19,7 +19,7 @@ import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 
-import EditBook from './components/publisher/book/EditBook';
+import EditBook from './components/publisher/EditBook';
 import LibraryApp from './components/publisher/library/LibraryApp';
 import RegisterProblem from './components/publisher/addBook/RegisterProblem';
 
