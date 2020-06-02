@@ -6,23 +6,44 @@ import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
 
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
+
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isOptional: false, file: '', previewURL: '' };
+    this.state = {
+      isOptional: false,
+      file: '',
+      previewURL: '',
+      showMath: false,
+      delimeters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '$', right: '$', display: false },
+        { left: '\\[', right: '\\]', display: true },
+      ],
+    };
   }
 
   handleSubmit = values => {
-    console.log(values);
+    values = {
+      ...values,
+      title: JSON.stringify(values.title),
+      content: JSON.stringify(values.content),
+      answer: JSON.stringify(values.answer),
+      solution: JSON.stringify(values.solution),
+    };
     const formValue = {
       ...values,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
-      subChapterId: 372,
+      subChapterId: 373,
     };
-    Api.post('/publisher/library/book/mainChapter/subChapter/problems', [
-      formValue,
-    ]).then(({ data }) => console.log(data));
+    console.log(formValue);
+    Api.post('/publisher/library/book/mainChapter/subChapter/problems', [formValue])
+      .then(({ data }) => console.log(data))
+      .catch(error => console.log(error.message));
   };
 
   handleOptional = () => {
@@ -44,7 +65,7 @@ export default class RegisterProblem extends PureComponent {
   };
 
   render() {
-    const { file, previewURL, isOptional } = this.state;
+    const { file, previewURL, isOptional, showMath } = this.state;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -65,11 +86,23 @@ export default class RegisterProblem extends PureComponent {
       <div>
         <Form onSubmit={values => this.handleSubmit(values)} initValues="">
           <Form.Consumer>
-            {({ onChange }) => (
+            {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                 <Input label="문제 제목" name="title" onChange={onChange} />
                 <Input label="문제 내용" name="content" onChange={onChange} />
+                <CheckBox
+                  label="수식 확인하기"
+                  onChange={() => this.setState({ showMath: !showMath })}
+                  checked={showMath}
+                />
+                {showMath ? (
+                  <div>
+                    제목: <Latex delimiters={this.state.delimeters}>{values.title}</Latex>
+                    <br />
+                    내용: <Latex delimiters={this.state.delimeters}>{values.solution}</Latex>
+                  </div>
+                ) : null}
                 <CheckBox
                   label="객관식 문제입니까?"
                   onChange={() => this.handleOptional()}
