@@ -1,6 +1,7 @@
 package com.swithme.domain.curriculum;
 
 import com.swithme.domain.myBook.MyBook;
+import com.swithme.web.dto.CurriculumUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,5 +41,13 @@ public class Curriculum {
         this.monthlyGoal = monthlyGoal;
         this.type = type;
         this.dailyGoal = dailyGoal;
+    }
+
+    public void update(CurriculumUpdateRequestDto curriculumUpdateRequestDto)
+    {
+        this.subChapterId = curriculumUpdateRequestDto.getSubChapterId();
+        this.monthlyGoal = curriculumUpdateRequestDto.getMonthlyGoal();
+        this.type = curriculumUpdateRequestDto.getType();
+        this.dailyGoal = curriculumUpdateRequestDto.getDailyGoal();
     }
 }

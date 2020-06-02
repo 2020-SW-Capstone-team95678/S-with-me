@@ -8,6 +8,7 @@ import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.service.CurriculumService;
 import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.CurriculumResponseDto;
+import com.swithme.web.dto.CurriculumUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,14 @@ public class CurriculumController {
     @PostMapping("/student/library/curriculum")
     public int createCurriculum(@RequestBody CurriculumCreateDto curriculumCreateDto){
         return curriculumService.createCurriculum(curriculumCreateDto);
+    }
+
+    @CrossOrigin
+    @PutMapping("/student/library/curriculum")
+    public String updateCurriculum(@RequestParam("curriculumId") int curriculumId ,
+                                   @RequestBody CurriculumUpdateRequestDto curriculumUpdateRequestDto)
+    {
+        return curriculumService.updateCurriculum(curriculumId, curriculumUpdateRequestDto);
     }
 
     @CrossOrigin
