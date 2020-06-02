@@ -28,5 +28,5 @@ export default function MySolutionView(props) {
         {isNewSolution ? note.myNewLinkSolution : note.linkSolutionId}
       </div>
     );
-  }
+  } else return null;
 }

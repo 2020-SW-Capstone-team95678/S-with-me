@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 
 import Card from '../../../common-ui/Card';
-import Heading from '../../../common-ui/Heading';
 import Button from '../../../common-ui/Button';
 import Text from '../../../common-ui/Text';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
@@ -15,7 +14,15 @@ import { CREATE_CURRICULUM } from '../../../constants/modals';
 export default class BookDetail extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { subject: '', name: '', grade: -1, cover: null, isCoverClicked: false };
+    this.state = {
+      subject: '',
+      name: '',
+      grade: -1,
+      cover: null,
+      isCoverClicked: false,
+      curriculum: {},
+      achievement: -1,
+    };
   }
 
   componentDidMount() {
@@ -29,13 +36,19 @@ export default class BookDetail extends PureComponent {
         cover: data.cover,
       }),
     );
+    Api.get('/student/library/curriculum', {
+      params: { myBookId: myBook.myBookId },
+    }).then(({ data }) => this.setState({ curriculum: data }));
+    Api.get('/student/library/curriculum/achievement', {
+      params: { myBookId: myBook.myBookId },
+    }).then(({ data }) => this.setState({ achievement: data }));
   }
 
   render() {
     const { chapterList, myBook } = this.props;
     const { myBookId } = this.props.match.params;
-    const { lastPageNumber, lastSubChapterId, bookId } = myBook;
-    const { subject, name, grade, cover, isCoverClicked } = this.state;
+    const { lastPageNumber, lastSubChapterId } = myBook;
+    const { subject, name, grade, cover, isCoverClicked, curriculum, achievement } = this.state;
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 2, flexDirection: 'row', padding: 3 }}>
@@ -68,18 +81,56 @@ export default class BookDetail extends PureComponent {
           <Modal>
             {({ openModal }) => (
               <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
-                <Button onPress={() => openModal(CREATE_CURRICULUM, { bookId: bookId })}>
-                  새로운 목표 설정하기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                  <Button
+                    small
+                    onPress={() =>
+                      openModal(CREATE_CURRICULUM, { myBookId: myBookId, type: 'new' })
+                    }
+                  >
+                    새로운 목표 설정하기
+                  </Button>
+                  <Button
+                    small
+                    onPress={() =>
+                      openModal(CREATE_CURRICULUM, {
+                        myBookId: myBookId,
+                        type: 'old',
+                        curriculum: curriculum,
+                      })
+                    }
+                  >
+                    수정하기
+                  </Button>
+                </div>
                 <Card>
-                  <Heading level={3}>목표</Heading>
-                  <Heading level={4}>월별 목표</Heading>
-                  <Heading level={5}>Chapter1 풀기</Heading>
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
+                    <Text large>이 책의 목표</Text>
+                    <Text small>목표 type: {curriculum.type}</Text>
+                    <Text>
+                      {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
+                      {curriculum.type === 'weekly' ? (
+                        <Link
+                          to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
+                          style={{ textDecoration: 'none', color: 'black' }}
+                        >
+                          이번주 목표 소단원 풀러 가기
+                        </Link>
+                      ) : null}
+                      {curriculum.type === 'daily'
+                        ? '하루에 ' + curriculum.dailyGoal + '문제 풀기'
+                        : null}
+                    </Text>
+                  </div>
                 </Card>
-                <Card>
-                  <Heading level={3}>달성도</Heading>
-                  <Heading level={5}>70% 달성!!</Heading>
-                </Card>
+                {curriculum.type !== 'monthly' ? (
+                  <Card>
+                    <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
+                      <Text large>달성도</Text>
+                      <Text>{achievement}% 달성</Text>
+                    </div>
+                  </Card>
+                ) : null}
               </div>
             )}
           </Modal>
