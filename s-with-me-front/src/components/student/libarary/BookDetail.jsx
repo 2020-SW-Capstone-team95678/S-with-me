@@ -5,50 +5,47 @@ import Button from '../../../common-ui/Button';
 import Text from '../../../common-ui/Text';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
-import ChapterList from './ChapterList';
-
 import { Link } from 'react-router-dom';
 import Api from '../../../Api';
 import { CREATE_CURRICULUM } from '../../../constants/modals';
+import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
 
 export default class BookDetail extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      subject: '',
-      name: '',
-      grade: -1,
-      cover: null,
+      book: {},
       isCoverClicked: false,
       curriculum: {},
       achievement: -1,
+      myBook: {},
     };
   }
 
   componentDidMount() {
-    const { requestChapterList, myBook } = this.props;
-    requestChapterList({ bookId: myBook.bookId });
-    Api.get('/student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) =>
-      this.setState({
-        subject: data.subject,
-        name: data.name,
-        grade: data.grade,
-        cover: data.cover,
-      }),
-    );
+    const { myBookId } = this.props.match.params;
+    Api.get('/student/library/my-book/getMyBook', {
+      params: { myBookId: myBookId },
+    }).then(({ data }) => {
+      this.setState({ myBook: data });
+      Api.get('/student/library/my-book', {
+        params: { bookId: data.bookId },
+      }).then(({ data }) => this.setState({ book: data }));
+    });
     Api.get('/student/library/curriculum', {
-      params: { myBookId: myBook.myBookId },
+      params: { myBookId: myBookId },
     }).then(({ data }) => this.setState({ curriculum: data }));
     Api.get('/student/library/curriculum/achievement', {
-      params: { myBookId: myBook.myBookId },
+      params: { myBookId: myBookId },
     }).then(({ data }) => this.setState({ achievement: data }));
   }
 
   render() {
-    const { chapterList, myBook } = this.props;
+    const { book, myBook, isCoverClicked, curriculum, achievement } = this.state;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
-    const { subject, name, grade, cover, isCoverClicked, curriculum, achievement } = this.state;
+    const { grade, subject, name, cover } = book;
+
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 2, flexDirection: 'row', padding: 3 }}>
@@ -69,13 +66,14 @@ export default class BookDetail extends PureComponent {
             <div
               onClick={() => this.setState({ isCoverClicked: true })}
               style={{
-                height: 100,
+                display: 'flex',
                 flexDirection: 'column',
                 padding: 3,
-                border: '1px red solid',
+                border: '1px solid',
+                borderRadius: 2,
               }}
             >
-              {cover}
+              <img src={cover} alt="책 커버" />
             </div>
           )}
           <Modal>
@@ -137,7 +135,7 @@ export default class BookDetail extends PureComponent {
         </div>
         <div style={{ flex: 5, flexDirection: 'row', paddingLeft: 30 }}>
           <Text>소단원 목차를 클릭하면 해당 문제풀이 페이지로 이동합니다.</Text>
-          <ChapterList myBookId={myBookId} chapterList={chapterList} />
+          <ChapterListContainer myBookId={myBookId} />
         </div>
         <div style={{ flex: 1 }}>
           <Link to={`/library/myBook/${myBookId}/solve/${lastSubChapterId}?page=${lastPageNumber}`}>

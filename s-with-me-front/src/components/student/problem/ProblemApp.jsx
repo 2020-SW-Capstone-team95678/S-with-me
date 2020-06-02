@@ -20,10 +20,10 @@ export default class ProblemApp extends PureComponent {
   };
 
   componentDidMount() {
-    const { subChapterId } = this.props.match.params;
+    const { subChapterId, myBookId } = this.props.match.params;
     const query = queryString.parse(this.props.location.search);
     const page = query.page || 1;
-    this.props.requestMyProblemList({ subChapterId: subChapterId }, page);
+    this.props.requestMyProblemList(myBookId, { subChapterId: subChapterId }, page);
   }
 
   render() {
@@ -41,6 +41,7 @@ export default class ProblemApp extends PureComponent {
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <ProblemList
+            myBookId={myBookId}
             subChapterId={subChapterId}
             page={number}
             myProblemList={

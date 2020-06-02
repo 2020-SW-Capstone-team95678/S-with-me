@@ -18,17 +18,13 @@ export default class SolutionInput extends PureComponent {
   }
   componentDidMount() {
     const { myBookId, requestChapterList } = this.props;
-    Api.get('/student/library/my-book/book-id', { params: { myBookId: myBookId } }).then(
-      ({ data }) => {
-        requestChapterList({ bookId: data.bookId });
-      },
-    );
+    requestChapterList({ myBookId: myBookId });
   }
 
   componentDidUpdate() {
-    const { values } = this.props;
+    const { values, myBookId } = this.props;
     if (values.selectSubChapterId) {
-      Api.get('/student/library/my-book/main-chapter/sub-chapter/my-problems', {
+      Api.get(`/student/library/my-book/${myBookId}/main-chapter/sub-chapter/my-problems`, {
         params: { subChapterId: values.selectSubChapterId },
       }).then(({ data }) => this.setState({ myProblemListForLink: data }));
     }
