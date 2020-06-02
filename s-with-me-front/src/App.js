@@ -94,7 +94,6 @@ export default class App extends PureComponent {
                   </Switch>
                 ) : (
                   <Switch>
-                    <Route exact path="/publisher/library" render={() => <LibraryApp />} />
                     <Route
                       exact
                       path="/publisher/library/:bookId"
@@ -105,11 +104,6 @@ export default class App extends PureComponent {
                       exact
                       render={({ match }) => <AddBookApp match={match} />}
                     />
-
-                    <NotificationContainer />
-                  </Switch>
-                ) : (
-                  <Switch>
                     <Route path="/library" render={() => <LibraryApp />} />
                     <Route path="/register-problem" render={() => <RegisterProblem />} />
                     <Route
@@ -117,6 +111,7 @@ export default class App extends PureComponent {
                       exact
                       render={({ match }) => <BookInfoPage />}
                     />
+                    <NotificationContainer />
                   </Switch>
                 )}
               </AppLayout>
