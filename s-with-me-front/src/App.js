@@ -19,6 +19,7 @@ import ProblemAppContainer from './containers/student/problem/ProblemAppContaine
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
+import RegisterProblem from './components/publisher/addBook/RegisterProblem';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -97,6 +98,7 @@ export default class App extends PureComponent {
                 ) : (
                   <Switch>
                     <Route path="/library" render={() => <LibraryApp />} />
+                    <Route path="/register-problem" render={() => <RegisterProblem />} />
                   </Switch>
                 )}
               </AppLayout>
