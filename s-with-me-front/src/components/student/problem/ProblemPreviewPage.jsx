@@ -35,23 +35,36 @@ export default class ProblemPreviewPage extends PureComponent {
 
   render() {
     const { myAnswer, solutionType, textSolution, imageSolution, problem } = this.state;
-    const { problemNumber, content, isOptional, answer, solution } = problem;
+    const { problemNumber, content, isOptional, answer, solution, image, title } = problem;
     let optionContents = [];
     let numbers = ['①', '②', '③', '④', '⑤'];
     if (isOptional) {
-      optionContents.push(this.state.option1);
-      optionContents.push(this.state.option2);
-      optionContents.push(this.state.option3);
-      optionContents.push(this.state.option4);
-      optionContents.push(this.state.option5);
+      optionContents.push(problem.option1);
+      optionContents.push(problem.option2);
+      optionContents.push(problem.option3);
+      optionContents.push(problem.option4);
+      optionContents.push(problem.option5);
     }
     return (
       <Modal>
         {({ closeModal }) => (
           <Spacing horizontal={4} vertial={8}>
             <Text large>
-              {problemNumber}.{content}
+              {problemNumber ? problemNumber + '.' : null}
+              {title}
             </Text>
+            {image ? (
+              <img
+                src={image}
+                alt={problemNumber + '문제 그림'}
+                style={{ width: '100%', height: 'auto' }}
+              />
+            ) : null}
+            {content ? (
+              <div style={{ border: '0.5px solid', padding: 2 }}>
+                <Text>{content}</Text>
+              </div>
+            ) : null}
             {isOptional ? (
               <VerticalList spacingBetween={1}>
                 {optionContents.map((option, index) => (
@@ -63,13 +76,13 @@ export default class ProblemPreviewPage extends PureComponent {
             ) : null}
             <br />
             <div>
-              <Text>정답: {answer}</Text>
+              {problemNumber ? <Text>정답: {answer}</Text> : null}
               <br />
               <Text>해설: {solution}</Text>
             </div>
             <div>---------------------------------</div>
             <div>
-              <Text>나의 정답: {myAnswer}</Text>
+              {problemNumber ? <Text>나의 정답: {myAnswer}</Text> : null}
               <br />
               <Text>나의 풀이↓</Text> <br />
               {solutionType === 'text' ? (
