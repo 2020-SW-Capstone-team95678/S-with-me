@@ -34,7 +34,7 @@ export default class BookDetail extends PureComponent {
   render() {
     const { chapterList, myBook } = this.props;
     const { myBookId } = this.props.match.params;
-    const { lastPageNumber, lastSubChapterId, bookId } = myBook;
+    const { lastPageNumber, lastSubChapterId } = myBook;
     const { subject, name, grade, cover, isCoverClicked } = this.state;
     return (
       <div style={{ display: 'flex' }}>

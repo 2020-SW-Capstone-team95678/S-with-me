@@ -188,9 +188,11 @@ class NoteView extends PureComponent {
             ) : (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 {resolve === 'INIT' ? (
-                  <Button onPress={() => this.setState({ showMySolution: true })}>
-                    나의 답과 풀이 보기
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button onPress={() => this.setState({ showMySolution: true })}>
+                      나의 답과 풀이 보기
+                    </Button>
+                  </div>
                 ) : (
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button onPress={() => this.setState({ showMySolution: true })}>
