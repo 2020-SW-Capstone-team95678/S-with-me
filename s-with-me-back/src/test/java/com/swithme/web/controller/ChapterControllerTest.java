@@ -4,6 +4,8 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MainChapterCreateDto;
@@ -42,6 +44,8 @@ public class ChapterControllerTest {
     private MainChapterRepository mainChapterRepository;
     @Autowired
     private SubChapterRepository subChapterRepository;
+    @Autowired
+    private MyBookRepository myBookRepository;
 
     private Book book;
     private MainChapter mainChapter;
@@ -65,6 +69,7 @@ public class ChapterControllerTest {
 
     @After
     public void cleanup(){
+        myBookRepository.deleteAll();
         subChapterRepository.deleteAll();
         mainChapterRepository.deleteAll();
         bookRepository.deleteAll();
@@ -73,6 +78,18 @@ public class ChapterControllerTest {
     @Test
     public void getChapterListTest(){
         String url = "http://localhost:" + port + "/library/book/" + book.getBookId() + "/chapters";
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMyBookChapterListTest(){
+        MyBook myBook = myBookRepository.save(MyBook.builder()
+                .book(book)
+                .build());
+
+        String url = "http://localhost:" + port + "/student/library/my-book/chapters?myBookId=" + myBook.getMyBookId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
