@@ -32,6 +32,19 @@ public class MyBookService {
     private final NoteRepository noteRepository;
 
     @Transactional
+    public MyBookResponseDto getMyBook(int myBookId){
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
+        return MyBookResponseDto.builder()
+                .bookId(myBook.getMyBookId())
+                .folderId(myBook.getFolder().getFolderId())
+                .lastPageNumber(myBook.getLastPageNumber())
+                .lastSubChapterId(myBook.getLastSubChapterId())
+                .myBookId(myBookId)
+                .build();
+    }
+
+    @Transactional
     public String bringUpToDate(int myBookId, MyBookUpdateRequestDto requestDto) {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
