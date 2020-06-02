@@ -6,7 +6,6 @@ import {
   UPDATE_MY_BOOK,
   MOVE_MY_BOOK,
   FETCH_FILTERED_MY_BOOK_LIST,
-  CREATE_CURRICULLUM,
 } from '../actions/myBookPackActions';
 
 const initState = {
@@ -17,14 +16,12 @@ const initState = {
     [FETCH_FILTERED_MY_BOOK_LIST]: false,
     [UPDATE_MY_BOOK]: false,
     [MOVE_MY_BOOK]: false,
-    [CREATE_CURRICULLUM]: false,
   },
   errorState: {
     [FETCH_MY_BOOK_LIST]: false,
     [FETCH_FILTERED_MY_BOOK_LIST]: false,
     [UPDATE_MY_BOOK]: false,
     [MOVE_MY_BOOK]: false,
-    [CREATE_CURRICULLUM]: false,
   },
 };
 
@@ -32,7 +29,6 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case CREATE_CURRICULLUM:
     case FETCH_FILTERED_MY_BOOK_LIST:
     case MOVE_MY_BOOK:
     case UPDATE_MY_BOOK:

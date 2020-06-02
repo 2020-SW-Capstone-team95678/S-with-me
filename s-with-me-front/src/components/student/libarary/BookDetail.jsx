@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 
 import Card from '../../../common-ui/Card';
-import Heading from '../../../common-ui/Heading';
 import Button from '../../../common-ui/Button';
 import Text from '../../../common-ui/Text';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
@@ -82,31 +81,56 @@ export default class BookDetail extends PureComponent {
           <Modal>
             {({ openModal }) => (
               <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
-                <Button onPress={() => openModal(CREATE_CURRICULUM, { myBookId: myBookId })}>
-                  새로운 목표 설정하기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                  <Button
+                    small
+                    onPress={() =>
+                      openModal(CREATE_CURRICULUM, { myBookId: myBookId, type: 'new' })
+                    }
+                  >
+                    새로운 목표 설정하기
+                  </Button>
+                  <Button
+                    small
+                    onPress={() =>
+                      openModal(CREATE_CURRICULUM, {
+                        myBookId: myBookId,
+                        type: 'old',
+                        curriculum: curriculum,
+                      })
+                    }
+                  >
+                    수정하기
+                  </Button>
+                </div>
                 <Card>
-                  <Heading level={3}>이 책의 목표</Heading>
-                  <Heading level={4}>{curriculum.type}</Heading>
-                  <Heading level={5}>
-                    {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
-                    {curriculum.type === 'weekly' ? (
-                      <Link
-                        to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
-                        style={{ textDecoration: 'none', color: 'black' }}
-                      >
-                        이번주 목표 소단원 풀러 가기
-                      </Link>
-                    ) : null}
-                    {curriculum.type === 'daily'
-                      ? '하루에 ' + curriculum.dailyGoal + '문제 풀기'
-                      : null}
-                  </Heading>
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
+                    <Text large>이 책의 목표</Text>
+                    <Text small>목표 type: {curriculum.type}</Text>
+                    <Text>
+                      {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
+                      {curriculum.type === 'weekly' ? (
+                        <Link
+                          to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
+                          style={{ textDecoration: 'none', color: 'black' }}
+                        >
+                          이번주 목표 소단원 풀러 가기
+                        </Link>
+                      ) : null}
+                      {curriculum.type === 'daily'
+                        ? '하루에 ' + curriculum.dailyGoal + '문제 풀기'
+                        : null}
+                    </Text>
+                  </div>
                 </Card>
-                <Card>
-                  <Heading level={3}>달성도</Heading>
-                  <Heading level={5}>{achievement}% 달성!!</Heading>
-                </Card>
+                {curriculum.type !== 'monthly' ? (
+                  <Card>
+                    <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
+                      <Text large>달성도</Text>
+                      <Text>{achievement}% 달성</Text>
+                    </div>
+                  </Card>
+                ) : null}
               </div>
             )}
           </Modal>

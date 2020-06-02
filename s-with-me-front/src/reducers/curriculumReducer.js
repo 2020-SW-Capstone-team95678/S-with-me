@@ -1,14 +1,22 @@
 import { handle } from 'redux-pack';
-import { FETCH_MY_CURRICULUM_LIST } from '../actions/curriculumActions';
+import {
+  FETCH_MY_CURRICULUM_LIST,
+  CREATE_CURRICULLUM,
+  UPDATE_CURRICULUM,
+} from '../actions/curriculumActions';
 
 const initState = {
   ids: [],
   entities: {},
   loadingState: {
     [FETCH_MY_CURRICULUM_LIST]: false,
+    [CREATE_CURRICULLUM]: false,
+    [UPDATE_CURRICULUM]: false,
   },
   errorState: {
     [FETCH_MY_CURRICULUM_LIST]: false,
+    [CREATE_CURRICULLUM]: false,
+    [UPDATE_CURRICULUM]: false,
   },
 };
 
@@ -16,6 +24,8 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_CURRICULUM:
+    case CREATE_CURRICULLUM:
     case FETCH_MY_CURRICULUM_LIST: {
       return handle(state, action, {
         start: prevState => ({

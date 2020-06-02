@@ -22,7 +22,8 @@ export default class CreateCurriculumPage extends PureComponent {
   }
 
   handleSubmit(values, closeModal) {
-    const { myBookId, createCurriculum } = this.props;
+    const { myBookId, createCurriculum, updateCurriculum } = this.props;
+    const { type, curriculum } = this.props;
     let formValue = {};
     if (values.curriculumType === 'monthly') {
       formValue = {
@@ -40,8 +41,13 @@ export default class CreateCurriculumPage extends PureComponent {
         dailyGoal: values.curriculumGoalNumber,
       };
     }
-    if (formValue) {
+    if (formValue && type === 'new') {
       createCurriculum({ ...formValue, myBookId: myBookId }, () => closeModal());
+    }
+    if (formValue && type === 'old') {
+      updateCurriculum(curriculum.curriculumId, { ...formValue, myBookId: myBookId }, () =>
+        closeModal(),
+      );
     }
   }
 
