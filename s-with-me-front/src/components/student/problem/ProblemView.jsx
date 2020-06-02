@@ -21,6 +21,8 @@ class ProblemView extends PureComponent {
     this.state = {
       problemNum: null,
       content: '',
+      title: '',
+      image: '',
       solution: '',
       isOptional: null,
       answer: '',
@@ -39,6 +41,8 @@ class ProblemView extends PureComponent {
     }).then(({ data }) =>
       this.setState({
         problemId: data.problemId,
+        title: data.title,
+        image: data.image,
         problemNum: data.problemNumber,
         content: data.content,
         isOptional: data.isOptional,
@@ -82,6 +86,8 @@ class ProblemView extends PureComponent {
     }).then(({ data }) =>
       this.setState({
         problemId: data.problemId,
+        title: data.title,
+        image: data.image,
         problemNum: data.problemNumber,
         content: data.content,
         isOptional: data.isOptional,
@@ -99,7 +105,7 @@ class ProblemView extends PureComponent {
   render() {
     const { myProblem, styles, loading, page } = this.props;
     const { myProblemId, myAnswer, myBookId, isSolved, solutionType } = myProblem;
-    const { problemNum, content, isOptional, answer } = this.state;
+    const { problemNum, content, isOptional, answer, title, image } = this.state;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -116,47 +122,66 @@ class ProblemView extends PureComponent {
               <VerticalList spacingBetween={2}>
                 <div {...css(styles.body)}>
                   <Text large>
-                    {problemNum}.{content}
+                    {problemNum ? problemNum + '.' : null}
+                    {title}
                   </Text>
-                  <AnswerInputContainer
-                    id={myProblemId}
-                    isOptional={isOptional}
-                    optionContents={optionContents}
-                  />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={problemNum + '문제 그림'}
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  ) : null}
+                  {content ? (
+                    <div style={{ border: '0.5px solid', padding: 2 }}>
+                      <Text>{content}</Text>
+                    </div>
+                  ) : null}
+                  {problemNum ? (
+                    <AnswerInputContainer
+                      id={myProblemId}
+                      isOptional={isOptional}
+                      optionContents={optionContents}
+                    />
+                  ) : null}
                 </div>
-                <div {...css(styles.container)}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      padding: 3,
-                      border: '1px solid',
-                      fontSize: 'small',
-                    }}
-                  >
-                    <SolutionFilterContainer id={myProblemId} />
+                {problemNum ? (
+                  <div {...css(styles.container)}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: 3,
+                        border: '1px solid',
+                        fontSize: 'small',
+                      }}
+                    >
+                      <SolutionFilterContainer id={myProblemId} />
+                    </div>
+                    <SolutionInputContainer
+                      id={myProblemId}
+                      solutionType={solutionType}
+                      onChange={onChange}
+                      values={values}
+                      myBookId={myBookId}
+                    />
                   </div>
-                  <SolutionInputContainer
-                    id={myProblemId}
-                    solutionType={solutionType}
-                    onChange={onChange}
-                    values={values}
-                    myBookId={myBookId}
-                  />
-                </div>
-                <div style={{ display: 'flex' }}>
-                  <IsConfusedContainer id={myProblemId} />
-                  <ScoringButtonContainer
-                    id={myProblemId}
-                    answer={answer}
-                    myAnswer={myAnswer}
-                    myBookId={myBookId}
-                    disabled={loading}
-                    page={page}
-                  >
-                    개별 채점
-                  </ScoringButtonContainer>
-                </div>
+                ) : null}
+                {problemNum ? (
+                  <div style={{ display: 'flex' }}>
+                    <IsConfusedContainer id={myProblemId} />
+                    <ScoringButtonContainer
+                      id={myProblemId}
+                      answer={answer}
+                      myAnswer={myAnswer}
+                      myBookId={myBookId}
+                      disabled={loading}
+                      page={page}
+                    >
+                      개별 채점
+                    </ScoringButtonContainer>
+                  </div>
+                ) : null}
               </VerticalList>
             )}
           </Form.Consumer>
@@ -187,7 +212,6 @@ export default withStyles(({ unit, color }) => ({
     flexDirection: 'column',
     padding: 5,
     alignContent: 'flex-start',
-    height: 150,
     border: '1px solid',
   },
 }))(ProblemView);
