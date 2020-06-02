@@ -41,7 +41,7 @@ export default class CreateCurriculumPage extends PureComponent {
       };
     }
     if (formValue) {
-      createCurriculum({ ...formValue, myBookId: myBookId }, closeModal);
+      createCurriculum({ ...formValue, myBookId: myBookId }, () => closeModal());
     }
   }
 
@@ -90,7 +90,10 @@ export default class CreateCurriculumPage extends PureComponent {
                       </div>
                     </Spacing>
                   ) : values.curriculumType === 'monthly' ? (
-                    <Input name="monthlyGoal" onChange={onChange} />
+                    <Spacing bottom={2}>
+                      <Text>이번 달 다짐(목표)을 입력해주세요!</Text>
+                      <Input name="monthlyGoal" onChange={onChange} />
+                    </Spacing>
                   ) : null}
                   <InlineList spacingBetween={1}>
                     <Button primary>설정</Button>

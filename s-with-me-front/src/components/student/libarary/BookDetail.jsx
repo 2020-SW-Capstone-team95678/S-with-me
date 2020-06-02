@@ -15,7 +15,15 @@ import { CREATE_CURRICULUM } from '../../../constants/modals';
 export default class BookDetail extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { subject: '', name: '', grade: -1, cover: null, isCoverClicked: false };
+    this.state = {
+      subject: '',
+      name: '',
+      grade: -1,
+      cover: null,
+      isCoverClicked: false,
+      curriculum: {},
+      achievement: -1,
+    };
   }
 
   componentDidMount() {
@@ -29,13 +37,19 @@ export default class BookDetail extends PureComponent {
         cover: data.cover,
       }),
     );
+    Api.get('/student/library/curriculum', {
+      params: { myBookId: myBook.myBookId },
+    }).then(({ data }) => this.setState({ curriculum: data }));
+    Api.get('/student/library/curriculum/achievement', {
+      params: { myBookId: myBook.myBookId },
+    }).then(({ data }) => this.setState({ achievement: data }));
   }
 
   render() {
     const { chapterList, myBook } = this.props;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
-    const { subject, name, grade, cover, isCoverClicked } = this.state;
+    const { subject, name, grade, cover, isCoverClicked, curriculum, achievement } = this.state;
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 2, flexDirection: 'row', padding: 3 }}>
@@ -72,13 +86,26 @@ export default class BookDetail extends PureComponent {
                   새로운 목표 설정하기
                 </Button>
                 <Card>
-                  <Heading level={3}>목표</Heading>
-                  <Heading level={4}>월별 목표</Heading>
-                  <Heading level={5}>Chapter1 풀기</Heading>
+                  <Heading level={3}>이 책의 목표</Heading>
+                  <Heading level={4}>{curriculum.type}</Heading>
+                  <Heading level={5}>
+                    {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
+                    {curriculum.type === 'weekly' ? (
+                      <Link
+                        to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
+                        style={{ textDecoration: 'none', color: 'black' }}
+                      >
+                        이번주 목표 소단원 풀러 가기
+                      </Link>
+                    ) : null}
+                    {curriculum.type === 'daily'
+                      ? '하루에 ' + curriculum.dailyGoal + '문제 풀기'
+                      : null}
+                  </Heading>
                 </Card>
                 <Card>
                   <Heading level={3}>달성도</Heading>
-                  <Heading level={5}>70% 달성!!</Heading>
+                  <Heading level={5}>{achievement}% 달성!!</Heading>
                 </Card>
               </div>
             )}

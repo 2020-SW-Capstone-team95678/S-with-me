@@ -43,7 +43,14 @@ class ProblemHead extends PureComponent {
     };
     updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
   }
-
+  componentWillUnmount() {
+    const { updateMyBook, myBook, subChapterId } = this.props;
+    const formValue = {
+      lastPageNumber: myBook.lastPageNumber * 1,
+      lastSubChapterId: subChapterId,
+    };
+    updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
+  }
   handleViewWrongOnly() {
     const { viewWrongOnly } = this.state;
     this.props.handleViewWrongOnly();
