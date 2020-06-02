@@ -77,30 +77,43 @@ const LibraryApp = () => {
 
 const SideBookInfo = ({ book, onClick }) => {
   return (
-    <li
+    <div
       style={{
         backgroundColor: 'lightgray',
         borderRadius: 5,
-        padding: 8,
+        padding: 5,
         minHeight: 150,
-        margin: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        marginRight: 40,
       }}
-      onClick={onClick}
     >
-      <div>
-        <img width={100} src={book.cover} />
-      </div>
       <div
         style={{
-          backgroundColor: 'white',
           borderRadius: 5,
-          textAlign: 'center',
-          padding: 2,
+          padding: 8,
+          minHeight: '100%',
+          marginTop: 10,
+          marginBottom: 10,
         }}
+        onClick={onClick}
       >
-        {book.name}
+        <div>
+          <img width={100} src={book.cover} />
+        </div>
+        <div
+          style={{
+            backgroundColor: 'white',
+            borderRadius: 5,
+            textAlign: 'center',
+            marginTop: 3,
+            padding: 2,
+          }}
+        >
+          {book.name}
+        </div>
       </div>
-    </li>
+    </div>
   );
 };
 export const BookInfo = ({ setData, book, setBooks }) => {
@@ -128,7 +141,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   }
 
   return (
-    <div>
+    <>
       <div>
         <p>북커버</p>
         <img width={100} src={book.cover} />
@@ -136,9 +149,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         <button
           primary
           onClick={() => {
-            Api.put(`/publisher/library/book/${book.bookId}`, {
-              cover: cover,
-            })
+            Api.put(`/publisher/library/book/${book.bookId}`, { ...book, cover: cover })
               .then(response =>
                 setBooks(prev => {
                   return [...prev, book];
@@ -151,78 +162,80 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         </button>
       </div>
       <div>
-        <p>제목</p>
-        <input
-          type="text"
-          value={name}
-          onKeyDown={handleEnter}
-          onChange={e => setName(e.target.value)}
-          onBlur={e => {
-            if (e.target.value !== book.name) {
-              book.name = name;
+        <div>
+          <p>제목</p>
+          <input
+            type="text"
+            value={name}
+            onKeyDown={handleEnter}
+            onChange={e => setName(e.target.value)}
+            onBlur={e => {
+              if (e.target.value !== book.name) {
+                book.name = name;
 
-              Api.put(`/publisher/library/book/${book.bookId}`, book)
-                .then(response =>
-                  setBooks(prev => {
-                    return [...prev, book];
-                  }),
-                )
-                .catch(reason => setName(book.name));
-            }
-          }}
-        ></input>
-      </div>
-      <div>
-        <p>가격</p>
-        <input
-          type="number"
-          value={price}
-          onKeyDown={handleEnter}
-          onChange={e => setPrice(e.target.value)}
-          onBlur={e => {
-            if (e.target.value !== book.price) {
-              book.price = price;
+                Api.put(`/publisher/library/book/${book.bookId}`, book)
+                  .then(response =>
+                    setBooks(prev => {
+                      return [...prev, book];
+                    }),
+                  )
+                  .catch(reason => setName(book.name));
+              }
+            }}
+          ></input>
+        </div>
+        <div>
+          <p>가격</p>
+          <input
+            type="number"
+            value={price}
+            onKeyDown={handleEnter}
+            onChange={e => setPrice(e.target.value)}
+            onBlur={e => {
+              if (e.target.value !== book.price) {
+                book.price = price;
 
-              Api.put(`/publisher/library/book/${book.bookId}`, book)
-                .then(response =>
-                  setBooks(prev => {
-                    return [...prev, book];
-                  }),
-                )
-                .catch(reason => setPrice(book.price));
-            }
-          }}
-        ></input>
-      </div>
-      <div>
-        <p>학년</p>
-        <input value={book.grade}></input>
-      </div>
-      <div>
-        <p>설명</p>
-        <input value={book.introduction}></input>
-      </div>
+                Api.put(`/publisher/library/book/${book.bookId}`, book)
+                  .then(response =>
+                    setBooks(prev => {
+                      return [...prev, book];
+                    }),
+                  )
+                  .catch(reason => setPrice(book.price));
+              }
+            }}
+          ></input>
+        </div>
+        <div>
+          <p>학년</p>
+          <input value={book.grade}></input>
+        </div>
+        <div>
+          <p>설명</p>
+          <input value={book.introduction}></input>
+        </div>
 
-      <Modal>
-        {({ openModal }) => (
-          <Button
-            primary
-            onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
-          >
-            추가
-          </Button>
-        )}
-      </Modal>
-      <div id="main">
-        <ChapterInfo
-          bookId={book.bookId}
-          onClick={subChapterId => {
-            setSelectedSubChapter(subChapterId);
-          }}
-        />
+        <Modal>
+          {({ openModal }) => (
+            <Button
+              primary
+              onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
+            >
+              추가
+            </Button>
+          )}
+        </Modal>
+        <div id="main">
+          <ChapterInfo
+            bookId={book.bookId}
+            onClick={subChapterId => {
+              setSelectedSubChapter(subChapterId);
+            }}
+          />
+        </div>
+        <ProblemInfo subChapterId={selectedSubChapter} />
       </div>
-      <ProblemInfo subChapterId={selectedSubChapter} />
-    </div>
+    </>
   );
 };
 
@@ -257,7 +270,6 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                     primary
                     onPress={() =>
                       openModal(CREATE_SUB_CHAPTER, {
-                        type: 'edit',
                         mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
                       })
                     }
@@ -308,13 +320,52 @@ const ProblemInfo = ({ subChapterId }) => {
   }, [subChapterId]);
 
   return (
-    <div>
+    <Accordion style={{ marginTop: 20 }} allowZeroExpanded={true}>
       {problems.map(problem => {
-        return <ProblemItem problem={problem} />;
+        return (
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton style={{ backgroundColor: 'lightPink' }}>
+                {problem.problemNumber}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <ProblemItem problem={problem} />
+            </AccordionItemPanel>
+          </AccordionItem>
+        );
       })}
-    </div>
+    </Accordion>
   );
 };
+
+// const ProblemInfo = ({ subChapterId }) => {
+//   const [problems, setProblems] = useState([]);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const data = await Api.get('/publisher/library/book/mainChapter', {
+//         params: {
+//           subChapterId: subChapterId,
+//         },
+//       });
+
+//       setProblems(data.data);
+//     };
+
+//     if (subChapterId) {
+//       fetchData();
+//     }
+//   }, [subChapterId]);
+
+//   return (
+//     <div>
+//       {problems.map(problem => {
+//         return <ProblemItem problem={problem} />;
+//       })}
+//     </div>
+//   );
+// };
 
 const ProblemItem = ({ problem }) => {
   const [isOptional, setIsOptional] = useState(problem.isOptional);
@@ -322,6 +373,103 @@ const ProblemItem = ({ problem }) => {
   console.log(problem);
 
   return (
+    // <div>
+    // <p>제목</p>
+    //         <input
+    //           type="text"
+    //           value={name}
+    //           onKeyDown={handleEnter}
+    //           onChange={e => setName(e.target.value)}
+    //           onBlur={e => {
+    //             if (e.target.value !== problem.title) {
+    //               book.name = name;
+
+    //               Api.put(`/publisher/library/book/mainChapter/subChapter/${problem.problemId}`, book)
+    //                 .then(response =>
+    //                   setBooks(prev => {
+    //                     return [...prev, book];
+    //                   }),
+    //                 )
+    //                 .catch(reason => setName(book.name));
+    //             }
+    //           }}
+    //         ></input>
+    //       <div>
+    //         <p>북커버</p>
+    //         <img width={100} src={book.cover} />
+    //         <InputBookCover setCover={setCover} />
+    //         <button
+    //           primary
+    //           onClick={() => {
+    //             Api.put(`/publisher/library/book/${book.bookId}`, {
+    //               cover: cover,
+    //             })
+    //               .then(response =>
+    //                 setBooks(prev => {
+    //                   return [...prev, book];
+    //                 }),
+    //               )
+    //               .catch(reason => setCover(book.cover));
+    //           }}
+    //         >
+    //           수정
+    //         </button>
+    //       </div>
+    //       <div>
+
+    //       </div>
+    //       <div>
+    //         <p>가격</p>
+    //         <input
+    //           type="number"
+    //           value={price}
+    //           onKeyDown={handleEnter}
+    //           onChange={e => setPrice(e.target.value)}
+    //           onBlur={e => {
+    //             if (e.target.value !== book.price) {
+    //               book.price = price;
+
+    //               Api.put(`/publisher/library/book/${book.bookId}`, book)
+    //                 .then(response =>
+    //                   setBooks(prev => {
+    //                     return [...prev, book];
+    //                   }),
+    //                 )
+    //                 .catch(reason => setPrice(book.price));
+    //             }
+    //           }}
+    //         ></input>
+    //       </div>
+    //       <div>
+    //         <p>학년</p>
+    //         <input value={book.grade}></input>
+    //       </div>
+    //       <div>
+    //         <p>설명</p>
+    //         <input value={book.introduction}></input>
+    //       </div>
+
+    //       <Modal>
+    //         {({ openModal }) => (
+    //           <Button
+    //             primary
+    //             onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
+    //           >
+    //             추가
+    //           </Button>
+    //         )}
+    //       </Modal>
+    //       <div id="main">
+    //         <ChapterInfo
+    //           bookId={book.bookId}
+    //           onClick={subChapterId => {
+    //             setSelectedSubChapter(subChapterId);
+    //           }}
+    //         />
+    //       </div>
+    //       <ProblemInfo subChapterId={selectedSubChapter} />
+    //     </div>
+
     <div>
       <p>{problem.content}</p>
       <p>{problem.solution}</p>

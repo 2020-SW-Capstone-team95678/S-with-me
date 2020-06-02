@@ -78,8 +78,7 @@ export default class App extends PureComponent {
 
               {isStudent ? (
                 <AppLayout>
-                  (
-                  <Switch>
+                  {/* <Switch>
                     <Route path="/profile" exact render={() => <Profile />} />
                     <Route
                       path="/library/myBook/:myBookId/solve/:subChapterId"
@@ -94,8 +93,7 @@ export default class App extends PureComponent {
                     <Route path="/library" render={() => <LibraryAppContainer />} />
                     <Route path="/note" exact render={() => <NoteAppContainer />} />
                     <NotificationContainer />
-                  </Switch>
-                  )
+                  </Switch> */}
                 </AppLayout>
               ) : (
                 <PAppLayout>
