@@ -19,6 +19,12 @@ public class ChapterController {
     }
 
     @CrossOrigin
+    @GetMapping("/student/library/my-book/chapters")
+    public List<ChapterResponseDto> getMyBookChapterList(@RequestParam("myBookId") int myBookId){
+        return chapterService.getMyBookChapterList(myBookId);
+    }
+
+    @CrossOrigin
     @GetMapping("/library/book")
     public String getSubChapterName(@RequestParam int subChapterId)
     {

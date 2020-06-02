@@ -4,6 +4,8 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.*;
@@ -19,6 +21,7 @@ public class ChapterService {
     private final MainChapterRepository mainChapterRepository;
     private final SubChapterRepository subChapterRepository;
     private final BookRepository bookRepository;
+    private final MyBookRepository myBookRepository;
 
     @Transactional
     public String getSubChapterName(int subChapterId)
@@ -32,6 +35,38 @@ public class ChapterService {
     public List<ChapterResponseDto> getChapterList(int bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + bookId));
+        List<ChapterResponseDto> responseDtoList = new ArrayList<>();
+
+        List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        for(MainChapter mainChapter : mainChapterList){
+            MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
+                    .mainChapterId(mainChapter.getMainChapterId())
+                    .mainChapterName(mainChapter.getMainChapterName())
+                    .build();
+
+            List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+            List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
+            for(SubChapter subChapter : subChapterList){
+                subChapterResponseDtoList.add(SubChapterResponseDto.builder()
+                        .mainChapterId(mainChapter.getMainChapterId())
+                        .subChapterId(subChapter.getSubChapterId())
+                        .subChapterName(subChapter.getSubChapterName())
+                        .build());
+            }
+
+            responseDtoList.add(ChapterResponseDto.builder()
+                    .mainChapterResponseDto(mainChapterResponseDto)
+                    .subChapterResponseDtoList(subChapterResponseDtoList)
+                    .build());
+        }
+        return responseDtoList;
+    }
+
+    @Transactional
+    public List<ChapterResponseDto> getMyBookChapterList(int myBookId) {
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
+        Book book = myBook.getBook();
         List<ChapterResponseDto> responseDtoList = new ArrayList<>();
 
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
@@ -101,4 +136,5 @@ public class ChapterService {
         subChapter.update(mainChapter, requestDto);
         return "소단원이 수정되었습니다.";
     }
+
 }
