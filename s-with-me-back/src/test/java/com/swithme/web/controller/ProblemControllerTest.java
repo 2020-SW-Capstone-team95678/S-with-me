@@ -113,9 +113,11 @@ public class ProblemControllerTest {
     public void updateProblemTest(){
         ProblemUpdateRequestDto requestDto = ProblemUpdateRequestDto.builder()
                 .subChapterId(subChapter.getSubChapterId())
+                .title("test title")
                 .content("test content")
                 .solution("test solution")
                 .answer("test answer")
+                .image(null)
                 .problemNumber((short)123)
                 .isOptional(false)
                 .option1(null)
