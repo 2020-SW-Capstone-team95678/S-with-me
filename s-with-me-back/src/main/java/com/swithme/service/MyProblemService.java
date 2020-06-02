@@ -56,10 +56,10 @@ public class MyProblemService {
         List<Problem> allProblemList = problemRepository.findBySubChapter(subChapter);
         List<Problem> problemList = new ArrayList<>();
         try {
-            problemList = allProblemList.subList(lastPageNumber * 8 - 8, 8);
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            problemList = allProblemList.subList(lastPageNumber * 8 - 8, allProblemList.size() % 8);
+            problemList = allProblemList.subList(lastPageNumber * 8 - 8, allProblemList.size());
         }
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (Problem problem : problemList) {
