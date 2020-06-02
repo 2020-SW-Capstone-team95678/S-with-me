@@ -20,7 +20,7 @@ export default class LibraryFilterList extends PureComponent {
     const { filter, subjectList } = this.state;
     return (
       <div>
-        <Card vertical={4}>
+        <Card vertical={2}>
           <LibraryFilter selectFilter={this.selectFilter} />
         </Card>
         <Card>
