@@ -21,6 +21,14 @@ public class ChapterService {
     private final BookRepository bookRepository;
 
     @Transactional
+    public String getSubChapterName(int subChapterId)
+    {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 없습니다. bookId = " ));
+        return subChapter.getSubChapterName();
+    }
+
+    @Transactional
     public List<ChapterResponseDto> getChapterList(int bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + bookId));

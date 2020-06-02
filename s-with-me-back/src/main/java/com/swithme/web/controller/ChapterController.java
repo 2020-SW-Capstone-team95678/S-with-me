@@ -19,6 +19,13 @@ public class ChapterController {
     }
 
     @CrossOrigin
+    @GetMapping("/library/book")
+    public String getSubChapterName(@PathVariable int subChapterId)
+    {
+        return chapterService.getSubChapterName(subChapterId);
+    }
+
+    @CrossOrigin
     @PostMapping("/publisher/library/book/mainChapter")
     public int createMainChapter(@RequestBody MainChapterCreateDto createDto){
         return chapterService.createMainChapter(createDto);
