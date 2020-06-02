@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProblemCreateDto {
     private int subChapterId;
-    private String title;
     private String content;
     private String solution;
     private String answer;
@@ -19,12 +18,14 @@ public class ProblemCreateDto {
     private String option3;
     private String option4;
     private String option5;
+    private String title;
+    private String image;
 
     @Builder
-    public ProblemCreateDto(int subChapterId, String title, String content, String solution, String answer,
-                            short problemNumber, Boolean isOptional, String option1, String option2, String option3, String option4, String option5) {
+    public ProblemCreateDto(int subChapterId, String content, String solution, String answer, short problemNumber,
+                            Boolean isOptional, String option1, String option2, String option3, String option4, String option5,
+                            String title, String image) {
         this.subChapterId = subChapterId;
-        this.title = title;
         this.content = content;
         this.solution = solution;
         this.answer = answer;
@@ -35,5 +36,7 @@ public class ProblemCreateDto {
         this.option3 = option3;
         this.option4 = option4;
         this.option5 = option5;
+        this.title = title;
+        this.image = image;
     }
 }

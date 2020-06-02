@@ -63,6 +63,8 @@ public class ProblemService {
                     .option3(createDto.getOption3())
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
+                    .title(createDto.getTitle())
+                    .image(createDto.getImage())
                     .build());
         }
         return "문제 등록이 완료되었습니다.";
