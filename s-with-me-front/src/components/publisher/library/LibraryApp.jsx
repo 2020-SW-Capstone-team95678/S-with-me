@@ -14,7 +14,7 @@ import {
 import LibraryFolderList from './LibraryFolderList';
 import InlineList from '../../../common-ui/InlineList';
 import Button from '../../../common-ui/Button';
-import BookPreview from './BookPreview';
+import InputBookCover from './InputBookCover';
 import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -24,7 +24,12 @@ import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
+  const [count, setUpDate] = useState(0);
   const [selectedBook, setSelectedBook] = useState(null);
+
+  const onUpDate = () => {
+    setUpDate(count + 1);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +51,7 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3 }}>
         <Modal>
           {({ openModal }) => (
-            <Button primary onPress={() => openModal(CREATE_BOOK, { type: 'edit' })}>
+            <Button primary onPress={() => openModal(CREATE_BOOK, { onUpDate: onUpDate })}>
               추가
             </Button>
           )}
@@ -61,7 +66,9 @@ const LibraryApp = () => {
       </div>
       <div style={{ flex: 4, padding: 3 }}>
         {(() => {
-          if (selectedBook) return <BookInfo book={selectedBook} setBooks={setBooks} />;
+          if (selectedBook) {
+            return <BookInfo book={selectedBook} setBooks={setBooks} />;
+          }
         })()}
       </div>
     </div>
@@ -70,28 +77,48 @@ const LibraryApp = () => {
 
 const SideBookInfo = ({ book, onClick }) => {
   return (
-    <li onClick={onClick}>
+    <li
+      style={{
+        backgroundColor: 'lightgray',
+        borderRadius: 5,
+        padding: 8,
+        minHeight: 150,
+        margin: 10,
+      }}
+      onClick={onClick}
+    >
       <div>
-        <img
-          width={100}
-          src="https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0309/IE002297749_STD.jpg"
-        />
+        <img width={100} src={book.cover} />
       </div>
-      <div>{book.name}</div>
-      <button>x</button>
+      <div
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 5,
+          textAlign: 'center',
+          padding: 2,
+        }}
+      >
+        {book.name}
+      </div>
     </li>
   );
 };
-const BookInfo = ({ book, setBooks }) => {
+export const BookInfo = ({ setData, book, setBooks }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
 
   const [name, setName] = useState(book.name);
+  const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
   console.log(book.bookId);
 
   useEffect(() => {
     setName(book.name ? book.name : '');
     setPrice(book.price ? book.price : 0);
+    setCover(
+      book.cover
+        ? book.cover
+        : 'https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0309/IE002297749_STD.jpg',
+    );
   }, [book]);
 
   function handleEnter(event) {
@@ -102,6 +129,27 @@ const BookInfo = ({ book, setBooks }) => {
 
   return (
     <div>
+      <div>
+        <p>북커버</p>
+        <img width={100} src={book.cover} />
+        <InputBookCover setCover={setCover} />
+        <button
+          primary
+          onClick={() => {
+            Api.put(`/publisher/library/book/${book.bookId}`, {
+              cover: cover,
+            })
+              .then(response =>
+                setBooks(prev => {
+                  return [...prev, book];
+                }),
+              )
+              .catch(reason => setCover(book.cover));
+          }}
+        >
+          수정
+        </button>
+      </div>
       <div>
         <p>제목</p>
         <input
@@ -155,10 +203,9 @@ const BookInfo = ({ book, setBooks }) => {
         <input value={book.introduction}></input>
       </div>
 
-      <Modal bookId={book.bookId}>
+      <Modal>
         {({ openModal }) => (
           <Button
-            bookId={book.bookId}
             primary
             onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
           >
@@ -166,19 +213,20 @@ const BookInfo = ({ book, setBooks }) => {
           </Button>
         )}
       </Modal>
-
-      <ChapterInfo
-        bookId={book.bookId}
-        onClick={subChapterId => {
-          setSelectedSubChapter(subChapterId);
-        }}
-      />
+      <div id="main">
+        <ChapterInfo
+          bookId={book.bookId}
+          onClick={subChapterId => {
+            setSelectedSubChapter(subChapterId);
+          }}
+        />
+      </div>
       <ProblemInfo subChapterId={selectedSubChapter} />
     </div>
   );
 };
 
-const ChapterInfo = ({ bookId, onClick }) => {
+export const ChapterInfo = ({ bookId, onClick }) => {
   const [chapters, setChapters] = useState([]);
 
   useEffect(() => {
@@ -218,6 +266,7 @@ const ChapterInfo = ({ bookId, onClick }) => {
                   </Button>
                 )}
               </Modal>
+
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
                   return (

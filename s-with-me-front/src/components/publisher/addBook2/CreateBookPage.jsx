@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
+import LibraryApp from '../library/LibraryApp';
+import ReactDOM from 'react-dom';
+import ImageUploader from 'react-images-upload';
+import InputBookCover from '../library/InputBookCover';
 
-const BookInfoPage = props => {
+const CreateBookPage = props => {
+  //const onUpDate  = props;
   const [bookId, setBookId] = useState(null);
 
   const [grade, setGrade] = useState(1);
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
   const [price, setPrice] = useState(0);
+  const [cover, setCover] = useState([]);
   const [introduction, setIntroduction] = useState('');
+  const { onUpDate } = props;
+
+  const onDrop = cover => {
+    setCover(cover);
+  };
 
   return (
     <Modal>
@@ -24,6 +35,8 @@ const BookInfoPage = props => {
             <br />
             <br />
             <h2>book Id : {bookId}</h2>
+            북커버
+            <InputBookCover setCover={setCover} />
             Grade
             <input
               type="number"
@@ -62,7 +75,7 @@ const BookInfoPage = props => {
             <button
               onClick={() => {
                 Api.post('/publisher/library/book', {
-                  cover: null,
+                  cover: cover,
                   grade: grade,
                   name: name,
                   price: price,
@@ -78,6 +91,7 @@ const BookInfoPage = props => {
             </button>
             <button
               onClick={() => {
+                onUpDate();
                 closeModal();
               }}
             >
@@ -90,4 +104,4 @@ const BookInfoPage = props => {
   );
 };
 
-export default BookInfoPage;
+export default CreateBookPage;

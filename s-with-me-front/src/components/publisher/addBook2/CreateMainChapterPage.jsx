@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import LibraryApp, { BookInfo } from '../library/LibraryApp';
+import ReactDOM from 'react-dom';
 
-const MainChapterPage = props => {
+const CreateMainChapterPage = props => {
   const { bookId } = props;
   const [mainChapterId, setMainChapterId] = useState(null);
   const [mainChapterTitle, setMainChapterTitle] = useState('');
@@ -53,4 +55,4 @@ const MainChapterPage = props => {
   );
 };
 
-export default MainChapterPage;
+export default CreateMainChapterPage;
