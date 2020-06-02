@@ -37,6 +37,7 @@ public class Book {
     @Column(name = "grade")
     private short grade;
 
+    @Lob
     @Column(name = "cover")
     private String cover;
 
@@ -52,6 +53,7 @@ public class Book {
     @Column(name = "monthlySold")
     private int monthlySold;
 
+    @Lob
     @Column(name = "introduction")
     private String introduction;
 

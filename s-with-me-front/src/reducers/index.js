@@ -7,8 +7,10 @@ import mainChapter from './createMainChapterReducer';
 import folderList from './folderReducer';
 import chapter from './chapterReducer';
 import note from './noteReducer';
+import publisherBook from './publisher/bookReducer';
 
 export default {
+  publisherBook,
   myProblemList,
   user,
   notification,
