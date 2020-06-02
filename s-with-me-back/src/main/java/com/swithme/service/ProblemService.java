@@ -55,7 +55,7 @@ public class ProblemService {
                     .content(createDto.getContent())
                     .solution(createDto.getSolution())
                     .answer(createDto.getAnswer())
-                    .image(createDto.getImage())
+                    .image(null)
                     .problemNumber(createDto.getProblemNumber())
                     .isOptional(createDto.getIsOptional())
                     .option1(createDto.getOption1())

@@ -12,7 +12,6 @@ public class ProblemCreateDto {
     private String content;
     private String solution;
     private String answer;
-    private String image;
     private short problemNumber;
     private Boolean isOptional;
     private String option1;
@@ -23,14 +22,12 @@ public class ProblemCreateDto {
 
     @Builder
     public ProblemCreateDto(int subChapterId, String title, String content, String solution, String answer,
-                            short problemNumber, String image,
-                            Boolean isOptional, String option1, String option2, String option3, String option4, String option5) {
+                            short problemNumber, Boolean isOptional, String option1, String option2, String option3, String option4, String option5) {
         this.subChapterId = subChapterId;
         this.title = title;
         this.content = content;
         this.solution = solution;
         this.answer = answer;
-        this.image = image;
         this.problemNumber = problemNumber;
         this.isOptional = isOptional;
         this.option1 = option1;
