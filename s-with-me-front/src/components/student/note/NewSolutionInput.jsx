@@ -18,11 +18,7 @@ export default class SolutionInput extends PureComponent {
   }
   componentDidMount() {
     const { myBookId, requestChapterList } = this.props;
-    Api.get('/student/library/my-book/book-id', { params: { myBookId: myBookId } }).then(
-      ({ data }) => {
-        requestChapterList({ bookId: data.bookId });
-      },
-    );
+    requestChapterList({ myBookId: myBookId });
   }
 
   componentDidUpdate() {

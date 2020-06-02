@@ -3,11 +3,11 @@ import Api from '../Api';
 export const FETCH_MY_PROBLEM_LIST = 'myProblem/FETCH_MY_PROBLEM_LIST';
 export const UPDATE_MY_PROBLEM = 'myProblem/UPDATE_MY_PROBLEM';
 
-export function requestMyProblemList(params, pageNumber = 1) {
+export function requestMyProblemList(id, params, pageNumber = 1) {
   const subChapterId = params.subChapterId;
   return {
     type: FETCH_MY_PROBLEM_LIST,
-    promise: Api.get(`/student/library/my-book/main-chapter/sub-chapter/${subChapterId}`, {
+    promise: Api.get(`/student/library/my-book/${id}/main-chapter/sub-chapter/${subChapterId}`, {
       params: { page: pageNumber },
     }),
     meta: {

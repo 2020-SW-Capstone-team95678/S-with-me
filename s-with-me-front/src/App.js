@@ -11,13 +11,13 @@ import NotFound from './components/NotFound';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
 import LoginContainer from './containers/student/signUp/LoginContainer';
-import BookDetailContainer from './containers/student/book/BookDetailContainer';
 import Profile from './components/student/profile/Profile';
 import NoteAppContainer from './containers/student/note/NoteAppContainer';
 import AppLayout from './components/student/AppLayout';
 import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
+import BookDetail from './components/student/libarary/BookDetail';
 
 import EditBook from './components/publisher/book/EditBook';
 import LibraryApp from './components/publisher/library/LibraryApp';
@@ -86,7 +86,7 @@ export default class App extends PureComponent {
                     />
                     <Route
                       path="/library/myBook/:myBookId"
-                      render={({ match }) => <BookDetailContainer match={match} />}
+                      render={({ match }) => <BookDetail match={match} />}
                     />
                     <Route path="/library" render={() => <LibraryAppContainer />} />
                     <Route path="/note" exact render={() => <NoteAppContainer />} />
