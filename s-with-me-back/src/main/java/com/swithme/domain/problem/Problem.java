@@ -82,8 +82,10 @@ public class Problem {
 
     public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {
         this.subChapter = subChapter;
+        this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.solution = requestDto.getSolution();
+        this.image = requestDto.getImage();
         this.problemNumber = requestDto.getProblemNumber();
         this.answer = requestDto.getAnswer();
         this.isOptional = requestDto.getIsOptional();
