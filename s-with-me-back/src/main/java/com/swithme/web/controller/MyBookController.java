@@ -18,13 +18,11 @@ public class MyBookController {
     private final MyBookService myBookService;
     private final MyBookRepository myBookRepository;
 
-    /*@CrossOrigin
+    @CrossOrigin
     @GetMapping("student/library/my-book/getMyBook")
-    public MyBook getMyBook(int myBookId){
-        MyBook myBook = myBookRepository.findById(myBookId)
-                .orElseThrow(() -> new IllegalArgumentException("my book이 없습니다."));
-        return myBook;
-    }*/
+    public MyBookResponseDto getMyBook(@RequestParam("myBookId") int myBookId){
+        return myBookService.getMyBook(myBookId);
+    }
 
     @CrossOrigin
     @GetMapping("/student/library")
