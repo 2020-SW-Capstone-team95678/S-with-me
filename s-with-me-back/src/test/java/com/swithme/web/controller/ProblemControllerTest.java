@@ -84,9 +84,11 @@ public class ProblemControllerTest {
     public void createProblemsTest() {
         ProblemCreateDto createDto = ProblemCreateDto.builder()
                 .subChapterId(subChapter.getSubChapterId())
+                .title("test title")
                 .content("test content")
                 .solution("test solution")
                 .answer("test answer")
+                .image(null)
                 .problemNumber((short) 1)
                 .isOptional(false)
                 .option1(null)
