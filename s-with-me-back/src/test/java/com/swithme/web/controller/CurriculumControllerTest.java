@@ -151,7 +151,7 @@ public class CurriculumControllerTest {
         CurriculumCreateDto curriculumCreateDto= CurriculumCreateDto.builder()
                 .dailyGoal(3)
                 .subChapterId(0)
-                .type("Daily")
+                .type("daily")
                 .myBookId(myBookRepository.findAll().get(0).getMyBookId())
                 .monthlyGoal("AAA")
 
@@ -170,7 +170,7 @@ public class CurriculumControllerTest {
                 .myBook(myBookRepository.findAll().get(0))
                 .dailyGoal(3)
                 .monthlyGoal("AAA")
-                .type("Daily")
+                .type("daily")
                 .build());
         String url="http://localhost:"+port+"/student/library/curriculum?myBookId="+myBookRepository.findAll().get(0).getMyBookId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
@@ -184,7 +184,7 @@ public class CurriculumControllerTest {
                 .myBook(myBookRepository.findAll().get(0))
                 .dailyGoal(3)
                 .monthlyGoal("AAA")
-                .type("Daily")
+                .type("daily")
                 .build());
 
         myBookRepository.save(MyBook.builder()
@@ -193,7 +193,7 @@ public class CurriculumControllerTest {
                 .build());
         curriculumRepository.save(Curriculum.builder()
                 .myBook(myBookRepository.findAll().get(1))
-                .type("Weekly")
+                .type("weekly")
                 .monthlyGoal("BBB")
                 .build());
 
@@ -210,7 +210,7 @@ public class CurriculumControllerTest {
                 .myBook(myBookRepository.findAll().get(0))
                 .dailyGoal(3)
                 .monthlyGoal("AAA")
-                .type("Daily")
+                .type("daily")
                 .build());
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBookRepository.findAll().get(0))
