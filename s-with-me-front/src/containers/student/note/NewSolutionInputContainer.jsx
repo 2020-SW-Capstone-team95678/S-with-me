@@ -3,6 +3,7 @@ import {
   setMyNewImageSolution,
   setMyNewLinkSolution,
   setMyNewTextSolution,
+  setTempSolutionType as setSolutionType,
 } from '../../../actions/noteActions';
 import { requestChapterList } from '../../../actions/chapterActions';
 import NewSolutionInput from '../../../components/student/note/NewSolutionInput';
@@ -19,6 +20,7 @@ const mapDispatchToProps = {
   setMyNewLinkSolution,
   setMyNewTextSolution,
   requestChapterList,
+  setSolutionType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSolutionInput);

@@ -1,5 +1,8 @@
 import React from 'react';
 import Text from '../../../common-ui/Text';
+import Button from '../../../common-ui/Button';
+import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import { PREVIEW_PROBLEM } from '../../../constants/modals';
 
 export default function MySolutionView(props) {
   const { isNewSolution, solutionType, note } = props;
@@ -23,9 +26,28 @@ export default function MySolutionView(props) {
     );
   } else if (solutionType === 'link') {
     return (
-      <div>
-        <Text>{isNewSolution ? '나의 새' : null}풀이</Text>
-        {isNewSolution ? note.myNewLinkSolution : note.linkSolutionId}
+      <div style={{ padding: 3 }}>
+        <Text>{isNewSolution ? '나의 새' : null}풀이 </Text>
+        <Modal>
+          {({ openModal }) => (
+            <Button
+              small
+              onPress={() => {
+                if (isNewSolution) {
+                  openModal(PREVIEW_PROBLEM, {
+                    myProblemId: note.myNewLinkSolution,
+                  });
+                } else {
+                  openModal(PREVIEW_PROBLEM, {
+                    myProblemId: note.linkSolutionId,
+                  });
+                }
+              }}
+            >
+              링크된 문제 보기
+            </Button>
+          )}
+        </Modal>
       </div>
     );
   } else return null;
