@@ -68,7 +68,7 @@ export default class BookDetail extends PureComponent {
           <Modal>
             {({ openModal }) => (
               <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
-                <Button onPress={() => openModal(CREATE_CURRICULUM, { bookId: bookId })}>
+                <Button onPress={() => openModal(CREATE_CURRICULUM, { myBookId: myBookId })}>
                   새로운 목표 설정하기
                 </Button>
                 <Card>

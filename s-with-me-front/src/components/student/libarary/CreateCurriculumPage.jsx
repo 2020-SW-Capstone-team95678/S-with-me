@@ -22,13 +22,27 @@ export default class CreateCurriculumPage extends PureComponent {
   }
 
   handleSubmit(values, closeModal) {
-    const { bookId } = this.props;
-    const formValue = {
-      type: values.curriculumType,
-      goalNumber: values.curriculumGoalNumber,
-    };
-    console.log(bookId, formValue);
-    console.log(values.selectSubChapterId);
+    const { myBookId, createCurriculum } = this.props;
+    let formValue = {};
+    if (values.curriculumType === 'monthly') {
+      formValue = {
+        type: 'monthly',
+        monthlyGoal: values.monthlyGoal,
+      };
+    } else if (values.curriculumType === 'weekly') {
+      formValue = {
+        type: 'weekly',
+        subChapterId: values.selectSubChapterId,
+      };
+    } else if (values.curriculumType === 'daily') {
+      formValue = {
+        type: 'daily',
+        dailyGoal: values.curriculumGoalNumber,
+      };
+    }
+    if (formValue) {
+      createCurriculum({ ...formValue, myBookId: myBookId }, closeModal);
+    }
   }
 
   render() {
@@ -75,6 +89,8 @@ export default class CreateCurriculumPage extends PureComponent {
                         />
                       </div>
                     </Spacing>
+                  ) : values.curriculumType === 'monthly' ? (
+                    <Input name="monthlyGoal" onChange={onChange} />
                   ) : null}
                   <InlineList spacingBetween={1}>
                     <Button primary>설정</Button>
