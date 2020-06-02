@@ -17,6 +17,7 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.CurriculumResponseDto;
+import com.swithme.web.dto.CurriculumUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,10 +101,19 @@ public class CurriculumService {
                     .subChapterId(curriculum.getSubChapterId())
                     .dailyGoal(curriculum.getDailyGoal())
                     .type(curriculum.getType())
+                    .monthlyGoal(curriculum.getMonthlyGoal())
                     .myBookId(curriculum.getMyBook().getMyBookId())
                     .build());
         }
         return curriculumResponseDtoList;
+    }
+
+    @Transactional
+    public String updateCurriculum(int curriculumId, CurriculumUpdateRequestDto curriculumUpdateRequestDto){
+        Curriculum curriculum = curriculumRepository.findById(curriculumId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 커리큘럼이 존재하지 않습니다."));
+        curriculum.update(curriculumUpdateRequestDto);
+        return "수정 완료";
     }
 
     @Transactional
@@ -112,6 +122,7 @@ public class CurriculumService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
         if(curriculum==null){return -1;}
+        if(curriculum.getType().equals("Monthly")){return -1;}
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
 
         int problemArchievement=0;
