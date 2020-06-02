@@ -1,5 +1,7 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.myProblem.MyProblem;
+import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -44,7 +46,7 @@ public class ProblemControllerTest {
     public void setup(){
         subChapterRepository.save(new SubChapter());
         subChapter = subChapterRepository.findAll().get(0);
-        problemRepository.save(Problem.builder()
+        Problem problem = problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .build());
     }
@@ -82,9 +84,11 @@ public class ProblemControllerTest {
     public void createProblemsTest() {
         ProblemCreateDto createDto = ProblemCreateDto.builder()
                 .subChapterId(subChapter.getSubChapterId())
+                .title("test title")
                 .content("test content")
                 .solution("test solution")
                 .answer("test answer")
+                .image(null)
                 .problemNumber((short) 1)
                 .isOptional(false)
                 .option1(null)
@@ -109,9 +113,11 @@ public class ProblemControllerTest {
     public void updateProblemTest(){
         ProblemUpdateRequestDto requestDto = ProblemUpdateRequestDto.builder()
                 .subChapterId(subChapter.getSubChapterId())
+                .title("test title")
                 .content("test content")
                 .solution("test solution")
                 .answer("test answer")
+                .image(null)
                 .problemNumber((short)123)
                 .isOptional(false)
                 .option1(null)

@@ -2,6 +2,8 @@ package com.swithme.web.controller;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.myBook.MyBook;
+import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookCreateDto;
@@ -18,7 +20,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +37,8 @@ public class BookControllerTest {
     private BookRepository bookRepository;
     @Autowired
     private PublisherRepository publisherRepository;
+    @Autowired
+    private MyBookRepository myBookRepository;
 
     private Publisher publisher;
 
@@ -47,6 +50,7 @@ public class BookControllerTest {
 
     @After
     public void cleanup(){
+        myBookRepository.deleteAll();
         bookRepository.deleteAll();
         publisherRepository.deleteAll();
     }
@@ -112,6 +116,20 @@ public class BookControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    public void getBookNameTest(){
+        Book book = bookRepository.save(new Book());
+        MyBook myBook = myBookRepository.save(MyBook.builder()
+                .book(book)
+                .build());
+
+        String url = "http://localhost:" + port + "/student/library/my-book/book-id?myBookId=" + myBook.getMyBookId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
     @Test
     public void saveBookTest(){
         assertThat(bookRepository.findAll()).isEmpty();

@@ -5,13 +5,12 @@ import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
 import Form from '../../../common-ui/Form';
 
-import SolutionFilter from './SolutionFilter';
-
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
 import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
 import ProblemResultViewContainer from '../../../containers/student/problem/ProblemResultViewContainer';
+import SolutionFilterContainer from '../../../containers/student/problem/SolutionFilterContainer';
 
 import Api from '../../../Api';
 
@@ -56,15 +55,21 @@ class ProblemView extends PureComponent {
 
   handleSubmit() {
     const { myProblem, updateMyProblem, setIsSolved } = this.props;
-
-    const formValue = {
+    let formValue = {
       isConfused: myProblem.isConfused,
       isRight: myProblem.isRight,
       isSolved: true,
+      solutionType: myProblem.solutionType,
       myAnswer: String(myProblem.myAnswer),
-      mySolution: myProblem.mySolution,
       solvedDateTime: myProblem.solvedDateTime,
     };
+    if (myProblem.solutionType === 'text') {
+      formValue = { ...formValue, textSolution: myProblem.textSolution };
+    } else if (myProblem.solutionType === 'img') {
+      formValue = { ...formValue, imageSolution: myProblem.imageSolution };
+    } else {
+      formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+    }
     updateMyProblem(myProblem.myProblemId, formValue, () => {
       setIsSolved(myProblem.myProblemId, true);
     });
@@ -93,7 +98,7 @@ class ProblemView extends PureComponent {
 
   render() {
     const { myProblem, styles, loading, page } = this.props;
-    const { myProblemId, myAnswer, myBookId, isSolved } = myProblem;
+    const { myProblemId, myAnswer, myBookId, isSolved, solutionType } = myProblem;
     const { problemNum, content, isOptional, answer } = this.state;
     let optionContents = [];
     if (isOptional) {
@@ -107,10 +112,10 @@ class ProblemView extends PureComponent {
       return (
         <Form onSubmit={this.handleSubmit}>
           <Form.Consumer>
-            {() => (
+            {({ onChange, values }) => (
               <VerticalList spacingBetween={2}>
                 <div {...css(styles.body)}>
-                  <Text>
+                  <Text large>
                     {problemNum}.{content}
                   </Text>
                   <AnswerInputContainer
@@ -126,11 +131,18 @@ class ProblemView extends PureComponent {
                       justifyContent: 'center',
                       padding: 3,
                       border: '1px solid',
+                      fontSize: 'small',
                     }}
                   >
-                    <SolutionFilter />
+                    <SolutionFilterContainer id={myProblemId} />
                   </div>
-                  <SolutionInputContainer id={myProblemId} />
+                  <SolutionInputContainer
+                    id={myProblemId}
+                    solutionType={solutionType}
+                    onChange={onChange}
+                    values={values}
+                    myBookId={myBookId}
+                  />
                 </div>
                 <div style={{ display: 'flex' }}>
                   <IsConfusedContainer id={myProblemId} />
@@ -168,7 +180,7 @@ export default withStyles(({ unit, color }) => ({
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
     padding: 5,
-    height: 150,
+    borderRadius: 2,
   },
   container: {
     display: 'flex',

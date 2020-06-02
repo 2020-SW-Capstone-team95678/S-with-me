@@ -6,6 +6,7 @@ import configureStore from './store/configureStore';
 import ModalProvider from './ModalProvider';
 
 import AddBookApp from './components/publisher/addBook/AddBookApp';
+import BookInfoPage from './components/publisher/addBook2';
 import NotFound from './components/NotFound';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
@@ -18,7 +19,9 @@ import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 
+import EditBook from './components/publisher/book/EditBook';
 import LibraryApp from './components/publisher/library/LibraryApp';
+import RegisterProblem from './components/publisher/addBook/RegisterProblem';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -87,16 +90,28 @@ export default class App extends PureComponent {
                     />
                     <Route path="/library" render={() => <LibraryAppContainer />} />
                     <Route path="/note" exact render={() => <NoteAppContainer />} />
+                    <NotificationContainer />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route
+                      exact
+                      path="/publisher/library/:bookId"
+                      render={({ match }) => <EditBook match={match} />}
+                    />
                     <Route
                       path="/publisher/library/book"
                       exact
                       render={({ match }) => <AddBookApp match={match} />}
                     />
-                    <NotificationContainer />
-                  </Switch>
-                ) : (
-                  <Switch>
                     <Route path="/library" render={() => <LibraryApp />} />
+                    <Route path="/register-problem" render={() => <RegisterProblem />} />
+                    <Route
+                      path="/publisher/library/book2"
+                      exact
+                      render={({ match }) => <BookInfoPage />}
+                    />
+                    <NotificationContainer />
                   </Switch>
                 )}
               </AppLayout>

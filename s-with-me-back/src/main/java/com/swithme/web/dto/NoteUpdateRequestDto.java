@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Clob;
+
 @Getter
 @NoArgsConstructor
 public class NoteUpdateRequestDto {
@@ -11,13 +13,20 @@ public class NoteUpdateRequestDto {
     private Long solvedDateTime;
     private Boolean isRight;
     private String myAnswer;
-    private String mySolution;
+    private Integer linkSolutionId;
+    private String imageSolution;
+    private String textSolution;
+    private String solutionType;
 
     @Builder
-    public NoteUpdateRequestDto(Long solvedDateTime, Boolean isRight, String myAnswer, String mySolution){
+    public NoteUpdateRequestDto(Long solvedDateTime, Boolean isRight, String myAnswer, Integer linkSolutionId,
+                                String imageSolution, String textSolution, String solutionType){
         this.solvedDateTime = solvedDateTime;
         this.isRight = isRight;
         this.myAnswer = myAnswer;
-        this.mySolution = mySolution;
+        this.linkSolutionId = linkSolutionId;
+        this.imageSolution = imageSolution;
+        this.textSolution = textSolution;
+        this.solutionType = solutionType;
     }
 }

@@ -3,6 +3,7 @@ package com.swithme.web.controller;
 import com.swithme.service.MyProblemService;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
+import com.swithme.web.dto.MySolutionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,21 @@ public class MyProblemController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/mainChapter/subChapter/{lastSubChapterId}")
+    @GetMapping("/student/library/my-book/main-chapter/sub-chapter/{lastSubChapterId}")
     public List<MyProblemResponseDto> getMyProblemList(@PathVariable int lastSubChapterId,
                                                        @RequestParam("page") short lastPageNumber){
         return myProblemService.getMyProblemList(lastSubChapterId, lastPageNumber);
     }
-//    @PutMapping("/student/library/my-book/my-problems")
-//    public int updateMyProblem(@RequestBody MyProblemUpdateRequestDto requestDto){
-//        return myBookService.updateMyProblem(requestDto);
-//    }
+
+    @CrossOrigin
+    @GetMapping("/student/library/my-book/main-chapter/sub-chapter/my-problems")
+    public List<MyProblemResponseDto> getMyProblemListInSubChapter(@RequestParam("subChapterId") int subChapterId){
+        return myProblemService.getMyProblemListInSubChapter(subChapterId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/library/my-book/my-problem/problem-id")
+    public MySolutionResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId){
+        return myProblemService.getMySolution(myProblemId);
+    }
 }

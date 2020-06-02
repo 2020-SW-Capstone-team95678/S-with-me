@@ -28,6 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -117,21 +118,25 @@ public class MyProblemControllerTest {
     }
 
     @Test
-    public void updateMyProblemTest() {
+    public void updateMyProblemTest() throws SQLException {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
-        String expectedMySolution = "updated solution";
+        String expectedTextSolution = "updated solution";
         String expectedMyAnswer = "updated answer";
 
         MyProblemUpdateRequestDto requestDto = MyProblemUpdateRequestDto.builder()
-                .mySolution(expectedMySolution)
+                .linkSolutionId(null)
+                .imageSolution(null)
+                .textSolution(expectedTextSolution)
+                .solutionType("text")
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
                 .isRight(false)
                 .solvedDateTime(1412L)
                 .isSolved(true)
                 .build();
+
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNull();
 
@@ -143,17 +148,37 @@ public class MyProblemControllerTest {
 
         MyProblem updatedMyProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
-        assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
+        assertThat(updatedMyProblem.getTextSolution()).isEqualTo(expectedTextSolution);
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNotNull();
     }
 
     @Test
     public void getMyProblemListTest(){
-        String url = "http://localhost:" + port + "/student/library/my-book/mainChapter/subChapter/"
+        String url = "http://localhost:" + port + "/student/library/my-book/main-chapter/sub-chapter/"
                 + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    public void getMyProblemListInSubChapterTest(){
+        String url = "http://localhost:" + port +
+                "/student/library/my-book/main-chapter/sub-chapter/my-problems?subChapterId=" + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMySolutionTest(){
+        MyProblem myProblem = myProblemRepository.findAll().get(0);
+        String url = "http://localhost:" + port + "/student/library/my-book/my-problem/problem-id?myProblemId="
+                +myProblem.getMyProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 }

@@ -4,10 +4,13 @@ import {
   DELETE_NOTE,
   SET_RESOLVE,
   SET_MY_NEW_ANSWER,
-  SET_MY_NEW_SOLUTION,
   SET_NEW_IS_RIGHT,
   SET_NEW_SOLVED_DATE_TIME,
   FETCH_FILTERED_NOTE_LIST,
+  SET_MY_NEW_TEXT_SOLUTION,
+  SET_MY_NEW_IMAGE_SOLUTION,
+  SET_MY_NEW_LINK_SOLUTION,
+  SET_TEMP_SOLUTION_TYPE,
 } from '../actions/noteActions';
 
 const initState = {
@@ -94,13 +97,33 @@ export default (state = initState, action) => {
         },
       };
     }
-    case SET_MY_NEW_SOLUTION: {
-      const { id, myNewSolution } = payload;
+    case SET_MY_NEW_TEXT_SOLUTION: {
+      const { id, myNewTextSolution } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], myNewSolution },
+          [id]: { ...state.entities[id], myNewTextSolution },
+        },
+      };
+    }
+    case SET_MY_NEW_IMAGE_SOLUTION: {
+      const { id, myNewImageSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], myNewImageSolution },
+        },
+      };
+    }
+    case SET_MY_NEW_LINK_SOLUTION: {
+      const { id, myNewLinkSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], myNewLinkSolution },
         },
       };
     }
@@ -121,6 +144,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], solvedDateTime },
+        },
+      };
+    }
+    case SET_TEMP_SOLUTION_TYPE: {
+      const { id, tempSolutionType } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], tempSolutionType },
         },
       };
     }

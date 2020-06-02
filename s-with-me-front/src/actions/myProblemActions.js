@@ -1,6 +1,9 @@
 export const SET_MY_ANSWER = 'myProblem/SET_MY_ANSWER';
 export const SET_IS_CONFUSED = 'myProblem/SET_IS_CONFUSED';
-export const SET_MY_SOLUTION = 'myProblem/SET_MY_SOLUTION';
+export const SET_SOLUTION_TYPE = 'myProblem/SET_SOLUTION_TYPE';
+export const SET_MY_TEXT_SOLUTION = 'myProblem/SET_MY_TEXT_SOLUTION';
+export const SET_MY_IMAGE_SOLUTION = 'myProblem/SET_MY_IMAGE_SOLUTION';
+export const SET_MY_LINK_SOLUTION = 'myProblem/SET_MY_LINK_SOLUTION';
 export const SET_SOLVED_DATETIME = 'myProblem/SET_SOLVED_DATETIME';
 export const SET_IS_RIGHT = 'myProblem/SET_IS_RIGHT';
 export const SET_IS_SOLVED = 'myProblem/SET_IS_SOLVED';
@@ -15,9 +18,24 @@ export const setIsConfused = (id, isConfused) => ({
   payload: { id, isConfused },
 });
 
-export const setMySolution = (id, mySolution) => ({
-  type: SET_MY_SOLUTION,
-  payload: { id, mySolution },
+export const setSolutionType = (id, solutionType) => ({
+  type: SET_SOLUTION_TYPE,
+  payload: { id, solutionType },
+});
+
+export const setTextSolution = (id, textSolution) => ({
+  type: SET_MY_TEXT_SOLUTION,
+  payload: { id, textSolution },
+});
+
+export const setImageSolution = (id, imageSolution) => ({
+  type: SET_MY_IMAGE_SOLUTION,
+  payload: { id, imageSolution },
+});
+
+export const setLinkSolutionId = (id, linkSolutionId) => ({
+  type: SET_MY_LINK_SOLUTION,
+  payload: { id, linkSolutionId },
 });
 
 export const setSolvedDateTime = (id, solvedDateTime) => ({

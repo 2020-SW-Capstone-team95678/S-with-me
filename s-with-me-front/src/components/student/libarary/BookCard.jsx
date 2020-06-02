@@ -21,7 +21,7 @@ function BookCard(props) {
   return (
     <>
       <DragPreviewImage connect={preview} src={bookImage} />
-      <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move' }}>
+      <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', paddingLeft: 2 }}>
         <Card vertical={20} horizontal={4}>
           {cover}
           <Button primary small>

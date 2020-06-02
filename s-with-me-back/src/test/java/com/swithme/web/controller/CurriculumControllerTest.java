@@ -71,7 +71,6 @@ public class CurriculumControllerTest {
     @Autowired
     private SubChapterRepository subChapterRepository;
 
-
     @Before
     public void setup(){
         studentRepository.save(Student.builder()
@@ -155,6 +154,7 @@ public class CurriculumControllerTest {
                 .type("Daily")
                 .myBookId(myBookRepository.findAll().get(0).getMyBookId())
                 .monthlyGoal("AAA")
+
                 .build();
         HttpEntity<CurriculumCreateDto> requestEntity = new HttpEntity<>(curriculumCreateDto);
         String url="http://localhost:"+port+"/student/library/curriculum";

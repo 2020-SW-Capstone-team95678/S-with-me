@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Clob;
+
 @Getter
 @NoArgsConstructor
 public class MyProblemResponseDto {
@@ -11,7 +13,10 @@ public class MyProblemResponseDto {
     private int myProblemId;
     private int myBookId;
     private int problemId;
-    private String mySolution;
+    private Integer linkSolutionId;
+    private String imageSolution;
+    private String textSolution;
+    private String solutionType;
     private String myAnswer;
     private Boolean isConfused;
     private Boolean isRight;
@@ -19,12 +24,16 @@ public class MyProblemResponseDto {
     private Boolean isSolved;
 
     @Builder
-    public MyProblemResponseDto(int myProblemId, int myBookId, int problemId, String mySolution,
+    public MyProblemResponseDto(int myProblemId, int myBookId, int problemId, Integer linkSolutionId,
+                                String imageSolution, String textSolution, String solutionType,
                                 Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved){
         this.myProblemId = myProblemId;
         this.myBookId = myBookId;
         this.problemId = problemId;
-        this.mySolution = mySolution;
+        this.linkSolutionId = linkSolutionId;
+        this.imageSolution = imageSolution;
+        this.textSolution = textSolution;
+        this.solutionType = solutionType;
         this.isConfused = isConfused;
         this.isRight = isRight;
         this.solvedDateTime = solvedDateTime;

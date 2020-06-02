@@ -10,6 +10,7 @@ import { DELETE_NOTE } from '../../../constants/modals';
 
 import Api from '../../../Api';
 import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
+import MySolutionView from './MySolutionView';
 
 class NoteView extends PureComponent {
   constructor(props) {
@@ -90,7 +91,16 @@ class NoteView extends PureComponent {
 
   render() {
     const { styles, note } = this.props;
-    const { isConfused, isRight, myProblemId, resolve, mySolution, myAnswer, myNewSolution } = note;
+    const {
+      isConfused,
+      isRight,
+      myProblemId,
+      resolve,
+      myAnswer,
+      solutionType,
+      tempSolutionType,
+    } = note;
+
     const {
       problemNum,
       content,
@@ -139,15 +149,9 @@ class NoteView extends PureComponent {
                   <Text>나의 답: {myAnswer}</Text>
                   <br />
                   {showMyNewSolution ? (
-                    myNewSolution ? (
-                      <Text>새 풀이: {myNewSolution}</Text>
-                    ) : (
-                      <Text>새 풀이가 없습니다.</Text>
-                    )
-                  ) : mySolution ? (
-                    <Text>내 풀이: {mySolution}</Text>
+                    <MySolutionView solutionType={tempSolutionType} note={note} isNewSolution />
                   ) : (
-                    <Text>내 풀이가 없습니다.</Text>
+                    <MySolutionView solutionType={solutionType} note={note} />
                   )}
                 </div>
                 <Button
@@ -163,7 +167,7 @@ class NoteView extends PureComponent {
                     나의 답과 풀이 보기
                   </Button>
                 ) : (
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button onPress={() => this.setState({ showMySolution: true })}>
                       이전 풀이 보기
                     </Button>
@@ -179,13 +183,16 @@ class NoteView extends PureComponent {
                 <Text>
                   정답:{answer} <br /> 해설: {solution}
                 </Text>
+                <br />
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>
             ) : (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-                <Button onPress={() => this.setState({ showSolution: true })}>
-                  해답과 해설 보기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button onPress={() => this.setState({ showSolution: true })}>
+                    해답과 해설 보기
+                  </Button>
+                </div>
               </div>
             )}
           </div>
@@ -214,12 +221,10 @@ export default withStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
-    height: 150,
   },
   container: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'row',
-    height: 150,
   },
 }))(NoteView);

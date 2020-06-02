@@ -6,10 +6,10 @@ import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
 import Form from '../../../common-ui/Form';
 
-import SolutionFilter from '../problem/SolutionFilter';
 import NewSolutionInputContainer from '../../../containers/student/note/NewSolutionInputContainer';
 import NewAnswerInputContainer from '../../../containers/student/note/NewAnswerInputContainer';
 import NewScoringButtonContainer from '../../../containers/student/note/NewScoringButtonContainer';
+import NoteSolutionFilterContainer from '../../../containers/student/note/NoteSolutionFilterContainer';
 
 class NoteResolve extends PureComponent {
   constructor(props) {
@@ -25,7 +25,7 @@ class NoteResolve extends PureComponent {
   render() {
     const { problem, note, styles } = this.props;
     const { problemNum, content, isOptional, answer } = problem;
-    const { noteId, myAnswer } = note;
+    const { noteId, myAnswer, tempSolutionType, myBookId } = note;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(problem.option1);
@@ -38,7 +38,7 @@ class NoteResolve extends PureComponent {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Consumer>
-          {() => (
+          {({ onChange, values }) => (
             <VerticalList spacingBetween={2}>
               <div {...css(styles.body)}>
                 <Text>
@@ -59,9 +59,15 @@ class NoteResolve extends PureComponent {
                     border: '1px solid',
                   }}
                 >
-                  <SolutionFilter />
+                  <NoteSolutionFilterContainer id={noteId} />
                 </div>
-                <NewSolutionInputContainer id={noteId} />
+                <NewSolutionInputContainer
+                  id={noteId}
+                  myBookId={myBookId}
+                  onChange={onChange}
+                  values={values}
+                  solutionType={tempSolutionType}
+                />
               </div>
               <div style={{ display: 'flex' }}>
                 <NewScoringButtonContainer id={noteId} answer={answer} myAnswer={myAnswer}>
@@ -82,14 +88,12 @@ export default withStyles(() => ({
     flexDirection: 'column',
     backgroundColor: '#FFF5EB',
     padding: 5,
-    height: 150,
   },
   container: {
     display: 'flex',
     flexDirection: 'column',
     padding: 5,
     alignContent: 'flex-start',
-    height: 150,
     border: '1px solid',
   },
 }))(NoteResolve);

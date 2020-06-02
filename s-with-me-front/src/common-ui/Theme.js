@@ -22,7 +22,7 @@ export default {
   // 색상
   color: {
     primary: '#FF4A25', // 주 색상
-    primaryDark: '#1976D2',
+    primaryDark: '#9C2D17',
     secondary: '#FFE6DB', // 부 색상
     secondaryDark: '#F7CFC0',
     white: '#FFFFFF',

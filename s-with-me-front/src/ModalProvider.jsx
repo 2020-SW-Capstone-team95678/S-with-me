@@ -8,6 +8,7 @@ import {
   DELETE_FOLDER,
   UPDATE_FOLDER_NAME,
   CREATE_CURRICULUM,
+  PREVIEW_PROBLEM,
 } from './constants/modals';
 import ProfileEditPage from './components/publisher/profile/ProfileEditPage';
 import ProfileEditPageStudent from './components/student/profile/ProfileEditPage';
@@ -16,6 +17,7 @@ import DeleteFolderPageContainer from './containers/student/book/DeleteFolderPag
 import UpdateFolderNamePageContainer from './containers/student/book/UpdateFolderNamePageContainer';
 import DeleteNoteContainer from './containers/student/note/DeleteNoteContainer';
 import CreateCurriculumPageContainer from './containers/student/book/CreateCurriculumPageContainer';
+import ProblemPreviewPage from './components/student/problem/ProblemPreviewPage';
 
 export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,
@@ -25,4 +27,5 @@ export default createProvider({
   [DELETE_FOLDER]: DeleteFolderPageContainer,
   [UPDATE_FOLDER_NAME]: UpdateFolderNamePageContainer,
   [CREATE_CURRICULUM]: CreateCurriculumPageContainer,
+  [PREVIEW_PROBLEM]: ProblemPreviewPage,
 });

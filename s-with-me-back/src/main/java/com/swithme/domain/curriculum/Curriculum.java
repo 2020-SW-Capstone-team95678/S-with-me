@@ -30,7 +30,7 @@ public class Curriculum {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "goalNumber")
+    @Column(name = "dailyGoal")
     private int dailyGoal;
 
     @Builder
