@@ -36,11 +36,10 @@ public class MyBookService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my book이 없습니다. myBookId=" + myBookId));
         return MyBookResponseDto.builder()
-                .bookId(myBook.getMyBookId())
+                .bookId(myBook.getBook().getBookId())
                 .folderId(myBook.getFolder().getFolderId())
                 .lastPageNumber(myBook.getLastPageNumber())
                 .lastSubChapterId(myBook.getLastSubChapterId())
-                .myBookId(myBookId)
                 .build();
     }
 
