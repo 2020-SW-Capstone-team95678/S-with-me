@@ -1,5 +1,6 @@
 package com.swithme.service;
 
+import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -19,6 +20,7 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final SubChapterRepository subChapterRepository;
+    private final MyProblemRepository myProblemRepository;
 
     @Transactional
     public ProblemResponseDto findById(int problemId) {
@@ -49,9 +51,11 @@ public class ProblemService {
                             ("해당 sub chapter가 없습니다. subChapterId = " + createDto.getSubChapterId()));
             problemRepository.save(Problem.builder()
                     .subChapter(subChapter)
+                    .title(createDto.getTitle())
                     .content(createDto.getContent())
                     .solution(createDto.getSolution())
                     .answer(createDto.getAnswer())
+                    .image(null)
                     .problemNumber(createDto.getProblemNumber())
                     .isOptional(createDto.getIsOptional())
                     .option1(createDto.getOption1())
@@ -59,6 +63,8 @@ public class ProblemService {
                     .option3(createDto.getOption3())
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
+                    .title(createDto.getTitle())
+                    .image(createDto.getImage())
                     .build());
         }
         return "문제 등록이 완료되었습니다.";

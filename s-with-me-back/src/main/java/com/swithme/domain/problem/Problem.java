@@ -22,9 +22,14 @@ public class Problem {
     @JoinColumn(name = "subChapterId")
     private SubChapter subChapter;
 
+    @Column(name = "title")
+    private String title;
+
+    @Lob
     @Column(name = "content")
     private String content;
 
+    @Lob
     @Column(name = "solution")
     private String solution;
 
@@ -33,6 +38,10 @@ public class Problem {
 
     @Column(name = "answer")
     private String answer;
+
+    @Lob
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "isOptional")
     private Boolean isOptional;
@@ -53,13 +62,15 @@ public class Problem {
     private String option5;
 
     @Builder
-    public Problem(SubChapter subChapter, String content, String solution,
-                    short problemNumber, String answer, Boolean isOptional,
+    public Problem(SubChapter subChapter, String title, String content, String solution,
+                    short problemNumber, String image, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5){
         this.subChapter = subChapter;
+        this.title = title;
         this.content = content;
         this.solution = solution;
         this.problemNumber = problemNumber;
+        this.image = image;
         this.answer = answer;
         this.isOptional = isOptional;
         this.option1 = option1;

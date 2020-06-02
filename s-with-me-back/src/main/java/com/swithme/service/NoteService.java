@@ -1,15 +1,9 @@
 package com.swithme.service;
 
-import com.swithme.domain.folder.Folder;
-import com.swithme.domain.folder.FolderRepository;
-import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
-import com.swithme.domain.problem.Problem;
-import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.web.dto.*;
@@ -28,8 +22,6 @@ public class NoteService{
     private final NoteRepository noteRepository;
     private final StudentRepository studentRepository;
     private final MyProblemRepository myProblemRepository;
-    private final FolderRepository folderRepository;
-    private final MyBookRepository myBookRepository;
 
     @Transactional
     public String createNote(NoteCreateDto createDto) {
@@ -63,7 +55,10 @@ public class NoteService{
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
-                    .mySolution(myProblem.getMySolution())
+                    .linkSolutionId(myProblem.getLinkSolutionId())
+                    .imageSolution(myProblem.getImageSolution())
+                    .textSolution(myProblem.getTextSolution())
+                    .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
@@ -111,7 +106,10 @@ public class NoteService{
                         .myProblemId(myProblem.getMyProblemId())
                         .myBookId(myProblem.getMyBook().getMyBookId())
                         .problemId(myProblem.getProblem().getProblemId())
-                        .mySolution(myProblem.getMySolution())
+                        .linkSolutionId(myProblem.getLinkSolutionId())
+                        .imageSolution(myProblem.getImageSolution())
+                        .textSolution(myProblem.getTextSolution())
+                        .solutionType(myProblem.getSolutionType())
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.getIsConfused())
                         .isRight(myProblem.getIsRight())
@@ -138,7 +136,10 @@ public class NoteService{
                         .myProblemId(myProblem.getMyProblemId())
                         .myBookId(myProblem.getMyBook().getMyBookId())
                         .problemId(myProblem.getProblem().getProblemId())
-                        .mySolution(myProblem.getMySolution())
+                        .linkSolutionId(myProblem.getLinkSolutionId())
+                        .imageSolution(myProblem.getImageSolution())
+                        .textSolution(myProblem.getTextSolution())
+                        .solutionType(myProblem.getSolutionType())
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.getIsConfused())
                         .isRight(myProblem.getIsRight())
