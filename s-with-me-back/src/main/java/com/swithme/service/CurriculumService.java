@@ -61,7 +61,9 @@ public class CurriculumService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
-        if(curriculum==null){throw new IllegalArgumentException("해당 커리큘럼이 존재하지 않습니다.");}
+        if(curriculum==null){
+            return CurriculumResponseDto.builder().build();
+        }
         return CurriculumResponseDto.builder()
                 .curriculumId(curriculum.getCurriculumId())
                 .myBookId(myBookId)
@@ -73,21 +75,24 @@ public class CurriculumService {
     }
     @Transactional
     public List<CurriculumResponseDto> getCurriculumList(int studentId){
+        List<CurriculumResponseDto> curriculumResponseDtoList= new ArrayList<>();
         Student student=studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
         List<Folder> folderList=folderRepository.findByStudent(student);
         List<Curriculum> curriculumList = new ArrayList<>();
         List<MyBook> myBookList = new ArrayList<>();
-        List<CurriculumResponseDto> curriculumResponseDtoList= new ArrayList<>();
+
         for(Folder folder : folderList)
         {
             myBookList.addAll(myBookRepository.findByFolder(folder));
-
         }
         for(MyBook myBook : myBookList)
         {
-            curriculumList.add(curriculumRepository.findByMyBook(myBook));
+            Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+            if(curriculum!=null){curriculumList.add(curriculum);}
         }
+        if(curriculumList.size()==0){return curriculumResponseDtoList;}
+
         for(Curriculum curriculum : curriculumList)
         {
             curriculumResponseDtoList.add(CurriculumResponseDto.builder()
@@ -106,6 +111,7 @@ public class CurriculumService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        if(curriculum==null){return -1;}
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
 
         int problemArchievement=0;
