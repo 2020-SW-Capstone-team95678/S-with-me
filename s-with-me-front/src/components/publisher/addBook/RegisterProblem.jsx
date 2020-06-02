@@ -100,10 +100,10 @@ export default class RegisterProblem extends PureComponent {
                   <div>
                     제목: <Latex delimiters={this.state.delimeters}>{values.title}</Latex>
                     <br />
-                    내용: <Latex delimiters={this.state.delimeters}>{values.content}</Latex> <br />
+                    내용: <Latex delimiters={this.state.delimeters}>{values.content}</Latex>
+                    <br />
                     해설 <br />
                     <Latex delimiters={this.state.delimeters}>{values.solution}</Latex>
-                    내용: <Latex delimiters={this.state.delimeters}>{values.solution}</Latex>
                   </div>
                 ) : null}
                 <CheckBox
