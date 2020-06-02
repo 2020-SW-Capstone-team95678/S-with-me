@@ -1,10 +1,7 @@
 package com.swithme.web.dto;
 
-import com.swithme.domain.publisher.Publisher;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.persistence.*;
 
 @Getter
 public class BookInformationResponseDto {
@@ -18,7 +15,6 @@ public class BookInformationResponseDto {
     private short grade;
     private String cover;
     private Boolean isAdvertised;
-    private short totalProblemNumber;
     private int monthlyProfit;
     private int monthlySold;
     private String introduction;
@@ -26,7 +22,7 @@ public class BookInformationResponseDto {
     @Builder
     public BookInformationResponseDto(int bookId, int publisherId, String subject, int price, String publishedDate,
                                       String name, short grade, String cover, Boolean isAdvertised,
-                                      short totalProblemNumber, int monthlyProfit, int monthlySold, String introduction){
+                                      int monthlyProfit, int monthlySold, String introduction){
         this.bookId = bookId;
         this.publisherId = publisherId;
         this.subject = subject;
@@ -36,7 +32,6 @@ public class BookInformationResponseDto {
         this.grade = grade;
         this.cover = cover;
         this.isAdvertised = isAdvertised;
-        this.totalProblemNumber = totalProblemNumber;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
         this.introduction = introduction;
