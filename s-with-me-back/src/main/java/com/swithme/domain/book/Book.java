@@ -53,6 +53,7 @@ public class Book {
     @Column(name = "monthlySold")
     private int monthlySold;
 
+    @Lob
     @Column(name = "introduction")
     private String introduction;
 
