@@ -25,9 +25,11 @@ public class Problem {
     @Column(name = "title")
     private String title;
 
+    @Lob
     @Column(name = "content")
     private String content;
 
+    @Lob
     @Column(name = "solution")
     private String solution;
 
