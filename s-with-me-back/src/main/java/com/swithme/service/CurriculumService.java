@@ -122,13 +122,13 @@ public class CurriculumService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
         if(curriculum==null){return -1;}
-        if(curriculum.getType().equals("Monthly")){return -1;}
+        if(curriculum.getType().equals("monthly")){return -1;}
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
 
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
-        if(curriculum.getType().equals("Daily")) {
+        if(curriculum.getType().equals("daily")) {
             Start = ((nowTime/milliSecPerDay)*milliSecPerDay);
 
             End = Start + milliSecPerDay -1;
