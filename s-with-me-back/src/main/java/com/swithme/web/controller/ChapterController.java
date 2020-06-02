@@ -20,7 +20,7 @@ public class ChapterController {
 
     @CrossOrigin
     @GetMapping("/library/book")
-    public String getSubChapterName(@PathVariable int subChapterId)
+    public String getSubChapterName(@RequestParam int subChapterId)
     {
         return chapterService.getSubChapterName(subChapterId);
     }
