@@ -21,6 +21,7 @@ import SignUpPublisherInputContainer from './containers/publisher/SignUpPublishe
 
 import EditBook from './components/publisher/book/EditBook';
 import LibraryApp from './components/publisher/library/LibraryApp';
+import RegisterProblem from './components/publisher/addBook/RegisterProblem';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -104,6 +105,13 @@ export default class App extends PureComponent {
                       exact
                       render={({ match }) => <AddBookApp match={match} />}
                     />
+
+                    <NotificationContainer />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route path="/library" render={() => <LibraryApp />} />
+                    <Route path="/register-problem" render={() => <RegisterProblem />} />
                     <Route
                       path="/publisher/library/book2"
                       exact
