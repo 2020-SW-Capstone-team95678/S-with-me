@@ -86,7 +86,7 @@ class LoginApp extends react.PureComponent {
                         </div>
                         <div className="inputPW">
                           PW
-                          <Input name="password" onChange={onChange} />
+                          <Input name="password" onChange={onChange} type="password" />
                         </div>
                       </div>
                       <Button type="submit" disabled={loading}>

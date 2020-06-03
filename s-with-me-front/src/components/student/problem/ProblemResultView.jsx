@@ -43,7 +43,15 @@ class ProblemResultView extends PureComponent {
 
   render() {
     const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
-    const { problemNum, content, isOptional, answer, solution, image, title } = this.props.problem;
+    const {
+      problemNumber,
+      content,
+      isOptional,
+      answer,
+      solution,
+      image,
+      title,
+    } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
     let numbers = ['①', '②', '③', '④', '⑤'];
@@ -59,13 +67,13 @@ class ProblemResultView extends PureComponent {
           )}
           {isConfused ? <Text>헷갈렸어요</Text> : null}
           <Text large>
-            {problemNum ? problemNum + '.' : null}
+            {problemNumber ? problemNumber + '.' : null}
             {title}
           </Text>
           {image ? (
             <img
               src={image}
-              alt={problemNum + '문제 그림'}
+              alt={problemNumber + '문제 그림'}
               style={{ width: '100%', height: 'auto' }}
             />
           ) : null}
@@ -94,7 +102,7 @@ class ProblemResultView extends PureComponent {
             </div>
           ) : (
             <div>
-              {problemNum ? (
+              {problemNumber ? (
                 <div style={{ paddingBottom: '5px' }}>
                   {isRight ? null : (
                     <Text>
@@ -131,7 +139,7 @@ class ProblemResultView extends PureComponent {
               {!isSavedNote && (isRight || !isConfused) ? (
                 <Button onPress={() => this.handleSaveProblem(myProblemId)}>문제 저장</Button>
               ) : null}
-              {problemNum ? (
+              {problemNumber ? (
                 <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
               ) : null}
             </div>

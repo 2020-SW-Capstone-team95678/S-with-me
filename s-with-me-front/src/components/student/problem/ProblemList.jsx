@@ -36,7 +36,7 @@ export default class ProblemList extends PureComponent {
             paddingBottom: '3px',
           }}
         >
-          <ProblemPaginationContainer subChapterId={subChapterId} />
+          <ProblemPaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
       </React.Fragment>
     );

@@ -3,6 +3,7 @@ import {
   setImageSolution,
   setTextSolution,
   setLinkSolutionId,
+  setSolutionType,
 } from '../../../actions/myProblemActions';
 import { requestChapterList } from '../../../actions/chapterActions';
 import SolutionInput from '../../../components/student/problem/SolutionInput';
@@ -19,6 +20,7 @@ const mapDispatchToProps = {
   setTextSolution,
   setLinkSolutionId,
   requestChapterList,
+  setSolutionType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SolutionInput);

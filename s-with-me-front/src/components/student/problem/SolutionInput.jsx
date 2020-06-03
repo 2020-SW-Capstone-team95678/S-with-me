@@ -30,9 +30,10 @@ export default class SolutionInput extends PureComponent {
     }
   }
   handleChange(e) {
-    const { setTextSolution, id } = this.props;
+    const { setTextSolution, setSolutionType, id } = this.props;
     e.preventDefault();
     setTextSolution(id, e.target.value);
+    setSolutionType(id, 'text');
   }
   handleFileOnChange(event) {
     const { setImageSolution, id } = this.props;

@@ -48,7 +48,7 @@ export default class BookDetail extends PureComponent {
 
     return (
       <div style={{ display: 'flex' }}>
-        <div style={{ flex: 2, flexDirection: 'row', padding: 3 }}>
+        <div style={{ flex: 1.5, flexDirection: 'row', padding: 3 }}>
           {isCoverClicked ? (
             <div
               onClick={() => this.setState({ isCoverClicked: false })}
@@ -73,7 +73,7 @@ export default class BookDetail extends PureComponent {
                 borderRadius: 2,
               }}
             >
-              <img src={cover} alt="책 커버" />
+              <img src={cover} alt="책 커버" style={{ height: 'auto', width: '100%' }} />
             </div>
           )}
           <Modal>

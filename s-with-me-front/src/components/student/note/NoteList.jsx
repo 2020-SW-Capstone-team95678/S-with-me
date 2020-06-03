@@ -16,18 +16,22 @@ const LoadingMessage = (
 class NoteList extends PureComponent {
   render() {
     const { noteList } = this.props;
+    const noteList1 = noteList.slice(0, noteList.length / 2 + 1);
+    const noteList2 = noteList.slice(noteList.length / 2 + 1);
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {noteList.map((note, index) => (
+            {noteList1.map((note, index) => (
               <NoteViewContainer note={note} key={index} />
             ))}
           </VerticalList>
         </div>
         <div style={{ flex: 1, padding: 3 }}>
           <VerticalList spacingBetween={10}>
-            {/* <NoteViewContainer note={note} key={index} /> */}
+            {noteList2.map((note, index) => (
+              <NoteViewContainer note={note} key={index} />
+            ))}
           </VerticalList>
         </div>
       </div>
