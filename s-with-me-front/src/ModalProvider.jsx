@@ -22,10 +22,10 @@ import UpdateFolderNamePageContainer from './containers/student/book/UpdateFolde
 import DeleteNoteContainer from './containers/student/note/DeleteNoteContainer';
 import CreateCurriculumPageContainer from './containers/student/book/CreateCurriculumPageContainer';
 import ProblemPreviewPage from './components/student/problem/ProblemPreviewPage';
-import CreateBookPage from './components/publisher/addBook2/CreateBookPage';
-import CreateMainChapterPage from './components/publisher/addBook2/CreateMainChapterPage';
-import CreateSubChapterPage from './components/publisher/addBook2/CreateSubChapterPage';
-import CreateProblemPage from './components/publisher/addBook/RegisterProblem';
+import CreateBookPage from './components/publisher/createBook/CreateBookPage';
+import CreateMainChapterPage from './components/publisher/createBook/CreateMainChapterPage';
+import CreateSubChapterPage from './components/publisher/createBook/CreateSubChapterPage';
+import CreateProblemPage from './components/publisher/createBook/RegisterProblem';
 
 export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,

@@ -19,7 +19,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import CheckBox from '../../../common-ui/CheckBox';
 import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
-import RegisterProblem from '../addBook/RegisterProblem';
+import RegisterProblem from '../createBook/RegisterProblem';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
