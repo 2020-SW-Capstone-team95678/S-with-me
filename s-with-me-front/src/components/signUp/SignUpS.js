@@ -75,6 +75,7 @@ export default class SignUpS extends PureComponent {
                                   <Input
                                     name="password"
                                     label="PW"
+                                    type="password"
                                     onChange={onChange}
                                     errorMessage={errors['password']}
                                   />
