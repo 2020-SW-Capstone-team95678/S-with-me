@@ -40,11 +40,18 @@ export default class BookDetail extends PureComponent {
     }).then(({ data }) => this.setState({ achievement: data }));
   }
 
+  componentDidUpdate() {
+    const { myBookId } = this.props.match.params;
+    Api.get('/student/library/curriculum', {
+      params: { myBookId: myBookId },
+    }).then(({ data }) => this.setState({ curriculum: data }));
+  }
+
   render() {
     const { book, myBook, isCoverClicked, curriculum, achievement } = this.state;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
-    const { grade, subject, name, cover } = book;
+    const { grade, subject, name, cover, introduction } = book;
 
     return (
       <div style={{ display: 'flex' }}>
@@ -53,14 +60,16 @@ export default class BookDetail extends PureComponent {
             <div
               onClick={() => this.setState({ isCoverClicked: false })}
               style={{
-                height: 100,
+                display: 'flex',
                 flexDirection: 'column',
                 padding: 3,
-                border: '1px red solid',
+                border: '1px solid',
               }}
             >
-              {grade}학년 / 과목 : {subject} <br />
-              이름: {name}
+              {grade}학년 / 과목 : {subject} <br /> <br />
+              이름: {name} <br />
+              <br />
+              소개: {introduction}
             </div>
           ) : (
             <div
@@ -80,26 +89,29 @@ export default class BookDetail extends PureComponent {
             {({ openModal }) => (
               <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
                 <div style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
-                  <Button
-                    small
-                    onPress={() =>
-                      openModal(CREATE_CURRICULUM, { myBookId: myBookId, type: 'new' })
-                    }
-                  >
-                    새로운 목표 설정하기
-                  </Button>
-                  <Button
-                    small
-                    onPress={() =>
-                      openModal(CREATE_CURRICULUM, {
-                        myBookId: myBookId,
-                        type: 'old',
-                        curriculum: curriculum,
-                      })
-                    }
-                  >
-                    수정하기
-                  </Button>
+                  {curriculum.type ? (
+                    <Button
+                      small
+                      onPress={() =>
+                        openModal(CREATE_CURRICULUM, {
+                          myBookId: myBookId,
+                          type: 'old',
+                          curriculum: curriculum,
+                        })
+                      }
+                    >
+                      수정하기
+                    </Button>
+                  ) : (
+                    <Button
+                      small
+                      onPress={() =>
+                        openModal(CREATE_CURRICULUM, { myBookId: myBookId, type: 'new' })
+                      }
+                    >
+                      새로운 목표 설정하기
+                    </Button>
+                  )}
                 </div>
                 <Card>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
@@ -121,7 +133,7 @@ export default class BookDetail extends PureComponent {
                     </Text>
                   </div>
                 </Card>
-                {curriculum.type !== 'monthly' ? (
+                {curriculum.type === 'temp' ? (
                   <Card>
                     <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
                       <Text large>달성도</Text>

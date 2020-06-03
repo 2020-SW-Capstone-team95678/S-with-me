@@ -8,7 +8,7 @@ import LibrarySubjectTable from './LibrarySubjectTable';
 export default class LibraryFilterList extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { filter: null, subjectList: ['국어', '수학', '영어', '과학'] };
+    this.state = { filter: null, subjectList: ['국어', '수학', '영어', '사회'] };
   }
 
   selectFilter = filter => {

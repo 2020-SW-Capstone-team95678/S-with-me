@@ -24,11 +24,13 @@ function BookCard(props) {
       <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', paddingLeft: 2 }}>
         <Card vertical={20} horizontal={4}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <img
-              src={cover}
-              alt="책 커버 이미지"
-              style={{ width: 'auto', height: '180px', overflow: 'hidden' }}
-            />
+            <Link to={`/library/myBook/${myBookId}`}>
+              <img
+                src={cover}
+                alt="책 커버 이미지"
+                style={{ width: 'auto', height: '180px', overflow: 'hidden' }}
+              />
+            </Link>
           </div>
           <Heading level={5}>{name}</Heading>
           <Heading level={6}>

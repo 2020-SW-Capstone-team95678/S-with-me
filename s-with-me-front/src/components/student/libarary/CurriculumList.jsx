@@ -27,9 +27,10 @@ export default class CurriculumList extends PureComponent {
             <TableRow isHeader>
               <TableCell align="center">이 달의 목표</TableCell>
             </TableRow>
-            <TableRow>
-              {monthlyCurriculumList.length > 0 ? (
-                monthlyCurriculumList.map(({ monthlyGoal, myBookId }) => (
+
+            {monthlyCurriculumList.length > 0 ? (
+              monthlyCurriculumList.map(({ monthlyGoal, myBookId }, index) => (
+                <TableRow key={index}>
                   <TableCell align="center">
                     <Link
                       to={`/library/myBook/${myBookId}`}
@@ -38,19 +39,21 @@ export default class CurriculumList extends PureComponent {
                       {monthlyGoal}
                     </Link>
                   </TableCell>
-                ))
-              ) : (
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
                 <TableCell align="center">목표 없음</TableCell>
-              )}
-            </TableRow>
+              </TableRow>
+            )}
 
             <TableRow isHeader>
               <TableCell align="center">이 주의 목표</TableCell>
             </TableRow>
 
             {weeklyCurriculumList.length > 0 ? (
-              weeklyCurriculumList.map(curriculum => (
-                <SubChapterCurriculum curriculum={curriculum} />
+              weeklyCurriculumList.map((curriculum, index) => (
+                <SubChapterCurriculum curriculum={curriculum} key={index} />
               ))
             ) : (
               <TableRow>
@@ -65,14 +68,14 @@ export default class CurriculumList extends PureComponent {
             </TableRow>
 
             {dailyCurriculumList.length > 0 ? (
-              dailyCurriculumList.map(({ dailyGoal, myBookId }) => (
-                <TableRow>
+              dailyCurriculumList.map(({ dailyGoal, myBookId }, index) => (
+                <TableRow key={index}>
                   <TableCell align="center">
                     <Link
                       to={`/library/myBook/${myBookId}`}
                       style={{ textDecoration: 'none', color: 'black' }}
                     >
-                      {dailyGoal}문제 풀기
+                      하루에 {dailyGoal}문제 풀기
                     </Link>
                   </TableCell>
                 </TableRow>

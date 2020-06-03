@@ -14,10 +14,11 @@ export default class DeleteFolderPage extends PureComponent {
   }
 
   handleSubmit(closeModal) {
-    const { deleteFolder, requestFolderList, folderId, studentId } = this.props;
+    const { deleteFolder, requestFolderList, requestMyBookList, folderId, studentId } = this.props;
     deleteFolder(folderId * 1, () => {
       closeModal();
       requestFolderList({ studentId: studentId });
+      requestMyBookList({ studentId: studentId });
     });
   }
 
@@ -30,7 +31,7 @@ export default class DeleteFolderPage extends PureComponent {
               {() => (
                 <Spacing horizontal={4} vertical={6}>
                   <Spacing bottom={2}>
-                    <Text large>정말로 삭제하시겠습니까?</Text>
+                    <Text large>정말로 삭제하시겠습니까?</Text> <br />
                     <Text>폴더 내의 문제집은 분류되지 않음 폴더로 이동됩니다.</Text>
                   </Spacing>
                   <InlineList spacingBetween={1}>

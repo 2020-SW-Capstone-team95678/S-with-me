@@ -64,34 +64,37 @@ class ProblemHead extends PureComponent {
     for (let myProblem of myProblemList) {
       Api.get('/student/library/my-book/my-problems', {
         params: { problemId: myProblem.problemId },
-      }).then(({ data }) => {
-        if (myProblem.myAnswer && !myProblem.isSolved) {
-          if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
-          else setIsRight(myProblem.myProblemId, false);
-          setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
-          setLastMyProblemPage(id, pagination.number);
-        }
-      });
-      let formValue = {
-        isConfused: myProblem.isConfused,
-        isRight: myProblem.isRight,
-        isSolved: true,
-        solutionType: myProblem.solutionType,
-        myAnswer: String(myProblem.myAnswer),
-        solvedDateTime: myProblem.solvedDateTime,
-      };
-      if (myProblem.solutionType === 'text') {
-        formValue = { ...formValue, textSolution: myProblem.textSolution };
-      } else if (myProblem.solutionType === 'img') {
-        formValue = { ...formValue, imageSolution: myProblem.imageSolution };
-      } else {
-        formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
-      }
-      if (myProblem.myAnswer && !myProblem.isSolved) {
-        updateMyProblem(myProblem.myProblemId, formValue, () => {
-          setIsSolved(myProblem.myProblemId, true);
+      })
+        .then(({ data }) => {
+          if (myProblem.myAnswer && !myProblem.isSolved) {
+            if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
+            else setIsRight(myProblem.myProblemId, false);
+            setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
+            setLastMyProblemPage(id, pagination.number);
+          }
+        })
+        .finally(() => {
+          let formValue = {
+            isConfused: myProblem.isConfused,
+            isRight: myProblem.isRight,
+            isSolved: true,
+            solutionType: myProblem.solutionType,
+            myAnswer: String(myProblem.myAnswer),
+            solvedDateTime: myProblem.solvedDateTime,
+          };
+          if (myProblem.solutionType === 'text') {
+            formValue = { ...formValue, textSolution: myProblem.textSolution };
+          } else if (myProblem.solutionType === 'img') {
+            formValue = { ...formValue, imageSolution: myProblem.imageSolution };
+          } else if (myProblem.solutionType === 'link') {
+            formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+          }
+          if (myProblem.myAnswer && !myProblem.isSolved) {
+            updateMyProblem(myProblem.myProblemId, formValue, () => {
+              setIsSolved(myProblem.myProblemId, true);
+            });
+          }
         });
-      }
     }
   }
 
