@@ -1,6 +1,0 @@
-  
-div.subApp > div.container {
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh - 50px);
-  }

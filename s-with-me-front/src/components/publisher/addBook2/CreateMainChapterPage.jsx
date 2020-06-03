@@ -13,12 +13,12 @@ const CreateMainChapterPage = props => {
     <Modal>
       {({ closeModal }) => (
         <div>
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             MainChapter info
             <br />
             <br />
-            <h2>book Id : {bookId}</h2>
-            <h2>mainChapter Id : {mainChapterId}</h2>
+            {/* <h2>book Id : {bookId}</h2>
+            <h2>mainChapter Id : {mainChapterId}</h2> */}
             Name
             <input
               type="text"
@@ -26,6 +26,8 @@ const CreateMainChapterPage = props => {
               placeholder="please input name"
               onChange={({ target: { value } }) => setMainChapterTitle(value)}
             />
+            <br></br>
+            <br></br>
             <button
               onClick={() => {
                 Api.post('/publisher/library/book/mainChapter', {

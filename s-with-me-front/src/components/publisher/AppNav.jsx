@@ -1,11 +1,29 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
 import logo from '../../common-ui/logo.png';
+import Button from '../../common-ui/Button';
+
+import { NavLink } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.state = { isLogin: true };
+  }
+
+  handleLogout() {
+    window.sessionStorage.clear();
+    this.setState({ isLogin: false });
+  }
   render() {
     const { styles } = this.props;
+    const activeStyle = {
+      fontWeight: 'bold',
+      color: '#9C2D17',
+      fontSize: '2rem',
+    };
     return (
       <div>
         <div {...css(styles.wrapper)}>
@@ -24,6 +42,13 @@ class AppNav extends PureComponent {
             <div style={{ flex: 3, padding: 30 }}>검색</div>
             <div style={{ flex: 1, padding: 30 }}>서점</div>
             <div style={{ flex: 1, padding: 30 }}>프로필</div>
+            <NavLink to="/">
+              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 10 }}>
+                <Button small onPress={() => this.handleLogout()}>
+                  Logout
+                </Button>
+              </div>
+            </NavLink>
           </div>
         </div>
       </div>

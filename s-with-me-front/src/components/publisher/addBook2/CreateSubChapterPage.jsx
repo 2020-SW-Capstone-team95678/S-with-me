@@ -12,13 +12,13 @@ const CreateSubChapterPage = props => {
   return (
     <Modal>
       {({ closeModal }) => (
-        <div>
-          <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             SubChapter info
             <br />
             <br />
-            <h2>mainChapter Id : {mainChapterId}</h2>
-            <h2>subChapter Id : {subChapterId}</h2>
+            {/* <h2>mainChapter Id : {mainChapterId}</h2>
+            <h2>subChapter Id : {subChapterId}</h2> */}
             Name
             <input
               type="text"
@@ -26,6 +26,8 @@ const CreateSubChapterPage = props => {
               placeholder="please input name"
               onChange={({ target: { value } }) => setSubChapterTitle(value)}
             />
+            <br></br>
+            <br></br>
             <button
               onClick={() => {
                 Api.post('/publisher/library/book/mainChapter/subChapter', {

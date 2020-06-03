@@ -16,3 +16,4 @@ export const CREATE_BOOK = 'modal/CREATE_BOOK';
 export const CREATE_MAIN_CHAPTER = 'modal/CREATE_MAIN_CHAPTER';
 
 export const CREATE_SUB_CHAPTER = 'modal/CREATE_SUB_CHAPTER';
+export const CREATE_PROBLEM = 'modal/CREATE_PROBLEM';

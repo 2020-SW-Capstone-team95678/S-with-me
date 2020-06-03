@@ -1,9 +1,0 @@
-  
-div.problemApp > div.container {
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh - 50px);
-  }
-  div.problemApp  {
-    width: 100%;
-  }

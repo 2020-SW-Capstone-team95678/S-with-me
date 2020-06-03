@@ -12,6 +12,9 @@ import Latex from 'react-latex-next';
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
     super(props);
+    const { subChapterId } = props;
+    console.log(subChapterId);
+
     this.state = {
       isOptional: false,
       file: '',
@@ -26,19 +29,12 @@ export default class RegisterProblem extends PureComponent {
     };
   }
 
-  handleSubmit = values => {
-    values = {
-      ...values,
-      title: JSON.stringify(values.title),
-      content: JSON.stringify(values.content),
-      answer: JSON.stringify(values.answer),
-      solution: JSON.stringify(values.solution),
-    };
+  handleSubmit = (values, subChapterId) => {
     const formValue = {
       ...values,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
-      subChapterId: 373,
+      subChapterId: subChapterId,
     };
     console.log(formValue);
     Api.post('/publisher/library/book/mainChapter/subChapter/problems', [formValue])
@@ -66,6 +62,7 @@ export default class RegisterProblem extends PureComponent {
 
   render() {
     const { file, previewURL, isOptional, showMath } = this.state;
+    const { subChapterId } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -84,7 +81,7 @@ export default class RegisterProblem extends PureComponent {
 
     return (
       <div>
-        <Form onSubmit={values => this.handleSubmit(values)} initValues="">
+        <Form onSubmit={values => this.handleSubmit(values, subChapterId)} initValues="">
           <Form.Consumer>
             {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -133,7 +130,7 @@ export default class RegisterProblem extends PureComponent {
                 ) : null}
                 <Input label="문제 정답" name="answer" onChange={onChange} />
                 <Input label="문제 해설" name="solution" onChange={onChange} />
-                <Button>제출!</Button>
+                <Button>등록!</Button>
               </div>
             )}
           </Form.Consumer>

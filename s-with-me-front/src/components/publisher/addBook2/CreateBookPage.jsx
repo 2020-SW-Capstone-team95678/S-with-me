@@ -21,16 +21,17 @@ const CreateBookPage = props => {
   return (
     <Modal>
       {({ closeModal }) => (
-        <div>
-          <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             Book infos
             <br />
             <br />
-            <h2>book Id : {bookId}</h2>
+            {/* <h2>book Id : {bookId}</h2> */}
             북커버
             <InputBookCover setCover={setCover} />
             Grade
             <input
+              style={{ flex: 1 }}
               type="number"
               value={grade}
               placeholder="please input grade"
@@ -64,6 +65,8 @@ const CreateBookPage = props => {
               placeholder="please input price"
               onChange={({ target: { value } }) => setPrice(value)}
             ></input>
+            <br></br>
+            <br></br>
             <button
               onClick={() => {
                 Api.post('/publisher/library/book', {
@@ -71,7 +74,7 @@ const CreateBookPage = props => {
                   grade: grade,
                   name: name,
                   price: price,
-                  publisherId: 1,
+                  publisherId: 4,
                   subject: subject,
                   introduction: introduction,
                 }).then(response => {
