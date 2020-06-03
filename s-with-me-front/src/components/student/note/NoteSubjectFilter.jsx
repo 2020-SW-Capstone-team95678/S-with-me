@@ -26,7 +26,7 @@ export default class NoteSubjectFilter extends PureComponent {
                 <Option label="국어" value="국어" />
                 <Option label="수학" value="수학" />
                 <Option label="영어" value="영어" />
-                <Option label="과학" value="과학" />
+                <Option label="사회" value="사회" />
               </Select>
               <Button type="submit" small>
                 찾기

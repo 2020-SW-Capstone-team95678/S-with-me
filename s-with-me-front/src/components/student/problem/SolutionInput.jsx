@@ -17,8 +17,8 @@ export default class SolutionInput extends PureComponent {
     this.handleLinkSolution = this.handleLinkSolution.bind(this);
   }
   componentDidMount() {
-    const { myBookId, requestChapterList } = this.props;
-    requestChapterList({ myBookId: myBookId });
+    const { myBookId, requestChapterList, solutionType } = this.props;
+    if (solutionType === 'link') requestChapterList({ myBookId: myBookId });
   }
 
   componentDidUpdate() {
@@ -88,13 +88,7 @@ export default class SolutionInput extends PureComponent {
                   <Select name="selectMyProblem" onChange={onChange}>
                     <Option label="선택해 주세요" value="" />
                     {myProblemListForLink.map((myProblem, index) => {
-                      return (
-                        <Option
-                          key={index}
-                          label={myProblem.myProblemId}
-                          value={myProblem.myProblemId}
-                        />
-                      );
+                      return <Option key={index} label={index} value={myProblem.myProblemId} />;
                     })}
                   </Select>
                   <div

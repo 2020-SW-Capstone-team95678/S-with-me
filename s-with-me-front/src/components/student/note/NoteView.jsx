@@ -225,17 +225,18 @@ class NoteView extends PureComponent {
             )}
           </div>
           <div style={{ display: 'flex' }}>
-            {resolve === 'INIT' ? (
-              <Modal>
-                {({ openModal }) => (
+            <Modal>
+              {({ openModal }) => (
+                <div>
                   <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
                     문제 삭제
                   </Button>
-                )}
-              </Modal>
-            ) : (
-              <Button onPress={() => this.handleSaveNote()}>새 풀이 저장</Button>
-            )}
+                  {resolve === 'INIT' ? null : (
+                    <Button onPress={() => this.handleSaveNote()}>새 풀이 저장</Button>
+                  )}
+                </div>
+              )}
+            </Modal>
             <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
           </div>
         </VerticalList>

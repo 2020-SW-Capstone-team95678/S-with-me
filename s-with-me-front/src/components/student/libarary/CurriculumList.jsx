@@ -75,7 +75,7 @@ export default class CurriculumList extends PureComponent {
                       to={`/library/myBook/${myBookId}`}
                       style={{ textDecoration: 'none', color: 'black' }}
                     >
-                      {dailyGoal}문제 풀기
+                      하루에 {dailyGoal}문제 풀기
                     </Link>
                   </TableCell>
                 </TableRow>

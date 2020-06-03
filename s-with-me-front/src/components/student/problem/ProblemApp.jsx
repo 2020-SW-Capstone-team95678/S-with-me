@@ -46,7 +46,9 @@ export default class ProblemApp extends PureComponent {
             page={number}
             myProblemList={
               viewWrongOnly
-                ? myProblemList.filter(myProblem => myProblem.isRight === false)
+                ? myProblemList.filter(
+                    myProblem => myProblem.isRight === false && myProblem.isSolved,
+                  )
                 : myProblemList
             }
             loading={loading}
