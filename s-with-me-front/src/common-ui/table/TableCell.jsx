@@ -45,8 +45,8 @@ export default withStyles(({ color, unit }) => ({
     textAlign: 'left',
   },
   header: {
-    backgroundColor: color.primary,
-    color: color.white,
+    backgroundColor: color.secondary,
+    color: color.black,
   },
   baseline: {
     borderBottom: `1px solid ${color.border}`,

@@ -8,6 +8,7 @@ import folderList from './folderReducer';
 import chapter from './chapterReducer';
 import note from './noteReducer';
 import publisherBook from './publisher/bookReducer';
+import curriculum from './curriculumReducer';
 
 export default {
   publisherBook,
@@ -20,4 +21,5 @@ export default {
   folderList,
   chapter,
   note,
+  curriculum,
 };

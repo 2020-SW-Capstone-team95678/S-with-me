@@ -24,7 +24,7 @@ class NoteResolve extends PureComponent {
 
   render() {
     const { problem, note, styles } = this.props;
-    const { problemNum, content, isOptional, answer } = problem;
+    const { problemNum, content, isOptional, answer, title, image } = problem;
     const { noteId, myAnswer, tempSolutionType, myBookId } = note;
     let optionContents = [];
     if (isOptional) {
@@ -42,13 +42,28 @@ class NoteResolve extends PureComponent {
             <VerticalList spacingBetween={2}>
               <div {...css(styles.body)}>
                 <Text>
-                  {problemNum}.{content}
+                  {problemNum ? problemNum + '.' : null}
+                  {title}
                 </Text>
-                <NewAnswerInputContainer
-                  id={noteId}
-                  isOptional={isOptional}
-                  optionContents={optionContents}
-                />
+                {image ? (
+                  <img
+                    src={image}
+                    alt={problemNum + '문제 그림'}
+                    style={{ width: '100%', height: 'auto' }}
+                  />
+                ) : null}
+                {content ? (
+                  <div style={{ border: '0.5px solid', padding: 2 }}>
+                    <Text>{content}</Text>
+                  </div>
+                ) : null}
+                {problemNum ? (
+                  <NewAnswerInputContainer
+                    id={noteId}
+                    isOptional={isOptional}
+                    optionContents={optionContents}
+                  />
+                ) : null}
               </div>
               <div {...css(styles.container)}>
                 <div
@@ -69,11 +84,13 @@ class NoteResolve extends PureComponent {
                   solutionType={tempSolutionType}
                 />
               </div>
-              <div style={{ display: 'flex' }}>
-                <NewScoringButtonContainer id={noteId} answer={answer} myAnswer={myAnswer}>
-                  새로 채점
-                </NewScoringButtonContainer>
-              </div>
+              {problemNum ? (
+                <div style={{ display: 'flex' }}>
+                  <NewScoringButtonContainer id={noteId} answer={answer} myAnswer={myAnswer}>
+                    새로 채점
+                  </NewScoringButtonContainer>
+                </div>
+              ) : null}
             </VerticalList>
           )}
         </Form.Consumer>

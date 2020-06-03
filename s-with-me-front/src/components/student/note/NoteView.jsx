@@ -17,6 +17,8 @@ class NoteView extends PureComponent {
     super(props);
     this.state = {
       problemNum: -1,
+      title: '',
+      image: '',
       content: '',
       isOptional: false,
       answer: '',
@@ -58,6 +60,8 @@ class NoteView extends PureComponent {
         problemNum: data.problemNumber,
         content: data.content,
         isOptional: data.isOptional,
+        image: data.image,
+        title: data.title,
         answer: data.answer,
         solution: data.solution,
         option1: data.option1,
@@ -77,6 +81,8 @@ class NoteView extends PureComponent {
       this.setState({
         problemNum: data.problemNumber,
         content: data.content,
+        title: data.title,
+        image: data.image,
         isOptional: data.isOptional,
         answer: data.answer,
         solution: data.solution,
@@ -104,6 +110,8 @@ class NoteView extends PureComponent {
     const {
       problemNum,
       content,
+      title,
+      image,
       isOptional,
       showMySolution,
       showSolution,
@@ -130,8 +138,21 @@ class NoteView extends PureComponent {
           </div>
           <div {...css(styles.body)}>
             <Text>
-              {problemNum}.{content}
+              {problemNum ? problemNum + '.' : null}
+              {title}
             </Text>
+            {image ? (
+              <img
+                src={image}
+                alt={problemNum + '문제 그림'}
+                style={{ width: '100%', height: 'auto' }}
+              />
+            ) : null}
+            {content ? (
+              <div style={{ border: '0.5px solid', padding: 2 }}>
+                <Text>{content}</Text>
+              </div>
+            ) : null}
             {isOptional ? (
               <VerticalList spacingBetween={1}>
                 {optionContents.map((option, index) => (
@@ -146,8 +167,12 @@ class NoteView extends PureComponent {
             {showMySolution || showMyNewSolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 <div>
-                  <Text>나의 답: {myAnswer}</Text>
-                  <br />
+                  {problemNum ? (
+                    <Text>
+                      나의 답: {myAnswer}
+                      <br />
+                    </Text>
+                  ) : null}
                   {showMyNewSolution ? (
                     <MySolutionView solutionType={tempSolutionType} note={note} isNewSolution />
                   ) : (
@@ -163,9 +188,11 @@ class NoteView extends PureComponent {
             ) : (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 {resolve === 'INIT' ? (
-                  <Button onPress={() => this.setState({ showMySolution: true })}>
-                    나의 답과 풀이 보기
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button onPress={() => this.setState({ showMySolution: true })}>
+                      나의 답과 풀이 보기
+                    </Button>
+                  </div>
                 ) : (
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button onPress={() => this.setState({ showMySolution: true })}>
@@ -180,9 +207,12 @@ class NoteView extends PureComponent {
             )}
             {showSolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-                <Text>
-                  정답:{answer} <br /> 해설: {solution}
-                </Text>
+                {problemNum ? (
+                  <Text>
+                    정답:{answer} <br />
+                  </Text>
+                ) : null}
+                <Text>해설: {solution}</Text>
                 <br />
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>

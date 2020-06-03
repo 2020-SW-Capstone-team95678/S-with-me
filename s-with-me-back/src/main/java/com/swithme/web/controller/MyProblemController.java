@@ -22,16 +22,17 @@ public class MyProblemController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/main-chapter/sub-chapter/{lastSubChapterId}")
-    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int lastSubChapterId,
+    @GetMapping("/student/library/my-book/{myBookId}/main-chapter/sub-chapter/{lastSubChapterId}")
+    public List<MyProblemResponseDto> getMyProblemList(@PathVariable int myBookId,
+                                                       @PathVariable int lastSubChapterId,
                                                        @RequestParam("page") short lastPageNumber){
-        return myProblemService.getMyProblemList(lastSubChapterId, lastPageNumber);
+        return myProblemService.getMyProblemList(myBookId, lastSubChapterId, lastPageNumber);
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/main-chapter/sub-chapter/my-problems")
-    public List<MyProblemResponseDto> getMyProblemListInSubChapter(@RequestParam("subChapterId") int subChapterId){
-        return myProblemService.getMyProblemListInSubChapter(subChapterId);
+    @GetMapping("/student/library/my-book/{myBookId}/main-chapter/sub-chapter/my-problems")
+    public List<MyProblemResponseDto> getMyProblemListInSubChapter(@PathVariable int myBookId, @RequestParam("subChapterId") int subChapterId){
+        return myProblemService.getMyProblemListInSubChapter(myBookId, subChapterId);
     }
 
     @CrossOrigin

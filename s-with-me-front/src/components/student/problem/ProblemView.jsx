@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
-import VerticalList from '../../../common-ui/VerticalList';
 import Form from '../../../common-ui/Form';
 
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
@@ -14,21 +13,16 @@ import SolutionFilterContainer from '../../../containers/student/problem/Solutio
 
 import Api from '../../../Api';
 
+String.prototype.replaceAll = function(org, dest) {
+  return this.split(org).join(dest);
+};
+
 class ProblemView extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      problemNum: null,
-      content: '',
-      solution: '',
-      isOptional: null,
-      answer: '',
-      option1: '',
-      option2: '',
-      option3: '',
-      option4: '',
-      option5: '',
+      problem: {},
     };
   }
 
@@ -36,21 +30,7 @@ class ProblemView extends PureComponent {
     const { myProblem } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: myProblem.problemId },
-    }).then(({ data }) =>
-      this.setState({
-        problemId: data.problemId,
-        problemNum: data.problemNumber,
-        content: data.content,
-        isOptional: data.isOptional,
-        answer: data.answer,
-        solution: data.solution,
-        option1: data.option1,
-        option2: data.option2,
-        option3: data.option3,
-        option4: data.option4,
-        option5: data.option5,
-      }),
-    );
+    }).then(({ data }) => this.setState({ problem: data }));
   }
 
   handleSubmit() {
@@ -79,85 +59,90 @@ class ProblemView extends PureComponent {
     const { myProblem } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: myProblem.problemId },
-    }).then(({ data }) =>
-      this.setState({
-        problemId: data.problemId,
-        problemNum: data.problemNumber,
-        content: data.content,
-        isOptional: data.isOptional,
-        answer: data.answer,
-        solution: data.solution,
-        option1: data.option1,
-        option2: data.option2,
-        option3: data.option3,
-        option4: data.option4,
-        option5: data.option5,
-      }),
-    );
+    }).then(({ data }) => this.setState({ problem: data }));
   }
 
   render() {
     const { myProblem, styles, loading, page } = this.props;
     const { myProblemId, myAnswer, myBookId, isSolved, solutionType } = myProblem;
-    const { problemNum, content, isOptional, answer } = this.state;
+    const { problemNumber, content, isOptional, answer, title, image } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
-      optionContents.push(this.state.option1);
-      optionContents.push(this.state.option2);
-      optionContents.push(this.state.option3);
-      optionContents.push(this.state.option4);
-      optionContents.push(this.state.option5);
+      optionContents.push(this.state.problem.option1);
+      optionContents.push(this.state.problem.option2);
+      optionContents.push(this.state.problem.option3);
+      optionContents.push(this.state.problem.option4);
+      optionContents.push(this.state.problem.option5);
     }
     if (!isSolved) {
       return (
         <Form onSubmit={this.handleSubmit}>
           <Form.Consumer>
             {({ onChange, values }) => (
-              <VerticalList spacingBetween={2}>
+              <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: 2 }}>
                 <div {...css(styles.body)}>
                   <Text large>
-                    {problemNum}.{content}
+                    {problemNumber ? problemNumber + '.' : null}
+                    {title}
                   </Text>
-                  <AnswerInputContainer
-                    id={myProblemId}
-                    isOptional={isOptional}
-                    optionContents={optionContents}
-                  />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={problemNumber + '문제 그림'}
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  ) : null}
+                  {content ? (
+                    <div style={{ border: '0.5px solid', padding: 2 }}>
+                      <Text>{content}</Text>
+                    </div>
+                  ) : null}
+                  {problemNumber ? (
+                    <AnswerInputContainer
+                      id={myProblemId}
+                      isOptional={isOptional}
+                      optionContents={optionContents}
+                    />
+                  ) : null}
                 </div>
-                <div {...css(styles.container)}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      padding: 3,
-                      border: '1px solid',
-                      fontSize: 'small',
-                    }}
-                  >
-                    <SolutionFilterContainer id={myProblemId} />
+                {problemNumber ? (
+                  <div {...css(styles.container)}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: 3,
+                        border: '1px solid',
+                        fontSize: 'small',
+                      }}
+                    >
+                      <SolutionFilterContainer id={myProblemId} />
+                    </div>
+                    <SolutionInputContainer
+                      id={myProblemId}
+                      solutionType={solutionType}
+                      onChange={onChange}
+                      values={values}
+                      myBookId={myBookId}
+                    />
                   </div>
-                  <SolutionInputContainer
-                    id={myProblemId}
-                    solutionType={solutionType}
-                    onChange={onChange}
-                    values={values}
-                    myBookId={myBookId}
-                  />
-                </div>
-                <div style={{ display: 'flex' }}>
-                  <IsConfusedContainer id={myProblemId} />
-                  <ScoringButtonContainer
-                    id={myProblemId}
-                    answer={answer}
-                    myAnswer={myAnswer}
-                    myBookId={myBookId}
-                    disabled={loading}
-                    page={page}
-                  >
-                    개별 채점
-                  </ScoringButtonContainer>
-                </div>
-              </VerticalList>
+                ) : null}
+                {problemNumber ? (
+                  <div style={{ display: 'flex' }}>
+                    <IsConfusedContainer id={myProblemId} />
+                    <ScoringButtonContainer
+                      id={myProblemId}
+                      answer={answer}
+                      myAnswer={myAnswer}
+                      myBookId={myBookId}
+                      disabled={loading}
+                      page={page}
+                    >
+                      개별 채점
+                    </ScoringButtonContainer>
+                  </div>
+                ) : null}
+              </div>
             )}
           </Form.Consumer>
         </Form>
@@ -166,7 +151,7 @@ class ProblemView extends PureComponent {
       return (
         <ProblemResultViewContainer
           myProblem={myProblem}
-          problem={this.state}
+          problem={this.state.problem}
           optionContents={optionContents}
         />
       );
@@ -174,7 +159,7 @@ class ProblemView extends PureComponent {
   }
 }
 
-export default withStyles(({ unit, color }) => ({
+export default withStyles(() => ({
   body: {
     display: 'flex',
     flexDirection: 'column',
@@ -187,7 +172,6 @@ export default withStyles(({ unit, color }) => ({
     flexDirection: 'column',
     padding: 5,
     alignContent: 'flex-start',
-    height: 150,
     border: '1px solid',
   },
 }))(ProblemView);

@@ -22,13 +22,33 @@ export default class CreateCurriculumPage extends PureComponent {
   }
 
   handleSubmit(values, closeModal) {
-    const { bookId } = this.props;
-    const formValue = {
-      type: values.curriculumType,
-      goalNumber: values.curriculumGoalNumber,
-    };
-    console.log(bookId, formValue);
-    console.log(values.selectSubChapterId);
+    const { myBookId, createCurriculum, updateCurriculum } = this.props;
+    const { type, curriculum } = this.props;
+    let formValue = {};
+    if (values.curriculumType === 'monthly') {
+      formValue = {
+        type: 'monthly',
+        monthlyGoal: values.monthlyGoal,
+      };
+    } else if (values.curriculumType === 'weekly') {
+      formValue = {
+        type: 'weekly',
+        subChapterId: values.selectSubChapterId,
+      };
+    } else if (values.curriculumType === 'daily') {
+      formValue = {
+        type: 'daily',
+        dailyGoal: values.curriculumGoalNumber,
+      };
+    }
+    if (formValue && type === 'new') {
+      createCurriculum({ ...formValue, myBookId: myBookId }, () => closeModal());
+    }
+    if (formValue && type === 'old') {
+      updateCurriculum(curriculum.curriculumId, { ...formValue, myBookId: myBookId }, () =>
+        closeModal(),
+      );
+    }
   }
 
   render() {
@@ -74,6 +94,11 @@ export default class CreateCurriculumPage extends PureComponent {
                           onChange={onChange}
                         />
                       </div>
+                    </Spacing>
+                  ) : values.curriculumType === 'monthly' ? (
+                    <Spacing bottom={2}>
+                      <Text>이번 달 다짐(목표)을 입력해주세요!</Text>
+                      <Input name="monthlyGoal" onChange={onChange} />
                     </Spacing>
                   ) : null}
                   <InlineList spacingBetween={1}>

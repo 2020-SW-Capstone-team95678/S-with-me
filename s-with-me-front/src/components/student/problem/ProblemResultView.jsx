@@ -24,9 +24,11 @@ class ProblemResultView extends PureComponent {
     this.setState({ date: new Date() });
   }
   handleResolve(myProblemId) {
-    const { setIsSolved, setMyAnswer } = this.props;
+    const { setIsSolved, setMyAnswer, setIsConfused, setSolutionType } = this.props;
     setIsSolved(myProblemId, false);
     setMyAnswer(myProblemId, null);
+    setIsConfused(myProblemId, false);
+    setSolutionType(myProblemId, null);
   }
   handleSaveProblem(myProblemId) {
     const formValue = {
@@ -41,7 +43,15 @@ class ProblemResultView extends PureComponent {
 
   render() {
     const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
-    const { problemNum, content, isOptional, answer, solution } = this.props.problem;
+    const {
+      problemNumber,
+      content,
+      isOptional,
+      answer,
+      solution,
+      image,
+      title,
+    } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
     let numbers = ['①', '②', '③', '④', '⑤'];
@@ -57,8 +67,21 @@ class ProblemResultView extends PureComponent {
           )}
           {isConfused ? <Text>헷갈렸어요</Text> : null}
           <Text large>
-            {problemNum}.{content}
+            {problemNumber ? problemNumber + '.' : null}
+            {title}
           </Text>
+          {image ? (
+            <img
+              src={image}
+              alt={problemNumber + '문제 그림'}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          ) : null}
+          {content ? (
+            <div style={{ border: '0.5px solid', padding: 2 }}>
+              <Text>{content}</Text>
+            </div>
+          ) : null}
           {isOptional ? (
             <VerticalList spacingBetween={1}>
               {optionContents.map((option, index) => (
@@ -79,19 +102,21 @@ class ProblemResultView extends PureComponent {
             </div>
           ) : (
             <div>
-              <div style={{ paddingBottom: '5px' }}>
-                {isRight ? null : (
+              {problemNumber ? (
+                <div style={{ paddingBottom: '5px' }}>
+                  {isRight ? null : (
+                    <Text>
+                      지난 나의 정답은 {myAnswer}
+                      {isOptional ? <Text>번</Text> : null}입니다.
+                    </Text>
+                  )}
+                  <br />
                   <Text>
-                    지난 나의 정답은 {myAnswer}
-                    {isOptional ? <Text>번</Text> : null}입니다.
+                    정답은 {answer}
+                    {isOptional ? <Text>번</Text> : null} 입니다.
                   </Text>
-                )}
-                <br />
-                <Text>
-                  정답은 {answer}
-                  {isOptional ? <Text>번</Text> : null} 입니다.
-                </Text>
-              </div>
+                </div>
+              ) : null}
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button onPress={() => this.setState({ showSolution: true })}>해설 보기</Button>
               </div>
@@ -114,7 +139,9 @@ class ProblemResultView extends PureComponent {
               {!isSavedNote && (isRight || !isConfused) ? (
                 <Button onPress={() => this.handleSaveProblem(myProblemId)}>문제 저장</Button>
               ) : null}
-              <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
+              {problemNumber ? (
+                <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
+              ) : null}
             </div>
           )}
         </Modal>
@@ -136,7 +163,6 @@ export default withStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
-    height: 150,
     border: '1px solid',
   },
 }))(ProblemResultView);

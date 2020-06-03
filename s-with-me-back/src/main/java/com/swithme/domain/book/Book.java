@@ -44,9 +44,6 @@ public class Book {
     @Column(name = "isAdvertised")
     private Boolean isAdvertised;
 
-    @Column(name = "totalProblemNumber")
-    private short totalProblemNumber;
-
     @Column(name = "monthlyProfit")
     private int monthlyProfit;
 
@@ -69,7 +66,6 @@ public class Book {
         this.grade = grade;
         this.cover = cover;
         this.isAdvertised = isAdvertised;
-        this.totalProblemNumber = totalProblemNumber;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
         this.introduction = introduction;

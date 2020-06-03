@@ -23,10 +23,13 @@ function BookCard(props) {
       <DragPreviewImage connect={preview} src={bookImage} />
       <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', paddingLeft: 2 }}>
         <Card vertical={20} horizontal={4}>
-          {cover}
-          <Button primary small>
-            삭제
-          </Button>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <img
+              src={cover}
+              alt="책 커버 이미지"
+              style={{ width: 'auto', height: '180px', overflow: 'hidden' }}
+            />
+          </div>
           <Heading level={5}>{name}</Heading>
           <Heading level={6}>
             {grade}학년 / 과목:{subject}
@@ -40,6 +43,9 @@ function BookCard(props) {
             >
               <Button xsmall>이어 풀기</Button>
             </Link>
+            <Button primary small>
+              삭제
+            </Button>
           </InlineList>
         </Card>
       </div>

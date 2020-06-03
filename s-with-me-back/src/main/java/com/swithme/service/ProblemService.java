@@ -1,6 +1,5 @@
 package com.swithme.service;
 
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -20,7 +19,6 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final SubChapterRepository subChapterRepository;
-    private final MyProblemRepository myProblemRepository;
 
     @Transactional
     public ProblemResponseDto findById(int problemId) {
@@ -29,8 +27,10 @@ public class ProblemService {
         ProblemResponseDto responseDto =  ProblemResponseDto.builder()
                 .problemId(problem.getProblemId())
                 .subChapterId(problem.getSubChapter().getSubChapterId())
+                .title(problem.getTitle())
                 .content(problem.getContent())
                 .solution(problem.getSolution())
+                .image(problem.getImage())
                 .problemNumber(problem.getProblemNumber())
                 .answer(problem.getAnswer())
                 .isOptional(problem.getIsOptional())
@@ -55,7 +55,7 @@ public class ProblemService {
                     .content(createDto.getContent())
                     .solution(createDto.getSolution())
                     .answer(createDto.getAnswer())
-                    .image(null)
+                    .image(createDto.getImage())
                     .problemNumber(createDto.getProblemNumber())
                     .isOptional(createDto.getIsOptional())
                     .option1(createDto.getOption1())
@@ -63,8 +63,6 @@ public class ProblemService {
                     .option3(createDto.getOption3())
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
-                    .title(createDto.getTitle())
-                    .image(createDto.getImage())
                     .build());
         }
         return "문제 등록이 완료되었습니다.";
@@ -90,8 +88,10 @@ public class ProblemService {
             responseDtoList.add(ProblemResponseDto.builder()
                     .problemId(problem.getProblemId())
                     .subChapterId(subChapterId)
+                    .title(problem.getTitle())
                     .content(problem.getContent())
                     .solution(problem.getSolution())
+                    .image(problem.getImage())
                     .problemNumber(problem.getProblemNumber())
                     .answer(problem.getAnswer())
                     .isOptional(problem.getIsOptional())

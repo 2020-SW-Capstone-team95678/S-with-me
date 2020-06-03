@@ -1,7 +1,7 @@
 package com.swithme.domain.curriculum;
 
 import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.web.dto.CurriculumUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +22,8 @@ public class Curriculum {
     @JoinColumn(name = "myBookId")
     private MyBook myBook;
 
-    @ManyToOne
-    @JoinColumn(name = "subChapterId")
-    private SubChapter subChapter;
+    @Column(name = "subChapterId")
+    private int subChapterId;
 
     @Column(name = "monthlyGoal")
     private String monthlyGoal;
@@ -36,11 +35,19 @@ public class Curriculum {
     private int dailyGoal;
 
     @Builder
-    public Curriculum(MyBook myBook,SubChapter subChapter,String monthlyGoal, String type, int dailyGoal) {
+    public Curriculum(MyBook myBook, int subChapterId, String monthlyGoal, String type, int dailyGoal) {
         this.myBook = myBook;
-        this.subChapter = subChapter;
+        this.subChapterId = subChapterId;
         this.monthlyGoal = monthlyGoal;
         this.type = type;
         this.dailyGoal = dailyGoal;
+    }
+
+    public void update(CurriculumUpdateRequestDto curriculumUpdateRequestDto)
+    {
+        this.subChapterId = curriculumUpdateRequestDto.getSubChapterId();
+        this.monthlyGoal = curriculumUpdateRequestDto.getMonthlyGoal();
+        this.type = curriculumUpdateRequestDto.getType();
+        this.dailyGoal = curriculumUpdateRequestDto.getDailyGoal();
     }
 }

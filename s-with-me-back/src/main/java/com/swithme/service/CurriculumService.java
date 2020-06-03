@@ -17,10 +17,10 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.CurriculumResponseDto;
+import com.swithme.web.dto.CurriculumUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.method.support.CompositeUriComponentsContributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,11 @@ public class CurriculumService {
     public int createCurriculum(CurriculumCreateDto curriculumCreateDto){
         MyBook myBook=myBookRepository.findById(curriculumCreateDto.getMyBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 존재하지 않습니다."));
-        SubChapter subChapter = subChapterRepository.findById(curriculumCreateDto.getSubChapterId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
+        Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        if(curriculum!=null){ throw new IllegalArgumentException("해당 책에 대한 커리큘럼이 이미 존재합니다.");}
+
         curriculumRepository.save(Curriculum.builder()
-                .subChapter(subChapter)
+                .subChapterId(curriculumCreateDto.getSubChapterId())
                 .myBook(myBook)
                 .dailyGoal(curriculumCreateDto.getDailyGoal())
                 .monthlyGoal(curriculumCreateDto.getMonthlyGoal())
@@ -61,10 +62,13 @@ public class CurriculumService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        if(curriculum==null){
+            return CurriculumResponseDto.builder().build();
+        }
         return CurriculumResponseDto.builder()
                 .curriculumId(curriculum.getCurriculumId())
                 .myBookId(myBookId)
-                .subChapterId(curriculum.getSubChapter().getSubChapterId())
+                .subChapterId(curriculum.getSubChapterId())
                 .type(curriculum.getType())
                 .dailyGoal(curriculum.getDailyGoal())
                 .monthlyGoal(curriculum.getMonthlyGoal())
@@ -72,28 +76,32 @@ public class CurriculumService {
     }
     @Transactional
     public List<CurriculumResponseDto> getCurriculumList(int studentId){
+        List<CurriculumResponseDto> curriculumResponseDtoList= new ArrayList<>();
         Student student=studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
         List<Folder> folderList=folderRepository.findByStudent(student);
         List<Curriculum> curriculumList = new ArrayList<>();
         List<MyBook> myBookList = new ArrayList<>();
-        List<CurriculumResponseDto> curriculumResponseDtoList= new ArrayList<>();
+
         for(Folder folder : folderList)
         {
             myBookList.addAll(myBookRepository.findByFolder(folder));
-
         }
         for(MyBook myBook : myBookList)
         {
-            curriculumList.add(curriculumRepository.findByMyBook(myBook));
+            Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+            if(curriculum!=null){curriculumList.add(curriculum);}
         }
+        if(curriculumList.size()==0){return curriculumResponseDtoList;}
+
         for(Curriculum curriculum : curriculumList)
         {
             curriculumResponseDtoList.add(CurriculumResponseDto.builder()
                     .curriculumId(curriculum.getCurriculumId())
-                    .subChapterId(curriculum.getSubChapter().getSubChapterId())
+                    .subChapterId(curriculum.getSubChapterId())
                     .dailyGoal(curriculum.getDailyGoal())
                     .type(curriculum.getType())
+                    .monthlyGoal(curriculum.getMonthlyGoal())
                     .myBookId(curriculum.getMyBook().getMyBookId())
                     .build());
         }
@@ -101,19 +109,30 @@ public class CurriculumService {
     }
 
     @Transactional
+    public String updateCurriculum(int curriculumId, CurriculumUpdateRequestDto curriculumUpdateRequestDto){
+        Curriculum curriculum = curriculumRepository.findById(curriculumId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 커리큘럼이 존재하지 않습니다."));
+        curriculum.update(curriculumUpdateRequestDto);
+        return "수정 완료";
+    }
+
+    @Transactional
     public int getAchievement(int myBookId){
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        if(curriculum==null){return -1;}
+        if(curriculum.getType().equals("monthly")){return -1;}
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
-        SubChapter subChapter = subChapterRepository.findById(curriculum.getSubChapter().getSubChapterId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
+
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
-        if(curriculum.getType().equals("Daily")) {
+        if(curriculum.getType().equals("daily")) {
             Start = ((nowTime/milliSecPerDay)*milliSecPerDay);
+
             End = Start + milliSecPerDay -1;
+
             for(MyProblem myProblem : myProblemList)
             {
                 if (Start < myProblem.getSolvedDateTime() && myProblem.getSolvedDateTime() < End) {
@@ -123,8 +142,10 @@ public class CurriculumService {
             return problemArchievement*100/curriculum.getDailyGoal();
         }
         else {
+            SubChapter subChapter = subChapterRepository.findById(curriculum.getSubChapterId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
             Start = standardMonday + (((nowTime - standardMonday) / milliSecPerWeek) * milliSecPerWeek);
-            End = Start + milliSecPerWeek - 1;
+            End = Start + milliSecPerWeek;
             for(MyProblem myProblem : myProblemList)
             {
                 if(myProblem.getProblem().getSubChapter().equals(subChapter)) {
@@ -133,9 +154,13 @@ public class CurriculumService {
                     }
                 }
             }
-            List<Problem> problemList = problemRepository.findBySubChapter(curriculum.getSubChapter());
+
+            List<Problem> problemList = problemRepository.findBySubChapter(
+                    subChapterRepository.findById(curriculum.getSubChapterId())
+                            .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다.")));
             int subChapterSize = problemList.size();
             return (problemArchievement*100/subChapterSize);
         }
     }
+
 }
