@@ -4,7 +4,6 @@ import Header from './addIndex/Header';
 import List from './addIndex/IndexList';
 import MainIndex from './addIndex/MainIndex';
 import Bookinfo from '../../../containers/publisher/AddBookContainer';
-import { generateId } from './utils';
 
 class App extends React.Component {
   constructor(props) {
@@ -97,7 +96,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { notes, activeId, bookId, mainChapterId } = this.state;
+    const { notes, activeId, bookId } = this.state;
     const activeNote = notes.filter(item => item.mainChapterId === activeId)[0];
     console.log(notes);
     return (

@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import LibraryApp, { BookInfo } from '../library/LibraryApp';
-import ReactDOM from 'react-dom';
-
 const CreateMainChapterPage = props => {
   const { bookId } = props;
   const [mainChapterId, setMainChapterId] = useState(null);
