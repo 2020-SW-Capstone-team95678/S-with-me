@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Accordion,
   AccordionItem,
@@ -9,9 +7,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import ReactDOM from 'react-dom';
-
-const counterSelector = state => state.counter;
+import Api from '../../../Api';
 
 const BookInfoPage = () => {
   const [bookId, setBookId] = useState(null);
@@ -67,21 +63,16 @@ const BookInfoPage = () => {
         ></input>
         <button
           onClick={() => {
-            axios
-              .post(
-                'http://ec2-3-34-84-81.ap-northeast-2.compute.amazonaws.com:8085/publisher/library/book',
-                {
-                  cover: null,
-                  grade: grade,
-                  name: name,
-                  price: price,
-                  publisherId: 1,
-                  subject: subject,
-                },
-              )
-              .then(response => {
-                setBookId(response.data);
-              });
+            Api.post('/publisher/library/book', {
+              cover: null,
+              grade: grade,
+              name: name,
+              price: price,
+              publisherId: 1,
+              subject: subject,
+            }).then(response => {
+              setBookId(response.data);
+            });
           }}
         >
           Save
@@ -102,23 +93,18 @@ const BookInfoPage = () => {
         ></input>
         <button
           onClick={() => {
-            axios
-              .post(
-                'http://ec2-3-34-84-81.ap-northeast-2.compute.amazonaws.com:8085/publisher/library/book/mainChapter',
-                {
-                  bookId: bookId,
-                  mainChapterName: mainChapterTitle,
-                },
-              )
-              .then(response => {
-                if (response.status === 200) {
-                  setMainChapters(oldList => [
-                    ...oldList,
-                    { id: response.data, title: mainChapterTitle },
-                  ]);
-                  setMainChapterId(response.data);
-                }
-              });
+            Api.post('/publisher/library/book/mainChapter', {
+              bookId: bookId,
+              mainChapterName: mainChapterTitle,
+            }).then(response => {
+              if (response.status === 200) {
+                setMainChapters(oldList => [
+                  ...oldList,
+                  { id: response.data, title: mainChapterTitle },
+                ]);
+                setMainChapterId(response.data);
+              }
+            });
           }}
         >
           Add
@@ -132,24 +118,18 @@ const BookInfoPage = () => {
         />
         <button
           onClick={() => {
-            //console.log(mainChapter.id + ',' + subChapterTitle);
-            axios
-              .post(
-                'http://ec2-3-34-84-81.ap-northeast-2.compute.amazonaws.com:8085/publisher/library/book/mainChapter/subChapter',
-                {
-                  mainChapterId: mainChapterId,
-                  subChapterName: subChapterTitle,
-                },
-              )
-              .then(response => {
-                if (response.status === 200) {
-                  console.log(response);
-                  setSubChapters(oldList => [
-                    ...oldList,
-                    { mainChapterId: mainChapterId, id: response.data, title: subChapterTitle },
-                  ]);
-                }
-              });
+            Api.post('/publisher/library/book/mainChapter/subChapter', {
+              mainChapterId: mainChapterId,
+              subChapterName: subChapterTitle,
+            }).then(response => {
+              if (response.status === 200) {
+                console.log(response);
+                setSubChapters(oldList => [
+                  ...oldList,
+                  { mainChapterId: mainChapterId, id: response.data, title: subChapterTitle },
+                ]);
+              }
+            });
 
             console.log(subChapters);
           }}

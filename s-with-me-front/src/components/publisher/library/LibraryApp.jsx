@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { CREATE_BOOK } from '../../../constants/modals';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
@@ -11,8 +10,6 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 
-import LibraryFolderList from './LibraryFolderList';
-import InlineList from '../../../common-ui/InlineList';
 import Button from '../../../common-ui/Button';
 import InputBookCover from './InputBookCover';
 import Api from '../../../Api';
@@ -99,7 +96,7 @@ const SideBookInfo = ({ book, onClick }) => {
         onClick={onClick}
       >
         <div>
-          <img width={100} src={book.cover} />
+          <img width={100} src={book.cover} alt="bookCover" />
         </div>
         <div
           style={{
@@ -144,7 +141,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
     <>
       <div>
         <p>북커버</p>
-        <img width={100} src={book.cover} />
+        <img width={100} src={book.cover} alt="bookCover" />
         <InputBookCover setCover={setCover} />
         <button
           primary

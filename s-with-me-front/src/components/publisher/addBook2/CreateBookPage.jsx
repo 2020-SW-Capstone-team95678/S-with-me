@@ -1,13 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
-import LibraryApp from '../library/LibraryApp';
-import ReactDOM from 'react-dom';
-import ImageUploader from 'react-images-upload';
 import InputBookCover from '../library/InputBookCover';
 
 const CreateBookPage = props => {
@@ -21,10 +17,6 @@ const CreateBookPage = props => {
   const [cover, setCover] = useState([]);
   const [introduction, setIntroduction] = useState('');
   const { onUpDate } = props;
-
-  const onDrop = cover => {
-    setCover(cover);
-  };
 
   return (
     <Modal>
