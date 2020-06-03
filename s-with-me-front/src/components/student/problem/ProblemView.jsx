@@ -13,9 +13,9 @@ import SolutionFilterContainer from '../../../containers/student/problem/Solutio
 
 import Api from '../../../Api';
 
-String.prototype.replaceAll = function(org, dest) {
-  return this.split(org).join(dest);
-};
+// String.prototype.replaceAll = function(org, dest) {
+//   return this.split(org).join(dest);
+// };
 
 class ProblemView extends PureComponent {
   constructor(props) {
@@ -86,11 +86,9 @@ class ProblemView extends PureComponent {
                     {title}
                   </Text>
                   {image ? (
-                    <img
-                      src={image}
-                      alt={problemNumber + '문제 그림'}
-                      style={{ width: '100%', height: 'auto' }}
-                    />
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
+                    </div>
                   ) : null}
                   {content ? (
                     <div style={{ border: '0.5px solid', padding: 2 }}>

@@ -44,7 +44,7 @@ export default class BookDetail extends PureComponent {
     const { book, myBook, isCoverClicked, curriculum, achievement } = this.state;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
-    const { grade, subject, name, cover } = book;
+    const { grade, subject, name, cover, introduction } = book;
 
     return (
       <div style={{ display: 'flex' }}>
@@ -59,8 +59,10 @@ export default class BookDetail extends PureComponent {
                 border: '1px red solid',
               }}
             >
-              {grade}학년 / 과목 : {subject} <br />
-              이름: {name}
+              {grade}학년 / 과목 : {subject} <br /> <br />
+              이름: {name} <br />
+              <br />
+              소개: {introduction}
             </div>
           ) : (
             <div
@@ -121,7 +123,7 @@ export default class BookDetail extends PureComponent {
                     </Text>
                   </div>
                 </Card>
-                {curriculum.type !== 'monthly' ? (
+                {curriculum.type === 'temp' ? (
                   <Card>
                     <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
                       <Text large>달성도</Text>
