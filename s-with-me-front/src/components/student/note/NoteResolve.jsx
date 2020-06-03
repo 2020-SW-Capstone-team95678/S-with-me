@@ -46,11 +46,9 @@ class NoteResolve extends PureComponent {
                   {title}
                 </Text>
                 {image ? (
-                  <img
-                    src={image}
-                    alt={problemNum + '문제 그림'}
-                    style={{ width: '100%', height: 'auto' }}
-                  />
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <img src={image} alt={problemNum + '문제 그림'} style={{ width: '80%' }} />
+                  </div>
                 ) : null}
                 {content ? (
                   <div style={{ border: '0.5px solid', padding: 2 }}>
