@@ -22,6 +22,7 @@ class AppNav extends PureComponent {
               />
             </div>
             <div style={{ flex: 3, padding: 30 }}>검색</div>
+            <div style={{ flex: 1, padding: 30 }}>서점</div>
             <div style={{ flex: 1, padding: 30 }}>프로필</div>
           </div>
         </div>

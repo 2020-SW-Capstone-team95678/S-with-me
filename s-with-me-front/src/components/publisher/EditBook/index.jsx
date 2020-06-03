@@ -6,7 +6,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-import Api from '../../../../Api';
+import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 const EditBook = props => {
@@ -19,7 +19,7 @@ const EditBook = props => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/publisher/library/book/${bookId}`);
-        console.log(data);
+      console.log(data);
       setBookInfo(data.data);
     };
 
