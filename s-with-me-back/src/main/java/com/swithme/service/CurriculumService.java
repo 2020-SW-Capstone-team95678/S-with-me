@@ -1,6 +1,7 @@
 package com.swithme.service;
 
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.swithme.achievement.timecal;
 import com.swithme.domain.curriculum.Curriculum;
 import com.swithme.domain.curriculum.CurriculumRepository;
@@ -122,10 +123,24 @@ public class CurriculumService {
 
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
-        Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+        Curriculum curriculum;
+        try{
+            curriculum = curriculumRepository.findByMyBook(myBook);
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("커리큘럼 불러오기 에러.");
+        }
         if(curriculum==null){return -1;}
         if(curriculum.getType().equals("monthly")){return -1;}
-        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+        List<MyProblem> myProblemList;
+        try{
+            myProblemList = myProblemRepository.findByMyBook(myBook);
+        }
+        catch (Exception e)
+        {
+            throw new IllegalArgumentException("마이 프라블람 불러오기 에러.");
+        }
+
 
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
