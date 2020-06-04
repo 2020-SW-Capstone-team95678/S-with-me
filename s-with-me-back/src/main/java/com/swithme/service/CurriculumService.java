@@ -123,25 +123,16 @@ public class CurriculumService {
 
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
-        Curriculum curriculum;
-        try{
-            curriculum = curriculumRepository.findByMyBook(myBook);
-        }
-        catch (Exception e){
-            throw new IllegalArgumentException("커리큘럼 불러오기 에러.");
-        }
+        Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
+
         if(curriculum==null){return -1;}
+        else if(curriculum!=null){return 44;}
         if(curriculum.getType().equals("monthly")){return -1;}
-        List<MyProblem> myProblemList;
-        try{
-            myProblemList = myProblemRepository.findByMyBook(myBook);
-        }
-        catch (Exception e)
-        {
-            throw new IllegalArgumentException("마이 프라블람 불러오기 에러.");
-        }
+        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+        if(myProblemList!=null){return 66;}
+        else{return 99;}
 
-
+        /*
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
@@ -161,7 +152,7 @@ public class CurriculumService {
             }
             return problemArchievement*100/curriculum.getDailyGoal();
 
-             */
+
         }
         else {
             return 4;
@@ -185,10 +176,11 @@ public class CurriculumService {
             int subChapterSize = problemList.size();
             return (problemArchievement*100/subChapterSize);
 
-             */
+
         }
 
-         //*/
+
+        */
     }
 
 }
