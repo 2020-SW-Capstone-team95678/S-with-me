@@ -122,24 +122,17 @@ public class CurriculumService {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
-
         if(curriculum==null){return -1;}
-        else if(curriculum!=null){return 44;}
+
         if(curriculum.getType().equals("monthly")){return -1;}
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
-        if(myProblemList!=null){return 66;}
-        else{return 99;}
 
-        /*
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
 
         if(curriculum.getType().equals("daily")) {
-            return 3;
-            /*
             Start = ((nowTime/milliSecPerDay)*milliSecPerDay);
-
             End = Start + milliSecPerDay -1;
 
             for(MyProblem myProblem : myProblemList)
@@ -149,12 +142,9 @@ public class CurriculumService {
                 }
             }
             return problemArchievement*100/curriculum.getDailyGoal();
-
-
         }
         else {
-            return 4;
-            /*
+
             SubChapter subChapter = subChapterRepository.findById(curriculum.getSubChapterId())
                     .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
             Start = standardMonday + (((nowTime - standardMonday) / milliSecPerWeek) * milliSecPerWeek);
@@ -167,18 +157,11 @@ public class CurriculumService {
                     }
                 }
             }
-
             List<Problem> problemList = problemRepository.findBySubChapter(
                     subChapterRepository.findById(curriculum.getSubChapterId())
                             .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다.")));
             int subChapterSize = problemList.size();
             return (problemArchievement*100/subChapterSize);
-
-
         }
-
-
-        */
     }
-
 }
