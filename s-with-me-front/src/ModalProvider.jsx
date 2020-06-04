@@ -12,6 +12,7 @@ import {
   CREATE_BOOK,
   CREATE_MAIN_CHAPTER,
   CREATE_SUB_CHAPTER,
+  CREATE_PROBLEM,
 } from './constants/modals';
 import ProfileEditPage from './components/publisher/profile/ProfileEditPage';
 import ProfileEditPageStudent from './components/student/profile/ProfileEditPage';
@@ -21,9 +22,10 @@ import UpdateFolderNamePageContainer from './containers/student/book/UpdateFolde
 import DeleteNoteContainer from './containers/student/note/DeleteNoteContainer';
 import CreateCurriculumPageContainer from './containers/student/book/CreateCurriculumPageContainer';
 import ProblemPreviewPage from './components/student/problem/ProblemPreviewPage';
-import CreateBookPage from './components/publisher/addBook2/CreateBookPage';
-import CreateMainChapterPage from './components/publisher/addBook2/CreateMainChapterPage';
-import CreateSubChapterPage from './components/publisher/addBook2/CreateSubChapterPage';
+import CreateBookPage from './components/publisher/createBook/CreateBookPage';
+import CreateMainChapterPage from './components/publisher/createBook/CreateMainChapterPage';
+import CreateSubChapterPage from './components/publisher/createBook/CreateSubChapterPage';
+import CreateProblemPage from './components/publisher/createBook/RegisterProblem';
 
 export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,
@@ -37,4 +39,5 @@ export default createProvider({
   [CREATE_BOOK]: CreateBookPage,
   [CREATE_MAIN_CHAPTER]: CreateMainChapterPage,
   [CREATE_SUB_CHAPTER]: CreateSubChapterPage,
+  [CREATE_PROBLEM]: CreateProblemPage,
 });

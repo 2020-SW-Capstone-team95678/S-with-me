@@ -5,8 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import ModalProvider from './ModalProvider';
 
-import AddBookApp from './components/publisher/addBook/AddBookApp';
-import BookInfoPage from './components/publisher/addBook2';
+import BookInfoPage from './components/publisher/createBook';
 import NotFound from './components/NotFound';
 import SignUpInputContainer from './containers/student/signUp/SignUpInputContainer';
 import LibraryAppContainer from './containers/student/book/LibraryAppContainer';
@@ -20,9 +19,8 @@ import ProblemAppContainer from './containers/student/problem/ProblemAppContaine
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 import BookDetail from './components/student/libarary/BookDetail';
 
-import EditBook from './components/publisher/EditBook';
 import LibraryApp from './components/publisher/library/LibraryApp';
-import RegisterProblem from './components/publisher/addBook/RegisterProblem';
+import RegisterProblem from './components/publisher/createBook/RegisterProblem';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -98,16 +96,6 @@ export default class App extends PureComponent {
               ) : (
                 <PAppLayout>
                   <Switch>
-                    <Route
-                      exact
-                      path="/publisher/library/:bookId"
-                      render={({ match }) => <EditBook match={match} />}
-                    />
-                    <Route
-                      path="/publisher/library/book"
-                      exact
-                      render={({ match }) => <AddBookApp match={match} />}
-                    />
                     <Route path="/library" render={() => <LibraryApp />} />
                     <Route path="/register-problem" render={() => <RegisterProblem />} />
                     <Route

@@ -2,37 +2,39 @@ import React, { useState } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
-const CreateSubChapterPage = props => {
-  const { mainChapterId } = props;
-  const [subChapterId, setSubChapterId] = useState(null);
-  const [subChapterTitle, setSubChapterTitle] = useState('');
+const CreateMainChapterPage = props => {
+  const { bookId } = props;
+  const [mainChapterId, setMainChapterId] = useState(null);
+  const [mainChapterTitle, setMainChapterTitle] = useState('');
 
-  console.log(mainChapterId);
+  console.log(bookId);
 
   return (
     <Modal>
       {({ closeModal }) => (
         <div>
-          <div>
-            SubChapter info
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            MainChapter info
             <br />
             <br />
-            <h2>mainChapter Id : {mainChapterId}</h2>
-            <h2>subChapter Id : {subChapterId}</h2>
+            {/* <h2>book Id : {bookId}</h2>
+            <h2>mainChapter Id : {mainChapterId}</h2> */}
             Name
             <input
               type="text"
-              value={subChapterTitle}
+              value={mainChapterTitle}
               placeholder="please input name"
-              onChange={({ target: { value } }) => setSubChapterTitle(value)}
+              onChange={({ target: { value } }) => setMainChapterTitle(value)}
             />
+            <br></br>
+            <br></br>
             <button
               onClick={() => {
-                Api.post('/publisher/library/book/mainChapter/subChapter', {
-                  subChapterName: subChapterTitle,
-                  mainChapterId: mainChapterId,
+                Api.post('/publisher/library/book/mainChapter', {
+                  mainChapterName: mainChapterTitle,
+                  bookId: bookId,
                 }).then(response => {
-                  setSubChapterId(response.data);
+                  setMainChapterId(response.data);
                 });
               }}
             >
@@ -52,4 +54,4 @@ const CreateSubChapterPage = props => {
   );
 };
 
-export default CreateSubChapterPage;
+export default CreateMainChapterPage;
