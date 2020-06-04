@@ -1,6 +1,7 @@
 package com.swithme.service;
 
 
+import com.swithme.achievement.timecal;
 import com.swithme.domain.curriculum.Curriculum;
 import com.swithme.domain.curriculum.CurriculumRepository;
 import com.swithme.domain.folder.Folder;
@@ -118,6 +119,7 @@ public class CurriculumService {
 
     @Transactional
     public int getAchievement(int myBookId){
+
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
         Curriculum curriculum = curriculumRepository.findByMyBook(myBook);
@@ -128,7 +130,10 @@ public class CurriculumService {
         int problemArchievement=0;
         long nowTime = System.currentTimeMillis();
         long Start,End;
+
         if(curriculum.getType().equals("daily")) {
+            return 3;
+            /*
             Start = ((nowTime/milliSecPerDay)*milliSecPerDay);
 
             End = Start + milliSecPerDay -1;
@@ -140,8 +145,12 @@ public class CurriculumService {
                 }
             }
             return problemArchievement*100/curriculum.getDailyGoal();
+
+             */
         }
         else {
+            return 4;
+            /*
             SubChapter subChapter = subChapterRepository.findById(curriculum.getSubChapterId())
                     .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다."));
             Start = standardMonday + (((nowTime - standardMonday) / milliSecPerWeek) * milliSecPerWeek);
@@ -160,7 +169,11 @@ public class CurriculumService {
                             .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다.")));
             int subChapterSize = problemList.size();
             return (problemArchievement*100/subChapterSize);
+
+             */
         }
+
+         //*/
     }
 
 }
