@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.achievement.timecal;
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.curriculum.Curriculum;
@@ -245,11 +244,4 @@ public class CurriculumControllerTest {
         //assertThat(responseEntity.getBody()).isEqualTo("33");
     }
 
-    @Ignore
-    @Test
-    public void timeTest()
-    {
-        timecal timec = new timecal();
-        assertThat(timec.getToday_end()).isEqualTo(123);
-    }
 }

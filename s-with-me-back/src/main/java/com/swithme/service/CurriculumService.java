@@ -1,8 +1,6 @@
 package com.swithme.service;
 
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.swithme.achievement.timecal;
 import com.swithme.domain.curriculum.Curriculum;
 import com.swithme.domain.curriculum.CurriculumRepository;
 import com.swithme.domain.folder.Folder;
