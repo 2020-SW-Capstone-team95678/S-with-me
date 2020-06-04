@@ -14,9 +14,7 @@ export default class ScoringButton extends PureComponent {
   }
 
   tick() {
-    this.setState({
-      date: new Date(),
-    });
+    this.setState({ date: new Date() });
   }
 
   componentDidMount() {

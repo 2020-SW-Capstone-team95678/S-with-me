@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Card from '../../../common-ui/Card';
 import Button from '../../../common-ui/Button';
@@ -10,7 +11,7 @@ import Api from '../../../Api';
 import { CREATE_CURRICULUM } from '../../../constants/modals';
 import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
 
-export default class BookDetail extends PureComponent {
+class BookDetail extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,36 +53,20 @@ export default class BookDetail extends PureComponent {
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
     const { grade, subject, name, cover, introduction } = book;
+    const { styles } = this.props;
 
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1.5, flexDirection: 'row', padding: 3 }}>
           {isCoverClicked ? (
-            <div
-              onClick={() => this.setState({ isCoverClicked: false })}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: 3,
-                border: '1px solid',
-              }}
-            >
+            <div onClick={() => this.setState({ isCoverClicked: false })} {...css(styles.bookInfo)}>
               {grade}학년 / 과목 : {subject} <br /> <br />
               이름: {name} <br />
               <br />
               소개: {introduction}
             </div>
           ) : (
-            <div
-              onClick={() => this.setState({ isCoverClicked: true })}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: 3,
-                border: '1px solid',
-                borderRadius: 2,
-              }}
-            >
+            <div onClick={() => this.setState({ isCoverClicked: true })} {...css(styles.bookInfo)}>
               <img src={cover} alt="책 커버" style={{ height: 'auto', width: '100%' }} />
             </div>
           )}
@@ -133,7 +118,7 @@ export default class BookDetail extends PureComponent {
                     </Text>
                   </div>
                 </Card>
-                {curriculum.type === 'temp' ? (
+                {curriculum.type !== 'monthly' ? (
                   <Card>
                     <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
                       <Text large>달성도</Text>
@@ -158,3 +143,13 @@ export default class BookDetail extends PureComponent {
     );
   }
 }
+
+export default withStyles(() => ({
+  bookInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 3,
+    border: '1px solid',
+    borderRadius: 2,
+  },
+}))(BookDetail);

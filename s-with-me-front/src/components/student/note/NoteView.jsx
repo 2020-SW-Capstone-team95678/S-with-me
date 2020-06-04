@@ -16,17 +16,7 @@ class NoteView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      problemNum: -1,
-      title: '',
-      image: '',
-      content: '',
-      isOptional: false,
-      answer: '',
-      option1: '',
-      option2: '',
-      option3: '',
-      option4: '',
-      option5: '',
+      problem: {},
       showMySolution: false,
       showSolution: false,
       showMyNewSolution: false,
@@ -55,70 +45,30 @@ class NoteView extends PureComponent {
     setResolve(note.noteId, 'INIT');
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: note.problemId },
-    }).then(({ data }) =>
-      this.setState({
-        problemNum: data.problemNumber,
-        content: data.content,
-        isOptional: data.isOptional,
-        image: data.image,
-        title: data.title,
-        answer: data.answer,
-        solution: data.solution,
-        option1: data.option1,
-        option2: data.option2,
-        option3: data.option3,
-        option4: data.option4,
-        option5: data.option5,
-      }),
-    );
+    }).then(({ data }) => this.setState({ problem: data }));
   }
 
   componentDidUpdate() {
     const { note } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: note.problemId },
-    }).then(({ data }) =>
-      this.setState({
-        problemNum: data.problemNumber,
-        content: data.content,
-        title: data.title,
-        image: data.image,
-        isOptional: data.isOptional,
-        answer: data.answer,
-        solution: data.solution,
-        option1: data.option1,
-        option2: data.option2,
-        option3: data.option3,
-        option4: data.option4,
-        option5: data.option5,
-      }),
-    );
+    }).then(({ data }) => this.setState({ problem: data }));
   }
 
   render() {
     const { styles, note } = this.props;
+    const { isConfused, isRight, myProblemId, resolve, myAnswer } = note;
+    const { solutionType, tempSolutionType } = note;
+    const { showMySolution, showSolution, showMyNewSolution } = this.state;
     const {
-      isConfused,
-      isRight,
-      myProblemId,
-      resolve,
-      myAnswer,
-      solutionType,
-      tempSolutionType,
-    } = note;
-
-    const {
-      problemNum,
+      problemNumber,
       content,
       title,
       image,
       isOptional,
-      showMySolution,
-      showSolution,
-      showMyNewSolution,
       solution,
       answer,
-    } = this.state;
+    } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.option1);
@@ -128,7 +78,7 @@ class NoteView extends PureComponent {
       optionContents.push(this.state.option5);
     }
     if (resolve === 'PROGRESS') {
-      return <NoteResolveContainer problem={this.state} note={note} />;
+      return <NoteResolveContainer problem={this.state.problem} note={note} />;
     } else {
       return (
         <VerticalList spacingBetween={2}>
@@ -138,12 +88,12 @@ class NoteView extends PureComponent {
           </div>
           <div {...css(styles.body)}>
             <Text>
-              {problemNum ? problemNum + '.' : null}
+              {problemNumber ? problemNumber + '.' : null}
               {title}
             </Text>
             {image ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img src={image} alt={problemNum + '문제 그림'} style={{ width: '80%' }} />
+                <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
               </div>
             ) : null}
             {content ? (
@@ -165,7 +115,7 @@ class NoteView extends PureComponent {
             {showMySolution || showMyNewSolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 <div>
-                  {problemNum ? (
+                  {problemNumber ? (
                     <Text>
                       나의 답: {myAnswer}
                       <br />
@@ -205,7 +155,7 @@ class NoteView extends PureComponent {
             )}
             {showSolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-                {problemNum ? (
+                {problemNumber ? (
                   <Text>
                     정답:{answer} <br />
                   </Text>

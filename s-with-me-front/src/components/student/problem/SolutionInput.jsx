@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Api from '../../../Api';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
 import Select, { Option } from '../../../common-ui/Select';
@@ -97,13 +98,7 @@ export default class SolutionInput extends PureComponent {
                         myProblemId: values.selectMyProblem,
                       });
                     }}
-                    style={{
-                      border: '1px solid',
-                      display: 'flex',
-                      alignItems: 'center',
-                      fontSize: 'small',
-                      padding: 3,
-                    }}
+                    {...css(styles.linksolution)}
                   >
                     미리 보기
                   </div>
@@ -112,15 +107,7 @@ export default class SolutionInput extends PureComponent {
             </Modal>
             <div
               onClick={() => this.handleLinkSolution(values.selectMyProblem)}
-              style={{
-                flex: 1,
-                border: '1px solid',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 'small',
-                padding: 3,
-              }}
+              {...css(styles.linksolution)}
             >
               선택
             </div>
@@ -157,3 +144,15 @@ export default class SolutionInput extends PureComponent {
     }
   }
 }
+
+export default withStyles(() => ({
+  linkSolution: {
+    flex: 1,
+    border: '1px solid',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 'small',
+    padding: 3,
+  },
+}))(SolutionInput);

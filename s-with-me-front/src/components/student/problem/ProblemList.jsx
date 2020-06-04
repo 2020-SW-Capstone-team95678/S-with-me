@@ -1,23 +1,17 @@
 import React, { PureComponent } from 'react';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import ProblemBar from './ProblemBar';
 import ProblemPaginationContainer from '../../../containers/student/problem/ProblemPaginationContainer';
 
-export default class ProblemList extends PureComponent {
+class ProblemList extends PureComponent {
   render() {
     const { myProblemList, loading, subChapterId, page, myBookId } = this.props;
     const myProblemList1 = myProblemList.slice(0, 4);
     const myProblemList2 = myProblemList.slice(4, 8);
     return (
       <React.Fragment>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            paddingTop: '3px',
-            paddingBottom: '3px',
-          }}
-        >
+        <div {...css(styles.pagination)}>
           <ProblemPaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -28,17 +22,19 @@ export default class ProblemList extends PureComponent {
             <ProblemBar myProblemList={myProblemList2} isLoading={loading} page={page} />
           </div>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            paddingTop: '3px',
-            paddingBottom: '3px',
-          }}
-        >
+        <div {...css(styles.pagination)}>
           <ProblemPaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
       </React.Fragment>
     );
   }
 }
+
+export default withStyles(() => ({
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: '3px',
+    paddingBottom: '3px',
+  },
+}))(ProblemList);

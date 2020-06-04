@@ -38,20 +38,17 @@ class ProblemResultView extends PureComponent {
     Api.post('/student/note', formValue).then(() => this.setState({ isSavedNote: true }));
   }
   componentDidMount() {
-    clearInterval(this.timerId);
+    this.timerID = setInterval(() => this.tick(), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+    // 여기에 handleCloseBook() 내용 추가
   }
 
   render() {
     const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
-    const {
-      problemNumber,
-      content,
-      isOptional,
-      answer,
-      solution,
-      image,
-      title,
-    } = this.props.problem;
+    const { problemNumber, content, isOptional, answer } = this.props.problem;
+    const { solution, image, title } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
     let numbers = ['①', '②', '③', '④', '⑤'];
