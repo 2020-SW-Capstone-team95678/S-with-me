@@ -16,7 +16,7 @@ class LoginApp extends react.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
-    const { setUser, history, setUserType } = this.props;
+    const { setUser, history, setUserType, setLogged } = this.props;
     const { isStudent, isPublisher } = this.state;
     if (isStudent) {
       setUser(true, values, () => {
@@ -24,6 +24,7 @@ class LoginApp extends react.PureComponent {
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
         this.setState({ isLogin: true });
         setUserType(true);
+        setLogged(true);
       });
     }
     if (isPublisher) {
@@ -32,6 +33,7 @@ class LoginApp extends react.PureComponent {
         window.sessionStorage.setItem('publisherId', this.props.user.publisherId);
         this.setState({ isLogin: true });
         setUserType(false);
+        setLogged(true);
       });
     }
   }
@@ -40,8 +42,8 @@ class LoginApp extends react.PureComponent {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
 
-    if (this.props.logged || this.state.isLogin & isStudent) return <Redirect to="/library" />;
-    if (this.props.logged || this.state.isLogin & isPublisher) return <Redirect to="/library" />;
+    if (this.state.isLogin && isStudent) return <Redirect to="/library" />;
+    if (this.state.isLogin && isPublisher) return <Redirect to="/library" />;
 
     return (
       <div className="login">

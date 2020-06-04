@@ -27,9 +27,15 @@ export default class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { logged: false, isStudent: true };
-    this.onLogin = this.onLogin.bind(this);
-    this.onLogout = this.onLogout.bind(this);
   }
+
+  setUserType = isStudent => {
+    this.setState({ isStudent: isStudent });
+  };
+
+  setLogged = logged => {
+    this.setState({ logged: logged });
+  };
 
   onLogin = isStudent => {
     this.setState({ logged: true, isStudent: isStudent });
@@ -38,10 +44,6 @@ export default class App extends PureComponent {
   onLogout = () => {
     this.setState({ logged: false });
     window.sessionStorage.clear();
-  };
-
-  setUserType = isStudent => {
-    this.setState({ isStudent: isStudent });
   };
 
   componentDidMount() {
@@ -55,64 +57,88 @@ export default class App extends PureComponent {
       this.onLogout();
     }
   }
+
   render() {
     const { logged, isStudent } = this.state;
-    return (
-      <Provider store={this.store}>
-        <ModalProvider>
+    if (!logged) {
+      return (
+        <Provider store={this.store}>
           <Router>
-            <Switch>
-              <Route
-                path="/"
-                exact
-                render={() => <LoginContainer setUserType={this.setUserType} logged={logged} />}
-              />
-              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
-              <Route
-                path="/signup-publisher"
-                exact
-                render={() => <SignUpPublisherInputContainer />}
-              />
-
-              {isStudent ? (
-                <AppLayout>
-                  <Switch>
-                    <Route path="/profile" exact render={() => <Profile />} />
-                    <Route
-                      path="/library/myBook/:myBookId/solve/:subChapterId"
-                      render={({ match, location }) => (
-                        <ProblemAppContainer match={match} location={location} />
-                      )}
-                    />
-                    <Route
-                      path="/library/myBook/:myBookId"
-                      render={({ match }) => <BookDetail match={match} />}
-                    />
-                    <Route path="/library" render={() => <LibraryAppContainer />} />
-                    <Route path="/note" exact render={() => <NoteAppContainer />} />
-                    <NotificationContainer />
-                  </Switch>
-                </AppLayout>
-              ) : (
-                <PAppLayout>
-                  <Switch>
-                    <Route path="/library" render={() => <LibraryApp />} />
-                    <Route path="/register-problem" render={() => <RegisterProblem />} />
-                    <Route
-                      path="/publisher/library/book2"
-                      exact
-                      render={({ match }) => <BookInfoPage />}
-                    />
-                    <NotificationContainer />
-                  </Switch>
-                </PAppLayout>
+            <Route
+              path="/"
+              render={() => (
+                <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
               )}
-
-              <Route path="*" component={NotFound} />
-            </Switch>
+            />
           </Router>
-        </ModalProvider>
-      </Provider>
-    );
+        </Provider>
+      );
+    }
+    if (isStudent) {
+      return (
+        <Provider store={this.store}>
+          <ModalProvider>
+            <Router>
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  render={() => (
+                    <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
+                  )}
+                />
+                <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+                <AppLayout>
+                  <Route path="/profile" exact render={() => <Profile />} />
+                  <Route
+                    path="/library/myBook/:myBookId/solve/:subChapterId"
+                    render={({ match, location }) => (
+                      <ProblemAppContainer match={match} location={location} />
+                    )}
+                  />
+                  <Route
+                    path="/library/myBook/:myBookId"
+                    exact
+                    render={({ match }) => <BookDetail match={match} />}
+                  />
+                  <Route path="/library" exact render={() => <LibraryAppContainer />} />
+                  <Route path="/note" exact render={() => <NoteAppContainer />} />
+                  <NotificationContainer />
+                </AppLayout>
+                <Route path="*" component={NotFound} />
+              </Switch>
+            </Router>
+          </ModalProvider>
+        </Provider>
+      );
+    } else {
+      return (
+        <Provider store={this.store}>
+          <ModalProvider>
+            <Router>
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  render={() => <LoginContainer setUserType={this.setUserType} logged={logged} />}
+                />
+                <Route
+                  path="/signup-publisher"
+                  exact
+                  render={() => <SignUpPublisherInputContainer />}
+                />
+                <PAppLayout>
+                  <Route path="/library" render={() => <LibraryApp />} />
+                  <Route path="/register-problem" render={() => <RegisterProblem />} />
+                  <Route path="/publisher/library/book2" exact render={() => <BookInfoPage />} />
+                  <NotificationContainer />
+                </PAppLayout>
+                <Route path="*" component={NotFound} />
+              </Switch>
+            </Router>
+          </ModalProvider>
+        </Provider>
+      );
+    }
   }
 }
