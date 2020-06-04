@@ -1,5 +1,6 @@
 package com.swithme.web.controller;
 
+import com.swithme.achievement.timecal;
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.curriculum.Curriculum;
@@ -135,6 +136,7 @@ public class CurriculumControllerTest {
         publisherRepository.deleteAll();
         studentRepository.deleteAll();
     }
+
     @Test
     public void curriculumCreateTest()
     {
@@ -202,7 +204,7 @@ public class CurriculumControllerTest {
         //assertThat(responseEntity.getBody()).isEqualTo("33");
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
+    @Ignore
     @Test
     public void curriculumArchievementTest()
     {
@@ -242,5 +244,12 @@ public class CurriculumControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");
     }
-}
 
+    @Ignore
+    @Test
+    public void timeTest()
+    {
+        timecal timec = new timecal();
+        assertThat(timec.getToday_end()).isEqualTo(123);
+    }
+}
