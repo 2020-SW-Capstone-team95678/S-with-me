@@ -6,6 +6,7 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
 import com.swithme.web.dto.ProblemUpdateRequestDto;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,9 +71,25 @@ public class ProblemControllerTest {
     public void getProblemListTest(){
         problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
+                .content(null)
+                .solution(ClobProxy.generateProxy("test solution"))
+                .image(ClobProxy.generateProxy("test image"))
                 .build());
         String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
                  + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getAnswerListTest(){
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .answer("test answer")
+                .build());
+        String url = "http://localhost:" + port + "/student/library/my-book/main-chapter/sub-chapter/" +
+                subChapter.getSubChapterId() + "?page=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
