@@ -1,43 +1,19 @@
 import { connect } from 'react-redux';
 import { updateMyBook, UPDATE_MY_BOOK } from '../../../actions/myBookPackActions';
-import {
-  updateMyProblem,
-  UPDATE_MY_PROBLEM,
-  requestMyProblemList,
-} from '../../../actions/myProblemPackActions';
-import { setIsSolved, setIsRight, setSolvedDateTime } from '../../../actions/myProblemActions';
-import { setLastMyProblemPage } from '../../../actions/myBookActions';
+import { updateMyProblem } from '../../../actions/myProblemPackActions';
+import { setIsSolved } from '../../../actions/myProblemActions';
 import ProblemHead from '../../../components/student/problem/ProblemHead';
 
-const mapStateToProps = (state, props) => {
-  const {
-    loadingState: myBookListLoadingState,
-    ids: myBookListIds,
-    entities: myBookListEntities,
-  } = state.myBookList;
-  const loadingUpdatePageNumber = myBookListLoadingState[UPDATE_MY_BOOK];
-  const myBookList = myBookListIds.map(id => myBookListEntities[id]);
-  const myBook = myBookList[myBookListIds.indexOf(props.id * 1)];
+const mapStateToProps = state => {
+  const { loadingState } = state.myBookList;
+  const loadingUpdatePageNumber = loadingState[UPDATE_MY_BOOK];
 
-  const { ids, entities, loadingState, pagination } = state.myProblemList;
-  const loadingUpdateMyProblemList = loadingState[UPDATE_MY_PROBLEM];
+  const { ids, entities, pagination } = state.myProblemList;
   const myProblemList = ids.map(id => entities[id]);
 
-  return {
-    loadingUpdatePageNumber,
-    loadingUpdateMyProblemList,
-    myBook,
-    myProblemList,
-    pagination,
-  };
+  return { loadingUpdatePageNumber, pagination, myProblemList };
 };
 
-export default connect(mapStateToProps, {
-  updateMyBook,
-  updateMyProblem,
-  setIsSolved,
-  setIsRight,
-  setLastMyProblemPage,
-  setSolvedDateTime,
-  requestMyProblemList,
-})(ProblemHead);
+export default connect(mapStateToProps, { updateMyBook, updateMyProblem, setIsSolved })(
+  ProblemHead,
+);
