@@ -9,7 +9,7 @@ import Select, { Option } from '../../../common-ui/Select';
 import SelectSubChapter from '../libarary/SelectSubChapter';
 import { PREVIEW_PROBLEM } from '../../../constants/modals';
 
-export default class SolutionInput extends PureComponent {
+class SolutionInput extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { file: '', previewURL: '', myProblemListForLink: [] };
@@ -31,10 +31,10 @@ export default class SolutionInput extends PureComponent {
     }
   }
   handleChange(e) {
-    const { setTextSolution, setSolutionType, id } = this.props;
+    const { setTextSolution, setSolutionType, id, solutionType } = this.props;
     e.preventDefault();
+    if (solutionType !== 'text') setSolutionType(id, 'text');
     setTextSolution(id, e.target.value);
-    setSolutionType(id, 'text');
   }
   handleFileOnChange(event) {
     const { setImageSolution, id } = this.props;
@@ -55,7 +55,7 @@ export default class SolutionInput extends PureComponent {
     setLinkSolutionId(id, selectedId);
   }
   render() {
-    const { solutionType, onChange, values, chapterList } = this.props;
+    const { solutionType, onChange, values, chapterList, styles } = this.props;
     const { file, previewURL, myProblemListForLink } = this.state;
     let solution_preview = null;
     if (file) {

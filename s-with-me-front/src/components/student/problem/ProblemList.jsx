@@ -6,7 +6,7 @@ import ProblemPaginationContainer from '../../../containers/student/problem/Prob
 
 class ProblemList extends PureComponent {
   render() {
-    const { myProblemList, loading, subChapterId, page, myBookId } = this.props;
+    const { myProblemList, loading, subChapterId, page, myBookId, styles } = this.props;
     const myProblemList1 = myProblemList.slice(0, 4);
     const myProblemList2 = myProblemList.slice(4, 8);
     return (
