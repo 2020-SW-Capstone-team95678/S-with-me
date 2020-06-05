@@ -4,6 +4,12 @@ import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles
 import logo from '../../common-ui/logo.png';
 import Button from '../../common-ui/Button';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookReader } from '@fortawesome/free-solid-svg-icons';
+import { faStore } from '@fortawesome/free-solid-svg-icons';
+import { faStickyNote } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
 import { NavLink, Redirect } from 'react-router-dom';
 export const HEIGHT = 80;
 
@@ -11,12 +17,11 @@ class AppNav extends PureComponent {
   constructor(props) {
     super(props);
     this.handleLogout = this.handleLogout.bind(this);
-    this.state = { isLogin: true };
   }
 
   handleLogout() {
     window.sessionStorage.clear();
-    this.setState({ isLogin: false });
+    this.props.setLogged(false);
   }
 
   render() {
@@ -24,15 +29,15 @@ class AppNav extends PureComponent {
     const activeStyle = {
       fontWeight: 'bold',
       color: '#9C2D17',
-      fontSize: '2rem',
+      fontSize: '1.5rem',
     };
-    if (this.state.isLogin) {
+    if (this.props.logged) {
       return (
         <div>
           <div {...css(styles.wrapper)}>
             <div style={{ display: 'flex' }} {...css(styles.container)}>
               <div style={{ flex: 1 }}>
-                <NavLink to="/">
+                <NavLink to="/library">
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <img src={logo} alt="s-with-me logo" style={{ height: 80 }} />
                   </div>
@@ -44,7 +49,12 @@ class AppNav extends PureComponent {
                   activeStyle={activeStyle}
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>서재</div>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                  >
+                    <FontAwesomeIcon icon={faBookReader} size="lg" />
+                    서재
+                  </div>
                 </NavLink>
               </div>
               <div style={{ flex: 1 }}>
@@ -53,11 +63,19 @@ class AppNav extends PureComponent {
                   activeStyle={activeStyle}
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>오답노트</div>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                  >
+                    <FontAwesomeIcon icon={faStickyNote} size="lg" />
+                    오답노트
+                  </div>
                 </NavLink>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>서점</div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+                  <FontAwesomeIcon icon={faStore} size="lg" />
+                  서점
+                </div>
               </div>
               <div style={{ flex: 1, color: '#333333' }}>
                 <NavLink
@@ -65,7 +83,12 @@ class AppNav extends PureComponent {
                   activeStyle={activeStyle}
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>프로필</div>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                  >
+                    <FontAwesomeIcon icon={faUserCircle} size="lg" />
+                    프로필
+                  </div>
                 </NavLink>
               </div>
               <NavLink to="/">

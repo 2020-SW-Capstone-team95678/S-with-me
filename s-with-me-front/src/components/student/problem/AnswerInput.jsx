@@ -6,6 +6,7 @@ export default class AnswerInput extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      optionlabels: ['①', '②', '③', '④', '⑤'],
       options: [
         { optionNum: 1, isChecked: false },
         { optionNum: 2, isChecked: false },
@@ -42,7 +43,7 @@ export default class AnswerInput extends PureComponent {
   }
 
   render() {
-    const { options } = this.state;
+    const { options, optionlabels } = this.state;
     const { optionContents } = this.props;
     if (this.props.isOptional) {
       return (
@@ -51,7 +52,7 @@ export default class AnswerInput extends PureComponent {
             <CheckBox
               key={index}
               name="optionInput"
-              label={option.optionNum}
+              label={optionlabels[index]}
               onChange={() => {
                 this.setCheckState(option.optionNum);
                 this.handleOptionalAnswer(option.optionNum);

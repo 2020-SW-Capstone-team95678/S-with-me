@@ -29,14 +29,19 @@ class ProblemHead extends PureComponent {
     this.setState({ date: new Date() });
   }
   componentDidMount() {
-    clearInterval(this.timerId);
+    this.timerID = setInterval(() => this.tick(), 1000);
     Api.get('/student/library/my-book/book-id', {
       params: { myBookId: this.props.id },
     }).then(({ data }) => this.setState({ bookName: data.bookName }));
   }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+    // 여기에 handleCloseBook() 내용 추가
+  }
 
   handleCloseBook() {
     const { updateMyBook, myBook, subChapterId } = this.props;
+    // myBook props 가져오는것 오류남
     const formValue = {
       lastPageNumber: myBook.lastPageNumber * 1,
       lastSubChapterId: subChapterId,

@@ -64,12 +64,15 @@ export default class App extends PureComponent {
       return (
         <Provider store={this.store}>
           <Router>
-            <Route
-              path="/"
-              render={() => (
-                <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
-              )}
-            />
+            <Switch>
+              <Route
+                path="/"
+                render={() => (
+                  <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
+                )}
+              />
+              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+            </Switch>
           </Router>
         </Provider>
       );
@@ -80,15 +83,14 @@ export default class App extends PureComponent {
           <ModalProvider>
             <Router>
               <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={() => (
-                    <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
-                  )}
-                />
-                <Route path="/signup" exact render={() => <SignUpInputContainer />} />
-                <AppLayout>
+                <AppLayout logged={logged} setLogged={this.setLogged}>
+                  <Route
+                    path="/"
+                    exact
+                    render={() => (
+                      <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
+                    )}
+                  />
                   <Route path="/profile" exact render={() => <Profile />} />
                   <Route
                     path="/library/myBook/:myBookId/solve/:subChapterId"

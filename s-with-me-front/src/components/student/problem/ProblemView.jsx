@@ -18,6 +18,8 @@ import Api from '../../../Api';
 // };
 
 class ProblemView extends PureComponent {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,10 +29,13 @@ class ProblemView extends PureComponent {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const { myProblem } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: myProblem.problemId },
-    }).then(({ data }) => this.setState({ problem: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ problem: data });
+    });
   }
 
   handleSubmit() {
@@ -56,10 +61,17 @@ class ProblemView extends PureComponent {
   }
 
   componentDidUpdate() {
+    this._isMounted = true;
     const { myProblem } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: myProblem.problemId },
-    }).then(({ data }) => this.setState({ problem: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ problem: data });
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
