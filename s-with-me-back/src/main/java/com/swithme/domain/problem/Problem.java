@@ -5,8 +5,11 @@ import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.engine.jdbc.BlobProxy;
+import org.hibernate.engine.jdbc.ClobProxy;
 
 import javax.persistence.*;
+import java.sql.Clob;
 
 @Getter
 @NoArgsConstructor
@@ -27,11 +30,11 @@ public class Problem {
 
     @Lob
     @Column(name = "content")
-    private String content;
+    private Clob content;
 
     @Lob
     @Column(name = "solution")
-    private String solution;
+    private Clob solution;
 
     @Column(name = "problemNumber")
     private short problemNumber;
@@ -41,7 +44,7 @@ public class Problem {
 
     @Lob
     @Column(name = "image")
-    private String image;
+    private Clob image;
 
     @Column(name = "isOptional")
     private Boolean isOptional;
@@ -62,8 +65,8 @@ public class Problem {
     private String option5;
 
     @Builder
-    public Problem(SubChapter subChapter, String title, String content, String solution,
-                    short problemNumber, String image, String answer, Boolean isOptional,
+    public Problem(SubChapter subChapter, String title, Clob content, Clob solution,
+                    short problemNumber, Clob image, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5){
         this.subChapter = subChapter;
         this.title = title;
@@ -83,9 +86,16 @@ public class Problem {
     public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {
         this.subChapter = subChapter;
         this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
-        this.solution = requestDto.getSolution();
-        this.image = requestDto.getImage();
+
+        try{ this.content = ClobProxy.generateProxy(requestDto.getContent()); }
+        catch (NullPointerException nullPointerException){ this.content = null; }
+
+        try{ this.solution = ClobProxy.generateProxy(requestDto.getSolution()); }
+        catch (NullPointerException nullPointerException){ this.solution = null; }
+
+        try{ this.image = ClobProxy.generateProxy(requestDto.getImage()); }
+        catch (NullPointerException nullPointerException){ this.image = null; }
+
         this.problemNumber = requestDto.getProblemNumber();
         this.answer = requestDto.getAnswer();
         this.isOptional = requestDto.getIsOptional();

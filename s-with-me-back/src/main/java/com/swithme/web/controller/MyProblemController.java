@@ -7,6 +7,7 @@ import com.swithme.web.dto.MySolutionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.*;
 @RequiredArgsConstructor
 @RestController
@@ -37,7 +38,7 @@ public class MyProblemController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/my-problem/problem-id")
-    public MySolutionResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId){
+    public MySolutionResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId) throws SQLException {
         return myProblemService.getMySolution(myProblemId);
     }
 }
