@@ -13,6 +13,7 @@ import NoteResolveContainer from '../../../containers/student/note/NoteResolveCo
 import MySolutionView from './MySolutionView';
 
 class NoteView extends PureComponent {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -41,18 +42,27 @@ class NoteView extends PureComponent {
     updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
   }
   componentDidMount() {
-    const { note, setResolve } = this.props;
-    setResolve(note.noteId, 'INIT');
-    Api.get('/student/library/my-book/my-problems', {
-      params: { problemId: note.problemId },
-    }).then(({ data }) => this.setState({ problem: data }));
-  }
-
-  componentDidUpdate() {
+    this._isMounted = true;
     const { note } = this.props;
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: note.problemId },
-    }).then(({ data }) => this.setState({ problem: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ problem: data });
+    });
+  }
+
+  componentDidUpdate() {
+    this._isMounted = true;
+    const { note } = this.props;
+    Api.get('/student/library/my-book/my-problems', {
+      params: { problemId: note.problemId },
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ problem: data });
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -71,11 +81,11 @@ class NoteView extends PureComponent {
     } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
-      optionContents.push(this.state.option1);
-      optionContents.push(this.state.option2);
-      optionContents.push(this.state.option3);
-      optionContents.push(this.state.option4);
-      optionContents.push(this.state.option5);
+      optionContents.push(this.state.problem.option1);
+      optionContents.push(this.state.problem.option2);
+      optionContents.push(this.state.problem.option3);
+      optionContents.push(this.state.problem.option4);
+      optionContents.push(this.state.problem.option5);
     }
     if (resolve === 'PROGRESS') {
       return <NoteResolveContainer problem={this.state.problem} note={note} />;

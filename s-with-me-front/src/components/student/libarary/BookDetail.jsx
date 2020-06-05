@@ -12,6 +12,7 @@ import { CREATE_CURRICULUM } from '../../../constants/modals';
 import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
 
 class BookDetail extends PureComponent {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -24,28 +25,42 @@ class BookDetail extends PureComponent {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const { myBookId } = this.props.match.params;
     Api.get('/student/library/my-book/getMyBook', {
       params: { myBookId: myBookId },
     }).then(({ data }) => {
-      this.setState({ myBook: data });
+      if (this._isMounted) this.setState({ myBook: data });
       Api.get('/student/library/my-book', {
         params: { bookId: data.bookId },
-      }).then(({ data }) => this.setState({ book: data }));
+      }).then(({ data }) => {
+        if (this._isMounted) this.setState({ book: data });
+      });
     });
     Api.get('/student/library/curriculum', {
       params: { myBookId: myBookId },
-    }).then(({ data }) => this.setState({ curriculum: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ curriculum: data });
+    });
     Api.get('/student/library/curriculum/achievement', {
       params: { myBookId: myBookId },
-    }).then(({ data }) => this.setState({ achievement: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ achievement: data });
+    });
   }
 
   componentDidUpdate() {
+    this._isMounted = true;
     const { myBookId } = this.props.match.params;
     Api.get('/student/library/curriculum', {
       params: { myBookId: myBookId },
-    }).then(({ data }) => this.setState({ curriculum: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ curriculum: data });
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
