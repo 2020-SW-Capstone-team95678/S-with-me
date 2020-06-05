@@ -1,53 +1,63 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Button from '../../../common-ui/Button';
 import Heading from '../../../common-ui/Heading';
+import Form from '../../../common-ui/Form';
 import { Redirect } from 'react-router-dom';
 import Api from '../../../Api';
+import TotalScoringButtonContainer from '../../../containers/student/problem/TotalScoringButtonContainer';
 
 class ProblemHead extends PureComponent {
-  static propTypes = {
-    ...withStylesPropTypes,
-  };
+  _isMounted = false;
   constructor(props) {
     super(props);
-    this.handleCloseBook = this.handleCloseBook.bind(this);
-    this.handleTotalScroing = this.handleTotalScroing.bind(this);
     this.handleViewWrongOnly = this.handleViewWrongOnly.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       isFinished: false,
-      date: new Date(),
       bookName: '',
       viewWrongOnly: false,
       bookId: '',
+      answerList: [],
     };
-    this.tick = this.tick.bind(this);
   }
 
-  tick() {
-    this.setState({ date: new Date() });
-  }
   componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
+    this._isMounted = true;
+    const { subChapterId, page } = this.props;
     Api.get('/student/library/my-book/book-id', {
       params: { myBookId: this.props.id },
-    }).then(({ data }) => this.setState({ bookName: data.bookName }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ bookName: data.bookName });
+    });
+    Api.get(`/student/library/my-book/main-chapter/sub-chapter/${subChapterId}`, {
+      params: { page: page },
+    })
+      .then(({ data }) => {
+        if (this._isMounted) this.setState({ answerList: data });
+      })
+      .catch(error => console.log(error.message));
   }
   componentWillUnmount() {
-    clearInterval(this.timerID);
-    // 여기에 handleCloseBook() 내용 추가
-  }
-
-  handleCloseBook() {
-    const { updateMyBook, myBook, subChapterId } = this.props;
-    // myBook props 가져오는것 오류남
+    const { updateMyBook, pagination, subChapterId, id } = this.props;
     const formValue = {
-      lastPageNumber: myBook.lastPageNumber * 1,
+      lastPageNumber: pagination.number * 1,
       lastSubChapterId: subChapterId,
     };
-    updateMyBook(myBook.myBookId, formValue, () => this.setState({ isFinished: true }));
+    updateMyBook(id, formValue, () => {
+      this._isMounted = false;
+    });
   }
+
+  handleCloseBook = () => {
+    const { updateMyBook, pagination, subChapterId, id } = this.props;
+    const formValue = {
+      lastPageNumber: pagination.number * 1,
+      lastSubChapterId: subChapterId,
+    };
+    updateMyBook(id, formValue, () => this.setState({ isFinished: true }));
+  };
 
   handleViewWrongOnly() {
     const { viewWrongOnly } = this.state;
@@ -55,62 +65,41 @@ class ProblemHead extends PureComponent {
     this.setState({ viewWrongOnly: !viewWrongOnly });
   }
 
-  handleTotalScroing() {
-    const {
-      id,
-      updateMyProblem,
-      myProblemList,
-      setIsSolved,
-      setIsRight,
-      setSolvedDateTime,
-      setLastMyProblemPage,
-      pagination,
-    } = this.props;
+  handleSubmit() {
+    const { updateMyProblem, setIsSolved, myProblemList } = this.props;
     for (let myProblem of myProblemList) {
-      Api.get('/student/library/my-book/my-problems', {
-        params: { problemId: myProblem.problemId },
-      })
-        .then(({ data }) => {
-          if (myProblem.myAnswer && !myProblem.isSolved) {
-            if (data.answer === String(myProblem.myAnswer)) setIsRight(myProblem.myProblemId, true);
-            else setIsRight(myProblem.myProblemId, false);
-            setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
-            setLastMyProblemPage(id, pagination.number);
-          }
-        })
-        .finally(() => {
-          let formValue = {
-            isConfused: myProblem.isConfused,
-            isRight: myProblem.isRight,
-            isSolved: true,
-            solutionType: myProblem.solutionType,
-            myAnswer: String(myProblem.myAnswer),
-            solvedDateTime: myProblem.solvedDateTime,
-          };
-          if (myProblem.solutionType === 'text') {
-            formValue = { ...formValue, textSolution: myProblem.textSolution };
-          } else if (myProblem.solutionType === 'img') {
-            formValue = { ...formValue, imageSolution: myProblem.imageSolution };
-          } else if (myProblem.solutionType === 'link') {
-            formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
-          }
-          if (myProblem.myAnswer && !myProblem.isSolved) {
-            updateMyProblem(myProblem.myProblemId, formValue, () => {
-              setIsSolved(myProblem.myProblemId, true);
-            });
-          }
+      let formValue = {
+        isConfused: myProblem.isConfused,
+        isRight: myProblem.isRight,
+        isSolved: true,
+        solutionType: myProblem.solutionType,
+        myAnswer: String(myProblem.myAnswer),
+        solvedDateTime: myProblem.solvedDateTime,
+      };
+      if (myProblem.solutionType === 'text') {
+        formValue = { ...formValue, textSolution: myProblem.textSolution };
+      } else if (myProblem.solutionType === 'img') {
+        formValue = { ...formValue, imageSolution: myProblem.imageSolution };
+      } else if (myProblem.solutionType === 'link') {
+        formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+      }
+      if (myProblem.myAnswer && !myProblem.isSolved) {
+        console.log(formValue);
+        updateMyProblem(myProblem.myProblemId, formValue, () => {
+          setIsSolved(myProblem.myProblemId, true);
         });
+      }
     }
   }
 
   render() {
-    const { styles, loadingUpdatePageNumber, loadingUpdateMyProblemList, id } = this.props;
-    const { bookName, viewWrongOnly } = this.state;
+    const { styles, loadingUpdatePageNumber, id, myProblemList } = this.props;
+    const { bookName, viewWrongOnly, answerList } = this.state;
 
     if (!this.state.isFinished) {
       return (
         <div {...css(styles.container)}>
-          <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
+          <div style={{ flex: 1 }} {...css(styles.head)}>
             <Button
               xsmall
               onPress={() => this.handleCloseBook()}
@@ -119,22 +108,26 @@ class ProblemHead extends PureComponent {
               문제집 닫기
             </Button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
+          <div style={{ flex: 1 }} {...css(styles.head)}>
             <Button xsmall onPress={() => this.handleViewWrongOnly()}>
               {viewWrongOnly ? '전체 보기' : '틀린 문제만 보기'}
             </Button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', flex: 1, padding: 3 }}>
+          <div style={{ flex: 6 }} {...css(styles.head)}>
             <Heading level={4}>{bookName}</Heading>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', width: 100, padding: 3 }}>
-            <Button
-              small
-              disabled={loadingUpdateMyProblemList}
-              onPress={() => this.handleTotalScroing()}
-            >
-              전체 채점
-            </Button>
+          <div style={{ flex: 1.5 }} {...css(styles.head)}>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Consumer>
+                {() => (
+                  <TotalScoringButtonContainer
+                    id={id}
+                    myProblemList={myProblemList}
+                    answerList={answerList}
+                  />
+                )}
+              </Form.Consumer>
+            </Form>
           </div>
         </div>
       );
@@ -153,5 +146,11 @@ export default withStyles(({ color, unit }) => ({
     paddingLeft: unit * 2,
     paddingRight: unit * 2,
     backgroundColor: color.secondary,
+  },
+  head: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: 100,
+    padding: 3,
   },
 }))(ProblemHead);

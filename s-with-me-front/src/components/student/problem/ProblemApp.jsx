@@ -11,7 +11,7 @@ export default class ProblemApp extends PureComponent {
   };
   constructor(props) {
     super(props);
-    this.state = { viewWrongOnly: false };
+    this.state = { viewWrongOnly: false, answerList: [] };
   }
 
   handleViewWrongOnly = () => {
@@ -29,12 +29,16 @@ export default class ProblemApp extends PureComponent {
   render() {
     const { myBookId, subChapterId } = this.props.match.params;
     const { number, myProblemList, loading } = this.props;
-    const { viewWrongOnly } = this.state;
+    const { viewWrongOnly, answerList } = this.state;
+    const query = queryString.parse(this.props.location.search);
+    const page = query.page || 1;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ hight: 5, padding: 3 }}>
           <ProblemHeadContainer
             subChapterId={subChapterId}
+            page={page}
+            answerList={answerList}
             id={myBookId}
             handleViewWrongOnly={this.handleViewWrongOnly}
           />
