@@ -65,12 +65,9 @@ export default (state = initState, action) => {
               pages: { ...prevState.pages, [pageNumber]: ids },
             };
           } else {
-            const id = data['myProblemId'];
             return {
               ...prevState,
               ...loadingAndErrorState,
-              id,
-              entities: { ...prevState.entities, [id]: data },
             };
           }
         },

@@ -66,7 +66,7 @@ export function updateNote(id, data, onComplete) {
   };
 }
 
-export const setResolve = (id, resolve) => ({
+export const setResolve = (id, resolve = 'INIT') => ({
   type: SET_RESOLVE,
   payload: { id, resolve },
 });
