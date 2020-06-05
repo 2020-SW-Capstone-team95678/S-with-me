@@ -20,10 +20,18 @@ public class ProblemController {
     }
 
     @CrossOrigin
+    @GetMapping("/student/library/my-book/main-chapter/sub-chapter/{lastSubChapterId}")
+    public List<AnswerResponseDto> getAnswerList(@PathVariable int lastSubChapterId,
+                                                 @RequestParam("page") short lastPageNumber){
+        return problemService.getAnswerList(lastSubChapterId, lastPageNumber);
+    }
+
+    @CrossOrigin
     @GetMapping("/publisher/library/book/mainChapter")
     public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId) throws SQLException {
         return problemService.getProblemList(subChapterId);
     }
+
 
     @CrossOrigin
     @PostMapping("/publisher/library/book/mainChapter/subChapter/problems")
