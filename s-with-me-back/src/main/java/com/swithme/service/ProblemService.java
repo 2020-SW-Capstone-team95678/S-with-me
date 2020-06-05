@@ -15,7 +15,7 @@ import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Reader;
+import java.io.IOException;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
@@ -26,8 +26,6 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final SubChapterRepository subChapterRepository;
-    private final MyBookRepository myBookRepository;
-    private final MyProblemRepository myProblemRepository;
 
     @Transactional
     public ProblemResponseDto findById(int problemId) throws SQLException {
@@ -38,14 +36,14 @@ public class ProblemService {
         String solution;
         String image;
 
-        try{ content = problem.getContent().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ content = null; }
+        try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ content = null; }
 
-        try{ solution = problem.getSolution().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ solution = null; }
+        try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ solution = null; }
 
-        try{ image = problem.getImage().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ image = null; }
+        try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ image = null; }
 
         ProblemResponseDto responseDto =  ProblemResponseDto.builder()
                 .problemId(problem.getProblemId())
@@ -125,28 +123,27 @@ public class ProblemService {
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
         List<ProblemResponseDto> responseDtoList = new ArrayList<>();
 
-        Reader contentReader = null;
-        Reader solutionReader;
-        Reader imageReader;
+        String content;
+        String solution;
+        String image;
 
         for(Problem problem : problemList){
-            try{
-                contentReader = problem.getContent().getCharacterStream();
-            }catch (NullPointerException nullPointerException){
-                System.out.println(contentReader);
-            }
-            contentReader = problem.getContent().getCharacterStream();
-            solutionReader = problem.getSolution().getCharacterStream();
-            imageReader = problem.getImage().getCharacterStream();
+            try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ content = null; }
 
+            try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ solution = null; }
+
+            try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ image = null; }
 
             responseDtoList.add(ProblemResponseDto.builder()
                     .problemId(problem.getProblemId())
                     .subChapterId(subChapterId)
                     .title(problem.getTitle())
-                    .content(contentReader.toString())
-                    .solution(solutionReader.toString())
-                    .image(imageReader.toString())
+                    .content(content)
+                    .solution(solution)
+                    .image(image)
                     .problemNumber(problem.getProblemNumber())
                     .answer(problem.getAnswer())
                     .isOptional(problem.getIsOptional())
