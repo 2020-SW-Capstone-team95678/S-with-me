@@ -9,6 +9,9 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.hibernate.engine.jdbc.ClobProxy;
 
 import javax.persistence.*;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.Reader;
 import java.sql.Clob;
 
 @Getter
@@ -104,5 +107,16 @@ public class Problem {
         this.option3 = requestDto.getOption3();
         this.option4 = requestDto.getOption4();
         this.option5 = requestDto.getOption5();
+    }
+
+    public static String readClobData(Reader reader) throws IOException{
+        StringBuffer stringBuffer = new StringBuffer();
+        char[] buffer = new char[1024];
+        if(reader != null){
+            int length = 0;
+            while((length = reader.read(buffer)) != -1)
+                stringBuffer.append(buffer, 0, length);
+        }
+        return stringBuffer.toString();
     }
 }
