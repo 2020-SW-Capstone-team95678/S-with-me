@@ -4,6 +4,8 @@ import com.swithme.service.ProblemService;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 import java.util.*;
 @RequiredArgsConstructor
 @RestController
@@ -13,13 +15,13 @@ public class ProblemController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/my-problems")
-    public ProblemResponseDto getProblem(@RequestParam("problemId") int problemId){
+    public ProblemResponseDto getProblem(@RequestParam("problemId") int problemId) throws SQLException {
         return problemService.findById(problemId);
     }
 
     @CrossOrigin
     @GetMapping("/publisher/library/book/mainChapter")
-    public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId){
+    public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId) throws SQLException {
         return problemService.getProblemList(subChapterId);
     }
 

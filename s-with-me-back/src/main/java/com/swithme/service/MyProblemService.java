@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Reader;
+import java.sql.SQLException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -124,18 +126,31 @@ public class MyProblemService {
 
 
     @Transactional
-    public MySolutionResponseDto getMySolution(int myProblemId) {
+    public MySolutionResponseDto getMySolution(int myProblemId) throws SQLException {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 myProblem이 없습니다. myProblemId = " + myProblemId));
         Problem problem = myProblem.getProblem();
         SubChapter subChapter = problem.getSubChapter();
+
+        String content;
+        try{ content = problem.getContent().getCharacterStream().toString(); }
+        catch (NullPointerException nullPointerException){ content = null; }
+
+        String solution;
+        try{ solution = problem.getSolution().getCharacterStream().toString(); }
+        catch (NullPointerException nullPointerException){ solution = null; }
+
+        String image;
+        try{ image = problem.getImage().getCharacterStream().toString(); }
+        catch (NullPointerException nullPointerException){ image = null; }
+
         ProblemResponseDto problemResponseDto = ProblemResponseDto.builder().build().builder()
                 .problemId(problem.getProblemId())
                 .subChapterId(subChapter.getSubChapterId())
                 .title(problem.getTitle())
-                .content(problem.getContent())
-                .solution(problem.getSolution())
-                .image(problem.getImage())
+                .content(content)
+                .solution(solution)
+                .image(image)
                 .answer(problem.getAnswer())
                 .problemNumber(problem.getProblemNumber())
                 .isOptional(problem.getIsOptional())
