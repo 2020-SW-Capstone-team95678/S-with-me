@@ -18,7 +18,7 @@ class Heading extends PureComponent {
 }
 
 Heading.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   dark: PropTypes.bool,
   level: PropTypes.number,
 };

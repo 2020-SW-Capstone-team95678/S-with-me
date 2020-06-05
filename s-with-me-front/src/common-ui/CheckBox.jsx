@@ -30,7 +30,7 @@ class CheckBox extends PureComponent {
             ref={this.setRef}
             type="checkbox"
             checked={checked && 'checked'}
-            onClick={this.handleClick}
+            onChange={this.handleClick}
           />
           {children}
         </div>
