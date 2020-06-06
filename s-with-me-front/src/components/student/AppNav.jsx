@@ -73,8 +73,14 @@ class AppNav extends PureComponent {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-                  <FontAwesomeIcon icon={faStore} size="lg" />
-                  서점
+                  <NavLink
+                    to="/bookstore"
+                    activeStyle={activeStyle}
+                    style={{ textDecoration: 'none', color: '#333333' }}
+                  >
+                    <FontAwesomeIcon icon={faStore} size="lg" />
+                    서점
+                  </NavLink>
                 </div>
               </div>
               <div style={{ flex: 1, color: '#333333' }}>

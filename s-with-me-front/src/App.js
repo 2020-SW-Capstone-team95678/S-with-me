@@ -18,6 +18,7 @@ import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 import BookDetail from './components/student/libarary/BookDetail';
+import Bookstore from './components/student/bookstore/BookstoreApp';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
@@ -105,6 +106,7 @@ export default class App extends PureComponent {
                   />
                   <Route path="/library" exact render={() => <LibraryAppContainer />} />
                   <Route path="/note" exact render={() => <NoteAppContainer />} />
+                  <Route path="/bookstore" exact render={() => <Bookstore />} />
                   <NotificationContainer />
                 </AppLayout>
                 <Route path="*" component={NotFound} />
