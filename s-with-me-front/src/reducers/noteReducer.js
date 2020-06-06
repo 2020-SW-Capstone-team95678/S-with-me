@@ -11,7 +11,7 @@ import {
   SET_MY_NEW_IMAGE_SOLUTION,
   SET_MY_NEW_LINK_SOLUTION,
   SET_TEMP_SOLUTION_TYPE,
-  SET_IS_MATH,
+  SET_TEMP_IS_MATH,
 } from '../actions/noteActions';
 
 const initState = {
@@ -158,13 +158,13 @@ export default (state = initState, action) => {
         },
       };
     }
-    case SET_IS_MATH: {
-      const { id, isMath } = payload;
+    case SET_TEMP_IS_MATH: {
+      const { id, tempIsMath } = payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          [id]: { ...state.entities[id], isMath },
+          [id]: { ...state.entities[id], tempIsMath },
         },
       };
     }

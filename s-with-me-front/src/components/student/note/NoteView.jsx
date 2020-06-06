@@ -38,9 +38,10 @@ class NoteView extends PureComponent {
       solutionType: note.tempSolutionType,
       myAnswer: String(note.myAnswer),
       solvedDateTime: note.solvedDateTime,
+      isMath: note.tempIsMath,
     };
     if (note.tempSolutionType === 'text') {
-      if (note.isMath) {
+      if (note.tempIsMath) {
         const mathSolution = JSON.stringify(note.myNewTextSolution);
         formValue = { ...formValue, textSolution: mathSolution };
       }
@@ -204,7 +205,7 @@ class NoteView extends PureComponent {
                     문제 삭제
                   </Button>
                   {resolve === 'INIT' ? null : (
-                    <Button onPress={() => this.handleSaveNote()}>새 풀이 저장</Button>
+                    <Button onPress={() => this.handleSaveNote()}>새 답과 풀이 저장</Button>
                   )}
                 </div>
               )}

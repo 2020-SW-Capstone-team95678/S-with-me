@@ -12,7 +12,7 @@ export const SET_MY_NEW_LINK_SOLUTION = 'note/SET_MY_NEW_LINK_SOLUTION';
 export const SET_NEW_IS_RIGHT = 'note/SET_NEW_IS_RIGHT';
 export const SET_NEW_SOLVED_DATE_TIME = 'note/SET_NEW_SOLVED_DATE_TIME';
 export const SET_TEMP_SOLUTION_TYPE = 'note/SET_TEMP_SOLUTION_TYPE';
-export const SET_IS_MATH = 'note/SET_IS_MATH';
+export const SET_TEMP_IS_MATH = 'note/SET_TEMP_IS_MATH';
 
 export function requestNoteList(params) {
   return {
@@ -107,7 +107,7 @@ export const setTempSolutionType = (id, tempSolutionType) => ({
   payload: { id, tempSolutionType },
 });
 
-export const setIsMath = (id, isMath) => ({
-  type: SET_IS_MATH,
-  payload: { id, isMath },
+export const setIsMath = (id, tempIsMath) => ({
+  type: SET_TEMP_IS_MATH,
+  payload: { id, tempIsMath },
 });
