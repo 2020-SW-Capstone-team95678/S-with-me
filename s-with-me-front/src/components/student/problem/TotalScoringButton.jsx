@@ -14,7 +14,6 @@ export default class TotalScoringButton extends PureComponent {
   handleTotalScroing() {
     const { id, pagination, myProblemList, answerList } = this.props;
     const { setSolvedDateTime, setLastMyProblemPage, setIsRight } = this.props;
-    let index = 0;
     for (let myProblem of myProblemList) {
       if (myProblem.myAnswer && !myProblem.isSolved) {
         setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
@@ -24,7 +23,6 @@ export default class TotalScoringButton extends PureComponent {
           setIsRight(myProblem.myProblemId, true);
         } else setIsRight(myProblem.myProblemId, false);
       }
-      index++;
     }
   }
   componentDidMount() {
