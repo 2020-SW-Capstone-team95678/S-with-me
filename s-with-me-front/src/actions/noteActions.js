@@ -107,7 +107,7 @@ export const setTempSolutionType = (id, tempSolutionType) => ({
   payload: { id, tempSolutionType },
 });
 
-export const setIsMath = (id, tempIsMath) => ({
+export const setTempIsMath = (id, tempIsMath) => ({
   type: SET_TEMP_IS_MATH,
   payload: { id, tempIsMath },
 });

@@ -4,7 +4,7 @@ import {
   setMyNewLinkSolution,
   setMyNewTextSolution,
   setTempSolutionType as setSolutionType,
-  setIsMath,
+  setTempIsMath,
 } from '../../../actions/noteActions';
 import { requestChapterList } from '../../../actions/chapterActions';
 import NewSolutionInput from '../../../components/student/note/NewSolutionInput';
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
   setMyNewTextSolution,
   requestChapterList,
   setSolutionType,
-  setIsMath,
+  setTempIsMath,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSolutionInput);

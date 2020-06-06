@@ -56,10 +56,10 @@ export default class NewSolutionInput extends PureComponent {
     setMyNewLinkSolution(id, selectedId);
   }
   handleMath() {
-    const { id, setIsMath } = this.props;
+    const { id, setTempIsMath } = this.props;
     const { isMath } = this.state;
     this.setState({ isMath: !isMath });
-    setIsMath(id, isMath);
+    setTempIsMath(id, !isMath);
   }
   render() {
     const { solutionType, onChange, values, chapterList } = this.props;
@@ -78,8 +78,12 @@ export default class NewSolutionInput extends PureComponent {
             <div style={{ flex: 2 }}>
               <Select name="selectMainChapterId" onChange={onChange}>
                 <Option label="선택해 주세요" value="" />
-                {chapterList.map(({ mainChapter }) => (
-                  <Option label={mainChapter.mainChapterName} value={mainChapter.mainChapterId} />
+                {chapterList.map(({ mainChapter }, index) => (
+                  <Option
+                    key={index}
+                    label={mainChapter.mainChapterName}
+                    value={mainChapter.mainChapterId}
+                  />
                 ))}
               </Select>
             </div>
