@@ -74,6 +74,7 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
         bookRepository.save(Book.builder()
+                .isOnSale(false)
                 .publisher(publisher)
                 .subject(createDto.getSubject())
                 .price(createDto.getPrice())
