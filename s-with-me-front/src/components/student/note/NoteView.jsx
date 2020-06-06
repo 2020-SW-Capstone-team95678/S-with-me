@@ -33,17 +33,29 @@ class NoteView extends PureComponent {
 
   handleSaveNote() {
     const { updateNote, setResolve, note } = this.props;
-    const formValue = {
-      solvedDateTime: note.solvedDateTime,
+    let formValue = {
       isRight: note.isRight,
-      myAnswer: note.myAnswer,
-      mySolution: note.myNewSolution,
+      solutionType: note.tempSolutionType,
+      myAnswer: String(note.myAnswer),
+      solvedDateTime: note.solvedDateTime,
     };
+    if (note.tempSolutionType === 'text') {
+      if (note.isMath) {
+        const mathSolution = JSON.stringify(note.myNewTextSolution);
+        formValue = { ...formValue, textSolution: mathSolution };
+      }
+      formValue = { ...formValue, textSolution: note.textSolution };
+    } else if (note.tempSolutionType === 'img') {
+      formValue = { ...formValue, imageSolution: note.myNewImageSolution };
+    } else {
+      formValue = { ...formValue, linkSolutionId: note.myNewLinkSolution };
+    }
     updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
   }
   componentDidMount() {
     this._isMounted = true;
-    const { note } = this.props;
+    const { note, setResolve } = this.props;
+    setResolve(note.noteId, 'INIT');
     Api.get('/student/library/my-book/my-problems', {
       params: { problemId: note.problemId },
     }).then(({ data }) => {

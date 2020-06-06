@@ -4,6 +4,7 @@ import {
   setTextSolution,
   setLinkSolutionId,
   setSolutionType,
+  setIsMath,
 } from '../../../actions/myProblemActions';
 import { requestChapterList } from '../../../actions/chapterActions';
 import SolutionInput from '../../../components/student/problem/SolutionInput';
@@ -21,6 +22,7 @@ const mapDispatchToProps = {
   setLinkSolutionId,
   requestChapterList,
   setSolutionType,
+  setIsMath,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SolutionInput);

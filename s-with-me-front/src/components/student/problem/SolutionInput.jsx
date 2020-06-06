@@ -4,18 +4,21 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
+import CheckBox from '../../../common-ui/CheckBox';
 import Select, { Option } from '../../../common-ui/Select';
 
 import SelectSubChapter from '../libarary/SelectSubChapter';
 import { PREVIEW_PROBLEM } from '../../../constants/modals';
+import Button from '../../../common-ui/Button';
 
 class SolutionInput extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { file: '', previewURL: '', myProblemListForLink: [] };
+    this.state = { file: '', previewURL: '', myProblemListForLink: [], isMath: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleFileOnChange = this.handleFileOnChange.bind(this);
     this.handleLinkSolution = this.handleLinkSolution.bind(this);
+    this.handleMath = this.handleMath.bind(this);
   }
   componentDidMount() {
     const { myBookId, requestChapterList, solutionType } = this.props;
@@ -54,9 +57,15 @@ class SolutionInput extends PureComponent {
     const { id, setLinkSolutionId } = this.props;
     setLinkSolutionId(id, selectedId);
   }
+  handleMath() {
+    const { id, setIsMath } = this.props;
+    const { isMath } = this.state;
+    this.setState({ isMath: !isMath });
+    setIsMath(id, isMath);
+  }
   render() {
     const { solutionType, onChange, values, chapterList, styles } = this.props;
-    const { file, previewURL, myProblemListForLink } = this.state;
+    const { file, previewURL, myProblemListForLink, isMath } = this.state;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -129,6 +138,22 @@ class SolutionInput extends PureComponent {
     } else {
       return (
         <div style={{ padding: '5px', paddingTop: 5 }}>
+          <div style={{ display: 'flex', border: '1px solid' }}>
+            <div
+              style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <CheckBox name="isMath" onChange={() => this.handleMath()} checked={isMath}>
+                수식 입력하기
+              </CheckBox>
+            </div>
+            {isMath ? (
+              <div
+                style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              >
+                <Button small>수식 입력 방법 보러 가기!</Button>
+              </div>
+            ) : null}
+          </div>
           <textarea
             type="text"
             onChange={this.handleChange}

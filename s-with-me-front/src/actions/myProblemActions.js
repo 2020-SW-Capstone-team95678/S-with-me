@@ -7,6 +7,7 @@ export const SET_MY_LINK_SOLUTION = 'myProblem/SET_MY_LINK_SOLUTION';
 export const SET_SOLVED_DATETIME = 'myProblem/SET_SOLVED_DATETIME';
 export const SET_IS_RIGHT = 'myProblem/SET_IS_RIGHT';
 export const SET_IS_SOLVED = 'myProblem/SET_IS_SOLVED';
+export const SET_IS_MATH = 'myProblem/SET_IS_MATH';
 
 export const setMyAnswer = (id, myAnswer) => ({
   type: SET_MY_ANSWER,
@@ -51,4 +52,9 @@ export const setIsRight = (id, isRight) => ({
 export const setIsSolved = (id, isSolved) => ({
   type: SET_IS_SOLVED,
   payload: { id, isSolved },
+});
+
+export const setIsMath = (id, isMath) => ({
+  type: SET_IS_MATH,
+  payload: { id, isMath },
 });

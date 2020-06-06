@@ -24,7 +24,7 @@ class NoteResolve extends PureComponent {
 
   render() {
     const { problem, note, styles } = this.props;
-    const { problemNum, content, isOptional, answer, title, image } = problem;
+    const { problemNumber, content, isOptional, answer, title, image } = problem;
     const { noteId, myAnswer, tempSolutionType, myBookId } = note;
     let optionContents = [];
     if (isOptional) {
@@ -42,12 +42,12 @@ class NoteResolve extends PureComponent {
             <VerticalList spacingBetween={2}>
               <div {...css(styles.body)}>
                 <Text>
-                  {problemNum ? problemNum + '.' : null}
+                  {problemNumber ? problemNumber + '.' : null}
                   {title}
                 </Text>
                 {image ? (
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <img src={image} alt={problemNum + '문제 그림'} style={{ width: '80%' }} />
+                    <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
                   </div>
                 ) : null}
                 {content ? (
@@ -55,7 +55,7 @@ class NoteResolve extends PureComponent {
                     <Text>{content}</Text>
                   </div>
                 ) : null}
-                {problemNum ? (
+                {problemNumber ? (
                   <NewAnswerInputContainer
                     id={noteId}
                     isOptional={isOptional}
@@ -82,13 +82,11 @@ class NoteResolve extends PureComponent {
                   solutionType={tempSolutionType}
                 />
               </div>
-              {problemNum ? (
-                <div style={{ display: 'flex' }}>
-                  <NewScoringButtonContainer id={noteId} answer={answer} myAnswer={myAnswer}>
-                    새로 채점
-                  </NewScoringButtonContainer>
-                </div>
-              ) : null}
+              <div style={{ display: 'flex' }}>
+                <NewScoringButtonContainer id={noteId} answer={answer} myAnswer={myAnswer}>
+                  {problemNumber ? '새로 채점' : '새 풀이 임시 저장'}
+                </NewScoringButtonContainer>
+              </div>
             </VerticalList>
           )}
         </Form.Consumer>
