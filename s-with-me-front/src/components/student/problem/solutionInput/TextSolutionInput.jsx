@@ -38,7 +38,7 @@ export default function TextSolutionInput(props) {
           </div>
         ) : null}
       </div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', paddingBottom: 5 }}>
         <textarea
           type="text"
           onChange={handleChange}
