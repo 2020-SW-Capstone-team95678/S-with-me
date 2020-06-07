@@ -272,7 +272,6 @@ public class ChapterControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-
     @Test
     public void deleteFirstSubChapterTest(){
         assertThat(subChapterRepository.findAll()).isNotEmpty();

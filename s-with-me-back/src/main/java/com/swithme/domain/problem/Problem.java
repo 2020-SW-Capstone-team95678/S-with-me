@@ -68,11 +68,14 @@ public class Problem{
     @Column(name = "isMath")
     private Boolean isMath;
 
+    @Column(name = "beforeProblemId")
+    private Integer beforeProblemId;
+
     @Builder
     public Problem(SubChapter subChapter, String title, Clob content, Clob solution,
                     short problemNumber, Clob image, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5,
-                   Boolean isMath){
+                   Boolean isMath, Integer beforeProblemId){
         this.subChapter = subChapter;
         this.title = title;
         this.content = content;
@@ -87,6 +90,7 @@ public class Problem{
         this.option4 = option4;
         this.option5 = option5;
         this.isMath = isMath;
+        this.beforeProblemId = beforeProblemId;
     }
 
     public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {
@@ -110,6 +114,10 @@ public class Problem{
         this.option3 = requestDto.getOption3();
         this.option4 = requestDto.getOption4();
         this.option5 = requestDto.getOption5();
+    }
+
+    public void update(Integer beforeProblemId){
+        this.beforeProblemId = beforeProblemId;
     }
 
     public static String readClobData(Reader reader) throws IOException{

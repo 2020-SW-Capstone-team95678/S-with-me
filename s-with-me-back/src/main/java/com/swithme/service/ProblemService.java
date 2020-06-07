@@ -190,7 +190,25 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
         short problemNumber = problem.getProblemNumber();
 
+        Problem beforeProblem = null;
+        if(problem.getBeforeProblemId() != 0) {
+            beforeProblem = problemRepository.findById(problem.getBeforeProblemId())
+                    .orElseThrow(() -> new IllegalArgumentException("이전 소단원이 없습니다."));
+        }
+        Problem afterProblem = problemRepository.findByBeforeProblemId(problemId);
+
         problemRepository.delete(problem);
+
+        if(!problemRepository.findAll().isEmpty()) {
+            //가장 앞을 삭제한 경우
+            if(beforeProblem == null)
+                afterProblem.update(0);
+                //가장 뒤를 삭제한 경우
+            else if(afterProblem == null);
+                //나머지 경우
+            else
+                afterProblem.update(beforeProblem.getProblemId());
+        }
 
         return problemNumber + "번 문제가 삭제되었습니다.";
     }
