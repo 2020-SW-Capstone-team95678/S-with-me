@@ -6,6 +6,8 @@ import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.*;
@@ -22,6 +24,7 @@ public class ChapterService {
     private final SubChapterRepository subChapterRepository;
     private final BookRepository bookRepository;
     private final MyBookRepository myBookRepository;
+    private final ProblemRepository problemRepository;
 
     @Transactional
     public String getSubChapterName(int subChapterId)
@@ -137,4 +140,35 @@ public class ChapterService {
         return "소단원이 수정되었습니다.";
     }
 
+    @Transactional
+    public String deleteSubChapter(int subChapterId) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
+        String subChapterName = subChapter.getSubChapterName();
+
+        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+
+        problemRepository.deleteAll(problemList);
+        subChapterRepository.delete(subChapter);
+
+        return subChapterName + " 소단원과 해당 소단원에 포함된 문제가 모두 삭제되었습니다.";
+    }
+
+    @Transactional
+    public String deleteMainChapter(int mainChapterId) {
+        MainChapter mainChapter = mainChapterRepository.findById(mainChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
+        String mainChapterName = mainChapter.getMainChapterName();
+
+        List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+        for(SubChapter subChapter : subChapterList){
+            List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+            problemRepository.deleteAll(problemList);
+        }
+
+        subChapterRepository.deleteAll(subChapterList);
+        mainChapterRepository.delete(mainChapter);
+
+        return mainChapterName + " 대단원과 해당 대단원에 포함된 소단원, 문제가 모두 삭제되었습니다.";
+    }
 }
