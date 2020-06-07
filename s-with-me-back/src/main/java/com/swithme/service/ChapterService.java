@@ -41,27 +41,41 @@ public class ChapterService {
         List<ChapterResponseDto> responseDtoList = new ArrayList<>();
 
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
-        for(MainChapter mainChapter : mainChapterList){
-            MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
-                    .mainChapterId(mainChapter.getMainChapterId())
-                    .mainChapterName(mainChapter.getMainChapterName())
-                    .build();
-
-            List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
-            List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
-            for(SubChapter subChapter : subChapterList){
-                subChapterResponseDtoList.add(SubChapterResponseDto.builder()
+        if(!mainChapterList.isEmpty()) {
+            Collections.sort(mainChapterList);
+            for (MainChapter mainChapter : mainChapterList) {
+                MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
                         .mainChapterId(mainChapter.getMainChapterId())
-                        .subChapterId(subChapter.getSubChapterId())
-                        .subChapterName(subChapter.getSubChapterName())
+                        .mainChapterName(mainChapter.getMainChapterName())
+                        .build();
+
+                List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+                if(!subChapterList.isEmpty()) {
+                    Collections.sort(subChapterList);
+                    List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
+                    for (SubChapter subChapter : subChapterList) {
+                        subChapterResponseDtoList.add(SubChapterResponseDto.builder()
+                                .mainChapterId(mainChapter.getMainChapterId())
+                                .subChapterId(subChapter.getSubChapterId())
+                                .subChapterName(subChapter.getSubChapterName())
+                                .build());
+                    }
+
+                    responseDtoList.add(ChapterResponseDto.builder()
+                            .mainChapterResponseDto(mainChapterResponseDto)
+                            .subChapterResponseDtoList(subChapterResponseDtoList)
+                            .build());
+                }
+                else responseDtoList.add(ChapterResponseDto.builder()
+                        .mainChapterResponseDto(mainChapterResponseDto)
+                        .subChapterResponseDtoList(null)
                         .build());
             }
-
-            responseDtoList.add(ChapterResponseDto.builder()
-                    .mainChapterResponseDto(mainChapterResponseDto)
-                    .subChapterResponseDtoList(subChapterResponseDtoList)
-                    .build());
         }
+        else responseDtoList.add(ChapterResponseDto.builder()
+                .mainChapterResponseDto(null)
+                .subChapterResponseDtoList(null)
+                .build());
         return responseDtoList;
     }
 
@@ -73,6 +87,7 @@ public class ChapterService {
         List<ChapterResponseDto> responseDtoList = new ArrayList<>();
 
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        Collections.sort(mainChapterList);
         for(MainChapter mainChapter : mainChapterList){
             MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
                     .mainChapterId(mainChapter.getMainChapterId())
@@ -80,6 +95,7 @@ public class ChapterService {
                     .build();
 
             List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+            Collections.sort(subChapterList);
             List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
             for(SubChapter subChapter : subChapterList){
                 subChapterResponseDtoList.add(SubChapterResponseDto.builder()

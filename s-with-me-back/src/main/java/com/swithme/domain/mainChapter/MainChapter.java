@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity(name = "mainChapter")
-public class MainChapter {
+public class MainChapter implements Comparable<MainChapter>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,18 @@ public class MainChapter {
         this.beforeMainChapterId = beforeMainChapterId;
     }
 
-    public void update(MainChapterUpdateRequestDto requestDto) {
+    @Override
+    public int compareTo(MainChapter mainChapter){
+        if(mainChapter.getBeforeMainChapterId() == this.getMainChapterId())
+            return 1;
+        else if(this.getBeforeMainChapterId() == mainChapter.getMainChapterId())
+            return -1;
+        else
+            return 0;
+    }
+
+
+public void update(MainChapterUpdateRequestDto requestDto) {
         this.mainChapterName = requestDto.getMainChapterName();
     }
 
