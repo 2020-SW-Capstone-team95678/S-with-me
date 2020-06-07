@@ -51,7 +51,12 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
-            <Button primary onPress={() => openModal(CREATE_BOOK, { onUpDate: onUpDate, publisherId:publisherId })}>
+            <Button
+              primary
+              onPress={() =>
+                openModal(CREATE_BOOK, { onUpDate: onUpDate, publisherId: publisherId })
+              }
+            >
               Create Book
             </Button>
           )}
@@ -125,6 +130,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
+  const [subject, setSubject] = useState(book.subject);
   const [grade, setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
   console.log(book.bookId);
@@ -146,6 +152,48 @@ export const BookInfo = ({ setData, book, setBooks }) => {
       event.target.blur();
     }
   }
+
+  function handleGradeChange(e) {
+    //console.log(book.grade);
+    //console.log(e.target.value);
+      if (e.target.value !== book.grade) {
+        //setGrade(e.target.value);
+        book.grade = e.target.value;
+      Api.put(`/publisher/library/book/${book.bookId}`, book)
+        .then(response =>
+          setBooks(prev => {
+            return [...prev];
+          }),
+        )
+        .catch(reason => setGrade(book.grade));
+      console.log(book.grade);
+
+    }
+  }
+  function handleSubjectChange(e) {
+    if (e.target.value !== book.subject) {
+      //setSubject(e.target.value);
+      book.subject = e.target.value;
+    Api.put(`/publisher/library/book/${book.bookId}`, book)
+      .then(response =>
+        setBooks(prev => {
+          return [...prev];
+        }),
+      )
+      .catch(reason => setSubject(book.subject));
+    console.log(book.subject);
+
+  }
+  }
+
+
+  const onChangeName = e => {
+    setName(e.target.value);
+  };
+
+  const onChangeIntro = e => {
+    setIntroduction(e.target.value);
+  };
 
   return (
     <>
@@ -174,32 +222,12 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
           <div>
             <p>제목</p>
-            {/* <input
-              style={{ flex: 1 }}
-              type="text"
-              value={name}
-              onKeyDown={handleEnter}
-              onChange={e => setName(e.target.value)}
-              onBlur={e => {
-                if (e.target.value !== book.name) {
-                  book.name = name;
-
-                  Api.put(`/publisher/library/book/${book.bookId}`, book)
-                    .then(response =>
-                      setBooks(prev => {
-                        return [...prev, book];
-                      }),
-                    )
-                    .catch(reason => setName(book.name));
-                }
-              }}
-            ></input> */}
 
             <input
               type="text"
               value={name}
               onKeyDown={handleEnter}
-              onChange={e => setName(e.target.value)}
+              onChange={onChangeName}
               onBlur={e => {
                 if (e.target.value !== book.name) {
                   book.name = name;
@@ -217,25 +245,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
           <div>
             <p>가격</p>
-            {/* <input
-              type="number"
-              value={price}
-              onKeyDown={handleEnter}
-              onChange={e => setPrice(e.target.value)}
-              onBlur={e => {
-                if (e.target.value !== book.price) {
-                  book.price = price;
 
-                  Api.put(`/publisher/library/book/${book.bookId}`, book)
-                    .then(response =>
-                      setBooks(prev => {
-                        return [...prev, book];
-                      }),
-                    )
-                    .catch(reason => setPrice(book.price));
-                }
-              }}
-            ></input> */}
             <input
               type="number"
               value={price}
@@ -258,46 +268,52 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
           <div>
             <p>학년</p>
-            <input
-              type="number"
-              value={book.grade}
-              // onKeyDown={handleEnter}
-              // onChange={e => setGrade(e.target.value)}
-              // onBlur={e => {
-              //   if (e.target.value !== book.grade) {
-              //     book.grade = grade;
+            <select
+              defaultValue={book.grade}
+              onChange={handleGradeChange}
 
-              //     Api.put(`/publisher/library/book/${book.bookId}`, book)
-              //       .then(response =>
-              //         setBooks(prev => {
-              //           return [...prev, book];
-              //         }),
-              //       )
-              //       .catch(reason => setGrade(book.grade));
-              //   }
-              // }}
-            ></input>
+            >
+              <option value="1">
+                1학년
+              </option>
+              <option value="2">2학년</option>
+              <option value="3">3학년</option>
+            </select>
+            
+          </div>
+          <div>
+            <p>과목</p>
+            <select defaultValue={book.subject} onChange={handleSubjectChange}>
+              <option value="국어">
+                국어
+              </option>
+              <option value="수학">수학</option>
+              <option value="사회">사회</option>
+              <option value="과학">과학</option>
+            </select>
+            
           </div>
           <div>
             <p>설명</p>
             <input
               type="text"
-              value={book.introduction}
-              // onKeyDown={handleEnter}
-              // onChange={e => setIntroduction(e.target.value)}
-              // onBlur={e => {
-              //   if (e.target.value !== book.introduction) {
-              //     book.introduction = introduction;
+              name="introduction"
+              value={introduction}
+              onKeyDown={handleEnter}
+              onChange={onChangeIntro}
+              onBlur={e => {
+                if (e.target.value !== book.introduction) {
+                  book.introduction = introduction;
 
-              //     Api.put(`/publisher/library/book/${book.bookId}`, book)
-              //       .then(response =>
-              //         setBooks(prev => {
-              //           return [...prev, book];
-              //         }),
-              //       )
-              //       .catch(reason => setIntroduction(book.introduction));
-              //   }
-              // }}
+                  Api.put(`/publisher/library/book/${book.bookId}`, book)
+                    .then(response =>
+                      setBooks(prev => {
+                        return [...prev];
+                      }),
+                    )
+                    .catch(reason => setIntroduction(book.introduction));
+                }
+              }}
             ></input>
           </div>
         </div>
