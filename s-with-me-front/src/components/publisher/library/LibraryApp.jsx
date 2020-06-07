@@ -133,7 +133,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
 
   const [name, setName] = useState(book.name);
-  const [turnOn,] = useState(null);
+  const [turnOn] = useState(null);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
   const [prevSub, setPrevSub] = useState(null);
@@ -198,8 +198,6 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const onChangeIntro = e => {
     setIntroduction(e.target.value);
   };
-  
-  
 
   return (
     <>
@@ -318,24 +316,27 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         <Modal>
           {({ openModal }) => (
             <>
-            <br/>
-            <button
-              style={{ cursor: 'point',marginRight:10 }}
-              primary
-              onClick={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
-            >
-              mainChapter add
-            </button>
-            <button
-            style={{ cursor: 'point' }}
-            primary
-            onClick={() => openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
-          >
-            mainChapter rename
-          </button>
-          </>
+              <br />
+              <button
+                style={{ cursor: 'point', marginRight: 10 }}
+                primary
+                onClick={() =>
+                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
+                }
+              >
+                mainChapter add
+              </button>
+              <button
+                style={{ cursor: 'point' }}
+                primary
+                onClick={() =>
+                  openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
+                }
+              >
+                mainChapter rename
+              </button>
+            </>
           )}
-          
         </Modal>
         <div id="main">
           <ChapterInfo
@@ -345,7 +346,9 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             }}
           />
         </div>
-        {selectedSubChapter!==null&&<ProblemInfo  book={book} setBooks={setBooks} subChapterId={selectedSubChapter} />}
+        {selectedSubChapter !== null && (
+          <ProblemInfo book={book} setBooks={setBooks} subChapterId={selectedSubChapter} />
+        )}
       </div>
     </>
   );
@@ -371,71 +374,111 @@ export const ChapterInfo = ({ bookId, onClick }) => {
       {chapters.map(chapter => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
         return (
-          <AccordionItem>
-            <AccordionItemHeading onClick={()=>onClick(null)}>
-              <AccordionItemButton >
+          <AccordionItem style={{ display: 'flex', cursor: 'point', }}>
+            <AccordionItemHeading
+              style={{ flex:4, cursor: 'point', flexDirection: 'row' }}
+              onClick={() => onClick(null)}
+            >
+              <AccordionItemButton style={{  cursor: 'point' }}>
                 {chapter.mainChapterResponseDto.mainChapterName}
-                
               </AccordionItemButton>
             </AccordionItemHeading>
+            <button
+              style={{ flex: 1, cursor: 'point' }}
+              primary
+              onClick={() =>
+                Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
+                  mainChapterId,
+                }).then(
+                  setChapters(prev => {
+                    return [...prev];
+                  }),
+                )
+              }
+            >
+              삭제
+            </button>
             <AccordionItemPanel style={{ cursor: 'point' }}>
               <Modal>
                 {({ openModal }) => (
                   <>
-                  <button style={{marginRight:10}}
-                    primary
-                    onClick={() =>
-                      openModal(CREATE_SUB_CHAPTER, {
-                        mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
-                      })
-                    }
-                  >
-                    subChapter add
-                  </button>
-                   <button
-                   style={{ cursor: 'point' }}
-                   primary
-                   onClick={() => openModal(UPDATE_SUB_CHAPTER, { type: 'edit',chapter:chapter, bookId:bookId })}
-                 >
-                   subChapter rename
-                 </button>
-                 </>
+                    <button
+                      style={{ marginRight: 10 }}
+                      primary
+                      onClick={() =>
+                        openModal(CREATE_SUB_CHAPTER, {
+                          mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
+                        })
+                      }
+                    >
+                      subChapter add
+                    </button>
+                    <button
+                      style={{ cursor: 'point' }}
+                      primary
+                      onClick={() =>
+                        openModal(UPDATE_SUB_CHAPTER, {
+                          type: 'edit',
+                          chapter: chapter,
+                          bookId: bookId,
+                        })
+                      }
+                    >
+                      subChapter rename
+                    </button>
+                  </>
                 )}
               </Modal>
-              
 
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
+                  const subChapterId = subChapter.subChapterId;
                   return (
                     <Modal>
                       {({ openModal }) => (
                         <div
                           style={{
                             display: 'flex',
-                            flexDirection: 'row',
-                            backgroundColor: 'rgb(255, 245, 238)',
-                            paddingLeft: 20,
-
-                            minHeight: 50,
-                            cursor: 'point',
-                          }}
-                          onClick={() => {
-                            onClick(subChapter.subChapterId);
                           }}
                         >
-                          <br></br>
-                          {subChapter.subChapterName}
-                          <div style={{ width: 20 }}></div>
-                          {/* 
+                          <div
+                            style={{
+                              display: 'flex',
+                              flex: 4,
+
+                              flexDirection: 'row',
+                              backgroundColor: 'rgb(255, 245, 238)',
+                              paddingLeft: 20,
+
+                              minHeight: 50,
+                              cursor: 'point',
+                            }}
+                            onClick={() => {
+                              onClick(subChapter.subChapterId);
+                            }}
+                          >
+                            <br></br>
+                            {subChapter.subChapterName}
+                            <div style={{ width: 20 }}></div>
+                          </div>
                           <button
-                            onPress={() =>
-                              openModal(CREATE_PROBLEM, {
-                                subChapterId: subChapter.subChapterId,
-                              })
+                            style={{ flex: 1, cursor: 'point' }}
+                            primary
+                            onClick={() =>
+                              Api.delete(
+                                `/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,
+                                {
+                                  subChapterId,
+                                },
+                              ).then(
+                                setChapters(prev => {
+                                  return [...prev];
+                                }),
+                              )
                             }
                           >
-                            문제 추가
-                          </button> */}
+                            삭제
+                          </button>
                         </div>
                       )}
                     </Modal>
@@ -507,85 +550,78 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
   );
 };
 
-
-
-const ProblemItem = ({ problem ,setBooks }) => {
-
+const ProblemItem = ({ problem, setBooks }) => {
   console.log(problem.isMath);
-  const problemId=problem.problemId;
+  const problemId = problem.problemId;
   console.log(problemId);
-
 
   return (
     <div>
-    {!problem.isMath ? (
-    <div>
-      <p>문제 제목 {problem.title}</p>
-      <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-        <img width={300} src={problem.image} alt="non-Image" />
-      </div>
-      <p>문제 내용 {problem.content}</p>
-      <p>문제 답 {problem.answer}</p>
-      <p>문제 해설{problem.solution}</p>
-      <Modal>
-          {({ openModal }) => (
-            <>
-            <br/>
-            <button
-              
-            >
-            문제 수정
-            </button>
-            
-          </>
-          )}
-          
-        </Modal>
-        <button
+      {!problem.isMath ? (
+        <div>
+          <p>문제 제목 {problem.title}</p>
+          <div style={{ borderWidth: 2, borderColor: 'gray' }}>
+            <img width={300} src={problem.image} alt="non-Image" />
+          </div>
+          <p>문제 내용 {problem.content}</p>
+          <p>문제 답 {problem.answer}</p>
+          <p>문제 해설{problem.solution}</p>
+          <Modal>
+            {({ openModal }) => (
+              <>
+                <br />
+                <button>문제 수정</button>
+              </>
+            )}
+          </Modal>
+          <button
             style={{ cursor: 'point' }}
             primary
-            onClick={() => Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
-              problemId
-            }).then(
-              setBooks(prev => {
-                return [...prev];
-              }),
-            )}
+            onClick={() =>
+              Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
+                problemId,
+              }).then(
+                setBooks(prev => {
+                  return [...prev];
+                }),
+              )
+            }
           >
             문제 삭제
           </button>
-    </div>):(
-      <div>
-      <p>문제 제목 </p>
-      <Latex delimiters={delimeters}>{problem.title}</Latex>
-      <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-        <img width={300} src={problem.image} alt="non-Image" />
-      </div>
-      <p>문제 내용</p>
-      <Latex delimiters={delimeters}>{problem.content}</Latex>
-      <p>문제 답 </p>
-      <Latex delimiters={delimeters}>{problem.answer}</Latex>
-      <p>문제 해설</p>
-      <Latex delimiters={delimeters}>{problem.solution}</Latex>
-      <button
+        </div>
+      ) : (
+        <div>
+          <p>문제 제목 </p>
+          <Latex delimiters={delimeters}>{problem.title}</Latex>
+          <div style={{ borderWidth: 2, borderColor: 'gray' }}>
+            <img width={300} src={problem.image} alt="non-Image" />
+          </div>
+          <p>문제 내용</p>
+          <Latex delimiters={delimeters}>{problem.content}</Latex>
+          <p>문제 답 </p>
+          <Latex delimiters={delimeters}>{problem.answer}</Latex>
+          <p>문제 해설</p>
+          <Latex delimiters={delimeters}>{problem.solution}</Latex>
+          <button
             style={{ cursor: 'point' }}
             primary
-            onClick={() => Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
-              problemId
-            }).then(response =>
-              setBooks(prev => {
-                return [...prev];
-              }),
-            )}
+            onClick={() =>
+              Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
+                problemId,
+              }).then(response =>
+                setBooks(prev => {
+                  return [...prev];
+                }),
+              )
+            }
           >
             문제 삭제
           </button>
-    </div>
-    )}
+        </div>
+      )}
     </div>
   );
 };
-
-
 
 export default LibraryApp;
