@@ -5,9 +5,7 @@ import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import InputBookCover from '../library/InputBookCover';
-import InlineList from '../../../common-ui/InlineList';
-import Form from '../../../common-ui/Form';
-import Select, { Option } from '../../../common-ui/Select';
+
 
 const CreateBookPage = props => {
   //const onUpDate  = props;

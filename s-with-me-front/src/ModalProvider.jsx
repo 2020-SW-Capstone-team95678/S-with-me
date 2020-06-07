@@ -13,6 +13,8 @@ import {
   CREATE_MAIN_CHAPTER,
   CREATE_SUB_CHAPTER,
   CREATE_PROBLEM,
+  UPDATE_MAIN_CHAPTER,
+  UPDATE_SUB_CHAPTER,
 } from './constants/modals';
 import ProfileEditPage from './components/publisher/profile/ProfileEditPage';
 import ProfileEditPageStudent from './components/student/profile/ProfileEditPage';
@@ -24,7 +26,9 @@ import CreateCurriculumPageContainer from './containers/student/book/CreateCurri
 import ProblemPreviewPage from './components/student/problem/ProblemPreviewPage';
 import CreateBookPage from './components/publisher/createBook/CreateBookPage';
 import CreateMainChapterPage from './components/publisher/createBook/CreateMainChapterPage';
+import RenameMainChapter from './components/publisher/createBook/RenameMainChapter';
 import CreateSubChapterPage from './components/publisher/createBook/CreateSubChapterPage';
+import RenameSubChapter from './components/publisher/createBook/RenameSubChapter';
 import CreateProblemPage from './components/publisher/createBook/RegisterProblem';
 
 export default createProvider({
@@ -38,6 +42,8 @@ export default createProvider({
   [PREVIEW_PROBLEM]: ProblemPreviewPage,
   [CREATE_BOOK]: CreateBookPage,
   [CREATE_MAIN_CHAPTER]: CreateMainChapterPage,
+  [UPDATE_MAIN_CHAPTER]: RenameMainChapter,
   [CREATE_SUB_CHAPTER]: CreateSubChapterPage,
+  [UPDATE_SUB_CHAPTER]: RenameSubChapter,
   [CREATE_PROBLEM]: CreateProblemPage,
 });

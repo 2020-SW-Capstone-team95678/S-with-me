@@ -17,7 +17,9 @@ import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import CheckBox from '../../../common-ui/CheckBox';
+import { UPDATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
+import { UPDATE_SUB_CHAPTER } from '../../../constants/modals';
 import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
 import RegisterProblem from '../createBook/RegisterProblem';
 
@@ -156,9 +158,9 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   function handleGradeChange(e) {
     //console.log(book.grade);
     //console.log(e.target.value);
-      if (e.target.value !== book.grade) {
-        //setGrade(e.target.value);
-        book.grade = e.target.value;
+    if (e.target.value !== book.grade) {
+      //setGrade(e.target.value);
+      book.grade = e.target.value;
       Api.put(`/publisher/library/book/${book.bookId}`, book)
         .then(response =>
           setBooks(prev => {
@@ -167,25 +169,22 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         )
         .catch(reason => setGrade(book.grade));
       console.log(book.grade);
-
     }
   }
   function handleSubjectChange(e) {
     if (e.target.value !== book.subject) {
       //setSubject(e.target.value);
       book.subject = e.target.value;
-    Api.put(`/publisher/library/book/${book.bookId}`, book)
-      .then(response =>
-        setBooks(prev => {
-          return [...prev];
-        }),
-      )
-      .catch(reason => setSubject(book.subject));
-    console.log(book.subject);
-
+      Api.put(`/publisher/library/book/${book.bookId}`, book)
+        .then(response =>
+          setBooks(prev => {
+            return [...prev];
+          }),
+        )
+        .catch(reason => setSubject(book.subject));
+      console.log(book.subject);
+    }
   }
-  }
-
 
   const onChangeName = e => {
     setName(e.target.value);
@@ -268,30 +267,20 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
           <div>
             <p>학년</p>
-            <select
-              defaultValue={book.grade}
-              onChange={handleGradeChange}
-
-            >
-              <option value="1">
-                1학년
-              </option>
+            <select defaultValue={book.grade} onChange={handleGradeChange}>
+              <option value="1">1학년</option>
               <option value="2">2학년</option>
               <option value="3">3학년</option>
             </select>
-            
           </div>
           <div>
             <p>과목</p>
             <select defaultValue={book.subject} onChange={handleSubjectChange}>
-              <option value="국어">
-                국어
-              </option>
+              <option value="국어">국어</option>
               <option value="수학">수학</option>
               <option value="사회">사회</option>
               <option value="과학">과학</option>
             </select>
-            
           </div>
           <div>
             <p>설명</p>
@@ -321,14 +310,25 @@ export const BookInfo = ({ setData, book, setBooks }) => {
       <div>
         <Modal>
           {({ openModal }) => (
-            <Button
-              style={{ cursor: 'point' }}
+            <>
+            <br/>
+            <button
+              style={{ cursor: 'point',marginRight:10 }}
               primary
-              onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
+              onClick={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
             >
               mainChapter add
-            </Button>
+            </button>
+            <button
+            style={{ cursor: 'point' }}
+            primary
+            onClick={() => openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
+          >
+            mainChapter rename
+          </button>
+          </>
           )}
+          
         </Modal>
         <div id="main">
           <ChapterInfo
@@ -346,6 +346,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
 
 export const ChapterInfo = ({ bookId, onClick }) => {
   const [chapters, setChapters] = useState([]);
+  const [mainChapterName, setMainChapterName] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -361,6 +362,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
   return (
     <Accordion allowZeroExpanded={true}>
       {chapters.map(chapter => {
+        const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
         return (
           <AccordionItem>
             <AccordionItemHeading>
@@ -371,18 +373,28 @@ export const ChapterInfo = ({ bookId, onClick }) => {
             <AccordionItemPanel style={{ cursor: 'point' }}>
               <Modal>
                 {({ openModal }) => (
-                  <Button
+                  <>
+                  <button style={{marginRight:10}}
                     primary
-                    onPress={() =>
+                    onClick={() =>
                       openModal(CREATE_SUB_CHAPTER, {
                         mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
                       })
                     }
                   >
                     subChapter add
-                  </Button>
+                  </button>
+                   <button
+                   style={{ cursor: 'point' }}
+                   primary
+                   onClick={() => openModal(UPDATE_SUB_CHAPTER, { type: 'edit',chapter:chapter, bookId:bookId })}
+                 >
+                   subChapter rename
+                 </button>
+                 </>
                 )}
               </Modal>
+              
 
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
