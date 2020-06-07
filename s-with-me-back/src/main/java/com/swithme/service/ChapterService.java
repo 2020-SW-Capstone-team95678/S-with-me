@@ -131,12 +131,29 @@ public class ChapterService {
         MainChapter mainChapter = mainChapterRepository.findById(createDto.getMainChapterId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 main chapter가 없습니다. mainChapterId = " + createDto.getMainChapterId()));
-        subChapterRepository.save(SubChapter.builder()
-                .mainChapter(mainChapter)
-                .subChapterName(createDto.getSubChapterName())
-                .build());
-        int index = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
-        return subChapterRepository.findByMainChapter(mainChapter).get(index).getSubChapterId();
+
+        if(subChapterRepository.findAll().isEmpty()) {
+            subChapterRepository.save(SubChapter.builder()
+                    .mainChapter(mainChapter)
+                    .subChapterName(createDto.getSubChapterName())
+                    .beforeSubChapterId(0)
+                    .build());
+        }
+        else{
+            List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+            int last = subChapterList.size() - 1;
+            SubChapter lastSubChapter = subChapterList.get(last);
+
+            subChapterRepository.save(SubChapter.builder()
+                    .mainChapter(mainChapter)
+                    .subChapterName(createDto.getSubChapterName())
+                    .beforeSubChapterId(lastSubChapter.getSubChapterId())
+                    .build());
+        }
+
+        int last = subChapterRepository.findByMainChapter(mainChapter).size() - 1;
+
+        return subChapterRepository.findByMainChapter(mainChapter).get(last).getSubChapterId();
     }
 
     @Transactional
@@ -155,20 +172,6 @@ public class ChapterService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + requestDto.getMainChapterId()));
         subChapter.update(mainChapter, requestDto);
         return "소단원이 수정되었습니다.";
-    }
-
-    @Transactional
-    public String deleteSubChapter(int subChapterId) {
-        SubChapter subChapter = subChapterRepository.findById(subChapterId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
-        String subChapterName = subChapter.getSubChapterName();
-
-        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
-
-        problemRepository.deleteAll(problemList);
-        subChapterRepository.delete(subChapter);
-
-        return subChapterName + " 소단원과 해당 소단원에 포함된 문제가 모두 삭제되었습니다.";
     }
 
     @Transactional
@@ -198,12 +201,44 @@ public class ChapterService {
             //가장 앞을 삭제한 경우
             if(beforeMainChapter == null)
                 afterMainChapter.update(0);
-            //가장 뒤를 삭제한 경우
+                //가장 뒤를 삭제한 경우
             else if(afterMainChapter == null);
-            //나머지 경우
+                //나머지 경우
             else
                 afterMainChapter.update(beforeMainChapter.getMainChapterId());
         }
+
         return mainChapterName + " 대단원과 해당 대단원에 포함된 소단원, 문제가 모두 삭제되었습니다.";
+    }
+
+    @Transactional
+    public String deleteSubChapter(int subChapterId) {
+        SubChapter subChapter = subChapterRepository.findById(subChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
+        String subChapterName = subChapter.getSubChapterName();
+
+        SubChapter beforeSubChapter = null;
+        if(subChapter.getBeforeSubChapterId() != 0) {
+            beforeSubChapter = subChapterRepository.findById(subChapter.getBeforeSubChapterId())
+                    .orElseThrow(() -> new IllegalArgumentException("이전 소단원이 없습니다."));
+        }
+        SubChapter afterSubChapter = subChapterRepository.findByBeforeSubChapterId(subChapterId);
+
+        List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+        if(!problemList.isEmpty()) problemRepository.deleteAll(problemList);
+        subChapterRepository.delete(subChapter);
+
+        if(!subChapterRepository.findAll().isEmpty()) {
+            //가장 앞을 삭제한 경우
+            if(beforeSubChapter == null)
+                afterSubChapter.update(0);
+                //가장 뒤를 삭제한 경우
+            else if(afterSubChapter == null);
+                //나머지 경우
+            else
+                afterSubChapter.update(beforeSubChapter.getSubChapterId());
+        }
+
+        return subChapterName + " 소단원과 해당 소단원에 포함된 문제가 모두 삭제되었습니다.";
     }
 }

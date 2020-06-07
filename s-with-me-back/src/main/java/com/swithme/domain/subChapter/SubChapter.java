@@ -25,14 +25,22 @@ public class SubChapter {
     @Column(name = "subChapterName")
     private String subChapterName;
 
+    @Column(name = "beforeSubChapterId")
+    private Integer beforeSubChapterId;
+
     @Builder
-    public SubChapter(MainChapter mainChapter, String subChapterName){
+    public SubChapter(MainChapter mainChapter, String subChapterName, Integer beforeSubChapterId){
         this.mainChapter = mainChapter;
         this.subChapterName = subChapterName;
+        this.beforeSubChapterId = beforeSubChapterId;
     }
 
     public void update(MainChapter mainChapter, SubChapterUpdateRequestDto requestDto) {
         this.mainChapter = mainChapter;
         this.subChapterName = requestDto.getSubChapterName();
+    }
+
+    public void update(Integer beforeSubChapterId){
+        this.beforeSubChapterId = beforeSubChapterId;
     }
 }
