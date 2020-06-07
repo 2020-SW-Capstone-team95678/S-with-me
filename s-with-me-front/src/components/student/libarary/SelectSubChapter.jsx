@@ -12,8 +12,8 @@ export default function SelectSubChapter(props) {
     <Select name="selectSubChapterId" onChange={onChange}>
       <Option label="선택해 주세요" value="" />
       {resultList ? (
-        resultList.map(subChapter => (
-          <Option label={subChapter.subChapterName} value={subChapter.subChapterId} />
+        resultList.map((subChapter, index) => (
+          <Option key={index} label={subChapter.subChapterName} value={subChapter.subChapterId} />
         ))
       ) : (
         <Option label="해당하는 소단원이 없습니다." value="" />

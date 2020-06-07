@@ -8,6 +8,7 @@ import {
   SET_MY_IMAGE_SOLUTION,
   SET_MY_LINK_SOLUTION,
   SET_SOLUTION_TYPE,
+  SET_IS_MATH,
 } from '../actions/myProblemActions';
 
 import { FETCH_MY_PROBLEM_LIST, UPDATE_MY_PROBLEM } from '../actions/myProblemPackActions';
@@ -168,6 +169,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], isSolved },
+        },
+      };
+    }
+    case SET_IS_MATH: {
+      const { id, isMath } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], isMath },
         },
       };
     }
