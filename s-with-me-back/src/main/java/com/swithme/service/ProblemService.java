@@ -180,4 +180,13 @@ public class ProblemService {
         }
         return responseDtoList;
     }
+
+    @Transactional
+    public String deleteProblem(int problemId) {
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
+        short problemNumber = problem.getProblemNumber();
+        problemRepository.delete(problem);
+        return problemNumber + "번 문제가 삭제되었습니다.";
+    }
 }
