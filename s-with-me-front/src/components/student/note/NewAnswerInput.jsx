@@ -51,6 +51,7 @@ export default class NewAnswerInput extends PureComponent {
         <VerticalList spacingBetween={1}>
           {options.map((option, index) => (
             <CheckBox
+              key={index}
               name="optionInput"
               label={optionlabels[index]}
               onChange={() => {

@@ -5,16 +5,23 @@ import Api from '../../../Api';
 import { Link } from 'react-router-dom';
 
 export default class SubChapterCurriculum extends PureComponent {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = { subChapterName: '' };
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const { curriculum } = this.props;
     Api.get('/library/book', {
       params: { subChapterId: curriculum.subChapterId },
-    }).then(({ data }) => this.setState({ subChapterName: data }));
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ subChapterName: data });
+    });
+  }
+  componentWillMount() {
+    this._isMounted = false;
   }
 
   render() {
