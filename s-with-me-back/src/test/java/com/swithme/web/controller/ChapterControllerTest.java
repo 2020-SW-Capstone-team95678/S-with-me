@@ -59,13 +59,19 @@ public class ChapterControllerTest {
 
         mainChapterRepository.save(MainChapter.builder()
                 .book(book)
+                .beforeMainChapterId(0)
                 .build());
         mainChapter = mainChapterRepository.findAll().get(0);
 
         subChapterRepository.save(SubChapter.builder()
                 .mainChapter(mainChapter)
+                .beforeSubChapterId(0)
                 .build());
         subChapter = subChapterRepository.findAll().get(0);
+
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .build());
     }
 
     @After
@@ -111,8 +117,8 @@ public class ChapterControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(mainChapterRepository.findAll().size()).isGreaterThan(1);
 
-        int index = mainChapterRepository.findByBook(book).size() - 1;
-        assertThat(mainChapterRepository.findByBook(book).get(index).getMainChapterName())
+        int last = mainChapterRepository.findByBook(book).size() - 1;
+        assertThat(mainChapterRepository.findByBook(book).get(last).getMainChapterName())
                 .isEqualTo("test name");
     }
 
@@ -173,11 +179,7 @@ public class ChapterControllerTest {
     }
 
     @Test
-    public void deleteMainChapterTest(){
-        problemRepository.save(Problem.builder()
-                .subChapter(subChapter)
-                .build());
-
+    public void deleteFirstMainChapterTest(){
         assertThat(mainChapterRepository.findAll()).isNotEmpty();
         assertThat(subChapterRepository.findAll()).isNotEmpty();
         assertThat(problemRepository.findAll()).isNotEmpty();
@@ -189,17 +191,89 @@ public class ChapterControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         assertThat(mainChapterRepository.findAll()).isEmpty();
         assertThat(subChapterRepository.findAll()).isEmpty();
         assertThat(problemRepository.findAll()).isEmpty();
     }
 
     @Test
-    public void deleteSubChapterTest(){
-        problemRepository.save(Problem.builder()
-                .subChapter(subChapter)
+    public void deleteMainChapterWithNoSubChapterTest(){
+        //main chapter만 남기고 나머지 삭제
+        problemRepository.deleteAll();
+        subChapterRepository.deleteAll();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/"
+                + mainChapter.getMainChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(mainChapterRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void deleteSecondMainChapterIn3MainChapterTest(){
+        MainChapter secondMainChapter = mainChapterRepository.save(MainChapter.builder()
+                .book(book)
+                .beforeMainChapterId(mainChapter.getMainChapterId())
+                .build());
+        mainChapterRepository.save(MainChapter.builder()
+                .book(book)
+                .beforeMainChapterId(secondMainChapter.getMainChapterId())
                 .build());
 
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/"
+                + secondMainChapter.getMainChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        MainChapter thirdMainChapter = mainChapterRepository.findAll().get(1);
+        assertThat(thirdMainChapter.getBeforeMainChapterId()).isEqualTo(mainChapter.getMainChapterId());
+    }
+
+    @Test
+    public void deleteFirstMainChapterIn2MainChapterTest(){
+        mainChapterRepository.save(MainChapter.builder()
+                .book(book)
+                .beforeMainChapterId(mainChapter.getMainChapterId())
+                .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/"
+                + mainChapter.getMainChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        MainChapter secondMainChapter = mainChapterRepository.findAll().get(0);
+        assertThat(secondMainChapter.getBeforeMainChapterId()).isEqualTo(0);
+    }
+
+    @Test
+    public void deleteLastMainChapterTest(){
+        mainChapterRepository.save(MainChapter.builder()
+                .book(book)
+                .beforeMainChapterId(mainChapter.getMainChapterId())
+                .build());
+        MainChapter secondMainChapter = mainChapterRepository.findAll().get(1);
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/"
+                + secondMainChapter.getMainChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void deleteFirstSubChapterTest(){
         assertThat(subChapterRepository.findAll()).isNotEmpty();
         assertThat(problemRepository.findAll()).isNotEmpty();
 
@@ -210,7 +284,82 @@ public class ChapterControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         assertThat(subChapterRepository.findAll()).isEmpty();
         assertThat(problemRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void deleteSubChapterWithProblemTest(){
+        //sub chapter만 남기고 나머지 삭제
+        problemRepository.deleteAll();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/"
+                + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(subChapterRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void deleteSecondSubChapterIn3SubChapterTest(){
+        SubChapter secondSubChapter = subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapter)
+                .beforeSubChapterId(subChapter.getSubChapterId())
+                .build());
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapter)
+                .beforeSubChapterId(secondSubChapter.getSubChapterId())
+                .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/"
+                + secondSubChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        SubChapter thirdSubChapter = subChapterRepository.findAll().get(1);
+        assertThat(thirdSubChapter.getBeforeSubChapterId()).isEqualTo(subChapter.getSubChapterId());
+    }
+
+    @Test
+    public void deleteFirstSubChapterIn2SubChapterTest(){
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapter)
+                .beforeSubChapterId(subChapter.getSubChapterId())
+                .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/"
+                + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        SubChapter secondSubChapter = subChapterRepository.findAll().get(0);
+        assertThat(secondSubChapter.getBeforeSubChapterId()).isEqualTo(0);
+    }
+
+    @Test
+    public void deleteLastSubChapterTest(){
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapter)
+                .beforeSubChapterId(subChapter.getSubChapterId())
+                .build());
+        SubChapter secondSubChapter = subChapterRepository.findAll().get(1);
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/"
+                + secondSubChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

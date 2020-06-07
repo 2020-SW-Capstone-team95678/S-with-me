@@ -20,11 +20,12 @@ public class ProblemCreateDto {
     private String option5;
     private String title;
     private String image;
+    private Boolean isMath;
 
     @Builder
     public ProblemCreateDto(int subChapterId, String content, String solution, String answer, short problemNumber,
                             Boolean isOptional, String option1, String option2, String option3, String option4, String option5,
-                            String title, String image) {
+                            String title, String image, Boolean isMath) {
         this.subChapterId = subChapterId;
         this.content = content;
         this.solution = solution;
@@ -38,5 +39,6 @@ public class ProblemCreateDto {
         this.option5 = option5;
         this.title = title;
         this.image = image;
+        this.isMath = isMath;
     }
 }
