@@ -1,10 +1,5 @@
 package com.swithme.service;
 
-import com.swithme.domain.book.Book;
-import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.myBook.MyBookRepository;
-import com.swithme.domain.myProblem.MyProblem;
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -60,6 +55,7 @@ public class ProblemService {
                 .option3(problem.getOption3())
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
+                .isMath(problem.getIsMath())
                 .build();
 
         return responseDto;
@@ -99,6 +95,7 @@ public class ProblemService {
                     .option3(createDto.getOption3())
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
+                    .isMath(createDto.getIsMath())
                     .build());
         }
 
@@ -155,6 +152,7 @@ public class ProblemService {
                     .option3(problem.getOption3())
                     .option4(problem.getOption4())
                     .option5(problem.getOption5())
+                    .isMath(problem.getIsMath())
                     .build());
         }
 
