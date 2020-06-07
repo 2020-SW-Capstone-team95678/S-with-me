@@ -7,8 +7,7 @@ import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
 
 import 'katex/dist/katex.min.css';
-import Latex from 'react-latex-next';
-import ProblemInputMath from './ProblemInputMath';
+import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
 
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
@@ -20,7 +19,7 @@ export default class RegisterProblem extends PureComponent {
       isOptional: false,
       file: '',
       previewURL: '',
-      showMath: false,
+      isMath: false,
       delimeters: [
         { left: '$$', right: '$$', display: true },
         { left: '\\(', right: '\\)', display: false },
@@ -31,18 +30,30 @@ export default class RegisterProblem extends PureComponent {
   }
 
   handleSubmit = (values, subChapterId) => {
-    values = {
-      ...values,
-      title: JSON.stringify(values.title),
-      content: this.state.content,
-      answer: JSON.stringify(values.answer),
-      solution: JSON.stringify(values.solution),
-    };
+    if(this.state.isMath){
+
+      values = {
+        ...values,
+        option1:this.state.optionOneM,
+        option2:this.state.optionTwoM,
+        option3:this.state.optionThrM,
+        option4:this.state.optionFouM,
+        option5:this.state.optionFivM,
+        isMath: this.state.isMath,
+        title: this.state.titleM,
+        content: this.state.contentM,
+        answer: this.state.answerM,
+        solution: this.state.answerM,
+      };
+
+    }
     const formValue = {
       ...values,
+      subChapterId:subChapterId,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
       subChapterId: subChapterId,
+      isMath:this.state.isMath,
     };
     console.log(formValue);
     Api.post('/publisher/library/book/mainChapter/subChapter/problems', [formValue])
@@ -68,14 +79,61 @@ export default class RegisterProblem extends PureComponent {
     reader.readAsDataURL(file);
   };
 
-  handleContent = (content) =>{
+  handleContent = content => {
     this.setState({
-      content:content
+      contentM: content,
     });
-  }
+  };
+  handleTitle = title => {
+    this.setState({
+      titleM: title,
+    });
+  };
+  handleSolution = solution => {
+    this.setState({
+      solutionM:solution,
+    });
+  };
+  handleAnswer = answer => {
+    this.setState({
+      answerM:answer,
+    });
+  };
+
+  handleOptionOne = optionOne=> {
+    this.setState({
+      optionOneM:optionOne
+    });
+  };
+
+  handleOptionTwo = optionTwo => {
+    this.setState({
+      optionTwoM:optionTwo
+    });
+  };
+
+  handleOptionThr = optionThr  => {
+    this.setState({
+     optionThrM:optionThr
+    });
+  };
+
+  handleOptionFou = optionFou=> {
+    this.setState({
+      optionFouM:optionFou
+    });
+  };
+
+  handleOptionFiv = optionFiv => {
+    this.setState({
+      optionFivM:optionFiv
+
+    });
+  };
+
 
   render() {
-    const { file, previewURL, isOptional, showMath } = this.state;
+    const { file, previewURL, isOptional, isMath } = this.state;
     const { subChapterId } = this.props;
     let solution_preview = null;
     if (file) {
@@ -99,38 +157,134 @@ export default class RegisterProblem extends PureComponent {
           <Form.Consumer>
             {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Input label="문제 번호" name="problemNumber" onChange={onChange} />
-                <Input label="문제 제목" name="title" onChange={onChange} />
-                <ProblemInputMath onContent={this.handleContent} label="문제 내용" name="content"/>
-                
-                <CheckBox
-                  label="객관식 문제입니까?"
-                  onChange={() => this.handleOptional()}
-                  checked={isOptional}
+                <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid' }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    
+                    <CheckBox
+                  label="수식 입력하기"
+                  onChange={() => this.setState({ isMath: !isMath })}
+                  checked={isMath}
                 />
-                <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
-                  <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
-                  <input
-                    type="file"
-                    accept="image/jpg,impge/png,image/jpeg,image/gif"
-                    name="mySolutionImage"
-                    onChange={this.handleFileOnChange}
-                  />
-                  {solution_preview}
+                  </div>
+                  <br/>
+                  {isMath ? (
+                    <div>
+                    <div
+                      style={{
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <Button small>수식 입력 방법 보러 가기!</Button>
+                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <ProblemInputMathTop
+                        isMath={this.state.isMath}
+                        onContent={this.handleContent}
+                        onTitle={this.handleTitle}
+                      />
+                    
+                      <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
+                        <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
+                        <input
+                          type="file"
+                          accept="image/jpg,impge/png,image/jpeg,image/gif"
+                          name="mySolutionImage"
+                          onChange={this.handleFileOnChange}
+                        />
+                        {solution_preview}
+                      </div>
+
+                      <CheckBox
+                        label="객관식 문제입니까?"
+                        onChange={() => this.handleOptional()}
+                        checked={isOptional}
+                      />
+
+
+
+
+                      <ProblemInputMathBottom
+                        isMath={this.state.isMath}
+                        isOptional={this.state.isOptional}
+                        onContent={this.handleContent}
+                        onTitle={this.handleTitle}
+                        onSolution={this.handleSolution}
+                        onAnswer={this.handleAnswer}
+                        onOptionOne={this.handleOptionOne}
+                        onOptionTwo={this.handleOptionTwo}
+                        onOptionThr={this.handleOptionThr}
+                        onOptionFou={this.handleOptionFou}
+                        onOptionFiv={this.handleOptionFiv}
+                        />
+                        
+                    </div>
+                    <Button>등록!</Button>
+                    </div>
+
+
+                  ) : (
+                    <div>
+                    <div
+                      style={{
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <Input label="문제 제목" name="title" onChange={onChange} />
+                      <Input label="문제 내용" name="content" onChange={onChange} />
+                      
+                      <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
+                        <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
+                        <input
+                          type="file"
+                          accept="image/jpg,impge/png,image/jpeg,image/gif"
+                          name="mySolutionImage"
+                          onChange={this.handleFileOnChange}
+                        />
+                        {solution_preview}
+                      </div>
+
+                      <CheckBox
+                        label="객관식 문제입니까?"
+                        onChange={() => this.handleOptional()}
+                        checked={isOptional}
+                      />
+
+                      {isOptional ? (
+                        <div>
+                          <Input label="객관식 1번" name="option1" onChange={onChange} />
+                          <Input label="객관식 2번" name="option2" onChange={onChange} />
+                          <Input label="객관식 3번" name="option3" onChange={onChange} />
+                          <Input label="객관식 4번" name="option4" onChange={onChange} />
+                          <Input label="객관식 5번" name="option5" onChange={onChange} />
+                        </div>
+                      ) : null}
+
+                      <Input label="문제 정답" name="answer" onChange={onChange} />
+                      <Input label="문제 해설" name="solution" onChange={onChange} />
+                    </div>
+                    <Button>등록!</Button>
+                    </div>
+                  )}
                 </div>
 
-                {isOptional ? (
-                  <div>
-                    <Input label="객관식 1번" name="option1" onChange={onChange} />
-                    <Input label="객관식 2번" name="option2" onChange={onChange} />
-                    <Input label="객관식 3번" name="option3" onChange={onChange} />
-                    <Input label="객관식 4번" name="option4" onChange={onChange} />
-                    <Input label="객관식 5번" name="option5" onChange={onChange} />
-                  </div>
-                ) : null}
-                <Input label="문제 정답" name="answer" onChange={onChange} />
-                <Input label="문제 해설" name="solution" onChange={onChange} />
-                <Button>등록!</Button>
+                {/* <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                <Input label="문제 제목" name="title" onChange={onChange} />
+                <ProblemInputMath onContent={this.handleContent} label="문제 내용" name="content" /> */}
+
+                
               </div>
             )}
           </Form.Consumer>

@@ -510,13 +510,22 @@ const ProblemInfo = ({ subChapterId }) => {
 
 
 const ProblemItem = ({ problem }) => {
-  const [isOptional, setIsOptional] = useState(problem.isOptional);
 
   console.log(problem);
 
   return (
-
     <div>
+    {problem.isMath ? (
+    <div>
+      <p>문제 제목 {problem.title}</p>
+      <div style={{ borderWidth: 2, borderColor: 'gray' }}>
+        <img width={300} src={problem.image} alt="non-Image" />
+      </div>
+      <p>문제 내용 {problem.content}</p>
+      <p>문제 답 {problem.answer}</p>
+      <p>문제 해설{problem.solution}</p>
+    </div>):(
+      <div>
       <p>문제 제목 {problem.title}</p>
       <div style={{ borderWidth: 2, borderColor: 'gray' }}>
         <img width={300} src={problem.image} alt="non-Image" />
@@ -526,7 +535,11 @@ const ProblemItem = ({ problem }) => {
       <p>문제 답 {problem.answer}</p>
       <p>문제 해설{problem.solution}</p>
     </div>
+    )}
+    </div>
   );
 };
+
+
 
 export default LibraryApp;
