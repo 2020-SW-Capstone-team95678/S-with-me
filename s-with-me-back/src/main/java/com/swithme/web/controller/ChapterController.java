@@ -58,6 +58,12 @@ public class ChapterController {
     }
 
     @CrossOrigin
+    @DeleteMapping("/publisher/library/book/main-chapter/{mainChapterId}")
+    public String deleteMainChapter(@PathVariable int mainChapterId){
+        return chapterService.deleteMainChapter(mainChapterId);
+    }
+
+    @CrossOrigin
     @DeleteMapping("/publisher/library/book/main-chapter/sub-chapter/{subChapterId}")
     public String deleteSubChapter(@PathVariable int subChapterId){
         return chapterService.deleteSubChapter(subChapterId);

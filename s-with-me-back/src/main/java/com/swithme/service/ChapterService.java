@@ -150,7 +150,25 @@ public class ChapterService {
 
         problemRepository.deleteAll(problemList);
         subChapterRepository.delete(subChapter);
+
         return subChapterName + " 소단원과 해당 소단원에 포함된 문제가 모두 삭제되었습니다.";
     }
 
+    @Transactional
+    public String deleteMainChapter(int mainChapterId) {
+        MainChapter mainChapter = mainChapterRepository.findById(mainChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
+        String mainChapterName = mainChapter.getMainChapterName();
+
+        List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+        for(SubChapter subChapter : subChapterList){
+            List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+            problemRepository.deleteAll(problemList);
+        }
+
+        subChapterRepository.deleteAll(subChapterList);
+        mainChapterRepository.delete(mainChapter);
+
+        return mainChapterName + " 대단원과 해당 대단원에 포함된 소단원, 문제가 모두 삭제되었습니다.";
+    }
 }

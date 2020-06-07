@@ -173,6 +173,28 @@ public class ChapterControllerTest {
     }
 
     @Test
+    public void deleteMainChapterTest(){
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .build());
+
+        assertThat(mainChapterRepository.findAll()).isNotEmpty();
+        assertThat(subChapterRepository.findAll()).isNotEmpty();
+        assertThat(problemRepository.findAll()).isNotEmpty();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/"
+                + mainChapter.getMainChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(mainChapterRepository.findAll()).isEmpty();
+        assertThat(subChapterRepository.findAll()).isEmpty();
+        assertThat(problemRepository.findAll()).isEmpty();
+    }
+
+    @Test
     public void deleteSubChapterTest(){
         problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
@@ -191,5 +213,4 @@ public class ChapterControllerTest {
         assertThat(subChapterRepository.findAll()).isEmpty();
         assertThat(problemRepository.findAll()).isEmpty();
     }
-
 }
