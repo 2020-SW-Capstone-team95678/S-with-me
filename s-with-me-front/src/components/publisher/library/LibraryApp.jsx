@@ -25,6 +25,7 @@ const LibraryApp = () => {
   const [books, setBooks] = useState([]);
   const [count, setUpDate] = useState(0);
   const [selectedBook, setSelectedBook] = useState(null);
+  const publisherId = window.sessionStorage.getItem('publisherId');
 
   const onUpDate = () => {
     setUpDate(count + 1);
@@ -34,7 +35,7 @@ const LibraryApp = () => {
     const fetchData = async () => {
       const data = await Api.get('/publisher/library/book', {
         params: {
-          publisherId: 4,
+          publisherId: publisherId,
         },
       });
 
@@ -50,7 +51,7 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
-            <Button primary onPress={() => openModal(CREATE_BOOK, { onUpDate: onUpDate })}>
+            <Button primary onPress={() => openModal(CREATE_BOOK, { onUpDate: onUpDate, publisherId:publisherId })}>
               Create Book
             </Button>
           )}
@@ -160,7 +161,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
               Api.put(`/publisher/library/book/${book.bookId}`, { ...book, cover: cover })
                 .then(response =>
                   setBooks(prev => {
-                    return [...prev, book];
+                    return [...prev];
                   }),
                 )
                 .catch(reason => setCover(book.cover));
@@ -206,7 +207,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
                   Api.put(`/publisher/library/book/${book.bookId}`, book)
                     .then(response =>
                       setBooks(prev => {
-                        return [...prev, book];
+                        return [...prev];
                       }),
                     )
                     .catch(reason => setName(book.name));
@@ -247,7 +248,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
                   Api.put(`/publisher/library/book/${book.bookId}`, book)
                     .then(response =>
                       setBooks(prev => {
-                        return [...prev, book];
+                        return [...prev];
                       }),
                     )
                     .catch(reason => setPrice(book.price));

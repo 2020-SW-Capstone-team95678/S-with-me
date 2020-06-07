@@ -5,6 +5,10 @@ import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import InputBookCover from '../library/InputBookCover';
+import InlineList from '../../../common-ui/InlineList';
+import Form from '../../../common-ui/Form';
+import Select,{Option} from '../../../common-ui/Select';
+
 
 const CreateBookPage = props => {
   //const onUpDate  = props;
@@ -16,17 +20,24 @@ const CreateBookPage = props => {
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState([]);
   const [introduction, setIntroduction] = useState('');
-  const { onUpDate } = props;
+  const { onUpDate, publisherId } = props;
+
+  function handleSubjectChange(e) {
+    setSubject(e.target.value);
+    console.log(subject);
+}
 
   return (
     <Modal>
       {({ closeModal }) => (
+
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             Book infos
             <br />
             <br />
-            {/* <h2>book Id : {bookId}</h2> */}
+            <h2>book Id : {bookId}</h2>
+            <h2>Publisher Id : {publisherId}</h2> 
             북커버
             <InputBookCover setCover={setCover} />
             Grade
@@ -45,12 +56,21 @@ const CreateBookPage = props => {
               onChange={({ target: { value } }) => setName(value)}
             />
             Subject
-            <input
+            <select
+                                defaultValue={'국어'}
+                                onChange={handleSubjectChange}
+                               >
+                                <option selected value="국어">국어</option>
+                                <option value="수학">수학</option>
+                                <option value="사회">사회</option>
+                                <option value="과학">과학</option>
+                            </select>
+            {/* <input
               type="text"
               value={subject}
               placeholder="please input subject"
               onChange={({ target: { value } }) => setSubject(value)}
-            />
+            /> */}
             Introduction
             <input
               type="text"
@@ -74,11 +94,12 @@ const CreateBookPage = props => {
                   grade: grade,
                   name: name,
                   price: price,
-                  publisherId: 4,
+                  publisherId: publisherId,
                   subject: subject,
                   introduction: introduction,
                 }).then(response => {
                   setBookId(response.data);
+                  console.log(subject);
                 });
               }}
             >
