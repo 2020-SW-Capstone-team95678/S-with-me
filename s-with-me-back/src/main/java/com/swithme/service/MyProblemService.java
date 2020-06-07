@@ -1,5 +1,6 @@
 package com.swithme.service;
 
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -58,7 +59,6 @@ public class MyProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId =" + myBookId));
 
         List<MyProblem> allMyProblemList = myProblemRepository.findByMyBook(myBook);
-
         List<MyProblem> myProblemList = new ArrayList<>();
 
         for(MyProblem myProblem : allMyProblemList){
@@ -67,6 +67,7 @@ public class MyProblemService {
             }
         }
 
+        Collections.sort(myProblemList);
         List<MyProblem> myProblemListInPage = new ArrayList<>();
         try{
             myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
@@ -119,6 +120,7 @@ public class MyProblemService {
                 myProblemList.add(myProblem);
         }
 
+        Collections.sort(myProblemList);
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemList) {
 

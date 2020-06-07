@@ -18,7 +18,7 @@ import java.sql.Clob;
 @Getter
 @NoArgsConstructor
 @Entity(name = "myProblem")
-public class MyProblem {
+public class MyProblem implements Comparable<MyProblem>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,6 +82,15 @@ public class MyProblem {
         this.myAnswer = myAnswer;
         this.isSolved = isSolved;
         this.isMath = isMath;
+    }
+    @Override
+    public int compareTo(MyProblem myProblem){
+        if(myProblem.getProblem().getBeforeProblemId() == this.getProblem().getProblemId())
+            return 1;
+        else if(this.getProblem().getBeforeProblemId() == myProblem.getProblem().getProblemId())
+            return -1;
+        else
+            return 0;
     }
 
     public void update(MyProblemUpdateRequestDto requestDto) {
