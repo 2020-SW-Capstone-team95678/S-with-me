@@ -1,10 +1,9 @@
-body {
+body #fonts {
   margin: 0;
   padding: 0;
   font-family: 'S-CoreDream-3Light';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white;
 }
 
 button {

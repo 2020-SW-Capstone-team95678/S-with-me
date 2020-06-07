@@ -37,6 +37,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "selector-action": "^1.1.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "shallow-equal": "^1.2.1"
   },
   "scripts": {
