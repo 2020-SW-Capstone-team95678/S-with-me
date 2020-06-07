@@ -185,6 +185,7 @@ public class MyProblemService {
                 .option3(problem.getOption3())
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
+                .isMath(problem.getIsMath())
                 .build();
 
         MySolutionResponseDto responseDto = MySolutionResponseDto.builder()

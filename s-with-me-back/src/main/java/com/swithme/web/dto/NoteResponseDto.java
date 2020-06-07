@@ -22,11 +22,13 @@ public class NoteResponseDto {
     private Boolean isRight;
     private Boolean isSolved;
     private Long solvedDateTime;
+    private Boolean isMath;
 
     @Builder
     public NoteResponseDto(int noteId, int myProblemId, int myBookId, int problemId, Integer linkSolutionId,
                            String imageSolution, String textSolution, String solutionType,
-                           Boolean isConfused, Boolean isRight, Boolean isSolved, Long solvedDateTime, String myAnswer){
+                           Boolean isConfused, Boolean isRight, Boolean isSolved, Boolean isMath,
+                           Long solvedDateTime, String myAnswer){
         this.noteId = noteId;
         this.myProblemId = myProblemId;
         this.myBookId = myBookId;
@@ -40,5 +42,6 @@ public class NoteResponseDto {
         this.solvedDateTime = solvedDateTime;
         this.myAnswer = myAnswer;
         this.isSolved = isSolved;
+        this.isMath = isMath;
     }
 }

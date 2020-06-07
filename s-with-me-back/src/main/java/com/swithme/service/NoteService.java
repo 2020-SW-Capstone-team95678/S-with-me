@@ -79,6 +79,7 @@ public class NoteService{
                     .isRight(myProblem.getIsRight())
                     .isSolved(myProblem.getIsSolved())
                     .solvedDateTime(myProblem.getSolvedDateTime())
+                    .isMath(myProblem.getIsMath())
                     .build());
         }
 
@@ -144,6 +145,7 @@ public class NoteService{
                         .isRight(myProblem.getIsRight())
                         .isSolved(myProblem.getIsSolved())
                         .solvedDateTime(myProblem.getSolvedDateTime())
+                        .isMath(myProblem.getIsMath())
                         .build());
             }
         }
