@@ -1,40 +1,29 @@
 import BootPay from 'bootpay-js';
 
-export const bootPayRequest = () => {
+export const bootPayRequest = (book, user, bookId, orderId) => {
   BootPay.request({
-    price: '1000', //실제 결제되는 가격
+    price: book.price, //실제 결제되는 가격
     application_id: '5edb7b5c8f0751002bfcd4bc',
-    name: '블링블링 마스카라', //결제창에서 보여질 이름
+    name: book.name, //결제창에서 보여질 이름
     pg: 'inicis',
     method: '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
     show_agree_window: 1, // 부트페이 정보 동의 창 보이기 여부
     items: [
       {
-        item_name: '나는 아이템', //상품명
+        item_name: book.name, //상품명
         qty: 1, //수량
-        unique: '123', //해당 상품을 구분짓는 primary key
-        price: 1000, //상품 단가
-        cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
-        cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-        cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
+        unique: bookId, //해당 상품을 구분짓는 primary key
+        price: book.price, //상품 단가
       },
     ],
     user_info: {
-      username: '사용자 이름',
-      email: 'marblegiraffe@ajou.ac.kr',
-      addr: '사용자 주소',
-      phone: '010-1234-4567',
+      username: user.name,
+      email: user.email,
+      phone: user.phone,
     },
-    order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-    params: {
-      callback1: '그대로 콜백받을 변수 1',
-      callback2: '그대로 콜백받을 변수 2',
-      customvar1234: '변수명도 마음대로',
-    },
+    order_id: orderId, //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
     account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
     extra: {
-      start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-      end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
       vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
       quota: '0,2,3', // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
     },
@@ -69,6 +58,8 @@ export const bootPayRequest = () => {
     .done(function(data) {
       //결제가 정상적으로 완료되면 수행됩니다
       //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
+      // data.receipt_id
+      // 여기서 myBookPost !!!
       console.log(data);
     });
 };
