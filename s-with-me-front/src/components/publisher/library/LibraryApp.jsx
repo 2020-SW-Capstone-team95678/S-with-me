@@ -345,7 +345,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             }}
           />
         </div>
-        {selectedSubChapter!==null&&<ProblemInfo subChapterId={selectedSubChapter} />}
+        {selectedSubChapter!==null&&<ProblemInfo  book={book} setBooks={setBooks} subChapterId={selectedSubChapter} />}
       </div>
     </>
   );
@@ -450,7 +450,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
   );
 };
 
-const ProblemInfo = ({ subChapterId }) => {
+const ProblemInfo = ({ subChapterId, setBooks }) => {
   const [problems, setProblems] = useState([]);
   console.log(subChapterId);
 
@@ -486,7 +486,7 @@ const ProblemInfo = ({ subChapterId }) => {
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>
-                <ProblemItem problem={problem} />
+                <ProblemItem setBooks={setBooks} problem={problem} />
               </AccordionItemPanel>
             </AccordionItem>
           );
@@ -509,13 +509,16 @@ const ProblemInfo = ({ subChapterId }) => {
 
 
 
-const ProblemItem = ({ problem }) => {
+const ProblemItem = ({ problem ,setBooks }) => {
 
-  console.log(problem);
+  console.log(problem.isMath);
+  const problemId=problem.problemId;
+  console.log(problemId);
+
 
   return (
     <div>
-    {problem.isMath ? (
+    {!problem.isMath ? (
     <div>
       <p>문제 제목 {problem.title}</p>
       <div style={{ borderWidth: 2, borderColor: 'gray' }}>
@@ -524,16 +527,59 @@ const ProblemItem = ({ problem }) => {
       <p>문제 내용 {problem.content}</p>
       <p>문제 답 {problem.answer}</p>
       <p>문제 해설{problem.solution}</p>
+      <Modal>
+          {({ openModal }) => (
+            <>
+            <br/>
+            <button
+              
+            >
+            문제 수정
+            </button>
+            
+          </>
+          )}
+          
+        </Modal>
+        <button
+            style={{ cursor: 'point' }}
+            primary
+            onClick={() => Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
+              problemId
+            }).then(
+              setBooks(prev => {
+                return [...prev];
+              }),
+            )}
+          >
+            문제 삭제
+          </button>
     </div>):(
       <div>
-      <p>문제 제목 {problem.title}</p>
+      <p>문제 제목 </p>
+      <Latex delimiters={delimeters}>{problem.title}</Latex>
       <div style={{ borderWidth: 2, borderColor: 'gray' }}>
         <img width={300} src={problem.image} alt="non-Image" />
       </div>
       <p>문제 내용</p>
       <Latex delimiters={delimeters}>{problem.content}</Latex>
-      <p>문제 답 {problem.answer}</p>
-      <p>문제 해설{problem.solution}</p>
+      <p>문제 답 </p>
+      <Latex delimiters={delimeters}>{problem.answer}</Latex>
+      <p>문제 해설</p>
+      <Latex delimiters={delimeters}>{problem.solution}</Latex>
+      <button
+            style={{ cursor: 'point' }}
+            primary
+            onClick={() => Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
+              problemId
+            }).then(response =>
+              setBooks(prev => {
+                return [...prev];
+              }),
+            )}
+          >
+            문제 삭제
+          </button>
     </div>
     )}
     </div>
