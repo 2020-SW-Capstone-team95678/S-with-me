@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import Latex from 'react-latex-next';
+import { delimeters } from '../../../constants/delimeters';
 
 import {
   Accordion,
@@ -22,6 +24,7 @@ import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { UPDATE_SUB_CHAPTER } from '../../../constants/modals';
 import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
 import RegisterProblem from '../createBook/RegisterProblem';
+import SelectSubChapter from '../../student/libarary/SelectSubChapter';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
@@ -130,8 +133,10 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
 
   const [name, setName] = useState(book.name);
+  const [turnOn,] = useState(null);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
+  const [prevSub, setPrevSub] = useState(null);
   const [subject, setSubject] = useState(book.subject);
   const [grade, setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
@@ -193,6 +198,8 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const onChangeIntro = e => {
     setIntroduction(e.target.value);
   };
+  
+  
 
   return (
     <>
@@ -338,7 +345,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             }}
           />
         </div>
-        <ProblemInfo subChapterId={selectedSubChapter} />
+        {selectedSubChapter!==null&&<ProblemInfo subChapterId={selectedSubChapter} />}
       </div>
     </>
   );
@@ -365,9 +372,10 @@ export const ChapterInfo = ({ bookId, onClick }) => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
         return (
           <AccordionItem>
-            <AccordionItemHeading>
-              <AccordionItemButton>
+            <AccordionItemHeading onClick={()=>onClick(null)}>
+              <AccordionItemButton >
                 {chapter.mainChapterResponseDto.mainChapterName}
+                
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel style={{ cursor: 'point' }}>
@@ -466,21 +474,6 @@ const ProblemInfo = ({ subChapterId }) => {
     <div>
       <br></br>
       <br></br>
-      {/* <Modal>
-        {({ openModal }) => (
-          <Button
-            style={{ cursor: 'point' }}
-            onPress={() =>
-              openModal(CREATE_PROBLEM, {
-                subChapterId: subChapterId,
-              })
-            }
-          >
-            problem add
-          </Button>
-        )}
-      </Modal> */}
-
       <Accordion style={{ marginTop: 20 }} allowZeroExpanded={true}>
         {problems.map(problem => {
           return (
@@ -514,33 +507,7 @@ const ProblemInfo = ({ subChapterId }) => {
   );
 };
 
-// const ProblemInfo = ({ subChapterId }) => {
-//   const [problems, setProblems] = useState([]);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const data = await Api.get('/publisher/library/book/mainChapter', {
-//         params: {
-//           subChapterId: subChapterId,
-//         },
-//       });
-
-//       setProblems(data.data);
-//     };
-
-//     if (subChapterId) {
-//       fetchData();
-//     }
-//   }, [subChapterId]);
-
-//   return (
-//     <div>
-//       {problems.map(problem => {
-//         return <ProblemItem problem={problem} />;
-//       })}
-//     </div>
-//   );
-// };
 
 const ProblemItem = ({ problem }) => {
   const [isOptional, setIsOptional] = useState(problem.isOptional);
@@ -548,126 +515,16 @@ const ProblemItem = ({ problem }) => {
   console.log(problem);
 
   return (
-    // <div>
-    // <p>제목</p>
-    //         <input
-    //           type="text"
-    //           value={name}
-    //           onKeyDown={handleEnter}
-    //           onChange={e => setName(e.target.value)}
-    //           onBlur={e => {
-    //             if (e.target.value !== problem.title) {
-    //               book.name = name;
-
-    //               Api.put(`/publisher/library/book/mainChapter/subChapter/${problem.problemId}`, book)
-    //                 .then(response =>
-    //                   setBooks(prev => {
-    //                     return [...prev, book];
-    //                   }),
-    //                 )
-    //                 .catch(reason => setName(book.name));
-    //             }
-    //           }}
-    //         ></input>
-    //       <div>
-    //         <p>북커버</p>
-    //         <img width={100} src={book.cover} />
-    //         <InputBookCover setCover={setCover} />
-    //         <button
-    //           primary
-    //           onClick={() => {
-    //             Api.put(`/publisher/library/book/${book.bookId}`, {
-    //               cover: cover,
-    //             })
-    //               .then(response =>
-    //                 setBooks(prev => {
-    //                   return [...prev, book];
-    //                 }),
-    //               )
-    //               .catch(reason => setCover(book.cover));
-    //           }}
-    //         >
-    //           수정
-    //         </button>
-    //       </div>
-    //       <div>
-
-    //       </div>
-    //       <div>
-    //         <p>가격</p>
-    //         <input
-    //           type="number"
-    //           value={price}
-    //           onKeyDown={handleEnter}
-    //           onChange={e => setPrice(e.target.value)}
-    //           onBlur={e => {
-    //             if (e.target.value !== book.price) {
-    //               book.price = price;
-
-    //               Api.put(`/publisher/library/book/${book.bookId}`, book)
-    //                 .then(response =>
-    //                   setBooks(prev => {
-    //                     return [...prev, book];
-    //                   }),
-    //                 )
-    //                 .catch(reason => setPrice(book.price));
-    //             }
-    //           }}
-    //         ></input>
-    //       </div>
-    //       <div>
-    //         <p>학년</p>
-    //         <input value={book.grade}></input>
-    //       </div>
-    //       <div>
-    //         <p>설명</p>
-    //         <input value={book.introduction}></input>
-    //       </div>
-
-    //       <Modal>
-    //         {({ openModal }) => (
-    //           <Button
-    //             primary
-    //             onPress={() => openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })}
-    //           >
-    //             추가
-    //           </Button>
-    //         )}
-    //       </Modal>
-    //       <div id="main">
-    //         <ChapterInfo
-    //           bookId={book.bookId}
-    //           onClick={subChapterId => {
-    //             setSelectedSubChapter(subChapterId);
-    //           }}
-    //         />
-    //       </div>
-    //       <ProblemInfo subChapterId={selectedSubChapter} />
-    //     </div>
 
     <div>
       <p>문제 제목 {problem.title}</p>
       <div style={{ borderWidth: 2, borderColor: 'gray' }}>
         <img width={300} src={problem.image} alt="non-Image" />
       </div>
-      <p>문제 내용 {problem.content}</p>
+      <p>문제 내용</p>
+      <Latex delimiters={delimeters}>{problem.content}</Latex>
       <p>문제 답 {problem.answer}</p>
       <p>문제 해설{problem.solution}</p>
-
-      {/* <CheckBox
-        checked={isOptional}
-        onChange={(name, value) => {
-          console.log(problem.subChapterId);
-          Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problem.problemId}`, {
-            params: {
-              //subChapterId: problem.subChapterId,
-              isOptional: !value,
-            },
-          }).then(response => setIsOptional(prevValue => !prevValue));
-        }}
-      >
-        주관식 객관식
-      </CheckBox> */}
     </div>
   );
 };

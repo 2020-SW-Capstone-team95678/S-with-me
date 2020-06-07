@@ -8,6 +8,7 @@ import Api from '../../../Api';
 
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
+import ProblemInputMath from './ProblemInputMath';
 
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
@@ -30,6 +31,13 @@ export default class RegisterProblem extends PureComponent {
   }
 
   handleSubmit = (values, subChapterId) => {
+    values = {
+      ...values,
+      title: JSON.stringify(values.title),
+      content: this.state.content,
+      answer: JSON.stringify(values.answer),
+      solution: JSON.stringify(values.solution),
+    };
     const formValue = {
       ...values,
       image: this.state.previewURL,
@@ -60,6 +68,12 @@ export default class RegisterProblem extends PureComponent {
     reader.readAsDataURL(file);
   };
 
+  handleContent = (content) =>{
+    this.setState({
+      content:content
+    });
+  }
+
   render() {
     const { file, previewURL, isOptional, showMath } = this.state;
     const { subChapterId } = this.props;
@@ -87,22 +101,8 @@ export default class RegisterProblem extends PureComponent {
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                 <Input label="문제 제목" name="title" onChange={onChange} />
-                <Input label="문제 내용" name="content" onChange={onChange} />
-                <CheckBox
-                  label="수식 확인하기"
-                  onChange={() => this.setState({ showMath: !showMath })}
-                  checked={showMath}
-                />
-                {showMath ? (
-                  <div>
-                    제목: <Latex delimiters={this.state.delimeters}>{values.title}</Latex>
-                    <br />
-                    내용: <Latex delimiters={this.state.delimeters}>{values.content}</Latex>
-                    <br />
-                    해설 <br />
-                    <Latex delimiters={this.state.delimeters}>{values.solution}</Latex>
-                  </div>
-                ) : null}
+                <ProblemInputMath onContent={this.handleContent} label="문제 내용" name="content"/>
+                
                 <CheckBox
                   label="객관식 문제입니까?"
                   onChange={() => this.handleOptional()}
