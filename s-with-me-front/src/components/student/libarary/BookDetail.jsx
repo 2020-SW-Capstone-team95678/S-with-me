@@ -57,6 +57,11 @@ class BookDetail extends PureComponent {
     }).then(({ data }) => {
       if (this._isMounted) this.setState({ curriculum: data });
     });
+    Api.get('/student/library/curriculum/achievement', {
+      params: { myBookId: myBookId },
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ achievement: data });
+    });
   }
 
   componentWillUnmount() {

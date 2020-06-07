@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -40,12 +37,13 @@ public class ProblemControllerTest {
     private SubChapterRepository subChapterRepository;
 
     private SubChapter subChapter;
+    private Problem problem;
 
     @Before
     public void setup(){
         subChapterRepository.save(new SubChapter());
         subChapter = subChapterRepository.findAll().get(0);
-        Problem problem = problemRepository.save(Problem.builder()
+        problem = problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .build());
     }
@@ -153,5 +151,19 @@ public class ProblemControllerTest {
 
         Problem updatedProblem = problemRepository.findAll().get(0);
         assertThat(updatedProblem.getProblemNumber()).isEqualTo((short)123);
+    }
+
+    @Test
+    public void deleteProblemTest(){
+        assertThat(problemRepository.findAll()).isNotEmpty();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/"
+                 + problem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(problemRepository.findAll()).isEmpty();
     }
 }

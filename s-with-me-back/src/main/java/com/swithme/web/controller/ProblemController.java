@@ -45,4 +45,10 @@ public class ProblemController {
                                 @RequestBody ProblemUpdateRequestDto requestDto){
         return problemService.updateProblem(problemId, requestDto);
     }
+
+    @CrossOrigin
+    @DeleteMapping("/publisher/library/book/main-chapter/sub-chapter/problem/{problemId}")
+    public String deleteProblem(@PathVariable int problemId){
+        return problemService.deleteProblem(problemId);
+    }
 }

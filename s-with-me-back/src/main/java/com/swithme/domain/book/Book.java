@@ -44,6 +44,9 @@ public class Book {
     @Column(name = "isAdvertised")
     private Boolean isAdvertised;
 
+    @Column(name = "isOnSale")
+    private Boolean isOnSale;
+
     @Column(name = "monthlyProfit")
     private int monthlyProfit;
 
@@ -56,7 +59,7 @@ public class Book {
 
     @Builder
     public Book(Publisher publisher, String subject, int price, String publishedDate,
-                String name, short grade, String cover, Boolean isAdvertised,
+                String name, short grade, String cover, Boolean isAdvertised, Boolean isOnSale,
                 short totalProblemNumber, int monthlyProfit, int monthlySold, String introduction){
         this.publisher = publisher;
         this.subject = subject;
@@ -66,6 +69,7 @@ public class Book {
         this.grade = grade;
         this.cover = cover;
         this.isAdvertised = isAdvertised;
+        this.isOnSale = isOnSale;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
         this.introduction = introduction;
@@ -78,6 +82,7 @@ public class Book {
         this.name = requestDto.getName();
         this.grade = requestDto.getGrade();
         this.cover = requestDto.getCover();
+        this.isOnSale = requestDto.getIsOnSale();
         this.introduction = requestDto.getIntroduction();
     }
 }

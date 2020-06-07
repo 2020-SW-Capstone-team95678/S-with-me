@@ -77,6 +77,10 @@ class ProblemHead extends PureComponent {
         solvedDateTime: myProblem.solvedDateTime,
       };
       if (myProblem.solutionType === 'text') {
+        if (myProblem.isMath) {
+          const mathSolution = JSON.stringify(myProblem.textSolution);
+          formValue = { ...formValue, textSolution: mathSolution };
+        }
         formValue = { ...formValue, textSolution: myProblem.textSolution };
       } else if (myProblem.solutionType === 'img') {
         formValue = { ...formValue, imageSolution: myProblem.imageSolution };
