@@ -6,6 +6,8 @@ import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MainChapterCreateDto;
@@ -20,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,6 +45,8 @@ public class ChapterControllerTest {
     private SubChapterRepository subChapterRepository;
     @Autowired
     private MyBookRepository myBookRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
 
     private Book book;
     private MainChapter mainChapter;
@@ -69,6 +70,7 @@ public class ChapterControllerTest {
 
     @After
     public void cleanup(){
+        problemRepository.deleteAll();
         myBookRepository.deleteAll();
         subChapterRepository.deleteAll();
         mainChapterRepository.deleteAll();
@@ -169,4 +171,25 @@ public class ChapterControllerTest {
         SubChapter updatedSubChapter = subChapterRepository.findAll().get(0);
         assertThat(updatedSubChapter.getSubChapterName()).isEqualTo(expectedName);
     }
+
+    @Test
+    public void deleteSubChapterTest(){
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .build());
+
+        assertThat(subChapterRepository.findAll()).isNotEmpty();
+        assertThat(problemRepository.findAll()).isNotEmpty();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/"
+                + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(subChapterRepository.findAll()).isEmpty();
+        assertThat(problemRepository.findAll()).isEmpty();
+    }
+
 }
