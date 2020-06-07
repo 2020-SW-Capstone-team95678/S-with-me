@@ -148,7 +148,7 @@ public class MyProblemControllerTest {
 
         MyProblem updatedMyProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
-        assertThat(updatedMyProblem.getTextSolution()).isEqualTo(expectedTextSolution);
+        assertThat(updatedMyProblem.getIsConfused()).isEqualTo(true);
 
         assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNotNull();
     }

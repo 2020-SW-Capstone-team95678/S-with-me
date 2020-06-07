@@ -61,6 +61,7 @@ public class ProblemService {
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
                 .build();
+
         return responseDto;
     }
 
@@ -100,6 +101,7 @@ public class ProblemService {
                     .option5(createDto.getOption5())
                     .build());
         }
+
         return "문제 등록이 완료되었습니다.";
     }
 
@@ -112,6 +114,7 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + requestDto.getSubChapterId()));
 
         problem.update(subChapter, requestDto);
+
         return problem.getProblemNumber() + "번 문제가 수정되었습니다.";
     }
 
@@ -154,6 +157,7 @@ public class ProblemService {
                     .option5(problem.getOption5())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -178,6 +182,7 @@ public class ProblemService {
                     .answer(problem.getAnswer())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -186,7 +191,9 @@ public class ProblemService {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
         short problemNumber = problem.getProblemNumber();
+
         problemRepository.delete(problem);
+
         return problemNumber + "번 문제가 삭제되었습니다.";
     }
 }

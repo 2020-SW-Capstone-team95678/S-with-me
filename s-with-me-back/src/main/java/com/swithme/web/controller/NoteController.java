@@ -8,6 +8,7 @@ import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.*;
 @RequiredArgsConstructor
 @RestController
@@ -23,21 +24,21 @@ public class NoteController {
 
     @CrossOrigin
     @GetMapping("/student/note")
-    public List<NoteResponseDto> getNoteList(@RequestParam("studentId") int studentId){
+    public List<NoteResponseDto> getNoteList(@RequestParam("studentId") int studentId) throws SQLException {
         return noteService.getNoteList(studentId);
     }
 
     @CrossOrigin
     @GetMapping("/student/{studentId}/note/folderFilter")
     public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
-                                                             @RequestParam("folderId") int folderId){
+                                                             @RequestParam("folderId") int folderId) throws SQLException {
         return noteService.getNoteListFilteredByFolder(studentId, folderId);
     }
 
     @CrossOrigin
     @GetMapping(value = "/student/{studentId}/note/subjectFilter")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
-                                                              @RequestParam("subject") String subject){
+                                                              @RequestParam("subject") String subject) throws SQLException {
         return noteService.getNoteListFilteredBySubject(studentId, subject);
     }
 

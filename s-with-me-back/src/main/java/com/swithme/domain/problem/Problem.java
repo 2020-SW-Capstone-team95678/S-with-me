@@ -5,11 +5,9 @@ import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.hibernate.engine.jdbc.ClobProxy;
 
 import javax.persistence.*;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
@@ -17,7 +15,7 @@ import java.sql.Clob;
 @Getter
 @NoArgsConstructor
 @Entity(name = "problem")
-public class Problem {
+public class Problem{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +38,7 @@ public class Problem {
     private Clob solution;
 
     @Column(name = "problemNumber")
-    private short problemNumber;
+    private Short problemNumber;
 
     @Column(name = "answer")
     private String answer;
@@ -67,10 +65,14 @@ public class Problem {
     @Column(name = "option5")
     private String option5;
 
+    @Column(name = "isMath")
+    private Boolean isMath;
+
     @Builder
     public Problem(SubChapter subChapter, String title, Clob content, Clob solution,
                     short problemNumber, Clob image, String answer, Boolean isOptional,
-                   String option1, String option2, String option3, String option4, String option5){
+                   String option1, String option2, String option3, String option4, String option5,
+                   Boolean isMath){
         this.subChapter = subChapter;
         this.title = title;
         this.content = content;
@@ -84,6 +86,7 @@ public class Problem {
         this.option3 = option3;
         this.option4 = option4;
         this.option5 = option5;
+        this.isMath = isMath;
     }
 
     public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {

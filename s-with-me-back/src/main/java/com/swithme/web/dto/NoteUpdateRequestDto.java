@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Clob;
-
 @Getter
 @NoArgsConstructor
 public class NoteUpdateRequestDto {

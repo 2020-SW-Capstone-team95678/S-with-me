@@ -7,9 +7,13 @@ import com.swithme.web.dto.NoteUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.engine.jdbc.ClobProxy;
 
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
 
 @Getter
 @NoArgsConstructor
@@ -34,10 +38,11 @@ public class MyProblem {
 
     @Lob
     @Column(name = "imageSolution")
-    private String imageSolution;
+    private Clob imageSolution;
 
+    @Lob
     @Column(name = "textSolution")
-    private String textSolution;
+    private Clob textSolution;
 
     @Column(name = "solutionType")
     private String solutionType;
@@ -57,10 +62,14 @@ public class MyProblem {
     @Column(name = "isSolved")
     private Boolean isSolved;
 
+    @Column(name = "isMath")
+    private Boolean isMath;
+
     @Builder
     public MyProblem(MyBook myBook, Problem problem, Integer linkSolutionId,
-                     String imageSolution, String textSolution, String solutionType,
-                     Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved) {
+                     Clob imageSolution, Clob textSolution, String solutionType,
+                     Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved,
+                     Boolean isMath) {
         this.myBook = myBook;
         this.problem = problem;
         this.linkSolutionId = linkSolutionId;
@@ -72,12 +81,18 @@ public class MyProblem {
         this.solvedDateTime = solvedDateTime;
         this.myAnswer = myAnswer;
         this.isSolved = isSolved;
+        this.isMath = isMath;
     }
 
     public void update(MyProblemUpdateRequestDto requestDto) {
         this.linkSolutionId = requestDto.getLinkSolutionId();
-        this.imageSolution = requestDto.getImageSolution();
-        this.textSolution = requestDto.getTextSolution();
+
+        try{ this.imageSolution = ClobProxy.generateProxy(requestDto.getImageSolution()); }
+        catch (NullPointerException nullPointerException){ this.imageSolution = null; }
+
+        try{ this.textSolution = ClobProxy.generateProxy(requestDto.getTextSolution()); }
+        catch (NullPointerException nullPointerException){ this.textSolution = null; }
+
         this.solutionType = requestDto.getSolutionType();
         this.isConfused = requestDto.getIsConfused();
         this.isRight = requestDto.getIsRight();
@@ -91,8 +106,24 @@ public class MyProblem {
         this.isRight = requestDto.getIsRight();
         this.myAnswer = requestDto.getMyAnswer();
         this.linkSolutionId = requestDto.getLinkSolutionId();
-        this.imageSolution = requestDto.getImageSolution();
-        this.textSolution = requestDto.getTextSolution();
+
+        try{ this.imageSolution = ClobProxy.generateProxy(requestDto.getImageSolution()); }
+        catch (NullPointerException nullPointerException){ this.imageSolution = null; }
+
+        try{ this.textSolution = ClobProxy.generateProxy(requestDto.getTextSolution()); }
+        catch (NullPointerException nullPointerException){ this.textSolution = null; }
+
         this.solutionType = requestDto.getSolutionType();
+    }
+
+    public static String readClobData(Reader reader) throws IOException {
+        StringBuffer stringBuffer = new StringBuffer();
+        char[] buffer = new char[1024];
+        if(reader != null){
+            int length = 0;
+            while((length = reader.read(buffer)) != -1)
+                stringBuffer.append(buffer, 0, length);
+        }
+        return stringBuffer.toString();
     }
 }

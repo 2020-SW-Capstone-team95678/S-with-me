@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Reader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -32,7 +32,9 @@ public class MyProblemService {
     public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
         MyProblem myProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemID=" + myProblemId));
+
         myProblem.update(requestDto);
+
         if (!myProblem.getIsRight() || myProblem.getIsConfused()) {
             if (noteRepository.findByMyProblem(myProblem) == null) {
                 noteRepository.save(Note.builder()
@@ -51,7 +53,7 @@ public class MyProblemService {
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemList(int myBookId, int lastSubChapterId, short lastPageNumber) {
+    public List<MyProblemResponseDto> getMyProblemList(int myBookId, int lastSubChapterId, short lastPageNumber) throws SQLException {
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId =" + myBookId));
 
@@ -75,29 +77,42 @@ public class MyProblemService {
 
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemListInPage) {
+
+            String imageSolution;
+            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ imageSolution = null; }
+
+            String textSolution;
+            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ textSolution = null; }
+
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
                     .linkSolutionId(myProblem.getLinkSolutionId())
-                    .imageSolution(myProblem.getImageSolution())
-                    .textSolution(myProblem.getTextSolution())
+                    .imageSolution(imageSolution)
+                    .textSolution(textSolution)
                     .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
                     .isSolved(myProblem.getIsSolved())
                     .solvedDateTime(myProblem.getSolvedDateTime())
+                    .isMath(myProblem.getIsMath())
                     .build());
         }
+
         return responseDtoList;
     }
 
     @Transactional
-    public List<MyProblemResponseDto> getMyProblemListInSubChapter(int myBookId, int subChapterId) {
+    public List<MyProblemResponseDto> getMyProblemListInSubChapter(int myBookId, int subChapterId) throws SQLException{
         MyBook myBook = myBookRepository.findById(myBookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
+
         List<MyProblem> allMyProblemList = myProblemRepository.findByMyBook(myBook);
+
         List<MyProblem> myProblemList = new ArrayList<>();
         for(MyProblem myProblem : allMyProblemList){
             if(myProblem.getProblem().getSubChapter().getSubChapterId() == subChapterId)
@@ -106,21 +121,32 @@ public class MyProblemService {
 
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemList) {
+
+            String imageSolution;
+            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ imageSolution = null; }
+
+            String textSolution;
+            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ textSolution = null; }
+
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
                     .linkSolutionId(myProblem.getLinkSolutionId())
-                    .imageSolution(myProblem.getImageSolution())
-                    .textSolution(myProblem.getTextSolution())
+                    .imageSolution(imageSolution)
+                    .textSolution(textSolution)
                     .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
                     .isRight(myProblem.getIsRight())
                     .isSolved(myProblem.getIsSolved())
                     .solvedDateTime(myProblem.getSolvedDateTime())
+                    .isMath(myProblem.getIsMath())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -133,16 +159,16 @@ public class MyProblemService {
         SubChapter subChapter = problem.getSubChapter();
 
         String content;
-        try{ content = problem.getContent().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ content = null; }
+        try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ content = null; }
 
         String solution;
-        try{ solution = problem.getSolution().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ solution = null; }
+        try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ solution = null; }
 
         String image;
-        try{ image = problem.getImage().getCharacterStream().toString(); }
-        catch (NullPointerException nullPointerException){ image = null; }
+        try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ image = null; }
 
         ProblemResponseDto problemResponseDto = ProblemResponseDto.builder().build().builder()
                 .problemId(problem.getProblemId())
@@ -160,6 +186,7 @@ public class MyProblemService {
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
                 .build();
+
         MySolutionResponseDto responseDto = MySolutionResponseDto.builder()
                 .problem(problemResponseDto)
                 .textSolution(myProblem.getTextSolution())
@@ -168,6 +195,7 @@ public class MyProblemService {
                 .solutionType(myProblem.getSolutionType())
                 .myAnswer(myProblem.getMyAnswer())
                 .build();
+
         return responseDto;
     }
 }

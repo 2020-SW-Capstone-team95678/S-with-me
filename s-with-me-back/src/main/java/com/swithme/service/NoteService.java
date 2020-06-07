@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,37 +29,50 @@ public class NoteService{
     public String createNote(NoteCreateDto createDto) {
         MyProblem myProblem = myProblemRepository.findById(createDto.getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + createDto.getMyProblemId()));
+
         if(noteRepository.findByMyProblem(myProblem) == null) {
             Student student = myProblem.getMyBook().getFolder().getStudent();
-
             long addedDateTime = createDto.getAddedDateTime();
+
             noteRepository.save(Note.builder()
                     .student(student)
                     .myProblem(myProblem)
                     .addedDateTime(addedDateTime)
                     .build());
+
             return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
         }
         else return "이미 오답노트에 있는 문제입니다.";
     }
 
     @Transactional
-    public List<NoteResponseDto> getNoteList(int studentId) {
+    public List<NoteResponseDto> getNoteList(int studentId) throws SQLException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+
         List<Note> noteList = noteRepository.findByStudent(student);
         Collections.sort(noteList);
+
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note : noteList){
             MyProblem myProblem = note.getMyProblem();
+
+            String imageSolution;
+            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ imageSolution = null; }
+
+            String textSolution;
+            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ textSolution = null; }
+
             responseDtoList.add(new NoteResponseDto().builder()
                     .noteId(note.getNoteId())
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
                     .linkSolutionId(myProblem.getLinkSolutionId())
-                    .imageSolution(myProblem.getImageSolution())
-                    .textSolution(myProblem.getTextSolution())
+                    .imageSolution(imageSolution)
+                    .textSolution(textSolution)
                     .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
@@ -66,6 +81,7 @@ public class NoteService{
                     .solvedDateTime(myProblem.getSolvedDateTime())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -82,33 +98,46 @@ public class NoteService{
     public String updateNote(int noteId, NoteUpdateRequestDto requestDto) {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 note가 없습니다. noteId = " + noteId));
+
         MyProblem myProblem = myProblemRepository.findById(note.getMyProblem().getMyProblemId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 my problem이 없습니다. myProblemID=" + note.getMyProblem().getMyProblemId()));
 
         note.update(requestDto.getSolvedDateTime());
         myProblem.update(requestDto);
+
         return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에서 수정되었습니다.";
     }
 
     @Transactional
-    public List<NoteResponseDto> getNoteListFilteredByFolder(int studentId, int folderId) {
+    public List<NoteResponseDto> getNoteListFilteredByFolder(int studentId, int folderId) throws SQLException{
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
+
         List<Note> noteList = noteRepository.findByStudent(student);
         Collections.sort(noteList);
+
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteList){
             if(note.getMyProblem().getMyBook().getFolder().getFolderId() == folderId){
                 MyProblem myProblem = note.getMyProblem();
+
+                String imageSolution;
+                try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+                catch (NullPointerException | IOException exception){ imageSolution = null; }
+
+                String textSolution;
+                try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+                catch (NullPointerException | IOException exception){ textSolution = null; }
+
                 responseDtoList.add(NoteResponseDto.builder()
                         .noteId(note.getNoteId())
                         .myProblemId(myProblem.getMyProblemId())
                         .myBookId(myProblem.getMyBook().getMyBookId())
                         .problemId(myProblem.getProblem().getProblemId())
                         .linkSolutionId(myProblem.getLinkSolutionId())
-                        .imageSolution(myProblem.getImageSolution())
-                        .textSolution(myProblem.getTextSolution())
+                        .imageSolution(imageSolution)
+                        .textSolution(textSolution)
                         .solutionType(myProblem.getSolutionType())
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.getIsConfused())
@@ -118,27 +147,39 @@ public class NoteService{
                         .build());
             }
         }
+
         return responseDtoList;
     }
 
     @Transactional
-    public List<NoteResponseDto> getNoteListFilteredBySubject(int studentId, String subject) {
+    public List<NoteResponseDto> getNoteListFilteredBySubject(int studentId, String subject) throws SQLException{
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+
         List<Note> noteList =  noteRepository.findByStudent(student);
         Collections.sort(noteList);
+
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteList){
             if(note.getMyProblem().getMyBook().getBook().getSubject().equals(subject)) {
                 MyProblem myProblem = note.getMyProblem();
+
+                String imageSolution;
+                try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+                catch (NullPointerException | IOException exception){ imageSolution = null; }
+
+                String textSolution;
+                try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+                catch (NullPointerException | IOException exception){ textSolution = null; }
+
                 responseDtoList.add(NoteResponseDto.builder()
                         .noteId(note.getNoteId())
                         .myProblemId(myProblem.getMyProblemId())
                         .myBookId(myProblem.getMyBook().getMyBookId())
                         .problemId(myProblem.getProblem().getProblemId())
                         .linkSolutionId(myProblem.getLinkSolutionId())
-                        .imageSolution(myProblem.getImageSolution())
-                        .textSolution(myProblem.getTextSolution())
+                        .imageSolution(imageSolution)
+                        .textSolution(textSolution)
                         .solutionType(myProblem.getSolutionType())
                         .myAnswer(myProblem.getMyAnswer())
                         .isConfused(myProblem.getIsConfused())
@@ -148,6 +189,7 @@ public class NoteService{
                         .build());
             }
         }
+
         return responseDtoList;
     }
 }
