@@ -101,12 +101,29 @@ public class ChapterService {
     public int createMainChapter(MainChapterCreateDto createDto) {
         Book book = bookRepository.findById(createDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + createDto.getBookId()));
-        mainChapterRepository.save(MainChapter.builder()
-                .book(book)
-                .mainChapterName(createDto.getMainChapterName())
-                .build());
-        int index = mainChapterRepository.findByBook(book).size() - 1;
-        return mainChapterRepository.findByBook(book).get(index).getMainChapterId();
+
+        if(mainChapterRepository.findAll().isEmpty()) {
+            mainChapterRepository.save(MainChapter.builder()
+                    .book(book)
+                    .mainChapterName(createDto.getMainChapterName())
+                    .beforeMainChapterId(0)
+                    .build());
+        }
+        else{
+            List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+            int last = mainChapterList.size() - 1;
+            MainChapter lastMainChapter = mainChapterList.get(last);
+
+            mainChapterRepository.save(MainChapter.builder()
+                    .book(book)
+                    .mainChapterName(createDto.getMainChapterName())
+                    .beforeMainChapterId(lastMainChapter.getMainChapterId())
+                    .build());
+        }
+
+        int last = mainChapterRepository.findByBook(book).size() - 1;
+
+        return mainChapterRepository.findByBook(book).get(last).getMainChapterId();
     }
 
     @Transactional
@@ -160,15 +177,33 @@ public class ChapterService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
         String mainChapterName = mainChapter.getMainChapterName();
 
+        MainChapter beforeMainChapter = null;
+        if(mainChapter.getBeforeMainChapterId() != 0) {
+            beforeMainChapter = mainChapterRepository.findById(mainChapter.getBeforeMainChapterId())
+                    .orElseThrow(() -> new IllegalArgumentException("이전 대단원이 없습니다."));
+        }
+        MainChapter afterMainChapter = mainChapterRepository.findByBeforeMainChapterId(mainChapterId);
+
         List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
-        for(SubChapter subChapter : subChapterList){
-            List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
-            problemRepository.deleteAll(problemList);
+        if(!subChapterList.isEmpty()){
+            for (SubChapter subChapter : subChapterList) {
+                List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+                problemRepository.deleteAll(problemList);
+                subChapterRepository.delete(subChapter);
+            }
         }
 
-        subChapterRepository.deleteAll(subChapterList);
         mainChapterRepository.delete(mainChapter);
-
+        if(!mainChapterRepository.findAll().isEmpty()) {
+            //가장 앞을 삭제한 경우
+            if(beforeMainChapter == null)
+                afterMainChapter.update(0);
+            //가장 뒤를 삭제한 경우
+            else if(afterMainChapter == null);
+            //나머지 경우
+            else
+                afterMainChapter.update(beforeMainChapter.getMainChapterId());
+        }
         return mainChapterName + " 대단원과 해당 대단원에 포함된 소단원, 문제가 모두 삭제되었습니다.";
     }
 }

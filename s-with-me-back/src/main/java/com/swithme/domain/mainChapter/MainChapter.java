@@ -25,13 +25,22 @@ public class MainChapter {
     @Column(name = "mainChapterName")
     private String mainChapterName;
 
+    @Column(name = "beforeMainChapterId")
+    private Integer beforeMainChapterId;
+
     @Builder
-    public MainChapter(Book book, String mainChapterName){
+    public MainChapter(Book book, String mainChapterName, Integer beforeMainChapterId){
         this.book = book;
         this.mainChapterName = mainChapterName;
+        this.beforeMainChapterId = beforeMainChapterId;
     }
 
     public void update(MainChapterUpdateRequestDto requestDto) {
         this.mainChapterName = requestDto.getMainChapterName();
     }
+
+    public void update(Integer beforeMainChapterId){
+        this.beforeMainChapterId = beforeMainChapterId;
+    }
+
 }
