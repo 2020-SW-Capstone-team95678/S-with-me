@@ -69,11 +69,9 @@ public class BookStoreControllerTest {
                 .isAdvertised(true)
                 .grade((short) 2)
                 .isOnSale(false)
-                .subject("math")
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
-                .isAdvertised(true)
                 .isOnSale(false)
                 .grade((short) 2)
                 .subject("science")

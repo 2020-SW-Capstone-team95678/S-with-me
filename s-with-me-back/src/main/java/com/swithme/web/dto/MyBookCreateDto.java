@@ -12,17 +12,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MyBookCreateDto {
     int myBookId;
-    int folderId;
     int bookId;
-    short lastPageNumber;
+    int studentId;
     String receiptId;
 
     @Builder
-    public MyBookCreateDto(int myBookId,int folderId,int bookId, short lastPageNumber,String receiptId) {
+    public MyBookCreateDto(int myBookId,int bookId,String receiptId,int studentId) {
         this.myBookId = myBookId;
-        this.folderId = folderId;
         this.bookId = bookId;
-        this.lastPageNumber = lastPageNumber;
         this.receiptId = receiptId;
+        this.studentId = studentId;
     }
 }
