@@ -4,6 +4,7 @@ import { CREATE_BOOK } from '../../../constants/modals';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Latex from 'react-latex-next';
 import { delimeters } from '../../../constants/delimeters';
+import notSale from './isOnSale.png';
 
 import {
   Accordion,
@@ -29,6 +30,7 @@ import SelectSubChapter from '../../student/libarary/SelectSubChapter';
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
   const [count, setUpDate] = useState(0);
+  const [isOnSale, setIsOnSale] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const publisherId = window.sessionStorage.getItem('publisherId');
 
@@ -111,9 +113,12 @@ const SideBookInfo = ({ book, onClick }) => {
         }}
         onClick={onClick}
       >
-        <div>
+        {book.isOnSale? (<div>
           <img width={100} src={book.cover} alt="bookCover" />
-        </div>
+        </div>):(<div>
+          <img width={100} src={notSale} alt="bookCover" />
+        </div>)}
+        
         <div
           style={{
             backgroundColor: 'white',
@@ -133,14 +138,15 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
 
   const [name, setName] = useState(book.name);
-  const [turnOn] = useState(null);
   const [cover, setCover] = useState(book.cover);
+  const [isOnSale,setIsOnSale]=useState(book.isOnSale);
   const [price, setPrice] = useState(book.price);
   const [prevSub, setPrevSub] = useState(null);
   const [subject, setSubject] = useState(book.subject);
   const [grade, setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
   console.log(book.bookId);
+  console.log(book);
 
   useEffect(() => {
     setName(book.name ? book.name : '');
@@ -311,6 +317,29 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             ></input>
           </div>
         </div>
+        <div>
+        {isOnSale?(
+          <button onClick={()=>{
+            setIsOnSale(!isOnSale)
+            Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+            .then(response =>
+              setBooks(prev => {
+                return [...prev];
+              }),
+            )
+
+            }}>판매 중단</button>):(<button onClick={()=>{
+              console.log("b: "+isOnSale)
+              setIsOnSale(!isOnSale)
+              Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+              .then(response =>
+                setBooks(prev => {
+                  return [...prev];
+                }),
+              )
+  
+              }}>판매 시작</button>)}
+        </div>
       </div>
       <div>
         <Modal>
@@ -374,12 +403,13 @@ export const ChapterInfo = ({ bookId, onClick }) => {
       {chapters.map(chapter => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
         return (
-          <AccordionItem style={{ display: 'flex', cursor: 'point', }}>
+          <AccordionItem style={{ display: 'flex', cursor: 'point', flexDirection:'column' }}>
+            <div style={{display: 'flex', flexDirection:'row'}}>
             <AccordionItemHeading
-              style={{ flex:4, cursor: 'point', flexDirection: 'row' }}
+              style={{ flex:4, cursor: 'point' }}
               onClick={() => onClick(null)}
             >
-              <AccordionItemButton style={{  cursor: 'point' }}>
+              <AccordionItemButton style={{ button:'focus',outline:'none', cursor: 'point' }}>
                 {chapter.mainChapterResponseDto.mainChapterName}
               </AccordionItemButton>
             </AccordionItemHeading>
@@ -398,6 +428,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
             >
               삭제
             </button>
+            </div>
             <AccordionItemPanel style={{ cursor: 'point' }}>
               <Modal>
                 {({ openModal }) => (
@@ -517,13 +548,14 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
     <div>
       <br></br>
       <br></br>
-      <Accordion style={{ marginTop: 20 }} allowZeroExpanded={true}>
+      <Accordion style={{ marginTop:  20}} allowZeroExpanded={true}>
         {problems.map(problem => {
           return (
-            <AccordionItem>
-              <AccordionItemHeading>
+            <AccordionItem >
+              
+              <AccordionItemHeading  >
                 <AccordionItemButton
-                  style={{ width: '100%', backgroundColor: 'rgb(247, 207, 192)' }}
+                  style={{ flex:1, backgroundColor: 'rgb(247, 207, 192)' }}
                 >
                   {problem.problemNumber}
                 </AccordionItemButton>
@@ -531,6 +563,7 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
               <AccordionItemPanel>
                 <ProblemItem setBooks={setBooks} problem={problem} />
               </AccordionItemPanel>
+              
             </AccordionItem>
           );
         })}

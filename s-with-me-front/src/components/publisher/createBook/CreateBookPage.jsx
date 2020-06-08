@@ -16,6 +16,7 @@ const CreateBookPage = props => {
   const [subject, setSubject] = useState('');
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState([]);
+  const isOnSale=false;
   const [introduction, setIntroduction] = useState('');
   const { onUpDate, publisherId } = props;
 
@@ -92,9 +93,10 @@ const CreateBookPage = props => {
                   publisherId: publisherId,
                   subject: subject,
                   introduction: introduction,
+                  isOnSale:false
                 }).then(response => {
                   setBookId(response.data);
-                  console.log(subject);
+                  console.log(isOnSale);
                 });
               }}
             >

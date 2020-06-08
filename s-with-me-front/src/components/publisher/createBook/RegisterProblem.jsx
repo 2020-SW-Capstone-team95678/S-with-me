@@ -52,7 +52,6 @@ export default class RegisterProblem extends PureComponent {
       subChapterId:subChapterId,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
-      subChapterId: subChapterId,
       isMath:this.state.isMath,
     };
     console.log(formValue);
