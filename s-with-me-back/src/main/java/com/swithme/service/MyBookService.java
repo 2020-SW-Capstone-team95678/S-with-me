@@ -4,6 +4,8 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
+import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -30,7 +32,7 @@ public class MyBookService {
     private final StudentRepository studentRepository;
     private final MyProblemRepository myProblemRepository;
     private final NoteRepository noteRepository;
-
+    private final MainChapterRepository mainChapterRepository;
     @Transactional
     public MyBookResponseDto getMyBook(int myBookId){
         MyBook myBook = myBookRepository.findById(myBookId)
@@ -54,15 +56,26 @@ public class MyBookService {
     @Transactional
     public String createMyBook(MyBookCreateDto myBookCreateDto)
     {
-        Folder folder = folderRepository.findById(myBookCreateDto.getFolderId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. folderId=" + myBookCreateDto.getFolderId()));
+        Student student = studentRepository.findById(myBookCreateDto.getStudentId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId="+myBookCreateDto.getStudentId()));
+        List<Folder> folderList = folderRepository.findByStudent(student);
         Book book = bookRepository.findById(myBookCreateDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
+        Folder defaultFolder = new Folder();
+        for(Folder folder : folderList)
+        {
+            if(folder.getFolderName().equals("분류되지 않음")){defaultFolder=folder;break;}
+        }
+        List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        for(MainChapter mainChapter : mainChapterList)
+        {
+            //if(mainChapter.getbeforeMainChapterId)
+        }
         myBookRepository.save(MyBook.builder()
-                .folder(folder)
+                .folder(defaultFolder)
                 .book(book)
                 .lastSubChapterId(0)
-                .lastPageNumber(myBookCreateDto.getLastPageNumber())
+                .lastPageNumber((short) 1)
                 .receiptId(myBookCreateDto.getReceiptId())
                 .build());
         return "mybook 생성 완료";
