@@ -31,8 +31,9 @@ public class NoteController {
     @CrossOrigin
     @GetMapping("/student/{studentId}/note/folderFilter")
     public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
-                                                             @RequestParam("folderId") int folderId) throws SQLException {
-        return noteService.getNoteListFilteredByFolder(studentId, folderId);
+                                                             @RequestParam("folderId") int folderId,
+                                                             @RequestParam("page") short page) throws SQLException {
+        return noteService.getNoteListFilteredByFolder(studentId, folderId, page);
     }
 
     @CrossOrigin
