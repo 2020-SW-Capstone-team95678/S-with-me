@@ -5,6 +5,8 @@ import Card from '../../../common-ui/Card';
 import InlineList from '../../../common-ui/InlineList';
 import BookCard from './BookCard';
 
+import PaginationContainer from '../../../containers/student/PaginationContainer';
+
 function BookstoreTable(props) {
   const { styles, bookList, adBookList } = props;
   return (
@@ -15,9 +17,9 @@ function BookstoreTable(props) {
         </Card>
         <div style={{ padding: 3 }}>
           <InlineList spacingBetween={1}>
-            {/* {adBookList.map((book, index) => (
+            {adBookList.map((book, index) => (
               <BookCard book={book} key={index} />
-            ))} */}
+            ))}
           </InlineList>
         </div>
       </div>
@@ -26,6 +28,9 @@ function BookstoreTable(props) {
           <div {...css(styles.head)}>일반 서적</div>
         </Card>
         <div style={{ padding: 3 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
+            <PaginationContainer isBookstore />
+          </div>
           <InlineList spacingBetween={1}>
             {bookList.map((book, index) => (
               <BookCard book={book} key={index} />
