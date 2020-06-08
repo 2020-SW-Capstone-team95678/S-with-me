@@ -7,7 +7,7 @@ export default class BookPreview extends PureComponent {
   _isMounted = false;
   constructor(props) {
     super(props);
-    this.state = { book: {} };
+    this.state = { book: {}, shouldUpdate: false };
   }
 
   componentDidMount() {
@@ -19,14 +19,25 @@ export default class BookPreview extends PureComponent {
       }
     });
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.myBook.bookId !== prevState.book.bookId) {
+      console.log(nextProps.myBook.bookId, prevState.book.bookId);
+      return { shouldUpdate: true };
+    }
+    return { shouldUpdate: false };
+  }
+
   componentDidUpdate() {
     this._isMounted = true;
+    console.log('here');
     const { myBook } = this.props;
-    Api.get('student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) => {
-      if (this._isMounted) {
-        this.setState({ book: data });
-      }
-    });
+    if (this.state.shouldUpdate)
+      Api.get('student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) => {
+        if (this._isMounted) {
+          this.setState({ book: data });
+        }
+      });
   }
 
   componentWillUnmount() {
