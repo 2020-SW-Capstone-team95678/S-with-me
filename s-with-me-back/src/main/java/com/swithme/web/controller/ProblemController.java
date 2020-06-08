@@ -34,9 +34,9 @@ public class ProblemController {
 
 
     @CrossOrigin
-    @PostMapping("/publisher/library/book/mainChapter/subChapter/problems")
-    public String createProblems (@RequestBody List<ProblemCreateDto> createDtoList){
-        return problemService.createProblems(createDtoList);
+    @PostMapping("/publisher/library/book/mainChapter/subChapter/problem")
+    public int createProblem (@RequestBody ProblemCreateDto createDto){
+        return problemService.createProblem(createDto);
     }
 
     @CrossOrigin

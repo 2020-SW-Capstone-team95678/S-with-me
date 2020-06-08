@@ -118,7 +118,7 @@ public class ChapterService {
         Book book = bookRepository.findById(createDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + createDto.getBookId()));
 
-        if(mainChapterRepository.findAll().isEmpty()) {
+        if(mainChapterRepository.findByBook(book).isEmpty()) {
             mainChapterRepository.save(MainChapter.builder()
                     .book(book)
                     .mainChapterName(createDto.getMainChapterName())
@@ -148,7 +148,7 @@ public class ChapterService {
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 main chapter가 없습니다. mainChapterId = " + createDto.getMainChapterId()));
 
-        if(subChapterRepository.findAll().isEmpty()) {
+        if(subChapterRepository.findByMainChapter(mainChapter).isEmpty()) {
             subChapterRepository.save(SubChapter.builder()
                     .mainChapter(mainChapter)
                     .subChapterName(createDto.getSubChapterName())

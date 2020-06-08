@@ -62,15 +62,47 @@ public class ProblemService {
     }
 
     @Transactional
-    public String createProblems(List<ProblemCreateDto> createDtoList) {
+    public int createProblem(ProblemCreateDto createDto) {
         Clob content;
         Clob solution;
         Clob image;
 
-        for (ProblemCreateDto createDto : createDtoList) {
-            SubChapter subChapter = subChapterRepository.findById(createDto.getSubChapterId())
-                    .orElseThrow(() -> new IllegalArgumentException
-                            ("해당 sub chapter가 없습니다. subChapterId = " + createDto.getSubChapterId()));
+        SubChapter subChapter = subChapterRepository.findById(createDto.getSubChapterId())
+                .orElseThrow(() -> new IllegalArgumentException
+                        ("해당 sub chapter가 없습니다. subChapterId = " + createDto.getSubChapterId()));
+
+        if(problemRepository.findBySubChapter(subChapter).isEmpty()){
+            try{ content = ClobProxy.generateProxy(createDto.getContent()); }
+            catch (NullPointerException nullPointerException){ content = null; }
+
+            try{ solution = ClobProxy.generateProxy(createDto.getSolution()); }
+            catch (NullPointerException nullPointerException){ solution = null; }
+
+            try{ image = ClobProxy.generateProxy(createDto.getImage()); }
+            catch (NullPointerException nullPointerException){ image = null; }
+
+            problemRepository.save(Problem.builder()
+                    .subChapter(subChapter)
+                    .title(createDto.getTitle())
+                    .content(content)
+                    .solution(solution)
+                    .answer(createDto.getAnswer())
+                    .image(image)
+                    .problemNumber(createDto.getProblemNumber())
+                    .isOptional(createDto.getIsOptional())
+                    .option1(createDto.getOption1())
+                    .option2(createDto.getOption2())
+                    .option3(createDto.getOption3())
+                    .option4(createDto.getOption4())
+                    .option5(createDto.getOption5())
+                    .isMath(createDto.getIsMath())
+                    .beforeProblemId(0)
+                    .build());
+        }
+        else{
+            List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+            int last = problemList.size() - 1;
+            Problem lastProblem = problemList.get(last);
 
             try{ content = ClobProxy.generateProxy(createDto.getContent()); }
             catch (NullPointerException nullPointerException){ content = null; }
@@ -96,10 +128,13 @@ public class ProblemService {
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
                     .isMath(createDto.getIsMath())
+                    .beforeProblemId(lastProblem.getProblemId())
                     .build());
         }
 
-        return "문제 등록이 완료되었습니다.";
+        int last = problemRepository.findBySubChapter(subChapter).size() - 1;
+
+        return problemRepository.findBySubChapter(subChapter).get(last).getProblemId();
     }
 
     @Transactional
