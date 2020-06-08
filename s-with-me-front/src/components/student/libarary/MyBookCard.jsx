@@ -18,6 +18,11 @@ export default function MyBookCard(props) {
       isDragging: !!monitor.isDragging(),
     }),
   });
+  const handleDelete = () => {
+    const { deleteMyBook, requestMyBookList } = props;
+    const studentId = window.sessionStorage.getItem('studentId');
+    deleteMyBook(myBookId, () => requestMyBookList({ studentId }));
+  };
   return (
     <>
       <DragPreviewImage connect={preview} src={bookImage} />
@@ -45,7 +50,7 @@ export default function MyBookCard(props) {
             >
               <Button xsmall>이어 풀기</Button>
             </Link>
-            <Button primary small>
+            <Button primary small onPress={handleDelete}>
               삭제
             </Button>
           </InlineList>
