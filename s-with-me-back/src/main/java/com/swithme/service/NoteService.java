@@ -124,46 +124,50 @@ public class NoteService{
                 .orElseThrow(() -> new IllegalArgumentException(""));
 
         List<Note> noteList = noteRepository.findByStudent(student);
-        Collections.sort(noteList);
+        if(noteList.size() > 1) Collections.sort(noteList);
+
+        List<Note> noteListFilteredByFolder = new ArrayList<>();
+        for(Note note: noteList){
+            if(note.getMyProblem().getMyBook().getFolder().getFolderId() == folderId)
+                noteListFilteredByFolder.add(note);
+        }
 
         List<Note> noteListInPage = new ArrayList<>();
         try{
-            noteListInPage = noteList.subList(page * 8 - 8, page * 8);
+            noteListInPage = noteListFilteredByFolder.subList(page * 8 - 8, page * 8);
         } catch(IndexOutOfBoundsException indexOutOfBoundsException){
             //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            noteListInPage = noteList.subList(page * 8 - 8, noteList.size());
+            noteListInPage = noteListFilteredByFolder.subList(page * 8 - 8, noteListFilteredByFolder.size());
         }
 
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteListInPage){
-            if(note.getMyProblem().getMyBook().getFolder().getFolderId() == folderId){
-                MyProblem myProblem = note.getMyProblem();
+            MyProblem myProblem = note.getMyProblem();
 
-                String imageSolution;
-                try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
-                catch (NullPointerException | IOException exception){ imageSolution = null; }
+            String imageSolution;
+            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ imageSolution = null; }
 
-                String textSolution;
-                try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
-                catch (NullPointerException | IOException exception){ textSolution = null; }
+            String textSolution;
+            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ textSolution = null; }
 
-                responseDtoList.add(NoteResponseDto.builder()
-                        .noteId(note.getNoteId())
-                        .myProblemId(myProblem.getMyProblemId())
-                        .myBookId(myProblem.getMyBook().getMyBookId())
-                        .problemId(myProblem.getProblem().getProblemId())
-                        .linkSolutionId(myProblem.getLinkSolutionId())
-                        .imageSolution(imageSolution)
-                        .textSolution(textSolution)
-                        .solutionType(myProblem.getSolutionType())
-                        .myAnswer(myProblem.getMyAnswer())
-                        .isConfused(myProblem.getIsConfused())
-                        .isRight(myProblem.getIsRight())
-                        .isSolved(myProblem.getIsSolved())
-                        .solvedDateTime(myProblem.getSolvedDateTime())
-                        .isMath(myProblem.getIsMath())
-                        .build());
-            }
+            responseDtoList.add(NoteResponseDto.builder()
+                    .noteId(note.getNoteId())
+                    .myProblemId(myProblem.getMyProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(myProblem.getProblem().getProblemId())
+                    .linkSolutionId(myProblem.getLinkSolutionId())
+                    .imageSolution(imageSolution)
+                    .textSolution(textSolution)
+                    .solutionType(myProblem.getSolutionType())
+                    .myAnswer(myProblem.getMyAnswer())
+                    .isConfused(myProblem.getIsConfused())
+                    .isRight(myProblem.getIsRight())
+                    .isSolved(myProblem.getIsSolved())
+                    .solvedDateTime(myProblem.getSolvedDateTime())
+                    .isMath(myProblem.getIsMath())
+                    .build());
         }
 
         return responseDtoList;
@@ -175,45 +179,49 @@ public class NoteService{
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
 
         List<Note> noteList =  noteRepository.findByStudent(student);
-        Collections.sort(noteList);
+        if(noteList.size() > 1) Collections.sort(noteList);
+
+        List<Note> noteListFilteredBySubject=  new ArrayList<>();
+        for(Note note: noteList){
+            if(note.getMyProblem().getMyBook().getBook().getSubject() == subject)
+                noteListFilteredBySubject.add(note);
+        }
 
         List<Note> noteListInPage = new ArrayList<>();
         try{
-            noteListInPage = noteList.subList(page * 8 - 8, page * 8);
+            noteListInPage = noteListFilteredBySubject.subList(page * 8 - 8, page * 8);
         } catch(IndexOutOfBoundsException indexOutOfBoundsException){
             //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            noteListInPage = noteList.subList(page * 8 - 8, noteList.size());
+            noteListInPage = noteListFilteredBySubject.subList(page * 8 - 8, noteListFilteredBySubject.size());
         }
 
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteListInPage){
-            if(note.getMyProblem().getMyBook().getBook().getSubject().equals(subject)) {
-                MyProblem myProblem = note.getMyProblem();
+            MyProblem myProblem = note.getMyProblem();
 
-                String imageSolution;
-                try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
-                catch (NullPointerException | IOException exception){ imageSolution = null; }
+            String imageSolution;
+            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ imageSolution = null; }
 
-                String textSolution;
-                try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
-                catch (NullPointerException | IOException exception){ textSolution = null; }
+            String textSolution;
+            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ textSolution = null; }
 
-                responseDtoList.add(NoteResponseDto.builder()
-                        .noteId(note.getNoteId())
-                        .myProblemId(myProblem.getMyProblemId())
-                        .myBookId(myProblem.getMyBook().getMyBookId())
-                        .problemId(myProblem.getProblem().getProblemId())
-                        .linkSolutionId(myProblem.getLinkSolutionId())
-                        .imageSolution(imageSolution)
-                        .textSolution(textSolution)
-                        .solutionType(myProblem.getSolutionType())
-                        .myAnswer(myProblem.getMyAnswer())
-                        .isConfused(myProblem.getIsConfused())
-                        .isRight(myProblem.getIsRight())
-                        .isSolved(myProblem.getIsSolved())
-                        .solvedDateTime(myProblem.getSolvedDateTime())
-                        .build());
-            }
+            responseDtoList.add(NoteResponseDto.builder()
+                    .noteId(note.getNoteId())
+                    .myProblemId(myProblem.getMyProblemId())
+                    .myBookId(myProblem.getMyBook().getMyBookId())
+                    .problemId(myProblem.getProblem().getProblemId())
+                    .linkSolutionId(myProblem.getLinkSolutionId())
+                    .imageSolution(imageSolution)
+                    .textSolution(textSolution)
+                    .solutionType(myProblem.getSolutionType())
+                    .myAnswer(myProblem.getMyAnswer())
+                    .isConfused(myProblem.getIsConfused())
+                    .isRight(myProblem.getIsRight())
+                    .isSolved(myProblem.getIsSolved())
+                    .solvedDateTime(myProblem.getSolvedDateTime())
+                    .build());
         }
 
         return responseDtoList;
