@@ -5,8 +5,12 @@ import com.swithme.web.dto.BookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.engine.jdbc.ClobProxy;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
 
 @Getter
 @NoArgsConstructor
@@ -39,7 +43,7 @@ public class Book {
 
     @Lob
     @Column(name = "cover")
-    private String cover;
+    private Clob cover;
 
     @Column(name = "isAdvertised")
     private Boolean isAdvertised;
@@ -55,12 +59,12 @@ public class Book {
 
     @Lob
     @Column(name = "introduction")
-    private String introduction;
+    private Clob introduction;
 
     @Builder
     public Book(Publisher publisher, String subject, int price, String publishedDate,
-                String name, short grade, String cover, Boolean isAdvertised, Boolean isOnSale,
-                short totalProblemNumber, int monthlyProfit, int monthlySold, String introduction){
+                String name, short grade, Clob cover, Boolean isAdvertised, Boolean isOnSale,
+                short totalProblemNumber, int monthlyProfit, int monthlySold, Clob introduction){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
@@ -81,8 +85,23 @@ public class Book {
         this.publishedDate = requestDto.getPublishedDate();
         this.name = requestDto.getName();
         this.grade = requestDto.getGrade();
-        this.cover = requestDto.getCover();
         this.isOnSale = requestDto.getIsOnSale();
-        this.introduction = requestDto.getIntroduction();
+
+        try{ this.cover = ClobProxy.generateProxy(requestDto.getCover()); }
+        catch (NullPointerException nullPointerException){ this.cover = null; }
+
+        try{ this.introduction = ClobProxy.generateProxy(requestDto.getIntroduction()); }
+        catch (NullPointerException nullPointerException){ this.introduction = null; }
+    }
+
+    public static String readClobData(Reader reader) throws IOException {
+        StringBuffer stringBuffer = new StringBuffer();
+        char[] buffer = new char[1024];
+        if(reader != null){
+            int length = 0;
+            while((length = reader.read(buffer)) != -1)
+                stringBuffer.append(buffer, 0, length);
+        }
+        return stringBuffer.toString();
     }
 }

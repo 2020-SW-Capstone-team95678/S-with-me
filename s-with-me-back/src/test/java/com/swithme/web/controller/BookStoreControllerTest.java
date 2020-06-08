@@ -110,7 +110,7 @@ public class BookStoreControllerTest {
 
     @Test
     public void getBookListByNameTest(){
-        String url="http://localhost:"+port+"/student/bookstore?bookName=kk";
+        String url="http://localhost:"+port+"/student/bookstore/search?bookName=kk";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");
