@@ -46,15 +46,23 @@ public class NoteService{
     }
 
     @Transactional
-    public List<NoteResponseDto> getNoteList(int studentId) throws SQLException {
+    public List<NoteResponseDto> getNoteList(int studentId, short page) throws SQLException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
 
         List<Note> noteList = noteRepository.findByStudent(student);
         Collections.sort(noteList);
 
+        List<Note> noteListInPage = new ArrayList<>();
+        try{
+            noteListInPage = noteList.subList(page * 8 - 8, page * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            noteListInPage = noteList.subList(page * 8 - 8, noteList.size());
+        }
+
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
-        for(Note note : noteList){
+        for(Note note : noteListInPage){
             MyProblem myProblem = note.getMyProblem();
 
             String imageSolution;

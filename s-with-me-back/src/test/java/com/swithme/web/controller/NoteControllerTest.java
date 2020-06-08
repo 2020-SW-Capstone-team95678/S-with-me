@@ -134,7 +134,7 @@ public class NoteControllerTest {
                     .build());
         }
 
-        String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId() + "/note?page=" + 1;
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
