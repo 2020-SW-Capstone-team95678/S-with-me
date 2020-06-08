@@ -39,8 +39,9 @@ public class NoteController {
     @CrossOrigin
     @GetMapping(value = "/student/{studentId}/note/subjectFilter")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
-                                                              @RequestParam("subject") String subject) throws SQLException {
-        return noteService.getNoteListFilteredBySubject(studentId, subject);
+                                                              @RequestParam("subject") String subject,
+                                                              @RequestParam("page") short page) throws SQLException {
+        return noteService.getNoteListFilteredBySubject(studentId, subject, page);
     }
 
     @CrossOrigin
