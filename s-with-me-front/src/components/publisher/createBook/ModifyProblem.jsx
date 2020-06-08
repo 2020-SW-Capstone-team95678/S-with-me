@@ -17,7 +17,7 @@ export default class ModifyProblem extends PureComponent {
     console.log(problem);
 
     this.state = {
-        content:'',
+        content:problem.content,
         answer:problem.answer,
         image:problem.image,
         option1:problem.option1,
@@ -27,7 +27,7 @@ export default class ModifyProblem extends PureComponent {
         option5:problem.option5,
         problemNumber:problem.problemNumber,
         solution:problem.solution,
-        tite:problem.tite,
+        title:problem.title,
 
         
       subChapterId:subChapterId,
@@ -48,10 +48,8 @@ export default class ModifyProblem extends PureComponent {
   
 
   handleSubmit = (values, problemId,subChapterId) => {
-    if(this.state.isMath){
-
-      values = {
-        ...values,
+    
+     const formValueM = {
         option1:this.state.optionOneM,
         option2:this.state.optionTwoM,
         option3:this.state.optionThrM,
@@ -61,21 +59,40 @@ export default class ModifyProblem extends PureComponent {
         title: this.state.titleM,
         content: this.state.contentM,
         answer: this.state.answerM,
-        solution: this.state.answerM,
+        solution: this.state.solutionM,
+        problemNumber:this.state.problemNumber,
+        subChapterId:subChapterId,
+      image: this.state.previewURL,
+      isOptional: this.state.isOptional
       };
 
-    }
+      
+
     const formValue = {
-      ...values,
+        option1:this.state.option1,
+        option2:this.state.option2,
+        option3:this.state.option3,
+        option4:this.state.option4,
+        option5:this.state.option5,
+        title: this.state.title,
+        content: this.state.content,
+        answer: this.state.answer,
+        solution: this.state.solution,
+        problemNumber:this.state.problemNumber,
+
       subChapterId:subChapterId,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
-      isMath:this.state.isMath,
     };
+
+    console.log(values);
     console.log(formValue);
-    Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problemId}`, [formValue])
-      .then(({ data }) => console.log(data))
-      .catch(error => console.log(error.message));
+    {this.state.isMath?(Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problemId}`, formValue)
+    .then(({ data }) => console.log(data))
+    .catch(error => console.log(error.message))):(Api.put(`/publisher/library/book/mainChapter/subChapter/problem/${problemId}`, formValueM)
+    .then(({ data }) => console.log(data))
+    .catch(error => console.log(error.message)))}
+
   };
 
   handleOptional = () => {
@@ -210,10 +227,14 @@ export default class ModifyProblem extends PureComponent {
                       }}
                     >
                       <Button small>수식 입력 방법 보러 가기!</Button>
-                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <input label="문제 번호" value={this.state.problemNumber} onChange=
+                      {this.handleChangeInput} name="problemNumber"  />
+
                       <ProblemInputMathTop
                         isMath={this.state.isMath}
                         onContent={this.handleContent}
+                        prevContent={this.state.content}
+                        prevTitle={this.state.title}
                         onTitle={this.handleTitle}
                       />
                     
@@ -266,10 +287,12 @@ export default class ModifyProblem extends PureComponent {
                         flexDirection: 'column',
                       }}
                     >
-                      <Input label="문제 번호" value={this.state.problemNumber} onChange=
-                      {onChange} name="problemNumber" />
-                      <Input label="문제 제목" name="title" onChange={onChange} />
-                      <Input label="문제 내용" name="content" onChange={onChange} />
+                      <input label="문제 번호" value={this.state.problemNumber} onChange=
+                      {this.handleChangeInput} name="problemNumber" />
+                      <input label="문제 제목" name="title" value={this.state.title} onChange=
+                      {this.handleChangeInput} />
+                      <input label="문제 내용" name="content" value={this.state.content} onChange=
+                      {this.handleChangeInput}/>
                       
                       <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                         <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
@@ -290,22 +313,29 @@ export default class ModifyProblem extends PureComponent {
 
                       {isOptional ? (
                         <div>
-                          <Input label="객관식 1번" name="option1" onChange={onChange} />
-                          <Input label="객관식 2번" name="option2" onChange={onChange} />
-                          <Input label="객관식 3번" name="option3" onChange={onChange} />
-                          <Input label="객관식 4번" name="option4" onChange={onChange} />
-                          <Input label="객관식 5번" name="option5" onChange={onChange} />
+                          <input label="객관식 1번" value={this.state.optionOne} onChange=
+                      {this.handleChangeInput} name="option1"  />
+                          <input label="객관식 2번" value={this.state.optionTwo} onChange=
+                      {this.handleChangeInput} name="option2"  />
+                          <input label="객관식 3번" value={this.state.onOptionThr} onChange=
+                      {this.handleChangeInput} name="option3"  />
+                          <input label="객관식 4번" value={this.state.optionFou} onChange=
+                      {this.handleChangeInput} name="option4"  />
+                          <input label="객관식 5번" value={this.state.optionFiv} onChange=
+                      {this.handleChangeInput} name="option5"  />
                         </div>
                       ) : null}
 
-                      <Input label="문제 정답" name="answer" onChange={onChange} />
-                      <Input label="문제 해설" name="solution" onChange={onChange} />
+                      <input label="문제 정답" value={this.state.answer} onChange=
+                      {this.handleChangeInput} name="answer" />
+                      <input label="문제 해설" value={this.state.solution} onChange=
+                      {this.handleChangeInput} name="solution" />
                     </div>
                     <div>
                         <Button
             
             >
-              등록
+              수정
             </Button>
             <button
               onClick={() => {
@@ -336,189 +366,3 @@ export default class ModifyProblem extends PureComponent {
   }
 }
 
-
-// import React, { useState, useEffect } from 'react';
-
-// import { Consumer as Modal } from '../../../common-ui/Modal/context';
-
-// import InputBookCover from '../library/InputBookCover';
-// import Api from '../../../Api';
-
-
-
-// export  const ModifyProblem = ({ problem, problemIs,subChapterId }) => {
-//     const [selectedSubChapter, setSelectedSubChapter] = useState(null);
-  
-//     const [content, setContent] = useState(problem.content);
-//     const [solution, setSolution] = useState(problem.solution);
-//     const [answer,setAnswer]=useState(problem.setAnswer);
-//     const [title, setTitle] = useState(problem.title);
-//     const [problemNumber, setProblemNumber] = useState(problem.problemNumber);
-//     // const [subject, setSubject] = useState(book.subject);
-//     // const [grade, setGrade] = useState(book.grade);
-//     // const [introduction, setIntroduction] = useState(book.introduction);
-//     // console.log(book.bookId);
-//     // console.log(book);
-  
-//     useEffect(() => {
-//       setName(book.name ? book.name : '');
-//       setPrice(book.price ? book.price : 0);
-//       // setName(book.introduction ? book.introduction : '');
-//       // setPrice(book.grade ? book.grade : 0);
-//       setCover(
-//         book.cover
-//           ? book.cover
-//           : 'https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0309/IE002297749_STD.jpg',
-//       );
-//     }, [book]);
-  
-//     function handleEnter(event) {
-//       if (event.keyCode === 13) {
-//         event.target.blur();
-//       }
-//     }
-  
-//     function handleGradeChange(e) {
-//       //console.log(book.grade);
-//       //console.log(e.target.value);
-//       if (e.target.value !== book.grade) {
-//         //setGrade(e.target.value);
-//         book.grade = e.target.value;
-//         Api.put(`/publisher/library/book/${book.bookId}`, book)
-//           .then(response =>
-//             setBooks(prev => {
-//               return [...prev];
-//             }),
-//           )
-//           .catch(reason => setGrade(book.grade));
-//         console.log(book.grade);
-//       }
-//     }
-//     function handleSubjectChange(e) {
-//       if (e.target.value !== book.subject) {
-//         //setSubject(e.target.value);
-//         book.subject = e.target.value;
-//         Api.put(`/publisher/library/book/${book.bookId}`, book)
-//           .then(response =>
-//             setBooks(prev => {
-//               return [...prev];
-//             }),
-//           )
-//           .catch(reason => setSubject(book.subject));
-//         console.log(book.subject);
-//       }
-//     }
-  
-//     const onChangeName = e => {
-//       setName(e.target.value);
-//     };
-  
-//     const onChangeIntro = e => {
-//       setIntroduction(e.target.value);
-//     };
-  
-//     return (
-//       <>
-//         <div style={{ display: 'flex', flexDirection: 'row' }}>
-//           <div style={{ flex: 1, textAlign: 'center' }}>
-//             <p>북커버</p>
-//             <img width={100} src={book.cover} alt="non-bookCover" />
-//             <InputBookCover setCover={setCover} />
-            
-//           </div>
-  
-//           <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-//             <div>
-//               <p>제목</p>
-  
-//               <input
-//                 type="text"
-//                 value={name}
-//                 onKeyDown={handleEnter}
-//                 onChange={onChangeName}
-//                 onBlur={e => {
-//                   if (e.target.value !== book.name) {
-//                     book.name = name;
-  
-//                     Api.put(`/publisher/library/book/${book.bookId}`, book)
-//                       .then(response =>
-//                         setBooks(prev => {
-//                           return [...prev];
-//                         }),
-//                       )
-//                       .catch(reason => setName(book.name));
-//                   }
-//                 }}
-//               ></input>
-//             </div>
-//             <div>
-//               <p>가격</p>
-  
-//               <input
-//                 type="number"
-//                 value={price}
-//                 onKeyDown={handleEnter}
-//                 onChange={e => setPrice(e.target.value)}
-//                 onBlur={e => {
-//                   if (e.target.value !== book.price) {
-//                     book.price = price;
-  
-//                     Api.put(`/publisher/library/book/${book.bookId}`, book)
-//                       .then(response =>
-//                         setBooks(prev => {
-//                           return [...prev];
-//                         }),
-//                       )
-//                       .catch(reason => setPrice(book.price));
-//                   }
-//                 }}
-//               ></input>
-//             </div>
-//             <div>
-//               <p>학년</p>
-//               <select defaultValue={book.grade} onChange={handleGradeChange}>
-//                 <option value="1">1학년</option>
-//                 <option value="2">2학년</option>
-//                 <option value="3">3학년</option>
-//               </select>
-//             </div>
-//             <div>
-//               <p>과목</p>
-//               <select defaultValue={book.subject} onChange={handleSubjectChange}>
-//                 <option value="국어">국어</option>
-//                 <option value="수학">수학</option>
-//                 <option value="사회">사회</option>
-//                 <option value="과학">과학</option>
-//               </select>
-//             </div>
-//             <div>
-//               <p>설명</p>
-//               <input
-//                 type="text"
-//                 name="introduction"
-//                 value={introduction}
-//                 onKeyDown={handleEnter}
-//                 onChange={onChangeIntro}
-//                 onBlur={e => {
-//                   if (e.target.value !== book.introduction) {
-//                     book.introduction = introduction;
-  
-//                     Api.put(`/publisher/library/book/${book.bookId}`, book)
-//                       .then(response =>
-//                         setBooks(prev => {
-//                           return [...prev];
-//                         }),
-//                       )
-//                       .catch(reason => setIntroduction(book.introduction));
-//                   }
-//                 }}
-//               ></input>
-//             </div>
-//           </div>
-//         </div>
-       
-//       </>
-//     );
-//   };
-
-//   export default ModifyProblem;

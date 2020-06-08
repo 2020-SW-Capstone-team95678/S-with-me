@@ -55,7 +55,7 @@ export default class RegisterProblem extends PureComponent {
       isMath:this.state.isMath,
     };
     console.log(formValue);
-    Api.post('/publisher/library/book/mainChapter/subChapter/problems', [formValue])
+    Api.post('/publisher/library/book/mainChapter/subChapter/problem', formValue)
       .then(({ data }) => console.log(data))
       .catch(error => console.log(error.message));
   };
@@ -118,9 +118,11 @@ export default class RegisterProblem extends PureComponent {
   };
 
   handleOptionFou = optionFou=> {
+    if(optionFou){
     this.setState({
       optionFouM:optionFou
     });
+  }
   };
 
   handleOptionFiv = optionFiv => {
@@ -184,7 +186,7 @@ export default class RegisterProblem extends PureComponent {
                       }}
                     >
                       <Button small>수식 입력 방법 보러 가기!</Button>
-                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <input label="문제 번호" name="problemNumber" onChange={onChange} />
                       <ProblemInputMathTop
                         isMath={this.state.isMath}
                         onContent={this.handleContent}

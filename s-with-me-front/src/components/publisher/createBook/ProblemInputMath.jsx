@@ -6,16 +6,14 @@ export function ProblemInputMathTop(props) {
   const [mathContent, setMathContent] = useState('');
   const [mathTitle, setMathTitle] = useState('');
 
-  const { onTitle, onContent, isMath } = props;
+  const { prevTitle,prevContent,onTitle, onContent, isMath } = props;
 
   const handleTitleChange = e => {
-    e.preventDefault();
     setMathTitle(e.target.value);
     onTitle(e.target.value);
   };
 
   const handleContentChange = e => {
-    e.preventDefault();
     setMathContent(e.target.value);
     onContent(e.target.value);
   };
@@ -33,7 +31,7 @@ export function ProblemInputMathTop(props) {
             name="title"
             style={{
               width: '100%',
-              height: '50px',
+              height: '30px',
               resize: 'none',
             }}
           />
@@ -219,7 +217,7 @@ export function ProblemInputMathBottom(props) {
             name="title"
             style={{
               width: '100%',
-              height: '50px',
+              height: '30px',
               resize: 'none',
             }}
           />

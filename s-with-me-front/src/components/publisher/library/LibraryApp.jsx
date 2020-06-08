@@ -315,10 +315,12 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
         </div>
         <div>
-        {isOnSale?(
+        {book.isOnSale?(
           <button onClick={()=>{
-            setIsOnSale(!isOnSale)
-            Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+            setIsOnSale(!book.isOnSale)
+            console.log(isOnSale)
+            book.isOnSale=isOnSale
+            Api.put(`/publisher/library/book/${book.bookId}`, book)
             .then(response =>
               setBooks(prev => {
                 return [...prev];
@@ -327,8 +329,10 @@ export const BookInfo = ({ setData, book, setBooks }) => {
 
             }}>판매 중단</button>):(<button onClick={()=>{
               console.log("b: "+isOnSale)
-              setIsOnSale(!isOnSale)
-              Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+              setIsOnSale(!book.isOnSale)
+              console.log(book);
+              book.isOnSale=isOnSale
+              Api.put(`/publisher/library/book/${book.bookId}`, book)
               .then(response =>
                 setBooks(prev => {
                   return [...prev];
