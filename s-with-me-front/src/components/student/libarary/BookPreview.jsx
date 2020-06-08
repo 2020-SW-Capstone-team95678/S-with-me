@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Api from '../../../Api';
-import MyBookCard from './MyBookCard';
+import MyBookCardContainer from '../../../containers/student/book/MyBookCardContainer';
 
 export default class BookPreview extends Component {
   _isMounted = false;
@@ -43,6 +43,6 @@ export default class BookPreview extends Component {
   }
   render() {
     const { myBook } = this.props;
-    return <MyBookCard book={this.state.book} myBook={myBook} />;
+    return <MyBookCardContainer book={this.state.book} myBook={myBook} />;
   }
 }

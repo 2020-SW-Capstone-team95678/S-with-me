@@ -6,6 +6,7 @@ import {
   UPDATE_MY_BOOK,
   MOVE_MY_BOOK,
   FETCH_FILTERED_MY_BOOK_LIST,
+  DELETE_MY_BOOK,
 } from '../actions/myBookPackActions';
 
 const initState = {
@@ -29,6 +30,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case DELETE_MY_BOOK:
     case FETCH_FILTERED_MY_BOOK_LIST:
     case MOVE_MY_BOOK:
     case UPDATE_MY_BOOK:
