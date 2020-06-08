@@ -84,11 +84,16 @@ public class MyProblemControllerTest {
         subChapterRepository.save(new SubChapter());
         subChapter = subChapterRepository.findAll().get(0);
 
-        for(int i = 0; i < 2; i++) {
-            problemRepository.save(Problem.builder()
-                    .subChapter(subChapter)
-                    .build());
-        }
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .beforeProblemId(0)
+                .build());
+        Problem problem = problemRepository.findAll().get(0);
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .beforeProblemId(problem.getProblemId())
+                .build());
+
         problemList = problemRepository.findAll();
 
         myBookRepository.save(MyBook.builder()

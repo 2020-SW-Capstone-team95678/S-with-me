@@ -67,7 +67,7 @@ public class MyProblemService {
             }
         }
 
-        Collections.sort(myProblemList);
+        if(myProblemList.size() > 1) Collections.sort(myProblemList);
         List<MyProblem> myProblemListInPage = new ArrayList<>();
         try{
             myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
@@ -120,7 +120,7 @@ public class MyProblemService {
                 myProblemList.add(myProblem);
         }
 
-        Collections.sort(myProblemList);
+        if(myProblemList.size() > 1) Collections.sort(myProblemList);
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemList) {
 

@@ -121,7 +121,7 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
 
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
-        Collections.sort(problemList);
+        if(problemList.size() > 1) Collections.sort(problemList);
         List<ProblemResponseDto> responseDtoList = new ArrayList<>();
 
         String content;
@@ -165,7 +165,7 @@ public class ProblemService {
         SubChapter subChapter = subChapterRepository.findById(lastSubChapterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 subChapter가 없습니다. subChapterId = " + lastPageNumber));
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
-        Collections.sort(problemList);
+        if(problemList.size() > 1) Collections.sort(problemList);
 
         List<Problem> problemListInPage = new ArrayList<>();
         try{
