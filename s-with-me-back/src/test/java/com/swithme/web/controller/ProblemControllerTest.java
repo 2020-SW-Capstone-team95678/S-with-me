@@ -73,6 +73,7 @@ public class ProblemControllerTest {
                 .content(null)
                 .solution(ClobProxy.generateProxy("test solution"))
                 .image(ClobProxy.generateProxy("test image"))
+                .beforeProblemId(problem.getProblemId())
                 .build());
         String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
                  + subChapter.getSubChapterId();
@@ -86,6 +87,7 @@ public class ProblemControllerTest {
         problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
                 .answer("test answer")
+                .beforeProblemId(problem.getProblemId())
                 .build());
         String url = "http://localhost:" + port + "/student/library/my-book/main-chapter/sub-chapter/" +
                 subChapter.getSubChapterId() + "?page=1";

@@ -119,9 +119,9 @@ public class Problem implements Comparable<Problem>{
     @Override
     public int compareTo(Problem problem){
         if(problem.getBeforeProblemId() == this.getProblemId())
-            return 1;
-        else if(this.getBeforeProblemId() == problem.getProblemId())
             return -1;
+        else if(this.getBeforeProblemId() == problem.getProblemId())
+            return 1;
         else
             return 0;
     }

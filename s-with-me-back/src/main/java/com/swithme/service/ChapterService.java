@@ -42,7 +42,7 @@ public class ChapterService {
 
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
         if(!mainChapterList.isEmpty()) {
-            Collections.sort(mainChapterList);
+            if(mainChapterList.size() > 1) Collections.sort(mainChapterList);
             for (MainChapter mainChapter : mainChapterList) {
                 MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
                         .mainChapterId(mainChapter.getMainChapterId())
@@ -51,7 +51,7 @@ public class ChapterService {
 
                 List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
                 if(!subChapterList.isEmpty()) {
-                    Collections.sort(subChapterList);
+                    if(subChapterList.size() > 1) Collections.sort(subChapterList);
                     List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
                     for (SubChapter subChapter : subChapterList) {
                         subChapterResponseDtoList.add(SubChapterResponseDto.builder()
@@ -68,13 +68,13 @@ public class ChapterService {
                 }
                 else responseDtoList.add(ChapterResponseDto.builder()
                         .mainChapterResponseDto(mainChapterResponseDto)
-                        .subChapterResponseDtoList(null)
+                        .subChapterResponseDtoList(new ArrayList<>())
                         .build());
             }
         }
         else responseDtoList.add(ChapterResponseDto.builder()
-                .mainChapterResponseDto(null)
-                .subChapterResponseDtoList(null)
+                .mainChapterResponseDto(new MainChapterResponseDto())
+                .subChapterResponseDtoList(new ArrayList<>())
                 .build());
         return responseDtoList;
     }
@@ -87,7 +87,7 @@ public class ChapterService {
         List<ChapterResponseDto> responseDtoList = new ArrayList<>();
 
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
-        Collections.sort(mainChapterList);
+        if(mainChapterList.size() > 1) Collections.sort(mainChapterList);
         for(MainChapter mainChapter : mainChapterList){
             MainChapterResponseDto mainChapterResponseDto = MainChapterResponseDto.builder()
                     .mainChapterId(mainChapter.getMainChapterId())
@@ -95,7 +95,7 @@ public class ChapterService {
                     .build();
 
             List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
-            Collections.sort(subChapterList);
+            if(subChapterList.size() > 1) Collections.sort(subChapterList);
             List<SubChapterResponseDto> subChapterResponseDtoList = new ArrayList<>();
             for(SubChapter subChapter : subChapterList){
                 subChapterResponseDtoList.add(SubChapterResponseDto.builder()

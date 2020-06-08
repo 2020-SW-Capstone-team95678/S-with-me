@@ -69,11 +69,9 @@ public class BookStoreControllerTest {
                 .isAdvertised(true)
                 .grade((short) 2)
                 .isOnSale(false)
-                .subject("math")
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
-                .isAdvertised(true)
                 .isOnSale(false)
                 .grade((short) 2)
                 .subject("science")
@@ -88,7 +86,7 @@ public class BookStoreControllerTest {
 
     @Test
     public void getSwithMePickListTest(){
-        String url="http://localhost:"+port+"/student/bookstore/main/2/";
+        String url="http://localhost:"+port+"/student/bookstore/s-with-me-pick/2";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");
