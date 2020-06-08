@@ -134,7 +134,7 @@ public class NoteControllerTest {
                     .build());
         }
 
-        String url = "http://localhost:" + port + "/student/note?studentId=" + student.getStudentId();
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId() + "/note?page=" + 1;
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -151,7 +151,7 @@ public class NoteControllerTest {
         }
 
         String url = "http://localhost:" + port + "/student/" + student.getStudentId()
-                + "/note/folderFilter?folderId=" + folder.getFolderId();
+                + "/note/folderFilter?folderId=" + folder.getFolderId() + "&page=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -168,7 +168,7 @@ public class NoteControllerTest {
         }
 
         String url = "http://localhost:" + port + "/student/" + student.getStudentId()
-                + "/note/subjectFilter?subject=" + book.getSubject();
+                + "/note/subjectFilter?subject=" + book.getSubject() + "&page=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -4,7 +4,6 @@ import com.swithme.service.NoteService;
 import com.swithme.web.dto.NoteResponseDto;
 import com.swithme.web.dto.NoteCreateDto;
 import com.swithme.web.dto.NoteUpdateRequestDto;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,23 +22,26 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/note")
-    public List<NoteResponseDto> getNoteList(@RequestParam("studentId") int studentId) throws SQLException {
-        return noteService.getNoteList(studentId);
+    @GetMapping("/student/{studentId}/note")
+    public List<NoteResponseDto> getNoteList(@PathVariable int studentId,
+                                             @RequestParam("page") short page) throws SQLException {
+        return noteService.getNoteList(studentId, page);
     }
 
     @CrossOrigin
     @GetMapping("/student/{studentId}/note/folderFilter")
     public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
-                                                             @RequestParam("folderId") int folderId) throws SQLException {
-        return noteService.getNoteListFilteredByFolder(studentId, folderId);
+                                                             @RequestParam("folderId") int folderId,
+                                                             @RequestParam("page") short page) throws SQLException {
+        return noteService.getNoteListFilteredByFolder(studentId, folderId, page);
     }
 
     @CrossOrigin
     @GetMapping(value = "/student/{studentId}/note/subjectFilter")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
-                                                              @RequestParam("subject") String subject) throws SQLException {
-        return noteService.getNoteListFilteredBySubject(studentId, subject);
+                                                              @RequestParam("subject") String subject,
+                                                              @RequestParam("page") short page) throws SQLException {
+        return noteService.getNoteListFilteredBySubject(studentId, subject, page);
     }
 
     @CrossOrigin
