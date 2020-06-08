@@ -15,6 +15,7 @@ import {
   CREATE_PROBLEM,
   UPDATE_MAIN_CHAPTER,
   UPDATE_SUB_CHAPTER,
+  UPDATE_PROBLEM,
 } from './constants/modals';
 import ProfileEditPage from './components/publisher/profile/ProfileEditPage';
 import ProfileEditPageStudent from './components/student/profile/ProfileEditPage';
@@ -30,6 +31,7 @@ import RenameMainChapter from './components/publisher/createBook/RenameMainChapt
 import CreateSubChapterPage from './components/publisher/createBook/CreateSubChapterPage';
 import RenameSubChapter from './components/publisher/createBook/RenameSubChapter';
 import CreateProblemPage from './components/publisher/createBook/RegisterProblem';
+import ModifyProblem from './components/publisher/createBook/ModifyProblem';
 
 export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,
@@ -46,4 +48,5 @@ export default createProvider({
   [CREATE_SUB_CHAPTER]: CreateSubChapterPage,
   [UPDATE_SUB_CHAPTER]: RenameSubChapter,
   [CREATE_PROBLEM]: CreateProblemPage,
+  [UPDATE_PROBLEM]: ModifyProblem,
 });

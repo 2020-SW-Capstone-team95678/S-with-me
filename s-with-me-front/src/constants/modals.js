@@ -18,4 +18,7 @@ export const UPDATE_MAIN_CHAPTER = 'modal/UPDATE_MAIN_CHAPTER';
 
 export const CREATE_SUB_CHAPTER = 'modal/CREATE_SUB_CHAPTER';
 export const UPDATE_SUB_CHAPTER = 'modal/UPDATE_SUB_CHAPTER';
+
 export const CREATE_PROBLEM = 'modal/CREATE_PROBLEM';
+export const UPDATE_PROBLEM_MATH = 'modal/UPDATE_PROBLEM_MATH';
+export const UPDATE_PROBLEM = 'modal/UPDATE_PROBLEM';

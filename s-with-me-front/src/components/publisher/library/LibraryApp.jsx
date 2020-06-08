@@ -21,6 +21,8 @@ import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import CheckBox from '../../../common-ui/CheckBox';
 import { UPDATE_MAIN_CHAPTER } from '../../../constants/modals';
+import { UPDATE_PROBLEM } from '../../../constants/modals';
+import { UPDATE_PROBLEM_MATH } from '../../../constants/modals';
 import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { UPDATE_SUB_CHAPTER } from '../../../constants/modals';
 import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
@@ -586,24 +588,45 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
 const ProblemItem = ({ problem, setBooks }) => {
   console.log(problem.isMath);
   const problemId = problem.problemId;
+  const subChapterId=problem.subChapterId;
   console.log(problemId);
 
   return (
     <div>
       {!problem.isMath ? (
         <div>
-          <p>문제 제목 {problem.title}</p>
+          <p >문제 제목 {problem.title}</p>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="non-Image" />
           </div>
           <p>문제 내용 {problem.content}</p>
+          {problem.isOptional ? (
+                        <div>
+                          <p>객관식 1번 {problem.option1}</p> 
+                          <p>객관식 2번 {problem.option2}</p> 
+                          <p>객관식 3번 {problem.option3}</p> 
+                          <p>객관식 4번 {problem.option4}</p> 
+                          <p>객관식 5번 {problem.option5}</p> 
+                        </div>
+                      ) : null}
           <p>문제 답 {problem.answer}</p>
           <p>문제 해설{problem.solution}</p>
           <Modal>
             {({ openModal }) => (
               <>
                 <br />
-                <button>문제 수정</button>
+                <button
+                      style={{ marginRight: 10 }}
+                      primary
+                      onClick={() =>
+                        openModal(UPDATE_PROBLEM, {
+                          problem,
+                          problemId,
+                          subChapterId
+                        })
+                      }
+                    >문제 수정</button>
+               
               </>
             )}
           </Modal>
@@ -636,6 +659,24 @@ const ProblemItem = ({ problem, setBooks }) => {
           <Latex delimiters={delimeters}>{problem.answer}</Latex>
           <p>문제 해설</p>
           <Latex delimiters={delimeters}>{problem.solution}</Latex>
+          <Modal>
+            {({ openModal }) => (
+              <>
+                <br />
+                <button
+                      style={{ marginRight: 10 }}
+                      primary
+                      onClick={() =>
+                        openModal(UPDATE_PROBLEM, {
+                          problem,
+                          problemId
+                        })
+                      }
+                    >문제 수정</button>
+               
+              </>
+            )}
+          </Modal>
           <button
             style={{ cursor: 'point' }}
             primary
