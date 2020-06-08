@@ -2,6 +2,7 @@
   "name": "s-with-me-front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://2020-SW-Capstone-team95678.github.io/swithme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
@@ -48,7 +49,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "mockserver": "json-server --watch --delay 500 --port 4000 mock/db.json",
-    "errorserver": "node mock/fake.js"
+    "errorserver": "node mock/fake.js",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -75,6 +78,7 @@
     "@storybook/react": "^5.3.18",
     "aphrodite": "^2.4.0",
     "babel-loader": "^8.0.5",
+    "gh-pages": "^3.0.0",
     "json-server": "^0.16.1",
     "node-sass": "^4.11.0",
     "react-with-styles-interface-aphrodite": "^6.0.1",
