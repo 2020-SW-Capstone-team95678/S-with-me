@@ -76,7 +76,7 @@ public class BookStoreService {
     }
 
     @Transactional
-    public List<BookResponseDto> getSailingBookByFilter(int grade , String subject) throws SQLException{
+    public List<BookResponseDto> getSailingBookByFilter(int grade , String subject,int pageNumber) throws SQLException{
         List<Book> bookList = bookRepository.findAll();
         List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
         if(subject==null) {
@@ -123,11 +123,18 @@ public class BookStoreService {
                 }
             }
         }
-        return bookResponseDtoList;
+        List<BookResponseDto> bookResponseDtoListByPage = new ArrayList<>();
+        try{
+            bookResponseDtoListByPage = bookResponseDtoList.subList(pageNumber * 8 - 8, pageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            bookResponseDtoListByPage = bookResponseDtoList.subList(pageNumber * 8 - 8, bookResponseDtoList.size());
+        }
+        return bookResponseDtoListByPage;
     }
 
     @Transactional
-    public List<BookResponseDto> getBookListByName(String bookName) throws SQLException {
+    public List<BookResponseDto> getBookListByName(String bookName,int pageNumber) throws SQLException {
         List<Book> bookList = bookRepository.findAll();
         List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
         for(Book book : bookList)
@@ -152,6 +159,13 @@ public class BookStoreService {
                         .build());
             }
         }
-        return bookResponseDtoList;
+        List<BookResponseDto> bookResponseDtoListByPage = new ArrayList<>();
+        try{
+            bookResponseDtoListByPage = bookResponseDtoList.subList(pageNumber * 8 - 8, pageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            bookResponseDtoListByPage = bookResponseDtoList.subList(pageNumber * 8 - 8, bookResponseDtoList.size());
+        }
+        return bookResponseDtoListByPage;
     }
 }

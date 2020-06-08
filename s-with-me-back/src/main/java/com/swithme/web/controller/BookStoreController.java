@@ -23,12 +23,12 @@ public class BookStoreController {
 
     @CrossOrigin
     @GetMapping("/student/bookstore/{grade}")
-    public List<BookResponseDto> getSailingBookByFilter(@PathVariable("grade") int grade,String subject)throws SQLException{
-        return bookStoreService.getSailingBookByFilter(grade,subject);
+    public List<BookResponseDto> getSailingBookByFilter(@PathVariable("grade") int grade,String subject,int pageNumber)throws SQLException{
+        return bookStoreService.getSailingBookByFilter(grade,subject,pageNumber);
     }
     @CrossOrigin
     @GetMapping("/student/bookstore/search")
-    public List<BookResponseDto> getBookListByName(@RequestParam("bookName") String bookName) throws SQLException{
-        return bookStoreService.getBookListByName(bookName);
+    public List<BookResponseDto> getBookListByName(@RequestParam("bookName") String bookName,int pageNumber) throws SQLException{
+        return bookStoreService.getBookListByName(bookName,pageNumber);
     }
 }
