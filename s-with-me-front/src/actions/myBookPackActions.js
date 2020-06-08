@@ -5,6 +5,7 @@ export const FETCH_FILTERED_MY_BOOK_LIST = 'myBook/FETCH_FILTERED_MY_BOOK_LIST';
 export const UPDATE_MY_BOOK = 'myBook/UPDATE_MY_BOOK';
 export const MOVE_MY_BOOK = 'myBook/MOVE_MY_BOOK';
 export const DELETE_MY_BOOK = 'myBook/DELETE_MY_BOOK';
+export const CREATE_MY_BOOK = 'myBook/CREATE_MY_BOOK';
 
 export function requestMyBookList(params) {
   return {
@@ -51,6 +52,20 @@ export function moveMyBook(id, data, onComplete) {
       onSuccess: onComplete,
       notification: {
         success: '폴더 이동이 성공적으로 완료되었습니다.',
+      },
+    },
+  };
+}
+
+export function buyMyBook(data, onComplete) {
+  return {
+    type: CREATE_MY_BOOK,
+    promise: Api.post('/student/library/my-book', data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '책 구입이 성공적으로 완료되었습니다',
+        error: '책 구매에 실패하였습니다.',
       },
     },
   };

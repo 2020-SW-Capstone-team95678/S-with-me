@@ -5,7 +5,7 @@ import Api from '../../../Api';
 import BookstoreFilter from './BookstoreFilter';
 import BookInfo from './BookInfo';
 import { Button, Icon } from 'semantic-ui-react';
-import BookPayInput from './BookPayInput';
+import BookPayInputContainer from '../../../containers/bookstore/BookPayInputContainer';
 
 class BookDetail extends PureComponent {
   _isMounted = false;
@@ -54,7 +54,7 @@ class BookDetail extends PureComponent {
           </div>
           {isPayMode ? (
             <div style={{ flex: 1, padding: 3 }} {...css(styles.box)}>
-              <BookPayInput book={book} bookId={bookId} />
+              <BookPayInputContainer book={book} bookId={bookId} />
             </div>
           ) : null}
         </div>
