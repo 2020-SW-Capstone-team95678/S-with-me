@@ -2,13 +2,19 @@ import Api from '../Api';
 
 export const FETCH_BOOK_LIST = 'bookstore/REQUEST_BOOK_LIST';
 export const FETCH_AD_BOOK_LIST = 'bookstore/FETCH_AD_BOOK_LIST';
-export const CREATE_BOOK = 'book/CREATE_BOOK';
+export const FETCH_SEARCH_RESULT_LIST = 'bookstore/FETCH_SEARCH_RESULT_LIST';
+export const SET_BOOKSTORE_FILTER = 'bookstre/SET_BOOKSTORE_FILTER';
 
-export function requestBookList(grade, subject) {
+const PAGE_SIZE = 8;
+export function requestBookList(grade, subject, pageNumber = 1) {
   return {
     type: FETCH_BOOK_LIST,
-    promise: Api.get(`/student/bookstore/${grade}`, { params: { subject: subject } }),
+    promise: Api.get(`/student/bookstore/${grade}`, {
+      params: { subject: subject, pageNumber: pageNumber },
+    }),
     meta: {
+      pageNumber: pageNumber,
+      pageSize: PAGE_SIZE,
       notification: {
         error: '일반 서적 목록을 불러오는 중에 문제가 발생했습니다.',
       },
@@ -30,23 +36,23 @@ export function requestAdBookList(grade, subject) {
   };
 }
 
-export function createBook(data, onComplete) {
-  const formValue = {
-    grade: data.bookGrade,
-    name: data.bookName,
-    price: data.bookPrice,
-    publisherId: 1,
-    subject: data.bookSubgect,
-  };
+export function requestSearchResultList(bookName, pageNumber = 1) {
   return {
-    type: CREATE_BOOK,
-    promise: Api.post('/publisher/library/book', formValue),
+    type: FETCH_SEARCH_RESULT_LIST,
+    promise: Api.get('/student/bookstore/search', {
+      params: { bookName: bookName, pageNumber: pageNumber },
+    }),
     meta: {
-      onSuccess: onComplete,
+      pageNumber: pageNumber,
+      pageSize: PAGE_SIZE,
       notification: {
-        success: '등록이 완료되었습니다.',
-        error: '등록에 실패하였습니다.',
+        error: '검색 목록을 불러오는 중에 문제가 발생했습니다.',
       },
     },
   };
 }
+
+export const setBookstoreFilter = (filterType, filterValue) => ({
+  type: SET_BOOKSTORE_FILTER,
+  payload: { filterType, filterValue },
+});

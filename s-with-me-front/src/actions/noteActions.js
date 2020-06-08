@@ -13,12 +13,17 @@ export const SET_NEW_IS_RIGHT = 'note/SET_NEW_IS_RIGHT';
 export const SET_NEW_SOLVED_DATE_TIME = 'note/SET_NEW_SOLVED_DATE_TIME';
 export const SET_TEMP_SOLUTION_TYPE = 'note/SET_TEMP_SOLUTION_TYPE';
 export const SET_TEMP_IS_MATH = 'note/SET_TEMP_IS_MATH';
+export const SET_NOTE_FILTER = 'note/SET_NOTE_FILTER';
 
-export function requestNoteList(params) {
+const PAGE_SIZE = 8;
+export function requestNoteList(params, pageNumber = 1) {
+  const studentId = params.studentId;
   return {
     type: FETCH_NOTE_LIST,
-    promise: Api.get('student/note', { params }),
+    promise: Api.get(`student/${studentId}/note`, { params: { page: pageNumber } }),
     meta: {
+      pageNumber: pageNumber,
+      pageSize: PAGE_SIZE,
       notification: {
         error: '오답노트 목록을 가져오는 중에 문제가 발생했습니다.',
       },
@@ -26,13 +31,17 @@ export function requestNoteList(params) {
   };
 }
 
-export function requestFilteredNoteList(id, filterType, params) {
+export function requestFilteredNoteList(id, filterType, params, pageNumber = 1) {
   return {
     type: FETCH_FILTERED_NOTE_LIST,
     promise:
       filterType === 'FOLDER'
-        ? Api.get(`/student/${id}/note/folderFilter`, { params })
-        : Api.get(`/student/${id}/note/subjectFilter`, { params }),
+        ? Api.get(`/student/${id}/note/folderFilter`, {
+            params: { folderId: params.folderId, page: pageNumber },
+          })
+        : Api.get(`/student/${id}/note/subjectFilter`, {
+            params: { subject: params.subject, page: pageNumber },
+          }),
     meta: {
       notification: {
         error: '오답노트 목록을 가져오는 중에 문제가 발생했습니다.',
@@ -110,4 +119,9 @@ export const setTempSolutionType = (id, tempSolutionType) => ({
 export const setTempIsMath = (id, tempIsMath) => ({
   type: SET_TEMP_IS_MATH,
   payload: { id, tempIsMath },
+});
+
+export const setNoteFilter = (filterType, filterValue) => ({
+  type: SET_NOTE_FILTER,
+  payload: { filterType, filterValue },
 });

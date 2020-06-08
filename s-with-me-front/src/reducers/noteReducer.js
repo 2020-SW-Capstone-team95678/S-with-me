@@ -12,6 +12,7 @@ import {
   SET_MY_NEW_LINK_SOLUTION,
   SET_TEMP_SOLUTION_TYPE,
   SET_TEMP_IS_MATH,
+  SET_NOTE_FILTER,
 } from '../actions/noteActions';
 
 const initState = {
@@ -25,10 +26,13 @@ const initState = {
     [FETCH_NOTE_LIST]: false,
     [DELETE_NOTE]: false,
   },
+  pagination: {},
+  pages: {},
+  filter: {},
 };
 
 export default (state = initState, action) => {
-  const { type, payload } = action;
+  const { type, payload, meta } = action;
 
   switch (type) {
     case FETCH_FILTERED_NOTE_LIST:
@@ -47,6 +51,7 @@ export default (state = initState, action) => {
             errorState: { ...prevState.errorState, [type]: false },
           };
           if (type === FETCH_NOTE_LIST || type === FETCH_FILTERED_NOTE_LIST) {
+            const { pageNumber, pageSize } = meta || {};
             const ids = data.map(entity => entity['noteId']);
             const entities = data.reduce(
               (finalEntities, entity) => ({
@@ -60,6 +65,8 @@ export default (state = initState, action) => {
               ...loadingAndErrorState,
               ids,
               entities: { ...prevState.entities, ...entities },
+              pagination: { number: pageNumber, size: pageSize },
+              pages: { ...prevState.pages, [pageNumber]: ids },
             };
           } else {
             return {
@@ -166,6 +173,13 @@ export default (state = initState, action) => {
           ...state.entities,
           [id]: { ...state.entities[id], tempIsMath },
         },
+      };
+    }
+    case SET_NOTE_FILTER: {
+      const { filterType, filterValue } = payload;
+      return {
+        ...state,
+        filter: { type: filterType, value: filterValue },
       };
     }
     default:

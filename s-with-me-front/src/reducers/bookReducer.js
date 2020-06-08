@@ -1,4 +1,9 @@
-import { CREATE_BOOK, FETCH_AD_BOOK_LIST, FETCH_BOOK_LIST } from '../actions/bookAction';
+import {
+  FETCH_AD_BOOK_LIST,
+  FETCH_BOOK_LIST,
+  SET_BOOKSTORE_FILTER,
+  FETCH_SEARCH_RESULT_LIST,
+} from '../actions/bookAction';
 import { handle } from 'redux-pack';
 
 const initState = {
@@ -8,24 +13,27 @@ const initState = {
   adEntities: {},
   entity: {},
   loadingState: {
-    [CREATE_BOOK]: false,
     [FETCH_AD_BOOK_LIST]: false,
     [FETCH_BOOK_LIST]: false,
+    [FETCH_SEARCH_RESULT_LIST]: false,
   },
   errorState: {
-    [CREATE_BOOK]: false,
     [FETCH_AD_BOOK_LIST]: false,
     [FETCH_BOOK_LIST]: false,
+    [FETCH_SEARCH_RESULT_LIST]: false,
   },
+  pagination: {},
+  pages: {},
+  filter: {},
 };
 
 export default (state = initState, action) => {
-  const { type, payload } = action;
+  const { type, payload, meta } = action;
 
   switch (type) {
+    case FETCH_SEARCH_RESULT_LIST:
     case FETCH_BOOK_LIST:
-    case FETCH_AD_BOOK_LIST:
-    case CREATE_BOOK: {
+    case FETCH_AD_BOOK_LIST: {
       return handle(state, action, {
         start: prevState => ({
           ...prevState,
@@ -38,13 +46,11 @@ export default (state = initState, action) => {
             loadingState: { ...prevState.loadingState, [type]: false },
             errorState: { ...prevState.errorState, [type]: false },
           };
-          if (type === CREATE_BOOK) {
-            return {
-              ...prevState,
-              ...loadingAndErrorState,
-              entity: data,
-            };
-          } else if (type === FETCH_BOOK_LIST || type === FETCH_AD_BOOK_LIST) {
+          if (
+            type === FETCH_BOOK_LIST ||
+            type === FETCH_AD_BOOK_LIST ||
+            type === FETCH_SEARCH_RESULT_LIST
+          ) {
             const ids = data.map(entity => entity['bookId']);
             const entities = data.reduce(
               (finalEntities, entity) => ({
@@ -53,12 +59,15 @@ export default (state = initState, action) => {
               }),
               {},
             );
-            if (type === FETCH_BOOK_LIST) {
+            if (type === FETCH_BOOK_LIST || type === FETCH_SEARCH_RESULT_LIST) {
+              const { pageNumber, pageSize } = meta || {};
               return {
                 ...prevState,
                 ...loadingAndErrorState,
                 generalIds: ids,
                 generalEntities: { ...prevState.generalEntities, ...entities },
+                pagination: { number: pageNumber, size: pageSize },
+                pages: { ...prevState.pages, [pageNumber]: ids },
               };
             } else {
               return {
@@ -79,6 +88,13 @@ export default (state = initState, action) => {
           };
         },
       });
+    }
+    case SET_BOOKSTORE_FILTER: {
+      const { filterType, filterValue } = payload;
+      return {
+        ...state,
+        filter: { type: filterType, value: filterValue },
+      };
     }
     default:
       return state;
