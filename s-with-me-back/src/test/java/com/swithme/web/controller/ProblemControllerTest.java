@@ -97,7 +97,7 @@ public class ProblemControllerTest {
     }
 
     @Test
-    public void createProblemsTest() {
+    public void createProblemTest() {
         ProblemCreateDto createDto = ProblemCreateDto.builder()
                 .subChapterId(subChapter.getSubChapterId())
                 .title("test title")
@@ -112,13 +112,12 @@ public class ProblemControllerTest {
                 .option3(null)
                 .option4(null)
                 .option5(null)
+                .isMath(false)
                 .build();
 
-        List<ProblemCreateDto> createDtoList = new ArrayList<>();
-        createDtoList.add(createDto);
 
-        HttpEntity<List<ProblemCreateDto>> createEntity = new HttpEntity<>(createDtoList);
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problems";
+        HttpEntity<ProblemCreateDto> createEntity = new HttpEntity<>(createDto);
+        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problem";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
