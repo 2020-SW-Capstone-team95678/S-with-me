@@ -22,6 +22,8 @@ class LoginApp extends react.PureComponent {
       setUser(true, values, () => {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
+        window.sessionStorage.setItem('grade', this.props.user.grade);
+        window.sessionStorage.setItem('name', this.props.user.name);
         this.setState({ isLogin: true });
         setUserType(true);
         setLogged(true);

@@ -11,7 +11,7 @@ import Api from '../../../Api';
 import { CREATE_CURRICULUM } from '../../../constants/modals';
 import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
 
-class BookDetail extends PureComponent {
+class MyBookDetail extends PureComponent {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -172,4 +172,4 @@ export default withStyles(() => ({
     border: '1px solid',
     borderRadius: 2,
   },
-}))(BookDetail);
+}))(MyBookDetail);
