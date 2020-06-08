@@ -54,9 +54,6 @@ class LibraryApp extends PureComponent {
             </Card>
             <CurriculumList curriculumList={curriculumList} />
           </div>
-          <div id="install-button" hidden>
-            <Button circular icon="arrow alternate circle down" />
-          </div>
         </div>
       </DndProvider>
     );
