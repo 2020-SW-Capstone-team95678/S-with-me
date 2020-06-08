@@ -68,13 +68,13 @@ public class ChapterService {
                 }
                 else responseDtoList.add(ChapterResponseDto.builder()
                         .mainChapterResponseDto(mainChapterResponseDto)
-                        .subChapterResponseDtoList(null)
+                        .subChapterResponseDtoList(new ArrayList<>())
                         .build());
             }
         }
         else responseDtoList.add(ChapterResponseDto.builder()
-                .mainChapterResponseDto(null)
-                .subChapterResponseDtoList(null)
+                .mainChapterResponseDto(new MainChapterResponseDto())
+                .subChapterResponseDtoList(new ArrayList<>())
                 .build());
         return responseDtoList;
     }
