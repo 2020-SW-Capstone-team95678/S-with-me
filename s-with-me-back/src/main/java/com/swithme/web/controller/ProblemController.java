@@ -28,8 +28,8 @@ public class ProblemController {
 
     @CrossOrigin
     @GetMapping("/publisher/library/book/mainChapter")
-    public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId) throws SQLException {
-        return problemService.getProblemList(subChapterId);
+    public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId , int pageNumber) throws SQLException {
+        return problemService.getProblemList(subChapterId,pageNumber);
     }
 
 
