@@ -23,9 +23,7 @@ class ProblemView extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      problem: {},
-    };
+    this.state = { problem: {}, shouldUpdate: false };
   }
 
   componentDidMount() {
@@ -64,14 +62,23 @@ class ProblemView extends PureComponent {
     });
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.myProblem.problemId !== prevState.problem.problemId) {
+      return { shouldUpdate: true };
+    }
+    return { shouldUpdate: false };
+  }
+
   componentDidUpdate() {
     this._isMounted = true;
     const { myProblem } = this.props;
-    Api.get('/student/library/my-book/my-problems', {
-      params: { problemId: myProblem.problemId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ problem: data });
-    });
+    if (this.state.shouldUpdate) {
+      Api.get('/student/library/my-book/my-problems', {
+        params: { problemId: myProblem.problemId },
+      }).then(({ data }) => {
+        if (this._isMounted) this.setState({ problem: data });
+      });
+    }
   }
 
   componentWillUnmount() {

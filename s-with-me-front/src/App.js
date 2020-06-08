@@ -68,12 +68,17 @@ export default class App extends PureComponent {
           <Router>
             <Switch>
               <Route
+                path="/signup-publisher"
+                exact
+                render={() => <SignUpPublisherInputContainer />}
+              />
+              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+              <Route
                 path="/"
                 render={() => (
                   <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
                 )}
               />
-              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
             </Switch>
           </Router>
         </Provider>
@@ -125,11 +130,7 @@ export default class App extends PureComponent {
                   exact
                   render={() => <LoginContainer setUserType={this.setUserType} logged={logged} />}
                 />
-                <Route
-                  path="/signup-publisher"
-                  exact
-                  render={() => <SignUpPublisherInputContainer />}
-                />
+
                 <PAppLayout>
                   <Route path="/library" render={() => <LibraryApp />} />
                   <Route path="/register-problem" render={() => <RegisterProblem />} />

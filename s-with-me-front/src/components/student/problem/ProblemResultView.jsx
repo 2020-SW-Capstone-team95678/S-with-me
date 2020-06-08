@@ -42,7 +42,6 @@ class ProblemResultView extends PureComponent {
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
-    // 여기에 handleCloseBook() 내용 추가
   }
 
   render() {

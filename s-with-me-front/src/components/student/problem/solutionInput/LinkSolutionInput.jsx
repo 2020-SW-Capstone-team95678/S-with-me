@@ -10,19 +10,31 @@ import { PREVIEW_PROBLEM } from '../../../../constants/modals';
 export default class LinkSolutionInput extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { myProblemListForLink: [] };
+    this.state = { myProblemListForLink: [], subChapterId: 0, shouldUpdate: false };
     this.handleLinkSolution = this.handleLinkSolution.bind(this);
   }
   componentDidMount() {
-    const { myBookId, requestChapterList } = this.props;
+    const { values, myBookId, requestChapterList } = this.props;
     requestChapterList({ myBookId: myBookId });
+    this.setState({ subChapterId: values.selectSubChapterId });
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.values.selectSubChapterId !== prevState.subChapterId) {
+      return { shouldUpdate: true };
+    }
+    return { shouldUpdate: false };
+  }
+
   componentDidUpdate() {
     const { values, myBookId } = this.props;
-    if (values.selectSubChapterId) {
+    if (this.state.shouldUpdate && values.selectSubChapterId) {
       Api.get(`/student/library/my-book/${myBookId}/main-chapter/sub-chapter/my-problems`, {
         params: { subChapterId: values.selectSubChapterId },
-      }).then(({ data }) => this.setState({ myProblemListForLink: data }));
+      }).then(({ data }) => {
+        this.setState({ subChapterId: values.selectSubChapterId });
+        this.setState({ myProblemListForLink: data });
+      });
     }
   }
   handleLinkSolution(selectedId) {
