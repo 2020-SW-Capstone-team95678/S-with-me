@@ -38,9 +38,9 @@ public class MainChapter implements Comparable<MainChapter>{
     @Override
     public int compareTo(MainChapter mainChapter){
         if(mainChapter.getBeforeMainChapterId() == this.getMainChapterId())
-            return 1;
-        else if(this.getBeforeMainChapterId() == mainChapter.getMainChapterId())
             return -1;
+        else if(this.getBeforeMainChapterId() == mainChapter.getMainChapterId())
+            return 1;
         else
             return 0;
     }
