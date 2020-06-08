@@ -39,6 +39,7 @@ public class BookStoreControllerTest {
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
                 .isAdvertised(true)
+                .name("kk")
                 .grade((short) 2)
                 .isOnSale(true)
                 .subject("math")
@@ -46,6 +47,7 @@ public class BookStoreControllerTest {
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
                 .isAdvertised(true)
+                .name("kkkkk")
                 .grade((short) 2)
                 .isOnSale(true)
                 .subject("english")
@@ -55,6 +57,7 @@ public class BookStoreControllerTest {
                 .isAdvertised(true)
                 .grade((short) 2)
                 .isOnSale(false)
+                .name("kkkkqqqq")
                 .subject("math")
                 .build());
         bookRepository.save(Book.builder()
@@ -63,11 +66,13 @@ public class BookStoreControllerTest {
                 .grade((short) 2)
                 .isOnSale(false)
                 .subject("english")
+                .name("qqkkqqqq")
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
                 .isAdvertised(true)
                 .grade((short) 2)
+                .name("oooo")
                 .subject("math")
                 .isOnSale(false)
                 .build());
@@ -75,6 +80,7 @@ public class BookStoreControllerTest {
                 .publisher(publisherRepository.findAll().get(0))
                 .isOnSale(false)
                 .grade((short) 2)
+                .name("okokok")
                 .isAdvertised(true)
                 .subject("science")
                 .build());
@@ -97,6 +103,14 @@ public class BookStoreControllerTest {
     @Test
     public void getBookStoreADByFilterTest(){
         String url="http://localhost:"+port+"/student/bookstore/2/?subject=math";
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(responseEntity.getBody()).isEqualTo("33");
+    }
+
+    @Test
+    public void getBookListByNameTest(){
+        String url="http://localhost:"+port+"/student/bookstore?bookName=kk";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");

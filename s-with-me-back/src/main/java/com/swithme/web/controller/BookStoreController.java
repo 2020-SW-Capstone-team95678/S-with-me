@@ -25,6 +25,9 @@ public class BookStoreController {
     public List<BookResponseDto> getSailingBookByFilter(@PathVariable("grade") int grade,String subject){
         return bookStoreService.getSailingBookByFilter(grade,subject);
     }
-
-
+    @CrossOrigin
+    @GetMapping("/student/bookstore")
+    public List<BookResponseDto> getBookListByName(@RequestParam("bookName") String bookName) {
+        return bookStoreService.getBookListByName(bookName);
+    }
 }

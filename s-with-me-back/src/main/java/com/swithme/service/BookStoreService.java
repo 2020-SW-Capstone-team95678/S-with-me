@@ -97,4 +97,27 @@ public class BookStoreService {
         }
         return bookResponseDtoList;
     }
+
+    @Transactional
+    public List<BookResponseDto> getBookListByName(String bookName){
+        List<Book> bookList = bookRepository.findAll();
+        List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
+        for(Book book : bookList)
+        {
+            if(book.getName().contains(bookName))
+            {
+                bookResponseDtoList.add(BookResponseDto.builder()
+                        .bookId(book.getBookId())
+                        .cover(book.getCover())
+                        .grade(book.getGrade())
+                        .introduction(book.getIntroduction())
+                        .name(book.getName())
+                        .price(book.getPrice())
+                        .publishedDate(book.getPublishedDate())
+                        .subject(book.getSubject())
+                        .build());
+            }
+        }
+        return bookResponseDtoList;
+    }
 }
