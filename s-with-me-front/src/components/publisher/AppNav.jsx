@@ -19,11 +19,11 @@ class AppNav extends PureComponent {
   }
   render() {
     const { styles } = this.props;
-    const activeStyle = {
-      fontWeight: 'bold',
-      color: '#9C2D17',
-      fontSize: '2rem',
-    };
+    // const activeStyle = {
+    //   fontWeight: 'bold',
+    //   color: '#9C2D17',
+    //   fontSize: '2rem',
+    // };
     return (
       <div>
         <div {...css(styles.wrapper)}>

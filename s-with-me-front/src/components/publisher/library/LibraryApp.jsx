@@ -19,20 +19,16 @@ import InputBookCover from './InputBookCover';
 import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
-import CheckBox from '../../../common-ui/CheckBox';
 import { UPDATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { UPDATE_PROBLEM } from '../../../constants/modals';
-import { UPDATE_PROBLEM_MATH } from '../../../constants/modals';
 import { CREATE_MAIN_CHAPTER } from '../../../constants/modals';
 import { UPDATE_SUB_CHAPTER } from '../../../constants/modals';
 import { CREATE_SUB_CHAPTER } from '../../../constants/modals';
 import RegisterProblem from '../createBook/RegisterProblem';
-import SelectSubChapter from '../../student/libarary/SelectSubChapter';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
   const [count, setUpDate] = useState(0);
-  const [isOnSale, setIsOnSale] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const publisherId = window.sessionStorage.getItem('publisherId');
 
@@ -143,7 +139,6 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [cover, setCover] = useState(book.cover);
   const [isOnSale,setIsOnSale]=useState(book.isOnSale);
   const [price, setPrice] = useState(book.price);
-  const [prevSub, setPrevSub] = useState(null);
   const [subject, setSubject] = useState(book.subject);
   const [grade, setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
@@ -387,7 +382,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
 
 export const ChapterInfo = ({ bookId, onClick }) => {
   const [chapters, setChapters] = useState([]);
-  const [mainChapterName, setMainChapterName] = useState([]);
+  //const [mainChapterName, setMainChapterName] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {

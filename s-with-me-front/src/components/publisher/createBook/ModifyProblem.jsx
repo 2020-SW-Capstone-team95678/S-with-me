@@ -35,7 +35,6 @@ export default class ModifyProblem extends PureComponent {
       isMath: problem.isMath,
         file: '',
         previewURL: '',
-        isMath: false,
         delimeters: [
           { left: '$$', right: '$$', display: true },
           { left: '\\(', right: '\\)', display: false },
