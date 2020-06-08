@@ -21,7 +21,7 @@ public class BookStoreService {
         List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
         if(subject==null) {
             for (Book book : bookList) {
-                if (book.getIsAdvertised() == true && book.getGrade() == grade) {
+                if (book.getIsAdvertised() == true && book.getGrade() == grade && book.getIsOnSale()==true) {
                     bookResponseDtoList.add(BookResponseDto.builder()
                             .cover(book.getCover())
                             .grade(book.getGrade())
@@ -39,7 +39,7 @@ public class BookStoreService {
         }
         else{
             for (Book book : bookList) {
-                if (book.getIsAdvertised() == true && book.getGrade() == grade && book.getSubject().equals(subject)) {
+                if (book.getIsAdvertised() == true && book.getGrade() == grade && book.getSubject().equals(subject) && book.getIsOnSale()==true) {
                     bookResponseDtoList.add(BookResponseDto.builder()
                             .cover(book.getCover())
                             .grade(book.getGrade())
@@ -59,7 +59,7 @@ public class BookStoreService {
     }
 
     @Transactional
-    public List<BookResponseDto> getBookStoreADByFilter(int grade , String subject){
+    public List<BookResponseDto> getSailingBookByFilter(int grade , String subject){
         List<Book> bookList = bookRepository.findAll();
         List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
         if(subject==null) {

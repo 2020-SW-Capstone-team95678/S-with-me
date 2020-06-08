@@ -15,15 +15,15 @@ public class BookStoreController {
     private final BookStoreService bookStoreService;
 
     @CrossOrigin
-    @GetMapping("/student/bookstore/main/{grade}")
+    @GetMapping("/student/bookstore/s-with-me-pick/{grade}")
     public List<BookResponseDto> getSwithMePickList(@PathVariable("grade") int grade,String subject){
         return bookStoreService.getSwithMePickList(grade,subject);
     }
 
     @CrossOrigin
     @GetMapping("/student/bookstore/{grade}")
-    public List<BookResponseDto> getBookStoreADByFilter(@PathVariable("grade") int grade,String subject){
-        return bookStoreService.getBookStoreADByFilter(grade,subject);
+    public List<BookResponseDto> getSailingBookByFilter(@PathVariable("grade") int grade,String subject){
+        return bookStoreService.getSailingBookByFilter(grade,subject);
     }
 
 
