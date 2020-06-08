@@ -151,7 +151,7 @@ public class ProblemService {
     }
 
     @Transactional
-    public List<ProblemResponseDto> getProblemList(int subChapterId,int pageNumber) throws SQLException {
+    public List<ProblemResponseDto> getProblemList(int subChapterId) throws SQLException {
         SubChapter subChapter = subChapterRepository.findById(subChapterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
 
@@ -191,14 +191,8 @@ public class ProblemService {
                     .isMath(problem.getIsMath())
                     .build());
         }
-        List<ProblemResponseDto> problemResponseDtoByPage = new ArrayList<>();
-        try{
-            problemResponseDtoByPage = responseDtoList.subList(pageNumber * 10 - 10, pageNumber * 10);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 10문제가 아닐 수도 있음.
-            problemResponseDtoByPage = responseDtoList.subList(pageNumber * 10 - 10, responseDtoList.size());
-        }
-        return problemResponseDtoByPage;
+
+        return responseDtoList;
     }
 
     @Transactional
