@@ -14,6 +14,8 @@ import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class MyBookService {
     private final MyProblemRepository myProblemRepository;
     private final NoteRepository noteRepository;
     private final MainChapterRepository mainChapterRepository;
+    private final SubChapterRepository subChapterRepository;
     @Transactional
     public MyBookResponseDto getMyBook(int myBookId){
         MyBook myBook = myBookRepository.findById(myBookId)
@@ -58,27 +61,38 @@ public class MyBookService {
     {
         Student student = studentRepository.findById(myBookCreateDto.getStudentId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId="+myBookCreateDto.getStudentId()));
-        List<Folder> folderList = folderRepository.findByStudent(student);
         Book book = bookRepository.findById(myBookCreateDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
+
+        List<Folder> folderList = folderRepository.findByStudent(student);
         Folder defaultFolder = new Folder();
         for(Folder folder : folderList)
         {
             if(folder.getFolderName().equals("분류되지 않음")){defaultFolder=folder;break;}
         }
+
         List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        MainChapter firstMainChapter = new MainChapter();
         for(MainChapter mainChapter : mainChapterList)
         {
-            //if(mainChapter.getbeforeMainChapterId)
+            if(mainChapter.getBeforeMainChapterId()==0){firstMainChapter=mainChapter;break;}
         }
+
+        List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(firstMainChapter);
+        SubChapter firstSubChapter = new SubChapter();
+        for(SubChapter subChapter : subChapterList)
+        {
+            if(subChapter.getBeforeSubChapterId()==0){firstSubChapter=subChapter;}
+        }
+
         myBookRepository.save(MyBook.builder()
                 .folder(defaultFolder)
                 .book(book)
-                .lastSubChapterId(0)
+                .lastSubChapterId(firstSubChapter.getSubChapterId())
                 .lastPageNumber((short) 1)
                 .receiptId(myBookCreateDto.getReceiptId())
                 .build());
-        return "mybook 생성 완료";
+        return "mybook 생성 완료. sub chapterid = "+firstSubChapter.getSubChapterId();
     }
 
     @Transactional
