@@ -3,6 +3,7 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+import { Button } from 'semantic-ui-react';
 import Card from '../../../common-ui/Card';
 import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';
@@ -52,6 +53,9 @@ class LibraryApp extends PureComponent {
               <div {...css(styles.head)}>나의 커리큘럼</div>
             </Card>
             <CurriculumList curriculumList={curriculumList} />
+          </div>
+          <div id="install-button" hidden>
+            <Button circular icon="arrow alternate circle down" />
           </div>
         </div>
       </DndProvider>
