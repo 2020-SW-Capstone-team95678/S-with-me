@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -40,13 +37,15 @@ public class ProblemControllerTest {
     private SubChapterRepository subChapterRepository;
 
     private SubChapter subChapter;
+    private Problem problem;
 
     @Before
     public void setup(){
         subChapterRepository.save(new SubChapter());
         subChapter = subChapterRepository.findAll().get(0);
-        Problem problem = problemRepository.save(Problem.builder()
+        problem = problemRepository.save(Problem.builder()
                 .subChapter(subChapter)
+                .beforeProblemId(0)
                 .build());
     }
 
@@ -153,5 +152,80 @@ public class ProblemControllerTest {
 
         Problem updatedProblem = problemRepository.findAll().get(0);
         assertThat(updatedProblem.getProblemNumber()).isEqualTo((short)123);
+    }
+
+
+    @Test
+    public void deleteFirstProblemTest(){
+        assertThat(problemRepository.findAll()).isNotEmpty();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/"
+                + problem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThat(problemRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    public void deleteSecondProblemIn3ProblemTest(){
+        Problem secondProblem = problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .beforeProblemId(problem.getProblemId())
+                .build());
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .beforeProblemId(secondProblem.getProblemId())
+                .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/"
+                + secondProblem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Problem thirdProblem = problemRepository.findAll().get(1);
+        assertThat(thirdProblem.getBeforeProblemId()).isEqualTo(problem.getProblemId());
+    }
+
+    @Test
+    public void deleteFirstProblemIn2ProblemTest(){
+        problemRepository.save(Problem.builder()
+            .subChapter(subChapter)
+            .beforeProblemId(problem.getProblemId())
+            .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/"
+                + problem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Problem secondProblem = problemRepository.findAll().get(0);
+        assertThat(secondProblem.getBeforeProblemId()).isEqualTo(0);
+    }
+
+    @Test
+    public void deleteLastProblemTest(){
+        problemRepository.save(Problem.builder()
+                .subChapter(subChapter)
+                .beforeProblemId(problem.getProblemId())
+                .build());
+        Problem secondProblem = problemRepository.findAll().get(1);
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/"
+                + secondProblem.getProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

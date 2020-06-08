@@ -76,7 +76,7 @@ public class MyBookService {
                 .book(book)
                 .lastSubChapterId(0)
                 .lastPageNumber((short) 1)
-                .recieptId(myBookCreateDto.getReceiptId())
+                .receiptId(myBookCreateDto.getReceiptId())
                 .build());
         return "mybook 생성 완료";
     }

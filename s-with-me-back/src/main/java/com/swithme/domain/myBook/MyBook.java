@@ -32,16 +32,16 @@ public class MyBook {
     @Column(name = "lastPageNumber")
     private short lastPageNumber;
 
-    @Column(name = "recieptId")
-    private String recieptId;
+    @Column(name = "receiptId")
+    private String receiptId;
 
     @Builder
-    public MyBook(Folder folder, Book book, int lastSubChapterId, short lastPageNumber,String recieptId){
+    public MyBook(Folder folder, Book book, int lastSubChapterId, short lastPageNumber,String receiptId){
         this.folder = folder;
         this.book = book;
         this.lastSubChapterId = lastSubChapterId;
         this.lastPageNumber = lastPageNumber;
-        this.recieptId = recieptId;
+        this.receiptId = receiptId;
     }
 
     public void bringUpToDate(MyBookUpdateRequestDto requestDto) {

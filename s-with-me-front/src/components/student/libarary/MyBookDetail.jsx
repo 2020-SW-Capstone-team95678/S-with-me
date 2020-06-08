@@ -11,7 +11,7 @@ import Api from '../../../Api';
 import { CREATE_CURRICULUM } from '../../../constants/modals';
 import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
 
-class BookDetail extends PureComponent {
+class MyBookDetail extends PureComponent {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -37,21 +37,6 @@ class BookDetail extends PureComponent {
         if (this._isMounted) this.setState({ book: data });
       });
     });
-    Api.get('/student/library/curriculum', {
-      params: { myBookId: myBookId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ curriculum: data });
-    });
-    Api.get('/student/library/curriculum/achievement', {
-      params: { myBookId: myBookId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ achievement: data });
-    });
-  }
-
-  componentDidUpdate() {
-    this._isMounted = true;
-    const { myBookId } = this.props.match.params;
     Api.get('/student/library/curriculum', {
       params: { myBookId: myBookId },
     }).then(({ data }) => {
@@ -172,4 +157,4 @@ export default withStyles(() => ({
     border: '1px solid',
     borderRadius: 2,
   },
-}))(BookDetail);
+}))(MyBookDetail);

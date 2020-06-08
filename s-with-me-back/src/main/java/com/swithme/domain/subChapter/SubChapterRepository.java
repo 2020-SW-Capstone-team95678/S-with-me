@@ -6,4 +6,5 @@ import java.util.*;
 
 public interface SubChapterRepository extends JpaRepository<SubChapter, Integer> {
     List<SubChapter> findByMainChapter(MainChapter mainChapter);
+    SubChapter findByBeforeSubChapterId(Integer beforeSubChapterId);
 }

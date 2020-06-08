@@ -5,11 +5,9 @@ import com.swithme.web.dto.ProblemUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.hibernate.engine.jdbc.ClobProxy;
 
 import javax.persistence.*;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
@@ -17,7 +15,7 @@ import java.sql.Clob;
 @Getter
 @NoArgsConstructor
 @Entity(name = "problem")
-public class Problem {
+public class Problem implements Comparable<Problem>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +38,7 @@ public class Problem {
     private Clob solution;
 
     @Column(name = "problemNumber")
-    private short problemNumber;
+    private Short problemNumber;
 
     @Column(name = "answer")
     private String answer;
@@ -67,10 +65,17 @@ public class Problem {
     @Column(name = "option5")
     private String option5;
 
+    @Column(name = "isMath")
+    private Boolean isMath;
+
+    @Column(name = "beforeProblemId")
+    private Integer beforeProblemId;
+
     @Builder
     public Problem(SubChapter subChapter, String title, Clob content, Clob solution,
                     short problemNumber, Clob image, String answer, Boolean isOptional,
-                   String option1, String option2, String option3, String option4, String option5){
+                   String option1, String option2, String option3, String option4, String option5,
+                   Boolean isMath, Integer beforeProblemId){
         this.subChapter = subChapter;
         this.title = title;
         this.content = content;
@@ -84,6 +89,8 @@ public class Problem {
         this.option3 = option3;
         this.option4 = option4;
         this.option5 = option5;
+        this.isMath = isMath;
+        this.beforeProblemId = beforeProblemId;
     }
 
     public void update(SubChapter subChapter, ProblemUpdateRequestDto requestDto) {
@@ -107,6 +114,20 @@ public class Problem {
         this.option3 = requestDto.getOption3();
         this.option4 = requestDto.getOption4();
         this.option5 = requestDto.getOption5();
+    }
+
+    @Override
+    public int compareTo(Problem problem){
+        if(problem.getBeforeProblemId() == this.getProblemId())
+            return 1;
+        else if(this.getBeforeProblemId() == problem.getProblemId())
+            return -1;
+        else
+            return 0;
+    }
+
+    public void update(Integer beforeProblemId){
+        this.beforeProblemId = beforeProblemId;
     }
 
     public static String readClobData(Reader reader) throws IOException{

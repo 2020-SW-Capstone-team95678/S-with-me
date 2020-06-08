@@ -1,10 +1,5 @@
 package com.swithme.service;
 
-import com.swithme.domain.book.Book;
-import com.swithme.domain.myBook.MyBook;
-import com.swithme.domain.myBook.MyBookRepository;
-import com.swithme.domain.myProblem.MyProblem;
-import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
@@ -60,7 +55,9 @@ public class ProblemService {
                 .option3(problem.getOption3())
                 .option4(problem.getOption4())
                 .option5(problem.getOption5())
+                .isMath(problem.getIsMath())
                 .build();
+
         return responseDto;
     }
 
@@ -98,8 +95,10 @@ public class ProblemService {
                     .option3(createDto.getOption3())
                     .option4(createDto.getOption4())
                     .option5(createDto.getOption5())
+                    .isMath(createDto.getIsMath())
                     .build());
         }
+
         return "문제 등록이 완료되었습니다.";
     }
 
@@ -112,6 +111,7 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + requestDto.getSubChapterId()));
 
         problem.update(subChapter, requestDto);
+
         return problem.getProblemNumber() + "번 문제가 수정되었습니다.";
     }
 
@@ -121,6 +121,7 @@ public class ProblemService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
 
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+        Collections.sort(problemList);
         List<ProblemResponseDto> responseDtoList = new ArrayList<>();
 
         String content;
@@ -152,8 +153,10 @@ public class ProblemService {
                     .option3(problem.getOption3())
                     .option4(problem.getOption4())
                     .option5(problem.getOption5())
+                    .isMath(problem.getIsMath())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -162,6 +165,7 @@ public class ProblemService {
         SubChapter subChapter = subChapterRepository.findById(lastSubChapterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 subChapter가 없습니다. subChapterId = " + lastPageNumber));
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+        Collections.sort(problemList);
 
         List<Problem> problemListInPage = new ArrayList<>();
         try{
@@ -178,6 +182,36 @@ public class ProblemService {
                     .answer(problem.getAnswer())
                     .build());
         }
+
         return responseDtoList;
+    }
+
+    @Transactional
+    public String deleteProblem(int problemId) {
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
+        short problemNumber = problem.getProblemNumber();
+
+        Problem beforeProblem = null;
+        if(problem.getBeforeProblemId() != 0) {
+            beforeProblem = problemRepository.findById(problem.getBeforeProblemId())
+                    .orElseThrow(() -> new IllegalArgumentException("이전 소단원이 없습니다."));
+        }
+        Problem afterProblem = problemRepository.findByBeforeProblemId(problemId);
+
+        problemRepository.delete(problem);
+
+        if(!problemRepository.findAll().isEmpty()) {
+            //가장 앞을 삭제한 경우
+            if(beforeProblem == null)
+                afterProblem.update(0);
+                //가장 뒤를 삭제한 경우
+            else if(afterProblem == null);
+                //나머지 경우
+            else
+                afterProblem.update(beforeProblem.getProblemId());
+        }
+
+        return problemNumber + "번 문제가 삭제되었습니다.";
     }
 }

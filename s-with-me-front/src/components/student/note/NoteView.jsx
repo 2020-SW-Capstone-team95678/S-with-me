@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
@@ -12,7 +12,7 @@ import Api from '../../../Api';
 import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
 import MySolutionView from './MySolutionView';
 
-class NoteView extends PureComponent {
+class NoteView extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -21,6 +21,7 @@ class NoteView extends PureComponent {
       showMySolution: false,
       showSolution: false,
       showMyNewSolution: false,
+      shouldUpdate: false,
     };
     this.handleResolve = this.handleResolve.bind(this);
     this.handleSaveNote = this.handleSaveNote.bind(this);
@@ -64,14 +65,23 @@ class NoteView extends PureComponent {
     });
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.note.problemId !== prevState.problem.problemId) {
+      return { shouldUpdate: true };
+    }
+    return { shouldUpdate: false };
+  }
+
   componentDidUpdate() {
     this._isMounted = true;
     const { note } = this.props;
-    Api.get('/student/library/my-book/my-problems', {
-      params: { problemId: note.problemId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ problem: data });
-    });
+    if (this.state.shouldUpdate) {
+      Api.get('/student/library/my-book/my-problems', {
+        params: { problemId: note.problemId },
+      }).then(({ data }) => {
+        if (this._isMounted) this.setState({ problem: data });
+      });
+    }
   }
 
   componentWillUnmount() {

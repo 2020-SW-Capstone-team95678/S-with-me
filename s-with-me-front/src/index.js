@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './common-ui/app.css';
+import 'semantic-ui-css/semantic.min.css';
 import './common-ui/FontAwesome';
 import App from './App';
 import * as serviceWorker from './serviceWorker';

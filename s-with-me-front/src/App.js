@@ -17,10 +17,12 @@ import PAppLayout from './components/publisher/AppLayout';
 import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
-import BookDetail from './components/student/libarary/BookDetail';
+import MyBookDetail from './components/student/libarary/MyBookDetail';
+import Bookstore from './components/student/bookstore/BookstoreApp';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
+import BookDetail from './components/student/bookstore/BookDetail';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -66,12 +68,17 @@ export default class App extends PureComponent {
           <Router>
             <Switch>
               <Route
+                path="/signup-publisher"
+                exact
+                render={() => <SignUpPublisherInputContainer />}
+              />
+              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+              <Route
                 path="/"
                 render={() => (
                   <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
                 )}
               />
-              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
             </Switch>
           </Router>
         </Provider>
@@ -84,13 +91,6 @@ export default class App extends PureComponent {
             <Router>
               <Switch>
                 <AppLayout logged={logged} setLogged={this.setLogged}>
-                  <Route
-                    path="/"
-                    exact
-                    render={() => (
-                      <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
-                    )}
-                  />
                   <Route path="/profile" exact render={() => <Profile />} />
                   <Route
                     path="/library/myBook/:myBookId/solve/:subChapterId"
@@ -101,10 +101,16 @@ export default class App extends PureComponent {
                   <Route
                     path="/library/myBook/:myBookId"
                     exact
-                    render={({ match }) => <BookDetail match={match} />}
+                    render={({ match }) => <MyBookDetail match={match} />}
                   />
                   <Route path="/library" exact render={() => <LibraryAppContainer />} />
                   <Route path="/note" exact render={() => <NoteAppContainer />} />
+                  <Route
+                    path="/bookstore/detail/:bookId"
+                    exact
+                    render={({ match }) => <BookDetail match={match} />}
+                  />
+                  <Route path="/bookstore" exact render={() => <Bookstore />} />
                   <NotificationContainer />
                 </AppLayout>
                 <Route path="*" component={NotFound} />
@@ -124,11 +130,7 @@ export default class App extends PureComponent {
                   exact
                   render={() => <LoginContainer setUserType={this.setUserType} logged={logged} />}
                 />
-                <Route
-                  path="/signup-publisher"
-                  exact
-                  render={() => <SignUpPublisherInputContainer />}
-                />
+
                 <PAppLayout>
                   <Route path="/library" render={() => <LibraryApp />} />
                   <Route path="/register-problem" render={() => <RegisterProblem />} />
