@@ -183,7 +183,7 @@ public class NoteService{
 
         List<Note> noteListFilteredBySubject=  new ArrayList<>();
         for(Note note: noteList){
-            if(note.getMyProblem().getMyBook().getBook().getSubject() == subject)
+            if(note.getMyProblem().getMyBook().getBook().getSubject().equals(subject))
                 noteListFilteredBySubject.add(note);
         }
 
