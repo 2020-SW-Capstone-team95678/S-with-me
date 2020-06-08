@@ -12,8 +12,9 @@ export default class NoteSubjectFilter extends PureComponent {
 
   handleSubjectFilter = subjectName => {
     const studentId = window.sessionStorage.getItem('studentId');
-    const { requestFilteredNoteList } = this.props;
+    const { requestFilteredNoteList, setNoteFilter } = this.props;
     requestFilteredNoteList(studentId, 'SUBJECT', { subject: subjectName });
+    setNoteFilter('SUBJECT', subjectName);
   };
   render() {
     return (
