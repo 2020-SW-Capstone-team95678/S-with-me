@@ -13,13 +13,23 @@ function generateOrderId() {
 }
 
 export default function BookPayInput(props) {
+  const studentId = window.sessionStorage.getItem('studentId');
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Heading level={3}>결제 정보 입력하기</Heading>
       <Form
         onSubmit={values => {
-          if (props.book.price !== 0)
-            bootPayRequest(props.book, values, props.bookId, generateOrderId());
+          if (props.book.price !== 0) {
+            let form = {
+              book: props.book,
+              user: values,
+              bookId: props.bookId,
+              orderId: generateOrderId(),
+              buyMyBook: props.buyMyBook,
+              studentId: studentId,
+            };
+            bootPayRequest(form);
+          }
         }}
       >
         <Form.Consumer>
@@ -38,7 +48,11 @@ export default function BookPayInput(props) {
                 <input placeholder="swithme@sth.com" name="email" />
               </SemanticForm.Field>
               {props.book.price === 0 ? (
-                <AutoContainModal cover={props.book.cover} />
+                <AutoContainModal
+                  cover={props.book.cover}
+                  id={props.bookId}
+                  buyMyBook={props.buyMyBook}
+                />
               ) : (
                 <Button type="submit">결제하기</Button>
               )}

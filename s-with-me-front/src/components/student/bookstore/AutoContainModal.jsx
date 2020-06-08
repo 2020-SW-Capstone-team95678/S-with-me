@@ -6,10 +6,18 @@ export default class AutoContainModal extends Component {
 
   show = dimmer => () => this.setState({ dimmer, open: true });
   close = () => this.setState({ open: false });
+  autoBuy = () => {
+    const { buyMyBook, id } = this.props;
+    const studentId = window.sessionStorage.getItem('studentId');
+    const formValue = {
+      studentId: studentId,
+      bookId: id,
+    };
+    buyMyBook(formValue, () => this.close());
+  };
 
   render() {
     const { open, dimmer } = this.state;
-
     return (
       <div>
         <Button onClick={this.show(true)}>결제하기</Button>
@@ -31,7 +39,7 @@ export default class AutoContainModal extends Component {
               icon="checkmark"
               labelPosition="right"
               content="내 서재 담기"
-              onClick={this.close}
+              onClick={this.autoBuy}
             />
           </Modal.Actions>
         </Modal>
