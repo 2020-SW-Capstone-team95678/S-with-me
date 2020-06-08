@@ -1,6 +1,6 @@
 import React from 'react';
 import { bootPayRequest } from './BootPay';
-import { Button, Form as SemanticForm, Modal } from 'semantic-ui-react';
+import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import Form from '../../../common-ui/Form';
 import Heading from '../../../common-ui/Heading';
 import AutoContainModal from './AutoContainModal';
@@ -12,12 +12,15 @@ function generateOrderId() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-export default function BookPay(props) {
+export default function BookPayInput(props) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Heading level={3}>결제 정보 입력하기</Heading>
       <Form
-        onSubmit={values => bootPayRequest(props.book, values, props.bookId, generateOrderId())}
+        onSubmit={values => {
+          if (props.book.price !== 0)
+            bootPayRequest(props.book, values, props.bookId, generateOrderId());
+        }}
       >
         <Form.Consumer>
           {({ onChange }) => (

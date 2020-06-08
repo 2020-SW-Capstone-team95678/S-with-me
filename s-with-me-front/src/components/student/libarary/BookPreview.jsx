@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
 import Api from '../../../Api';
 import BookCard from './BookCard';
 
-export default class BookPreview extends PureComponent {
+export default class BookPreview extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -22,7 +22,6 @@ export default class BookPreview extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.myBook.bookId !== prevState.book.bookId) {
-      console.log(nextProps.myBook.bookId, prevState.book.bookId);
       return { shouldUpdate: true };
     }
     return { shouldUpdate: false };
@@ -30,7 +29,6 @@ export default class BookPreview extends PureComponent {
 
   componentDidUpdate() {
     this._isMounted = true;
-    console.log('here');
     const { myBook } = this.props;
     if (this.state.shouldUpdate)
       Api.get('student/library/my-book', { params: { bookId: myBook.bookId } }).then(({ data }) => {

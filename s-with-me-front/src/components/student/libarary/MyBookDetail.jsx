@@ -49,21 +49,6 @@ class MyBookDetail extends PureComponent {
     });
   }
 
-  componentDidUpdate() {
-    this._isMounted = true;
-    const { myBookId } = this.props.match.params;
-    Api.get('/student/library/curriculum', {
-      params: { myBookId: myBookId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ curriculum: data });
-    });
-    Api.get('/student/library/curriculum/achievement', {
-      params: { myBookId: myBookId },
-    }).then(({ data }) => {
-      if (this._isMounted) this.setState({ achievement: data });
-    });
-  }
-
   componentWillUnmount() {
     this._isMounted = false;
   }
