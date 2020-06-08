@@ -22,6 +22,7 @@ public class BookStoreService {
             for (Book book : bookList) {
                 if (book.getIsAdvertised() == true && book.getGrade() == grade && book.getIsOnSale()==true) {
                     bookResponseDtoList.add(BookResponseDto.builder()
+                            .bookId(book.getBookId())
                             .cover(book.getCover())
                             .grade(book.getGrade())
                             .introduction(book.getIntroduction())
@@ -40,6 +41,7 @@ public class BookStoreService {
             for (Book book : bookList) {
                 if (book.getIsAdvertised() == true && book.getGrade() == grade && book.getSubject().equals(subject) && book.getIsOnSale()==true) {
                     bookResponseDtoList.add(BookResponseDto.builder()
+                            .bookId(book.getBookId())
                             .cover(book.getCover())
                             .grade(book.getGrade())
                             .introduction(book.getIntroduction())
@@ -65,6 +67,7 @@ public class BookStoreService {
             for (Book book : bookList) {
                 if (book.getIsOnSale() == true && book.getGrade() == grade) {
                     bookResponseDtoList.add(BookResponseDto.builder()
+                            .bookId(book.getBookId())
                             .cover(book.getCover())
                             .grade(book.getGrade())
                             .introduction(book.getIntroduction())
@@ -80,6 +83,7 @@ public class BookStoreService {
             for (Book book : bookList) {
                 if (book.getIsOnSale() == true && book.getGrade() == grade && book.getSubject().equals(subject)) {
                     bookResponseDtoList.add(BookResponseDto.builder()
+                            .bookId(book.getBookId())
                             .cover(book.getCover())
                             .grade(book.getGrade())
                             .introduction(book.getIntroduction())
