@@ -8,9 +8,13 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +27,15 @@ public class BookService {
     private final MyBookRepository myBookRepository;
 
     @Transactional
-    public BookInformationResponseDto getBookInformation(int bookId){
+    public BookInformationResponseDto getBookInformation(int bookId)throws SQLException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 book이 없습니다. bookId = " + bookId));
+        String cover;
+        String introduction;
+        try{ cover = Book.readClobData(book.getCover().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ cover = null; }
+        try{ introduction = Book.readClobData(book.getIntroduction().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ introduction = null; }
         BookInformationResponseDto responseDto = BookInformationResponseDto.builder()
                 .bookId(book.getBookId())
                 .publisherId(book.getPublisher().getPublisherId())
@@ -33,23 +43,29 @@ public class BookService {
                 .price(book.getPrice())
                 .publishedDate(book.getPublishedDate())
                 .name(book.getName())
-                .cover(book.getCover())
+                .cover(cover)
                 .grade(book.getGrade())
                 .isAdvertised(book.getIsAdvertised())
                 .monthlyProfit(book.getMonthlyProfit())
                 .monthlySold(book.getMonthlySold())
-                .introduction(book.getIntroduction())
+                .introduction(introduction)
                 .build();
         return responseDto;
     }
 
     @Transactional
-    public List<BookInformationResponseDto> getBookList(int publisherId) {
+    public List<BookInformationResponseDto> getBookList(int publisherId) throws SQLException{
         Publisher publisher = publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 publisher가 없습니다. publisherId = " + publisherId));
         List<Book> bookList = bookRepository.findByPublisher(publisher);
         List<BookInformationResponseDto> responseDtoList = new ArrayList<>();
         for(Book book : bookList){
+            String cover;
+            String introduction;
+            try{ cover = Book.readClobData(book.getCover().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ cover = null; }
+            try{ introduction = Book.readClobData(book.getIntroduction().getCharacterStream()); }
+            catch (NullPointerException | IOException exception){ introduction = null; }
             responseDtoList.add(BookInformationResponseDto.builder()
                     .bookId(book.getBookId())
                     .publisherId(publisherId)
@@ -58,21 +74,29 @@ public class BookService {
                     .publishedDate(book.getPublishedDate())
                     .name(book.getName())
                     .grade(book.getGrade())
-                    .cover(book.getCover())
+                    .cover(cover)
                     .isAdvertised(book.getIsAdvertised())
                     .monthlyProfit(book.getMonthlyProfit())
                     .monthlySold(book.getMonthlySold())
-                    .introduction(book.getIntroduction())
+                    .introduction(introduction)
                     .build());
         }
         return responseDtoList;
     }
 
     @Transactional
-    public int createBook(BookCreateDto createDto) {
+    public int createBook(BookCreateDto createDto)throws SQLException {
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
+        Clob cover;
+        Clob introduction;
+
+        try{ cover = ClobProxy.generateProxy(createDto.getCover()); }
+        catch (NullPointerException nullPointerException){ cover = null; }
+        try{ introduction = ClobProxy.generateProxy(createDto.getIntroduction()); }
+        catch (NullPointerException nullPointerException){ introduction = null; }
+
         bookRepository.save(Book.builder()
                 .isOnSale(false)
                 .publisher(publisher)
@@ -81,8 +105,8 @@ public class BookService {
                 .publishedDate(createDto.getPublishedDate())
                 .name(createDto.getName())
                 .grade(createDto.getGrade())
-                .cover(createDto.getCover())
-                .introduction(createDto.getIntroduction())
+                .cover(cover)
+                .introduction(introduction)
                 .build());
         int index = bookRepository.findByPublisher(publisher).size()-1;
         return bookRepository.findByPublisher(publisher).get(index).getBookId();
@@ -97,17 +121,25 @@ public class BookService {
     }
 
     @Transactional
-    public BookResponseDto getBook(int bookId) {
+    public BookResponseDto getBook(int bookId)throws SQLException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + bookId));
+
+        String cover;
+        String introduction;
+        try{ cover = Book.readClobData(book.getCover().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ cover = null; }
+        try{ introduction = Book.readClobData(book.getIntroduction().getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ introduction = null; }
+
         BookResponseDto responseDto = BookResponseDto.builder()
                 .subject(book.getSubject())
                 .price(book.getPrice())
                 .name(book.getName())
                 .publishedDate(book.getPublishedDate())
                 .grade(book.getGrade())
-                .cover(book.getCover())
-                .introduction(book.getIntroduction())
+                .cover(cover)
+                .introduction(introduction)
                 .build();
         return responseDto;
     }

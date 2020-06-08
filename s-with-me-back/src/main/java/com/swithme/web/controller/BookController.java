@@ -4,6 +4,8 @@ import com.swithme.service.BookService;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -14,13 +16,13 @@ public class BookController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book")
-    public BookInformationResponseDto getBookInformation(@RequestParam("bookId") int bookId){
+    public BookInformationResponseDto getBookInformation(@RequestParam("bookId") int bookId)throws SQLException {
         return bookService.getBookInformation(bookId);
     }
 
     @CrossOrigin
     @GetMapping("/publisher/library/book/{bookId}")
-    public BookResponseDto getBook(@PathVariable int bookId){
+    public BookResponseDto getBook(@PathVariable int bookId)throws SQLException{
         return bookService.getBook(bookId);
     }
 
@@ -32,13 +34,13 @@ public class BookController {
 
     @CrossOrigin
     @GetMapping("/publisher/library/book")
-    public List<BookInformationResponseDto> getBookList(@RequestParam("publisherId") int publisherId){
+    public List<BookInformationResponseDto> getBookList(@RequestParam("publisherId") int publisherId)throws SQLException{
         return bookService.getBookList(publisherId);
     }
 
     @CrossOrigin
     @PostMapping("/publisher/library/book")
-    public int createBook(@RequestBody BookCreateDto createDto){
+    public int createBook(@RequestBody BookCreateDto createDto)throws SQLException{
         return bookService.createBook(createDto);
     }
 

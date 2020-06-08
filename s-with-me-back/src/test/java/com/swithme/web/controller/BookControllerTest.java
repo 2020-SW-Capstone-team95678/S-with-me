@@ -8,6 +8,7 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.BookCreateDto;
 import com.swithme.web.dto.BookUpdateRequestDto;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,19 +58,20 @@ public class BookControllerTest {
 
     @Test
     public void getBookInformationTest(){
+
         bookRepository.save(Book.builder()
                 .monthlySold(123)
                 .monthlyProfit(123)
                 .totalProblemNumber((short)123)
                 .isAdvertised(false)
-                .cover("test cover")
+                .cover(ClobProxy.generateProxy("test cover"))
                 .grade((short)4)
                 .publishedDate("2020-02-02")
                 .name("test name")
                 .subject("test subject")
                 .publisher(publisher)
                 .price(12345)
-                .introduction("test")
+                .introduction(ClobProxy.generateProxy("test"))
                 .build());
         Book book = bookRepository.findAll().get(0);
 
@@ -87,14 +89,14 @@ public class BookControllerTest {
                     .monthlyProfit(123)
                     .totalProblemNumber((short)123)
                     .isAdvertised(false)
-                    .cover("test cover")
+                    .cover(ClobProxy.generateProxy("test cover"))
                     .grade((short)4)
                     .publishedDate("2020-02-02")
                     .name("test name")
                     .subject("test subject")
                     .publisher(publisher)
                     .price(12345)
-                    .introduction("test")
+                    .introduction(ClobProxy.generateProxy("test"))
                     .build());
         }
 
