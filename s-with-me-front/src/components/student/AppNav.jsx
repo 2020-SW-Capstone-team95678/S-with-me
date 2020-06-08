@@ -94,6 +94,9 @@ class AppNav extends PureComponent {
                   >
                     <FontAwesomeIcon icon={faUserCircle} size="lg" />
                     프로필
+                    <div id="install-button">
+                      <Button circular icon="arrow alternate circle down" />
+                    </div>
                   </div>
                 </NavLink>
               </div>

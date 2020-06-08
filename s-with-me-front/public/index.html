@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#FF4A25" />
     <meta name="description" content="swithme capstone design project website" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/Logo_192.png" />
+    <link rel="apple-touch-icon" href="/Logo_192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,7 +24,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('%PUBLIC_URL%/worker.js').then(reg => {
+          navigator.serviceWorker.register('/worker.js').then(reg => {
             console.log('Service worker registered.', reg);
           });
         });
