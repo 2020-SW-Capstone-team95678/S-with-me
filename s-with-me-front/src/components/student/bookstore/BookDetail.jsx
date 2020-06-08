@@ -52,9 +52,11 @@ class BookDetail extends PureComponent {
               </div>
             </div>
           </div>
-          <div style={{ flex: 1, padding: 3 }} {...css(styles.box)}>
-            {isPayMode ? <BookPayInput book={book} bookId={bookId} /> : null}
-          </div>
+          {isPayMode ? (
+            <div style={{ flex: 1, padding: 3 }} {...css(styles.box)}>
+              <BookPayInput book={book} bookId={bookId} />
+            </div>
+          ) : null}
         </div>
       </div>
     );
