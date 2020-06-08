@@ -11,14 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MyBookCreateDto {
-    int myBookId;
     int bookId;
     int studentId;
     String receiptId;
 
     @Builder
-    public MyBookCreateDto(int myBookId,int bookId,String receiptId,int studentId) {
-        this.myBookId = myBookId;
+    public MyBookCreateDto(int bookId,String receiptId,int studentId) {
         this.bookId = bookId;
         this.receiptId = receiptId;
         this.studentId = studentId;

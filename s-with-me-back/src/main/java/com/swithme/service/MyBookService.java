@@ -92,7 +92,7 @@ public class MyBookService {
                 .lastPageNumber((short) 1)
                 .receiptId(myBookCreateDto.getReceiptId())
                 .build());
-        return "mybook 생성 완료. sub chapterid = "+firstSubChapter.getSubChapterId();
+        return "mybook 생성 완료. sub chapterid = "+firstSubChapter.getSubChapterId()+"folderId = "+defaultFolder.getFolderId();
     }
 
     @Transactional

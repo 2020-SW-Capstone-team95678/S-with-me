@@ -4,6 +4,8 @@ import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
+import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -12,6 +14,10 @@ import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
+import com.swithme.web.dto.CurriculumCreateDto;
+import com.swithme.web.dto.MyBookCreateDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -47,22 +53,25 @@ public class MyBookControllerTest {
     private MyProblemRepository myProblemRepository;
     @Autowired
     private NoteRepository noteRepository;
-
-    private Folder folder;
+    @Autowired
+    private MainChapterRepository mainChapterRepository;
+    @Autowired
+    private SubChapterRepository subChapterRepository;
 
     @Before
     public void setup(){
         studentRepository.save(new Student());
 
         bookRepository.save(new Book());
-        Book book = bookRepository.findAll().get(0);
 
-        folderRepository.save(new Folder());
-        folder = folderRepository.findAll().get(0);
+        folderRepository.save(Folder.builder()
+                .folderName("분류되지 않음")
+                .student(studentRepository.findAll().get(0))
+                .build());
 
         myBookRepository.save(MyBook.builder()
-                .book(book)
-                .folder(folder)
+                .book(bookRepository.findAll().get(0))
+                .folder(folderRepository.findAll().get(0))
                 .build());
     }
 
@@ -71,9 +80,38 @@ public class MyBookControllerTest {
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
+        subChapterRepository.deleteAll();
+        mainChapterRepository.deleteAll();
         bookRepository.deleteAll();
         folderRepository.deleteAll();
         studentRepository.deleteAll();
+
+    }
+
+    @Test
+    public void createMyBookTest(){
+        mainChapterRepository.save(MainChapter.builder()
+                .book(bookRepository.findAll().get(0))
+                .beforeMainChapterId(0)
+                .build());
+
+        subChapterRepository.save(SubChapter.builder()
+                .mainChapter(mainChapterRepository.findAll().get(0))
+                .beforeSubChapterId(0)
+                .build());
+
+
+        MyBookCreateDto myBookCreateDto= MyBookCreateDto.builder()
+                .studentId(studentRepository.findAll().get(0).getStudentId())
+                .receiptId("0")
+                .bookId(bookRepository.findAll().get(0).getBookId())
+                .build();
+
+        HttpEntity<MyBookCreateDto> requestEntity = new HttpEntity<>(myBookCreateDto);
+        String url="http://localhost:"+port+"/student/library/my-book";
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(responseEntity.getBody()).isEqualTo("33");
     }
 
     @Test
@@ -108,7 +146,7 @@ public class MyBookControllerTest {
 
     @Test
     public void getMyBookListFilteredByFolder(){
-        String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folder.getFolderId();
+        String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folderRepository.findAll().get(0).getFolderId();
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
