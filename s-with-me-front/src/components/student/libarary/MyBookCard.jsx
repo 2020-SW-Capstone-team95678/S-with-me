@@ -9,7 +9,7 @@ import Heading from '../../../common-ui/Heading';
 import InlineList from '../../../common-ui/InlineList';
 import bookImage from '../../../common-ui/bookImage.png';
 
-function BookCard(props) {
+export default function MyBookCard(props) {
   const { myBookId, lastPageNumber, lastSubChapterId } = props.myBook;
   const { subject, name, cover, grade } = props.book;
   const [{ isDragging }, drag, preview] = useDrag({
@@ -54,5 +54,3 @@ function BookCard(props) {
     </>
   );
 }
-
-export default BookCard;

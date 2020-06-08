@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { FETCH_NOTE_LIST, requestNoteList } from '../../../actions/noteActions';
+import { FETCH_NOTE_LIST, requestNoteList, setNoteFilter } from '../../../actions/noteActions';
 import NoteApp from '../../../components/student/note/NoteApp';
 
 const mapStateToProps = state => {
@@ -10,4 +10,4 @@ const mapStateToProps = state => {
   return { loading, noteList };
 };
 
-export default connect(mapStateToProps, { requestNoteList })(NoteApp);
+export default connect(mapStateToProps, { requestNoteList, setNoteFilter })(NoteApp);

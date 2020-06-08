@@ -86,9 +86,6 @@ export default class SignUpP extends PureComponent {
                                     errorMessage={errors['code']}
                                   />
                                 </VerticalList>
-                                <Link to="/">
-                                  <Button>로그인으로 돌아가기</Button>
-                                </Link>
                                 <Button type="submit" disabled={loading}>
                                   확인
                                 </Button>
@@ -99,17 +96,25 @@ export default class SignUpP extends PureComponent {
                       </Form>
                     </div>
                   </div>
-                  <div className="inputCheck" style={{ flex: 1 }}>
+                  <div
+                    className="inputCheck"
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <br />
                     <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
                       중복 확인
                     </Button>
+                    <br />
+                    <Link to="/">
+                      <Button small>로그인으로 돌아가기</Button>
+                    </Link>
                     <div>
-                      {isCheck &&
-                        (isOnlyId ? (
-                          <Text>사용 가능한 아이디입니다. </Text>
-                        ) : (
-                          <Text>중복된 아이디입니다.</Text>
-                        ))}
+                      {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
                     </div>
                   </div>
                 </div>

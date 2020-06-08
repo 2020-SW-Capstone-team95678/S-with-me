@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
+import { Progress } from 'semantic-ui-react';
 
 import Card from '../../../common-ui/Card';
 import Button from '../../../common-ui/Button';
@@ -59,7 +60,15 @@ class MyBookDetail extends PureComponent {
     const { lastPageNumber, lastSubChapterId } = myBook;
     const { grade, subject, name, cover, introduction } = book;
     const { styles } = this.props;
+    let achievementColor = '';
 
+    if (achievement <= 33) {
+      achievementColor = 'red';
+    } else if (achievement <= 66) {
+      achievementColor = 'yellow';
+    } else if (achievement <= 99) {
+      achievementColor = 'blue';
+    }
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1.5, flexDirection: 'row', padding: 3 }}>
@@ -127,7 +136,15 @@ class MyBookDetail extends PureComponent {
                   <Card>
                     <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
                       <Text large>달성도</Text>
-                      <Text>{achievement}% 달성</Text>
+                      {achievement === 100 ? (
+                        <Progress percent={100} color="green" success>
+                          계획 수행 완료! 정말 멋져요!
+                        </Progress>
+                      ) : (
+                        <Progress percent={achievement} color={achievementColor} progress>
+                          거의 다 왔어요! 아자 아자 화이팅!
+                        </Progress>
+                      )}
                     </div>
                   </Card>
                 ) : null}

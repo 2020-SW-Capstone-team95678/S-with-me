@@ -11,9 +11,10 @@ export default class NoteApp extends PureComponent {
   }
 
   handleViewOrigin = () => {
-    const { requestNoteList } = this.props;
+    const { requestNoteList, setNoteFilter } = this.props;
     const studentId = window.sessionStorage.getItem('studentId');
     requestNoteList({ studentId: studentId });
+    setNoteFilter();
   };
 
   render() {

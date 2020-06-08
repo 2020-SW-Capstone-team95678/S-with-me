@@ -7,7 +7,6 @@ import Button from '../../common-ui/Button';
 import Form from '../../common-ui/Form';
 import Input from '../../common-ui/Input';
 import Text from '../../common-ui/Text';
-import VerticalList from '../../common-ui/VerticalList';
 import { Link, Redirect } from 'react-router-dom';
 
 import { validate } from './validate.js';
@@ -47,15 +46,19 @@ export default class SignUpS extends PureComponent {
                 반갑습니다. 간단한 회원가입 후 스윗미와 함께하실 수 있습니다.
               </div>
               <div className="studentSignUpBox">
-                <div className="signUp" style={{ display: 'flex', alignItems: 'stretch' }}>
-                  <div style={{ flex: 2 }}>
-                    <img src={user} style={{ width: 100 }} alt="user" />
+                <div style={{ display: 'flex', alignItems: 'stretch' }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img src={user} style={{ width: 120 }} alt="user" />
                   </div>
-                  <div style={{ flex: 3 }}>
-                    <div
-                      className="signUpInput"
-                      style={{ display: 'flex', flexDirection: 'column' }}
-                    >
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <Form onSubmit={values => this.handleSubmit(values)}>
                         <Form.Consumer>
                           {({ onChange, values }) => {
@@ -65,49 +68,44 @@ export default class SignUpS extends PureComponent {
                             if (!errors.length) this.setState({ isValidForm: true });
                             return (
                               <div className="input">
-                                <VerticalList spacingBetween={1}>
-                                  <Input
-                                    name="userId"
-                                    label="ID"
-                                    onChange={onChange}
-                                    errorMessage={errors['userId']}
-                                  />
-                                  <Input
-                                    name="password"
-                                    label="PW"
-                                    type="password"
-                                    onChange={onChange}
-                                    errorMessage={errors['password']}
-                                  />
-                                  <Input
-                                    name="name"
-                                    label="이름"
-                                    onChange={onChange}
-                                    errorMessage={errors['name']}
-                                  />
-                                  <Input
-                                    name="birthday"
-                                    label="생년월일"
-                                    onChange={onChange}
-                                    errorMessage={errors['birthday']}
-                                  />
-                                  <Input
-                                    name="phoneNumber"
-                                    label="핸드폰 번호"
-                                    onChange={onChange}
-                                    errorMessage={errors['phoneNumber']}
-                                  />
-                                  <Input
-                                    type="number"
-                                    name="grade"
-                                    label="학년"
-                                    onChange={onChange}
-                                    errorMessage={errors['grade']}
-                                  />
-                                </VerticalList>
-                                <Link to="/">
-                                  <Button>로그인으로 돌아가기</Button>
-                                </Link>
+                                <Input
+                                  name="userId"
+                                  label="ID"
+                                  onChange={onChange}
+                                  errorMessage={errors['userId']}
+                                />
+                                <Input
+                                  name="password"
+                                  label="PW"
+                                  type="password"
+                                  onChange={onChange}
+                                  errorMessage={errors['password']}
+                                />
+                                <Input
+                                  name="name"
+                                  label="이름"
+                                  onChange={onChange}
+                                  errorMessage={errors['name']}
+                                />
+                                <Input
+                                  name="birthday"
+                                  label="생년월일"
+                                  onChange={onChange}
+                                  errorMessage={errors['birthday']}
+                                />
+                                <Input
+                                  name="phoneNumber"
+                                  label="핸드폰 번호"
+                                  onChange={onChange}
+                                  errorMessage={errors['phoneNumber']}
+                                />
+                                <Input
+                                  type="number"
+                                  name="grade"
+                                  label="학년"
+                                  onChange={onChange}
+                                  errorMessage={errors['grade']}
+                                />
                                 <Button type="submit" disabled={loading}>
                                   확인
                                 </Button>
@@ -118,10 +116,22 @@ export default class SignUpS extends PureComponent {
                       </Form>
                     </div>
                   </div>
-                  <div className="inputCheck" style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <br />
                     <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
                       중복 확인
                     </Button>
+                    <br />
+                    <Link to="/">
+                      <Button small>로그인으로 돌아가기</Button>
+                    </Link>
                     <div>
                       {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
                     </div>

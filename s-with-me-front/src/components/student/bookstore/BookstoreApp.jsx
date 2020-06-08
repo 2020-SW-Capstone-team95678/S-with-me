@@ -1,14 +1,21 @@
 import React, { PureComponent } from 'react';
 
-import BookstoreFilter from './BookstoreFilter';
 import BookstoreTable from './BookstoreTable';
+import BookstoreFilterContainer from '../../../containers/student/book/BookstoreFilterContainer';
 
 export default class BookstoreApp extends PureComponent {
+  componentDidMount() {
+    const { requestBookList, requestAdBookList } = this.props;
+    const grade = window.sessionStorage.getItem('grade');
+    requestBookList(grade);
+    requestAdBookList(grade);
+  }
   render() {
+    const { bookList, adBookList } = this.props;
     return (
       <div style={{ display: 'flex' }}>
-        <BookstoreFilter />
-        <BookstoreTable />
+        <BookstoreFilterContainer />
+        <BookstoreTable bookList={bookList} adBookList={adBookList} />
       </div>
     );
   }

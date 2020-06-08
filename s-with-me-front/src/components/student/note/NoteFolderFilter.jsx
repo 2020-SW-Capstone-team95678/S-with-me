@@ -20,8 +20,9 @@ export default class NoteFolderFilter extends PureComponent {
 
   handleFolderFilter = folderId => {
     const studentId = window.sessionStorage.getItem('studentId');
-    const { requestFilteredNoteList } = this.props;
+    const { requestFilteredNoteList, setNoteFilter } = this.props;
     requestFilteredNoteList(studentId, 'FOLDER', { folderId: folderId });
+    setNoteFilter('FOLDER', folderId);
   };
   render() {
     const { folderList } = this.state;

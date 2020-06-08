@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
 import ProblemBar from './ProblemBar';
-import ProblemPaginationContainer from '../../../containers/student/problem/ProblemPaginationContainer';
+import PaginationContainer from '../../../containers/student/PaginationContainer';
 
 class ProblemList extends PureComponent {
   render() {
@@ -12,7 +12,7 @@ class ProblemList extends PureComponent {
     return (
       <React.Fragment>
         <div {...css(styles.pagination)}>
-          <ProblemPaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
+          <PaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ flex: 1, padding: 3 }}>
@@ -23,7 +23,7 @@ class ProblemList extends PureComponent {
           </div>
         </div>
         <div {...css(styles.pagination)}>
-          <ProblemPaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
+          <PaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
       </React.Fragment>
     );
