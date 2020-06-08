@@ -75,6 +75,7 @@ public class BookService {
                     .name(book.getName())
                     .grade(book.getGrade())
                     .cover(cover)
+                    .isOnSale(book.getIsOnSale())
                     .isAdvertised(book.getIsAdvertised())
                     .monthlyProfit(book.getMonthlyProfit())
                     .monthlySold(book.getMonthlySold())
@@ -99,6 +100,7 @@ public class BookService {
 
         bookRepository.save(Book.builder()
                 .isOnSale(false)
+                .isAdvertised(false)
                 .publisher(publisher)
                 .subject(createDto.getSubject())
                 .price(createDto.getPrice())
