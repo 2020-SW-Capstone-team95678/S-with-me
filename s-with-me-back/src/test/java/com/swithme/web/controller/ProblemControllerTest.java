@@ -76,7 +76,7 @@ public class ProblemControllerTest {
                 .beforeProblemId(problem.getProblemId())
                 .build());
         String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
-                 + subChapter.getSubChapterId()+"&pageNumber=1";
+                 + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
