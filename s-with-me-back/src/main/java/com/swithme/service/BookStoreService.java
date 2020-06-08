@@ -59,7 +59,7 @@ public class BookStoreService {
     }
 
     @Transactional
-    public List<BookResponseDto> getBookStoreADByFilter(int grade , String subject){
+    public List<BookResponseDto> getSailingBookByFilter(int grade , String subject){
         List<Book> bookList = bookRepository.findAll();
         List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
         if(subject==null) {
