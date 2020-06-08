@@ -10,7 +10,10 @@ class Heading extends PureComponent {
     const HeadingTag = headingTags[level - 1];
 
     return (
-      <HeadingTag {...css(styles.default, styles[`level${level}`], inverse && styles.inverse)}>
+      <HeadingTag
+        id="fonts"
+        {...css(styles.default, styles[`level${level}`], inverse && styles.inverse)}
+      >
         {children}
       </HeadingTag>
     );

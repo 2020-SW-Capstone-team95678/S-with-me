@@ -18,11 +18,11 @@ import NotificationContainer from './containers/NotificationContainer';
 import ProblemAppContainer from './containers/student/problem/ProblemAppContainer';
 import SignUpPublisherInputContainer from './containers/publisher/SignUpPublisherInputContainer';
 import MyBookDetail from './components/student/libarary/MyBookDetail';
-import Bookstore from './components/student/bookstore/BookstoreApp';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
 import BookDetail from './components/student/bookstore/BookDetail';
+import BookstoreAppContainer from './containers/bookstore/BookstoreAppContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -110,7 +110,7 @@ export default class App extends PureComponent {
                     exact
                     render={({ match }) => <BookDetail match={match} />}
                   />
-                  <Route path="/bookstore" exact render={() => <Bookstore />} />
+                  <Route path="/bookstore" exact render={() => <BookstoreAppContainer />} />
                   <NotificationContainer />
                 </AppLayout>
                 <Route path="*" component={NotFound} />
