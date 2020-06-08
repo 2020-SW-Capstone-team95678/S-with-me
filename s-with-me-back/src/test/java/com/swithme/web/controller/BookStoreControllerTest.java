@@ -102,7 +102,7 @@ public class BookStoreControllerTest {
 
     @Test
     public void getBookStoreADByFilterTest(){
-        String url="http://localhost:"+port+"/student/bookstore/2/?subject=math";
+        String url="http://localhost:"+port+"/student/bookstore/3?pageNumber=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");
@@ -110,7 +110,7 @@ public class BookStoreControllerTest {
 
     @Test
     public void getBookListByNameTest(){
-        String url="http://localhost:"+port+"/student/bookstore/search?bookName=kk";
+        String url="http://localhost:"+port+"/student/bookstore/search?bookName=kk&pageNumber=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //assertThat(responseEntity.getBody()).isEqualTo("33");
