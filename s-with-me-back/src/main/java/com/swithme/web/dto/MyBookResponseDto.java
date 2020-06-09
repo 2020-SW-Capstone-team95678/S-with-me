@@ -13,13 +13,15 @@ public class MyBookResponseDto {
     private int bookId;
     private int lastSubChapterId;
     private short lastPageNumber;
+    private String receiptId;
 
     @Builder
-    public MyBookResponseDto(int myBookId, int folderId, int bookId, int lastSubChapterId, short lastPageNumber){
+    public MyBookResponseDto(int myBookId, int folderId, int bookId, int lastSubChapterId, short lastPageNumber,String receiptId){
         this.myBookId = myBookId;
         this.folderId = folderId;
         this.bookId = bookId;
         this.lastSubChapterId = lastSubChapterId;
         this.lastPageNumber = lastPageNumber;
+        this.receiptId =  receiptId;
     }
 }

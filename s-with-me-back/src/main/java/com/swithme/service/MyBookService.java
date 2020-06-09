@@ -118,6 +118,7 @@ public class MyBookService {
                         .myBookId(myBook.getMyBookId())
                         .bookId(myBook.getBook().getBookId())
                         .folderId(myBook.getFolder().getFolderId())
+                        .receiptId(myBook.getReceiptId())
                         .lastSubChapterId(myBook.getLastSubChapterId())
                         .lastPageNumber(myBook.getLastPageNumber())
                         .build());
@@ -136,6 +137,7 @@ public class MyBookService {
             responseDtoList.add(MyBookResponseDto.builder()
                     .myBookId(myBook.getMyBookId())
                     .bookId(myBook.getBook().getBookId())
+                    .receiptId(myBook.getReceiptId())
                     .folderId(myBook.getFolder().getFolderId())
                     .lastSubChapterId(myBook.getLastSubChapterId())
                     .lastPageNumber(myBook.getLastPageNumber())
