@@ -11,7 +11,6 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
 import 'katex/dist/katex.min.css';
 import { ProblemInputMathTop, ProblemInputMathBottom } from './ProblemInputMath';
-import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
 export default class ModifyProblem extends PureComponent {
   constructor(props) {
@@ -227,7 +226,7 @@ export default class ModifyProblem extends PureComponent {
 
                             <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                               <p>변경할 사진을 첨부해주세요.↓↓↓↓</p>
-                              <img width={100} src={problem.image} />
+                              <img width={100} src={problem.image} alt="첨부된 사진이 없습니다." />
                               <input
                                 type="file"
                                 accept="image/jpg,impge/png,image/jpeg,image/gif"
@@ -300,7 +299,7 @@ export default class ModifyProblem extends PureComponent {
 
                             <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                               <p>변경할 사진을 첨부해주세요.↓↓↓↓</p>
-                              <img width={100} src={problem.image} />
+                              <img width={100} src={problem.image} alt="첨부된 사진이 없습니다." />
                               <input
                                 type="file"
                                 accept="image/jpg,impge/png,image/jpeg,image/gif"

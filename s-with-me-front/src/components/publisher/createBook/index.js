@@ -157,11 +157,7 @@ const BookInfoPage = () => {
 };
 
 const MainChapterComponent = ({ mainChapter, onRemoveClick }) => {
-  const [subChapterTitle, setSubChapterTitle] = useState('');
   const [subChapters, setSubChapters] = useState([]);
-  const onChangeSubChapterTitle = e => {
-    setSubChapterTitle(e.target.value);
-  };
 
   return (
     <AccordionItem key={mainChapter.id}>
@@ -173,39 +169,7 @@ const MainChapterComponent = ({ mainChapter, onRemoveClick }) => {
       </AccordionItemHeading>
       <AccordionItemPanel>
         <div>
-          {/* <div>
-            SubChapter Create
-            <input
-              placeholder="subchapter"
-              type="text"
-              onChange={({ target: { value } }) => setSubChapterTitle(value)}
-              value={subChapterTitle}
-            />
-            <button
-              onClick={() => {
-                console.log(mainChapter.id + ',' + subChapterTitle);
-                axios
-                  .post(
-                    'http://ec2-3-34-84-81.ap-northeast-2.compute.amazonaws.com:8085/publisher/library/book/mainChapter/subChapter',
-                    {
-                      mainChapterId: mainChapter.id,
-                      subChapterName: subChapterTitle,
-                    },
-                  )
-                  .then(response => {
-                    if (response.status === 200) {
-                      console.log(response);
-                      setSubChapters(oldList => [
-                        ...oldList,
-                        { id: response.data, title: subChapterTitle },
-                      ]);
-                    }
-                  });
-              }}
-            >
-              Add
-            </button>
-          </div> */}
+         
           <div>
             <SubChapterComponent
               subChapters={subChapters}

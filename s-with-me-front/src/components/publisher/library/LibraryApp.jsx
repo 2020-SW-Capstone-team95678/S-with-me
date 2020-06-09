@@ -599,7 +599,7 @@ const ProblemItem = ({ problem, setBooks }) => {
         <div>
           <p >문제 제목 {problem.title}</p>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-            <img width={300} src={problem.image} alt="non-Image" />
+            <img width={300} src={problem.image} alt="사진이 없습니다."/>
           </div>
           <p>문제 내용 {problem.content}</p>
           {problem.isOptional ? (
@@ -652,7 +652,7 @@ const ProblemItem = ({ problem, setBooks }) => {
           <p>문제 제목 </p>
           <Latex delimiters={delimeters}>{problem.title}</Latex>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-            <img width={300} src={problem.image} alt="non-Image" />
+            <img width={300} src={problem.image} alt="사진이 없습니다." />
           </div>
           <p>문제 내용</p>
           <Latex delimiters={delimeters}>{problem.content}</Latex>
