@@ -3,7 +3,6 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { Button } from 'semantic-ui-react';
 import Card from '../../../common-ui/Card';
 import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';

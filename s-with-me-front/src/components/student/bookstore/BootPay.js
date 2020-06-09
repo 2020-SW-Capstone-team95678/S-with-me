@@ -66,5 +66,6 @@ export const bootPayRequest = form => {
       };
       buyMyBook(formValue, () => console.log('complete'));
       console.log(data);
+      
     });
 };
