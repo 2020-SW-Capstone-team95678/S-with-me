@@ -180,22 +180,6 @@ url: "http://localhost:3000"
             <p>결제 수단 : {dumpdata.payment_name}</p>
             <p>결제 시간 : {dumpdata.purchased_at}</p>
           </div>
-
-          <button
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsOnSale(!book.isOnSale);
-              console.log(isOnSale);
-              book.isOnSale = isOnSale;
-              Api.put(`/publisher/library/book/${book.bookId}`, book).then(response =>
-                setBooks(prev => {
-                  return [...prev];
-                }),
-              );
-            }}
-          >
-            상세 보기
-          </button>
         </div>
       </div>
     </>
