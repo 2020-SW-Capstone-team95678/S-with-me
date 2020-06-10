@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import LinkSolutionInputContainer from '../../../containers/student/note/LinkSolutionInputContainer';
 import ImageSolutionInput from './solutionInput/ImageSolutionInput';
 import TextSolutionInput from './solutionInput/TextSolutionInput';
+import HandWriteSolutionInput from './solutionInput/HandWriteSolution';
 
 export default class SolutionInput extends PureComponent {
   render() {
@@ -20,7 +21,10 @@ export default class SolutionInput extends PureComponent {
       );
     } else if (solutionType === 'img') {
       return <ImageSolutionInput id={id} setImageSolution={setImageSolution} />;
-    } else {
+    } else if (solutionType === 'hand') {
+      return <HandWriteSolutionInput id={id}  />;
+    }  
+    else {
       return (
         <TextSolutionInput
           id={id}

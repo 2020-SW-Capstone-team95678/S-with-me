@@ -5,7 +5,6 @@ import InlineList from '../../../common-ui/InlineList';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { S_PROFILE_EDIT_MODAL } from '../../../constants/modals';
 import PayHistory from '../../student/profile/PayHistory';
-
 import Api from '../../../Api';
 import Button from '../../../common-ui/Button';
 

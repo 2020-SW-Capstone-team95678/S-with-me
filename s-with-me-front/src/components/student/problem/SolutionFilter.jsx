@@ -24,6 +24,10 @@ export default class SolutionFilter extends PureComponent {
           <FontAwesomeIcon icon={faPaperclip} size="lg" />
           링크 연결하기
         </div>
+        <div onClick={() => setSolutionType(id, 'hand')}>
+          <FontAwesomeIcon icon={faPaperclip} size="lg" />
+          손글씨 입력
+        </div>
       </InlineList>
     );
   }
