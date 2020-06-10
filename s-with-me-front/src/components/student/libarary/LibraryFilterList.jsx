@@ -23,13 +23,11 @@ export default class LibraryFilterList extends PureComponent {
         <Card vertical={2}>
           <LibraryFilter selectFilter={this.selectFilter} />
         </Card>
-        <Card>
-          {filter === 'subject' ? (
-            <LibrarySubjectTable subjectList={subjectList} />
-          ) : (
-            <LibraryFolderTableContainer folders={folders} />
-          )}
-        </Card>
+        {filter === 'subject' ? (
+          <LibrarySubjectTable subjectList={subjectList} />
+        ) : (
+          <LibraryFolderTableContainer folders={folders} />
+        )}
       </div>
     );
   }

@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import BookstoreTable from './BookstoreTable';
 import BookstoreFilterContainer from '../../../containers/student/book/BookstoreFilterContainer';
 
-export default class BookstoreApp extends PureComponent {
+class BookstoreApp extends PureComponent {
   componentDidMount() {
     const { requestBookList, requestAdBookList } = this.props;
     const grade = window.sessionStorage.getItem('grade');
@@ -11,12 +12,23 @@ export default class BookstoreApp extends PureComponent {
     requestAdBookList(grade);
   }
   render() {
-    const { bookList, adBookList } = this.props;
+    const { bookList, adBookList, styles } = this.props;
     return (
-      <div style={{ display: 'flex' }}>
+      <div {...css(styles.app)}>
         <BookstoreFilterContainer />
         <BookstoreTable bookList={bookList} adBookList={adBookList} />
       </div>
     );
   }
 }
+
+export default withStyles(({ responsive }) => ({
+  app: {
+    display: 'flex',
+
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+    flexDirection: 'row',
+  },
+}))(BookstoreApp);

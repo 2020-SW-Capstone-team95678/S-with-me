@@ -13,6 +13,8 @@ const breakpoints = {
 
 const responsive = {
   [LARGE_AND_ABOVE]: `@media (min-width: ${breakpoints[BREAKPOINT_NAMES.LARGE]}px)`,
+  [BREAKPOINT_NAMES.MEDIUM]: `@media (max-width: ${breakpoints[BREAKPOINT_NAMES.LARGE] -
+    1}px) and (min-width: ${breakpoints[BREAKPOINT_NAMES.MEDIUM]}px)`,
   [BREAKPOINT_NAMES.SMALL]: `@media (max-width: ${breakpoints[BREAKPOINT_NAMES.MEDIUM] - 1}px)`,
   print: '@media print',
 };

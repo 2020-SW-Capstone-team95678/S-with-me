@@ -3,7 +3,6 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { Button } from 'semantic-ui-react';
 import Card from '../../../common-ui/Card';
 import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';
@@ -32,7 +31,7 @@ class LibraryApp extends PureComponent {
     const { curriculumList } = this.props;
     return (
       <DndProvider backend={HTML5Backend}>
-        <div style={{ display: 'flex' }}>
+        <div {...css(styles.app)}>
           <div
             style={{ flex: 1, border: '1px solid', borderColor: '#D9CBC7', borderRadius: '0.5rem' }}
           >
@@ -60,12 +59,20 @@ class LibraryApp extends PureComponent {
   }
 }
 
-export default withStyles(() => ({
+export default withStyles(({ responsive }) => ({
   head: {
     display: 'flex',
     justifyContent: 'center',
     paddingBottom: 11,
     paddingTop: 11,
     fontWeight: 'bold',
+  },
+  app: {
+    display: 'flex',
+
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+    flexDirection: 'row',
   },
 }))(LibraryApp);
