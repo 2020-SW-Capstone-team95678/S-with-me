@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
 import com.swithme.web.dto.MyBookCreateDto;
 import com.swithme.web.dto.MyBookResponseDto;
@@ -16,7 +15,6 @@ import java.util.List;
 public class MyBookController {
 
     private final MyBookService myBookService;
-    private final MyBookRepository myBookRepository;
 
     @CrossOrigin
     @GetMapping("student/library/my-book/getMyBook")

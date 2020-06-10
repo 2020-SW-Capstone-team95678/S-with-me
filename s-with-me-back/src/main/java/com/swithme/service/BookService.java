@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -58,6 +60,7 @@ public class BookService {
         Publisher publisher = publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 publisher가 없습니다. publisherId = " + publisherId));
         List<Book> bookList = bookRepository.findByPublisher(publisher);
+        Collections.reverse(bookList);
         List<BookInformationResponseDto> responseDtoList = new ArrayList<>();
         for(Book book : bookList){
             String cover;
@@ -86,7 +89,7 @@ public class BookService {
     }
 
     @Transactional
-    public int createBook(BookCreateDto createDto)throws SQLException {
+    public int createBook(BookCreateDto createDto){
         Publisher publisher = publisherRepository.findById(createDto.getPublisherId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 publisher가 없습니다. publisherId = " + createDto.getPublisherId()));
