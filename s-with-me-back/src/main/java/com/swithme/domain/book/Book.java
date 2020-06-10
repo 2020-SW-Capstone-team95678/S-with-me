@@ -64,7 +64,7 @@ public class Book {
     @Builder
     public Book(Publisher publisher, String subject, int price, String publishedDate,
                 String name, short grade, Clob cover, Boolean isAdvertised, Boolean isOnSale,
-                short totalProblemNumber, int monthlyProfit, int monthlySold, Clob introduction){
+                int monthlyProfit, int monthlySold, Clob introduction){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
