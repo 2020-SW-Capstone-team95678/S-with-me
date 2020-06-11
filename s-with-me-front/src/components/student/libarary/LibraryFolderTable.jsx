@@ -30,6 +30,7 @@ export default class LibraryFolderTable extends PureComponent {
                   {({ openModal }) => (
                     <div>
                       <Button
+                        primary
                         xsmall
                         onPress={() =>
                           openModal(DELETE_FOLDER, { studentId: studentId, folderId: folderId })

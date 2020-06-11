@@ -16,7 +16,7 @@ function BookstoreTable(props) {
           <div {...css(styles.head)}>SwithMe Pick!</div>
         </Card>
         <div style={{ padding: 3 }}>
-          <InlineList spacingBetween={1}>
+          <InlineList spacingBetween={1} align="center">
             {adBookList.map((book, index) => (
               <BookCard book={book} key={index} />
             ))}
@@ -31,7 +31,7 @@ function BookstoreTable(props) {
           <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
             <PaginationContainer isBookstore />
           </div>
-          <InlineList spacingBetween={1}>
+          <InlineList spacingBetween={1} align="center">
             {bookList.map((book, index) => (
               <BookCard book={book} key={index} />
             ))}

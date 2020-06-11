@@ -14,7 +14,7 @@ class ProblemList extends PureComponent {
         <div {...css(styles.pagination)}>
           <PaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div {...css(styles.bar)}>
           <div style={{ flex: 1, padding: 3 }}>
             <ProblemBar myProblemList={myProblemList1} isLoading={loading} page={page} />
           </div>
@@ -30,11 +30,21 @@ class ProblemList extends PureComponent {
   }
 }
 
-export default withStyles(() => ({
+export default withStyles(({ responsive }) => ({
   pagination: {
     display: 'flex',
     justifyContent: 'center',
     paddingTop: '3px',
     paddingBottom: '3px',
+  },
+  bar: {
+    display: 'flex',
+    [responsive.medium]: {
+      flexDirection: 'column',
+    },
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+    flexDirection: 'row',
   },
 }))(ProblemList);
