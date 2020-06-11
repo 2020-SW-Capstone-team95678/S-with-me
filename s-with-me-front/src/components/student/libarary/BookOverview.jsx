@@ -18,7 +18,7 @@ class BookOverview extends PureComponent {
     const { myBookList } = this.props;
     return (
       <React.Fragment>
-        <InlineList spacingBetween={1}>
+        <InlineList spacingBetween={1} align="center">
           {myBookList.map((myBook, index) => (
             <BookPreview myBook={myBook} key={index} />
           ))}

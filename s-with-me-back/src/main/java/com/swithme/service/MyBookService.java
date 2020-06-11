@@ -57,12 +57,14 @@ public class MyBookService {
     }
 
     @Transactional
-    public String createMyBook(MyBookCreateDto myBookCreateDto)
+    public int createMyBook(MyBookCreateDto myBookCreateDto)
     {
         Student student = studentRepository.findById(myBookCreateDto.getStudentId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId="+myBookCreateDto.getStudentId()));
         Book book = bookRepository.findById(myBookCreateDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
+
+        book.sold();
 
         List<Folder> folderList = folderRepository.findByStudent(student);
         Folder defaultFolder = new Folder();
@@ -92,7 +94,10 @@ public class MyBookService {
                 .lastPageNumber((short) 1)
                 .receiptId(myBookCreateDto.getReceiptId())
                 .build());
-        return "mybook 생성 완료. sub chapterid = "+firstSubChapter.getSubChapterId()+"folderId = "+defaultFolder.getFolderId();
+        int last = myBookRepository.findAll().size() - 1;
+        int createdMyBookId = myBookRepository.findAll().get(last).getMyBookId();
+
+        return createdMyBookId;
     }
 
     @Transactional
@@ -118,6 +123,7 @@ public class MyBookService {
                         .myBookId(myBook.getMyBookId())
                         .bookId(myBook.getBook().getBookId())
                         .folderId(myBook.getFolder().getFolderId())
+                        .receiptId(myBook.getReceiptId())
                         .lastSubChapterId(myBook.getLastSubChapterId())
                         .lastPageNumber(myBook.getLastPageNumber())
                         .build());
@@ -136,6 +142,7 @@ public class MyBookService {
             responseDtoList.add(MyBookResponseDto.builder()
                     .myBookId(myBook.getMyBookId())
                     .bookId(myBook.getBook().getBookId())
+                    .receiptId(myBook.getReceiptId())
                     .folderId(myBook.getFolder().getFolderId())
                     .lastSubChapterId(myBook.getLastSubChapterId())
                     .lastPageNumber(myBook.getLastPageNumber())

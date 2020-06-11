@@ -113,4 +113,10 @@ public class UserController {
         return studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
     }
+
+    @CrossOrigin
+    @GetMapping("/publisher/profile/profit")
+    public MonthlyProfitAndSoldResponseDto getMonthlyProfitAndSold(@RequestParam("publisherId") int publisherId){
+        return userService.getMonthlyProfitAndSold(publisherId);
+    }
 }

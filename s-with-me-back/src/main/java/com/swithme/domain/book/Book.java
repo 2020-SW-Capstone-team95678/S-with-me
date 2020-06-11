@@ -30,7 +30,7 @@ public class Book {
     private String subject;
 
     @Column(name = "price")
-    private int price;
+    private Integer price;
 
     @Column(name = "publishedDate")
     private String publishedDate;
@@ -39,7 +39,7 @@ public class Book {
     private String name;
 
     @Column(name = "grade")
-    private short grade;
+    private Short grade;
 
     @Lob
     @Column(name = "cover")
@@ -52,19 +52,19 @@ public class Book {
     private Boolean isOnSale;
 
     @Column(name = "monthlyProfit")
-    private int monthlyProfit;
+    private Integer monthlyProfit;
 
     @Column(name = "monthlySold")
-    private int monthlySold;
+    private Integer monthlySold;
 
     @Lob
     @Column(name = "introduction")
     private Clob introduction;
 
     @Builder
-    public Book(Publisher publisher, String subject, int price, String publishedDate,
-                String name, short grade, Clob cover, Boolean isAdvertised, Boolean isOnSale,
-                short totalProblemNumber, int monthlyProfit, int monthlySold, Clob introduction){
+    public Book(Publisher publisher, String subject, Integer price, String publishedDate,
+                String name, Short grade, Clob cover, Boolean isAdvertised, Boolean isOnSale,
+                Integer monthlyProfit, Integer monthlySold, Clob introduction){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
@@ -77,6 +77,11 @@ public class Book {
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
         this.introduction = introduction;
+    }
+
+    public void sold(){
+        this.monthlyProfit += this.price;
+        this.monthlySold += 1;
     }
 
     public void update(BookUpdateRequestDto requestDto) {

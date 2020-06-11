@@ -2,9 +2,8 @@ import React from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 import { subjects } from '../../../constants/subjects';
 
-import Form from '../../../common-ui/Form';
 import Input from '../../../common-ui/Input';
-import Button from '../../../common-ui/Button';
+import Form from '../../../common-ui/Form';
 import { Button as SemanticButton } from 'semantic-ui-react';
 import Select, { Option } from '../../../common-ui/Select';
 
@@ -31,6 +30,7 @@ function BookstoreFilter(props) {
   };
   const handleSearch = stringValue => {
     const { requestSearchResultList, setBookstoreFilter } = props;
+    console.log(stringValue);
     setBookstoreFilter('SEARCH', stringValue);
     requestSearchResultList(stringValue);
   };
@@ -43,11 +43,8 @@ function BookstoreFilter(props) {
               <SemanticButton color="orange" fluid basic>
                 텍스트로 검색하기
               </SemanticButton>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex' }} {...css(styles.head)}>
-                  <Input onChange={onChange} name="bookstoreSearch" placeholder="Search..." />
-                  <Button xsmall>Go!</Button>
-                </div>
+              <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: 5 }}>
+                <Input placeholder="Search..." onChange={onChange} name="bookstoreSearch" />
               </div>
             </React.Fragment>
           )}

@@ -1,6 +1,7 @@
 import BootPay from 'bootpay-js';
 
-export const bootPayRequest = (book, user, bookId, orderId) => {
+export const bootPayRequest = form => {
+  const { book, user, bookId, orderId, buyMyBook, studentId } = form;
   BootPay.request({
     price: book.price, //실제 결제되는 가격
     application_id: '5edb7b5c8f0751002bfcd4bc',
@@ -58,8 +59,13 @@ export const bootPayRequest = (book, user, bookId, orderId) => {
     .done(function(data) {
       //결제가 정상적으로 완료되면 수행됩니다
       //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-      // data.receipt_id
-      // 여기서 myBookPost !!!
+      let formValue = {
+        bookId: bookId,
+        receiptId: data.receipt_id,
+        studentId: studentId,
+      };
+      buyMyBook(formValue, () => console.log('complete'));
       console.log(data);
+      
     });
 };

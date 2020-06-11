@@ -6,6 +6,7 @@ import Spacing from '../../../common-ui/Spacing';
 import withLoading from '../../../common-ui/withLoading';
 
 import ProblemViewContainer from '../../../containers/student/problem/ProblemViewContainer';
+import { isMobile } from '../../../isMobile';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -16,6 +17,9 @@ const LoadingMessage = (
 class ProblemBar extends PureComponent {
   render() {
     const { myProblemList, page } = this.props;
+    if (isMobile()) {
+      return <div>모바일 전용</div>;
+    }
     return (
       <VerticalList spacingBetween={10}>
         {myProblemList.map((myProblem, index) => (

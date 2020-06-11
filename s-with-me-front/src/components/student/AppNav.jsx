@@ -53,7 +53,7 @@ class AppNav extends PureComponent {
                     style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
                   >
                     <FontAwesomeIcon icon={faBookReader} size="lg" />
-                    서재
+                    <div {...css(styles.navTitle)}>서재</div>
                   </div>
                 </NavLink>
               </div>
@@ -67,7 +67,7 @@ class AppNav extends PureComponent {
                     style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
                   >
                     <FontAwesomeIcon icon={faStickyNote} size="lg" />
-                    오답노트
+                    <div {...css(styles.navTitle)}>오답노트</div>
                   </div>
                 </NavLink>
               </div>
@@ -78,8 +78,12 @@ class AppNav extends PureComponent {
                     activeStyle={activeStyle}
                     style={{ textDecoration: 'none', color: '#333333' }}
                   >
-                    <FontAwesomeIcon icon={faStore} size="lg" />
-                    서점
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                    >
+                      <FontAwesomeIcon icon={faStore} size="lg" />
+                      <div {...css(styles.navTitle)}>서점</div>
+                    </div>
                   </NavLink>
                 </div>
               </div>
@@ -93,7 +97,10 @@ class AppNav extends PureComponent {
                     style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
                   >
                     <FontAwesomeIcon icon={faUserCircle} size="lg" />
-                    프로필
+                    <div {...css(styles.navTitle)}>프로필</div>
+                    {/* <div id="install-button">
+                      <Button circular icon="arrow alternate circle down" />
+                    </div> */}
                   </div>
                 </NavLink>
               </div>
@@ -118,7 +125,7 @@ AppNav.propTypes = {
   ...withStylesPropTypes,
 };
 
-export default withStyles(({ color, depth, unit }) => ({
+export default withStyles(({ color, depth, unit, responsive }) => ({
   wrapper: {
     ...depth.level1,
     display: 'flex',
@@ -129,7 +136,7 @@ export default withStyles(({ color, depth, unit }) => ({
     left: 0,
     width: '100%',
     height: HEIGHT - 4,
-    backgroundColor: color.secondary,
+    backgroundColor: color.secondaryDark,
   },
   container: {
     display: 'flex',
@@ -137,5 +144,10 @@ export default withStyles(({ color, depth, unit }) => ({
     alignItems: 'center',
     paddingLeft: unit * 2,
     paddingRight: unit * 2,
+  },
+  navTitle: {
+    [responsive.small]: {
+      display: 'none',
+    },
   },
 }))(AppNav);

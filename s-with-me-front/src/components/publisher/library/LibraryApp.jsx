@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
+//import {Modal} from 'react-responsive-modal';
 import Latex from 'react-latex-next';
 import { delimeters } from '../../../constants/delimeters';
 import notSale from './isOnSale.png';
@@ -315,20 +316,24 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
         </div>
         <div>
-        {isOnSale?(
-          <button onClick={()=>{
-            setIsOnSale(!isOnSale)
-            Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+        {book.isOnSale?(
+          <button style={{cursor:'pointer'}} onClick={()=>{
+            setIsOnSale(!book.isOnSale)
+            console.log(isOnSale)
+            book.isOnSale=isOnSale
+            Api.put(`/publisher/library/book/${book.bookId}`, book)
             .then(response =>
               setBooks(prev => {
                 return [...prev];
               }),
             )
 
-            }}>판매 중단</button>):(<button onClick={()=>{
+            }}>판매 중단</button>):(<button style={{cursor:'pointer'}} onClick={()=>{
               console.log("b: "+isOnSale)
-              setIsOnSale(!isOnSale)
-              Api.put(`/publisher/library/book/${book.bookId}`, book.isOnSale=isOnSale)
+              setIsOnSale(!book.isOnSale)
+              console.log(book);
+              book.isOnSale=isOnSale
+              Api.put(`/publisher/library/book/${book.bookId}`, book)
               .then(response =>
                 setBooks(prev => {
                   return [...prev];
@@ -399,11 +404,12 @@ export const ChapterInfo = ({ bookId, onClick }) => {
     <Accordion allowZeroExpanded={true}>
       {chapters.map(chapter => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
+        console.log(mainChapterId);
         return (
-          <AccordionItem style={{ display: 'flex', cursor: 'point', flexDirection:'column' }}>
+          <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection:'column' }}>
             <div style={{display: 'flex', flexDirection:'row'}}>
             <AccordionItemHeading
-              style={{ flex:4, cursor: 'point' }}
+              style={{ flex:4, cursor: 'pointer' }}
               onClick={() => onClick(null)}
             >
               <AccordionItemButton style={{ button:'focus',outline:'none', cursor: 'point' }}>
@@ -411,7 +417,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
               </AccordionItemButton>
             </AccordionItemHeading>
             <button
-              style={{ flex: 1, cursor: 'point' }}
+              style={{ flex: 1, cursor: 'pointer' }}
               primary
               onClick={() =>
                 Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
@@ -426,7 +432,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
               삭제
             </button>
             </div>
-            <AccordionItemPanel style={{ cursor: 'point' }}>
+            <AccordionItemPanel style={{ cursor: 'pointer' }}>
               <Modal>
                 {({ openModal }) => (
                   <>
@@ -442,7 +448,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                       subChapter add
                     </button>
                     <button
-                      style={{ cursor: 'point' }}
+                      style={{ cursor: 'pointer' }}
                       primary
                       onClick={() =>
                         openModal(UPDATE_SUB_CHAPTER, {
@@ -461,6 +467,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
                   const subChapterId = subChapter.subChapterId;
+                  console.log(subChapterId);
                   return (
                     <Modal>
                       {({ openModal }) => (
@@ -479,7 +486,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                               paddingLeft: 20,
 
                               minHeight: 50,
-                              cursor: 'point',
+                              cursor: 'pointer',
                             }}
                             onClick={() => {
                               onClick(subChapter.subChapterId);
@@ -490,7 +497,7 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                             <div style={{ width: 20 }}></div>
                           </div>
                           <button
-                            style={{ flex: 1, cursor: 'point' }}
+                            style={{ flex: 1, cursor: 'pointer' }}
                             primary
                             onClick={() =>
                               Api.delete(
@@ -583,8 +590,8 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
 const ProblemItem = ({ problem, setBooks }) => {
   console.log(problem.isMath);
   const problemId = problem.problemId;
-  const subChapterId=problem.subChapterId;
   console.log(problemId);
+
 
   return (
     <div>
@@ -592,7 +599,7 @@ const ProblemItem = ({ problem, setBooks }) => {
         <div>
           <p >문제 제목 {problem.title}</p>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-            <img width={300} src={problem.image} alt="non-Image" />
+            <img width={300} src={problem.image} alt="사진이 없습니다."/>
           </div>
           <p>문제 내용 {problem.content}</p>
           {problem.isOptional ? (
@@ -617,7 +624,6 @@ const ProblemItem = ({ problem, setBooks }) => {
                         openModal(UPDATE_PROBLEM, {
                           problem,
                           problemId,
-                          subChapterId
                         })
                       }
                     >문제 수정</button>
@@ -626,7 +632,7 @@ const ProblemItem = ({ problem, setBooks }) => {
             )}
           </Modal>
           <button
-            style={{ cursor: 'point' }}
+            style={{ cursor: 'pointer' }}
             primary
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
@@ -646,7 +652,7 @@ const ProblemItem = ({ problem, setBooks }) => {
           <p>문제 제목 </p>
           <Latex delimiters={delimeters}>{problem.title}</Latex>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-            <img width={300} src={problem.image} alt="non-Image" />
+            <img width={300} src={problem.image} alt="사진이 없습니다." />
           </div>
           <p>문제 내용</p>
           <Latex delimiters={delimeters}>{problem.content}</Latex>

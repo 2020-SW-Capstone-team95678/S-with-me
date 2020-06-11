@@ -1,7 +1,7 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.service.MyBookService;
+import com.swithme.service.MyProblemService;
 import com.swithme.web.dto.MyBookCreateDto;
 import com.swithme.web.dto.MyBookResponseDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MyBookController {
 
     private final MyBookService myBookService;
-    private final MyBookRepository myBookRepository;
+    private final MyProblemService myProblemService;
 
     @CrossOrigin
     @GetMapping("student/library/my-book/getMyBook")
@@ -40,7 +40,8 @@ public class MyBookController {
     @CrossOrigin
     @PostMapping("/student/library/my-book")
     public String createMyBook(@RequestBody MyBookCreateDto myBookCreateDto){
-        return myBookService.createMyBook(myBookCreateDto);
+        int createdMyBookId = myBookService.createMyBook(myBookCreateDto);
+        return myProblemService.createMyProblems(createdMyBookId);
     }
 
     @CrossOrigin

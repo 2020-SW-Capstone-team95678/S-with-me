@@ -1,6 +1,9 @@
 package com.swithme.service;
 
-import com.fasterxml.jackson.databind.type.CollectionLikeType;
+import com.swithme.domain.book.Book;
+import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.myProblem.MyProblem;
@@ -8,7 +11,9 @@ import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
 import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MySolutionResponseDto;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
@@ -28,6 +33,9 @@ public class MyProblemService {
     private final MyProblemRepository myProblemRepository;
     private final NoteRepository noteRepository;
     private final MyBookRepository myBookRepository;
+    private final MainChapterRepository mainChapterRepository;
+    private final SubChapterRepository subChapterRepository;
+    private final ProblemRepository problemRepository;
 
     @Transactional
     public String updateMyProblem(int myProblemId, MyProblemUpdateRequestDto requestDto) {
@@ -200,5 +208,37 @@ public class MyProblemService {
                 .build();
 
         return responseDto;
+    }
+
+    @Transactional
+    public String createMyProblems(int createdMyBookId){
+        MyBook myBook = myBookRepository.findById(createdMyBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + createdMyBookId));
+        Book book = myBook.getBook();
+
+        List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        for(MainChapter mainChapter : mainChapterList){
+            List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+            for(SubChapter subChapter : subChapterList){
+                List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
+                for(Problem problem : problemList){
+                    myProblemRepository.save(MyProblem.builder()
+                            .problem(problem)
+                            .myBook(myBook)
+                            .myAnswer(null)
+                            .solutionType(null)
+                            .linkSolutionId(null)
+                            .textSolution(null)
+                            .imageSolution(null)
+                            .isConfused(false)
+                            .isRight(false)
+                            .isSolved(false)
+                            .solvedDateTime(0L)
+                            .isMath(problem.getIsMath())
+                            .build());
+                }
+            }
+        }
+        return "[" + book.getName() + "] 문제집이 구매되었습니다.";
     }
 }

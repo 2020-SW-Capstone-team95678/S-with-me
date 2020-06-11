@@ -3,19 +3,22 @@ import { MathContent, MathTitle, MathAnswer, MathOptionOne, MathOptionTwo, MathO
 
 export function ProblemInputMathTop(props) {
   //const [isMath, setIsMathState] = useState(false);
-  const [mathContent, setMathContent] = useState('');
-  const [mathTitle, setMathTitle] = useState('');
+  
+  const { prevTitle,prevContent,onTitle, onContent, isMath } = props;
+  const [title,setTitle] = useState(prevTitle);
+  const [mathTitle, setMathTitle] = useState(prevTitle);
 
-  const { onTitle, onContent, isMath } = props;
+  const [content,setContent] = useState(prevContent);
+  const [mathContent, setMathContent] = useState(prevContent);
 
   const handleTitleChange = e => {
-    e.preventDefault();
+    setTitle(e.target.value);
     setMathTitle(e.target.value);
     onTitle(e.target.value);
   };
 
   const handleContentChange = e => {
-    e.preventDefault();
+    setContent(e.target.value);
     setMathContent(e.target.value);
     onContent(e.target.value);
   };
@@ -29,11 +32,12 @@ export function ProblemInputMathTop(props) {
           <input
             label="문제 제목"
             type="text"
+            value={title}
             onChange={handleTitleChange}
             name="title"
             style={{
               width: '100%',
-              height: '50px',
+              height: '30px',
               resize: 'none',
             }}
           />
@@ -48,6 +52,7 @@ export function ProblemInputMathTop(props) {
           <textarea
             label="문제 내용"
             type="text"
+            value={content}
             onChange={handleContentChange}
             name="content"
             style={{
@@ -65,49 +70,60 @@ export function ProblemInputMathTop(props) {
 
 export function ProblemInputMathBottom(props) {
   //const [isMath, setIsMathState] = useState(false);
-  const [mathAnswer, setMathAnswer] = useState('');
-  const [mathSolution, setMathSolution] = useState('');
-  const [mathOptionOne, setMathOptionOne] = useState('');
-  const [mathOptionTwo, setMathOptionTwo] = useState('');
-  const [mathOptionThr, setMathOptionThr] = useState('');
-  const [mathOptionFou, setMathOptionFou] = useState('');
-  const [mathOptionFiv, setMathOptionFiv] = useState('');
-  const { onAnswer,onSolution,onOptionOne,onOptiontwo, onOptionthr,onOptionFou,onOptionFiv, isMath, isOptional } = props;
 
+  const {prevAnswer,prevSolution,PrevOptionOne, prevOptionTwo, prevOptionThr,prevOptionFou,prevOptionFiv
+    ,onAnswer,onSolution,onOptionOne,onOptiontwo, onOptionthr,onOptionFou,onOptionFiv, isMath, isOptional } = props;
+
+  const [mathAnswer, setMathAnswer] = useState(prevAnswer);
+  const [mathSolution, setMathSolution] = useState(prevSolution);
+  const [mathOptionOne, setMathOptionOne] = useState(PrevOptionOne);
+  const [mathOptionTwo, setMathOptionTwo] = useState(prevOptionTwo);
+  const [mathOptionThr, setMathOptionThr] = useState(prevOptionThr);
+  const [mathOptionFou, setMathOptionFou] = useState(prevOptionFou);
+  const [mathOptionFiv, setMathOptionFiv] = useState(prevOptionFiv);
+  const [answer, setAnswer] = useState(prevAnswer);
+  const [solution, setSolution] = useState(prevSolution);
+  const [optionOne, setOptionOne] = useState(PrevOptionOne);
+  const [optionTwo, setOptionTwo] = useState(prevOptionTwo);
+  const [optionThr, setOptionThr] = useState(prevOptionThr);
+  const [optionFou, setOptionFou] = useState(prevOptionFou);
+  const [optionFiv, setOptionFiv] = useState(prevOptionFiv);
+
+  
   const handleAnswerChange = e => {
-    e.preventDefault();
     setMathAnswer(e.target.value);
+    setAnswer(e.target.value);
     onAnswer(e.target.value);
   };
 
   const handleSolutionChange = e => {
-    e.preventDefault();
+    setSolution(e.target.value);
     setMathSolution(e.target.value);
     onSolution(e.target.value);
   };
 
   const handleOptionOneChange = e => {
-    e.preventDefault();
+    setOptionOne(e.target.value);
     setMathOptionOne(e.target.value);
     onOptionOne(e.target.value);
   };
   const handleOptionTwoChange = e => {
-    e.preventDefault();
+    setOptionTwo(e.target.value);
     setMathOptionTwo(e.target.value);
     onOptiontwo(e.target.value);
   };
   const handleOptionThrChange = e => {
-    e.preventDefault();
+    setOptionThr(e.target.value);
     setMathOptionThr(e.target.value);
     onOptionthr(e.target.value);
   };
   const handleOptionFouChange = e => {
-    e.preventDefault();
+    setOptionFou(e.target.value);
     setMathOptionFou(e.target.value);
     onOptionFou(e.target.value);
   };
   const handleOptionFivChange = e => {
-    e.preventDefault();
+    setOptionFiv(e.target.value);
     setMathOptionFiv(e.target.value);
     onOptionFiv(e.target.value);
   };
@@ -123,6 +139,7 @@ export function ProblemInputMathBottom(props) {
               <input
                 label="객관식 1번"
                 type="text"
+                value={optionOne}
                 onChange={handleOptionOneChange}
                 name="title"
                 style={{
@@ -141,6 +158,7 @@ export function ProblemInputMathBottom(props) {
               <input
                 label="객관식 2번"
                 type="text"
+                value={optionTwo}
                 onChange={handleOptionTwoChange}
                 name="title"
                 style={{
@@ -159,6 +177,7 @@ export function ProblemInputMathBottom(props) {
               <input
                 label="객관식 3번"
                 type="text"
+                value={optionThr}
                 onChange={handleOptionThrChange}
                 name="title"
                 style={{
@@ -177,6 +196,7 @@ export function ProblemInputMathBottom(props) {
               <input
                 label="객관식 4번"
                 type="text"
+                value={optionFou}
                 onChange={handleOptionFouChange}
                 name="title"
                 style={{
@@ -195,6 +215,7 @@ export function ProblemInputMathBottom(props) {
               <input
                 label="객관식 5번"
                 type="text"
+                value={optionFiv}
                 onChange={handleOptionFivChange}
                 name="title"
                 style={{
@@ -213,13 +234,14 @@ export function ProblemInputMathBottom(props) {
         문제 정답
         <div style={{ display: 'flex', paddingBottom: 5 }}>
           <input
-            label="문제 제목"
+            label="문제 정답"
             type="text"
+            value={answer}
             onChange={handleAnswerChange}
             name="title"
             style={{
               width: '100%',
-              height: '50px',
+              height: '30px',
               resize: 'none',
             }}
           />
@@ -234,6 +256,7 @@ export function ProblemInputMathBottom(props) {
           <textarea
             label="문제 내용"
             type="text"
+            value={solution}
             onChange={handleSolutionChange}
             name="content"
             style={{

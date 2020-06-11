@@ -4,6 +4,7 @@ import Form from '../../../common-ui/Form';
 import InlineList from '../../../common-ui/InlineList';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { S_PROFILE_EDIT_MODAL } from '../../../constants/modals';
+import PayHistory from '../../student/profile/PayHistory';
 
 import Api from '../../../Api';
 import Button from '../../../common-ui/Button';
@@ -32,9 +33,12 @@ export default class StudentProfile extends PureComponent {
       });
     });
   }
+  
+
 
   render() {
     const { birthday, name, phoneNumber, grade } = this.state;
+
     return (
       <Modal>
         {({ openModal }) => (
@@ -43,7 +47,6 @@ export default class StudentProfile extends PureComponent {
               <div
                 style={{
                   height: 400,
-                  width: 300,
                   flexDirection: 'column',
                   padding: 3,
                   border: '2px rgb(247, 207, 192) solid',
@@ -63,9 +66,8 @@ export default class StudentProfile extends PureComponent {
 
             <div
               style={{
-                flex: 3,
-                height: 400,
-                width: 500,
+                flex: 4,
+                height: 800,
                 flexDirection: 'column',
                 padding: 3,
                 border: '2px rgb(247, 207, 192) solid',
@@ -73,20 +75,25 @@ export default class StudentProfile extends PureComponent {
                 alignItems: 'center',
               }}
             >
-              <Form.Consumer>
+              <Form.Consumer style={{display:'flex'}}>
                 {({ onChange, values }) => (
-                  <InlineList spacingBetween={1}>
+                  <div style={{display:'flex'}}>
+                  <InlineList spacingBetween={1} style={{flex:3 }}>
                     <Select name="PayFilter" onChange={onChange}>
                       <Option label="조회 기간 설정" />
                       <Option label="최근 30일" value="onemonth" />
                       <Option label="최근 6개월" value="sixmonth" />
                     </Select>
-                    <Button>조회</Button>
                   </InlineList>
+                  <Button style={{flex:1}}>조회</Button>
+                  </div>
                 )}
               </Form.Consumer>
+              <PayHistory />
+              
             </div>
           </div>
+
         )}
       </Modal>
     );
