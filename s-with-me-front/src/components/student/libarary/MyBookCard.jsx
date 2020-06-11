@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import { ItemTypes } from '../../../constants/itemTypes';
+import { Button as SemanticButton, Modal } from 'semantic-ui-react';
 
 import Card from '../../../common-ui/Card';
 import Button from '../../../common-ui/Button';
@@ -12,6 +13,15 @@ import bookImage from '../../../common-ui/bookImage.png';
 export default function MyBookCard(props) {
   const { myBookId, lastPageNumber, lastSubChapterId } = props.myBook;
   const { subject, name, cover, grade } = props.book;
+
+  const [dimmer, setDimmer] = useState(false);
+  const [open, setOpen] = useState(false);
+  const show = dimmer => () => {
+    setOpen(true);
+    setDimmer(dimmer);
+  };
+  const close = () => setOpen(false);
+
   const [{ isDragging }, drag, preview] = useDrag({
     item: { myBookId: myBookId, type: ItemTypes.BOOKCARD },
     collect: monitor => ({
@@ -21,7 +31,10 @@ export default function MyBookCard(props) {
   const handleDelete = () => {
     const { deleteMyBook, requestMyBookList } = props;
     const studentId = window.sessionStorage.getItem('studentId');
-    deleteMyBook(myBookId, () => requestMyBookList({ studentId }));
+    deleteMyBook(myBookId, () => {
+      requestMyBookList({ studentId });
+      close();
+    });
   };
   return (
     <>
@@ -50,9 +63,24 @@ export default function MyBookCard(props) {
             >
               <Button xsmall>이어 풀기</Button>
             </Link>
-            <Button primary small onPress={handleDelete}>
+            <Button primary small onPress={show(true)}>
               삭제
             </Button>
+            <Modal dimmer={dimmer} open={open} onClose={close} size="tiny">
+              <Modal.Content>
+                <p>정말로 삭제하시겠습니까?</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <SemanticButton onClick={close} negative content="No" />
+                <SemanticButton
+                  positive
+                  icon="checkmark"
+                  labelPosition="right"
+                  content="Yes"
+                  onClick={handleDelete}
+                />
+              </Modal.Actions>
+            </Modal>
           </InlineList>
         </Card>
       </div>
