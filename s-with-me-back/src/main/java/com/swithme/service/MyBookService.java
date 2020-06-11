@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -205,6 +206,42 @@ public class MyBookService {
                         .lastPageNumber(myBook.getLastPageNumber())
                         .build());
             }
+        }
+
+        return responseDtoList;
+    }
+
+    @Transactional
+    public List<MyBookResponseDto> findMyBookListByAlphabetOrder(int studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다. studentId="+ studentId));
+        List<Folder> folderList = folderRepository.findByStudent(student);
+        List<MyBook> myBookList = new ArrayList<>();
+        List<MyBookResponseDto> responseDtoList = new ArrayList<>();
+
+        for(Folder folder : folderList)
+            myBookList.addAll(myBookRepository.findByFolder(folder));
+
+        if(myBookList.size() > 1) {
+            Collections.sort(myBookList, new Comparator<MyBook>() {
+                @Override
+                public int compare(MyBook m1, MyBook m2) {
+                    Book b1=m1.getBook();
+                    Book b2=m2.getBook();
+                    return b1.getName().compareTo(b2.getName());
+                }
+            });
+        }
+
+        for(MyBook myBook : myBookList) {
+            responseDtoList.add(MyBookResponseDto.builder()
+                    .myBookId(myBook.getMyBookId())
+                    .bookId(myBook.getBook().getBookId())
+                    .folderId(myBook.getFolder().getFolderId())
+                    .receiptId(myBook.getReceiptId())
+                    .lastSubChapterId(myBook.getLastSubChapterId())
+                    .lastPageNumber(myBook.getLastPageNumber())
+                    .build());
         }
 
         return responseDtoList;

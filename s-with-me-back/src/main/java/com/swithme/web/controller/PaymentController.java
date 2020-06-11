@@ -4,6 +4,7 @@ import com.swithme.payment.BootpayApi;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class PaymentController {
-    private final BootpayApi api;
+
+    static BootpayApi api;
 
     @CrossOrigin
     @GetMapping("student/profile/payhistory")
