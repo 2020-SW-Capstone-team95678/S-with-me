@@ -22,7 +22,7 @@ export default class SolutionInput extends PureComponent {
     } else if (solutionType === 'img') {
       return <ImageSolutionInput id={id} setImageSolution={setImageSolution} />;
     } else if (solutionType === 'hand') {
-      return <HandWriteSolutionInput id={id}  />;
+      return <HandWriteSolutionInput />;
     }  
     else {
       return (
