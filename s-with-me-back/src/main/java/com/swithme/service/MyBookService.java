@@ -65,7 +65,7 @@ public class MyBookService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
 
         book.sold();
-        
+
         List<Folder> folderList = folderRepository.findByStudent(student);
         Folder defaultFolder = new Folder();
         for(Folder folder : folderList)
