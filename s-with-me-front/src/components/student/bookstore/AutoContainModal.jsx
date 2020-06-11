@@ -19,8 +19,8 @@ export default class AutoContainModal extends Component {
   render() {
     const { open, dimmer } = this.state;
     return (
-      <div>
-        <Button onClick={this.show(true)}>결제하기</Button>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button onClick={this.show(true)}>내 서재 담기</Button>
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
           <Modal.Content image>
             <Image wrapped size="medium" src={this.props.cover} />

@@ -3,7 +3,6 @@ import { bootPayRequest } from './BootPay';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import Form from '../../../common-ui/Form';
 import Heading from '../../../common-ui/Heading';
-import AutoContainModal from './AutoContainModal';
 
 function generateOrderId() {
   function s4() {
@@ -47,15 +46,7 @@ export default function BookPayInput(props) {
                 <label>e-mail</label>
                 <input placeholder="swithme@sth.com" name="email" />
               </SemanticForm.Field>
-              {props.book.price === 0 ? (
-                <AutoContainModal
-                  cover={props.book.cover}
-                  id={props.bookId}
-                  buyMyBook={props.buyMyBook}
-                />
-              ) : (
-                <Button type="submit">결제하기</Button>
-              )}
+              <Button type="submit">결제하기</Button>
             </SemanticForm>
           )}
         </Form.Consumer>
