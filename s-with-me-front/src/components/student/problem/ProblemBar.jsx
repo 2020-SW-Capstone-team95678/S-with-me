@@ -19,7 +19,8 @@ class ProblemBar extends PureComponent {
     const { myProblemList, page } = this.props;
     if (isMobileOnly) {
       return <div>모바일 전용</div>;
-    } else if (isTablet) {
+    }
+    if (isTablet) {
       return <div>테블릿 전용</div>;
     }
     return (
