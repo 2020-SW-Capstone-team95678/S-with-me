@@ -5,26 +5,30 @@ import Api from '../../../Api';
 import BookstoreFilter from './BookstoreFilter';
 import BookInfo from './BookInfo';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import BookPayInputContainer from '../../../containers/bookstore/BookPayInputContainer';
 
+import AutoContainModal from './AutoContainModal';
+import BookPayInputContainer from '../../../containers/bookstore/BookPayInputContainer';
 
 class BookDetail extends PureComponent {
   _isMounted = false;
   constructor(props) {
     super(props);
-    this.state = { book: {}, isPayMode: false, modalOpen: false };
+    this.state = { book: {}, isPayMode: false, modalOpen: false, autoContainModalOpen: false };
   }
   handleOpen = () => this.setState({ modalOpen: true });
   handleClose = () => this.setState({ modalOpen: false });
   handlePayButton = () => {
-    const { isPayMode } = this.state;
+    const { isPayMode, book } = this.state;
     const { bookId } = this.props.match.params;
     const { myBookList } = this.props;
     if (this.isAlreadyPaid(bookId, myBookList)) {
       this.handleOpen();
-    } else this.setState({ isPayMode: !isPayMode });
+    } else {
+      if (book.price === 0) {
+        this.setState({ autoContainModalOpen: true });
+      } else this.setState({ isPayMode: !isPayMode });
+    }
   };
-
   isAlreadyPaid = (selectedBookId, myBookList) => {
     const found = myBookList.filter(({ bookId }) => bookId === selectedBookId * 1);
     if (found.length > 0) return true;
@@ -44,9 +48,9 @@ class BookDetail extends PureComponent {
     this._isMounted = false;
   }
   render() {
-    const { styles } = this.props;
+    const { styles, buyMyBook } = this.props;
     const { bookId } = this.props.match.params;
-    const { book, isPayMode } = this.state;
+    const { book, isPayMode, autoContainModalOpen } = this.state;
     return (
       <div style={{ display: 'flex' }}>
         <BookstoreFilter />
@@ -65,6 +69,9 @@ class BookDetail extends PureComponent {
                   </Button.Content>
                 </Button>
               </div>
+              {autoContainModalOpen ? (
+                <AutoContainModal cover={book.cover} id={bookId} buyMyBook={buyMyBook} />
+              ) : null}
               <Modal open={this.state.modalOpen} onClose={this.handleClose} basic size="tiny">
                 <Modal.Content>
                   <h3>이미 구입한 책입니다.</h3>

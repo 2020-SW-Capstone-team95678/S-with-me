@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { requestMyBookList } from '../../actions/myBookPackActions';
+import { buyMyBook } from '../../actions/myBookPackActions';
 import BookDetail from '../../components/student/bookstore/BookDetail';
 
 const mapStateToProps = state => {
@@ -7,4 +8,4 @@ const mapStateToProps = state => {
   const myBookList = ids.map(id => entities[id]);
   return { myBookList };
 };
-export default connect(mapStateToProps, { requestMyBookList })(BookDetail);
+export default connect(mapStateToProps, { requestMyBookList, buyMyBook })(BookDetail);
