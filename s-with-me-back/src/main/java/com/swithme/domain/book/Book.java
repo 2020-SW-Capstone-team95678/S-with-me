@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.engine.jdbc.ClobProxy;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -108,5 +109,12 @@ public class Book {
                 stringBuffer.append(buffer, 0, length);
         }
         return stringBuffer.toString();
+    }
+
+    public void cleanUpMonthlyProfitAndSold() {
+        this.monthlyProfit = 0;
+        this.monthlySold = 0;
+        System.out.println(this.monthlyProfit);
+        System.out.println(this.monthlySold);
     }
 }

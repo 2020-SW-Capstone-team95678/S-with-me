@@ -168,7 +168,7 @@ public class MyBookControllerTest {
 
     @Test
     public void getMyBookListFilteredByFolder(){
-        String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folderRepository.findAll().get(0).getFolderId();
+        String url = "http://localhost:" + port + "/student/library/my-book/folder-filter?folderId=" + folderRepository.findAll().get(0).getFolderId();
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
@@ -180,7 +180,7 @@ public class MyBookControllerTest {
         Student student = studentRepository.findAll().get(0);
         String expectedSubject = "test subject";
 
-        String url = "http://localhost:" + port + "/student/" + student.getStudentId() + "/library/my-book/subjectFilter?subject="
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId() + "/library/my-book/subject-filter?subject="
                 + expectedSubject;
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
