@@ -21,8 +21,8 @@ import MyBookDetail from './components/student/libarary/MyBookDetail';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
-import BookDetail from './components/student/bookstore/BookDetail';
 import BookstoreAppContainer from './containers/bookstore/BookstoreAppContainer';
+import BookDetailContainer from './containers/bookstore/BookDetailContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -108,7 +108,7 @@ export default class App extends PureComponent {
                   <Route
                     path="/bookstore/detail/:bookId"
                     exact
-                    render={({ match }) => <BookDetail match={match} />}
+                    render={({ match }) => <BookDetailContainer match={match} />}
                   />
                   <Route path="/bookstore" exact render={() => <BookstoreAppContainer />} />
                   <NotificationContainer />
