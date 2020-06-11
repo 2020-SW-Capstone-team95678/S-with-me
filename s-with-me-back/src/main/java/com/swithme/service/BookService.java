@@ -9,6 +9,7 @@ import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.engine.jdbc.ClobProxy;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -159,5 +160,16 @@ public class BookService {
                 .bookName(book.getName())
                 .build();
         return responseDto;
+    }
+
+    @Scheduled(cron = "0 0 0 1 * *")
+    @Transactional
+    public void cleanUpMonthlyProfitAndSold(){
+        List<Book> bookList = bookRepository.findAll();
+        for(Book book : bookList){
+            book.cleanUpMonthlyProfitAndSold();
+            System.out.println(book.getMonthlyProfit());
+            System.out.println(book.getMonthlySold());
+        }
     }
 }
