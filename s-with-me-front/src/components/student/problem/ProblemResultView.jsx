@@ -52,7 +52,7 @@ class ProblemResultView extends PureComponent {
     const { isSavedNote, showSolution } = this.state;
     let numbers = ['①', '②', '③', '④', '⑤'];
     return (
-      <VerticalList spacingBetween={2}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div {...css(styles.body)}>
           {isRight ? (
             <Text>딩동댕</Text>
@@ -68,7 +68,11 @@ class ProblemResultView extends PureComponent {
           </Text>
           {image ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
+              <img
+                src={image}
+                alt={problemNumber + '문제 그림'}
+                style={{ maxHeight: '30vh', minHeight: '10vh', width: 'auto', maxWidth: '100%' }}
+              />
             </div>
           ) : null}
           {content ? (
@@ -139,7 +143,7 @@ class ProblemResultView extends PureComponent {
             </div>
           )}
         </Modal>
-      </VerticalList>
+      </div>
     );
   }
 }

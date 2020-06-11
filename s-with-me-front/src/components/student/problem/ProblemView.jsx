@@ -110,7 +110,16 @@ class ProblemView extends PureComponent {
                   </Text>
                   {image ? (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
+                      <img
+                        src={image}
+                        alt={problemNumber + '문제 그림'}
+                        style={{
+                          maxHeight: '30vh',
+                          minHeight: '10vh',
+                          width: 'auto',
+                          maxWidth: '100%',
+                        }}
+                      />
                     </div>
                   ) : null}
                   {content ? (
@@ -126,43 +135,46 @@ class ProblemView extends PureComponent {
                     />
                   ) : null}
                 </div>
-                {problemNumber ? (
-                  <div {...css(styles.container)}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: 3,
-                        border: '1px solid',
-                        fontSize: 'small',
-                      }}
-                    >
-                      <SolutionFilterContainer id={myProblemId} />
+                <div>
+                  {' '}
+                  {problemNumber ? (
+                    <div {...css(styles.container)}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          padding: 3,
+                          border: '1px solid',
+                          fontSize: 'small',
+                        }}
+                      >
+                        <SolutionFilterContainer id={myProblemId} />
+                      </div>
+                      <SolutionInputContainer
+                        id={myProblemId}
+                        solutionType={solutionType}
+                        onChange={onChange}
+                        values={values}
+                        myBookId={myBookId}
+                      />
                     </div>
-                    <SolutionInputContainer
-                      id={myProblemId}
-                      solutionType={solutionType}
-                      onChange={onChange}
-                      values={values}
-                      myBookId={myBookId}
-                    />
-                  </div>
-                ) : null}
-                {problemNumber ? (
-                  <div style={{ display: 'flex' }}>
-                    <IsConfusedContainer id={myProblemId} />
-                    <ScoringButtonContainer
-                      id={myProblemId}
-                      answer={answer}
-                      myAnswer={myAnswer}
-                      myBookId={myBookId}
-                      disabled={loading}
-                      page={page}
-                    >
-                      개별 채점
-                    </ScoringButtonContainer>
-                  </div>
-                ) : null}
+                  ) : null}
+                  {problemNumber ? (
+                    <div style={{ display: 'flex' }}>
+                      <IsConfusedContainer id={myProblemId} />
+                      <ScoringButtonContainer
+                        id={myProblemId}
+                        answer={answer}
+                        myAnswer={myAnswer}
+                        myBookId={myBookId}
+                        disabled={loading}
+                        page={page}
+                      >
+                        개별 채점
+                      </ScoringButtonContainer>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             )}
           </Form.Consumer>
