@@ -70,4 +70,10 @@ public class MyBookController {
     public String deleteMyBook(@PathVariable int myBookId){
         return myBookService.deleteMyBook(myBookId);
     }
+
+    @CrossOrigin
+    @GetMapping("/student/{studentId}/library/my-book/alphabet-filter")
+    public List<MyBookResponseDto> findMyBookListByAlphabetOrder(@PathVariable int studentId){
+        return myBookService.findMyBookListByAlphabetOrder(studentId);
+    }
 }
