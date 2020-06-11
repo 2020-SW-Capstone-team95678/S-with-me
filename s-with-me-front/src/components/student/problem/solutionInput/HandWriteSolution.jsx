@@ -1,5 +1,4 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import { SketchField, Tools } from 'react-sketch';
 
 
@@ -54,9 +53,9 @@ class HandWriteSolution extends React.Component {
           </div>
         ) : (
           <div>
-            <AppBar position="static" style={{ backgroundColor: 'green' }}>
-              <button onClick={this._change}>지우개</button>
-            </AppBar>
+            ><div position="static" style={{ display:'flex',backgroundColor: 'green' }}>
+              <button style={{flex:1}} onClick={this._change}>연필</button>
+            </div>
 
             <SketchField
               name="sketch"
