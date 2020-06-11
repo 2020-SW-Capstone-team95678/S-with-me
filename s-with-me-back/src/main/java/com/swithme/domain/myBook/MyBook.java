@@ -2,6 +2,7 @@ package com.swithme.domain.myBook;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
+import com.swithme.domain.note.Note;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity(name = "myBook")
-public class MyBook {
+public class MyBook implements Comparable<MyBook>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "myBookId")
@@ -52,4 +53,11 @@ public class MyBook {
     public void updateFolder(Folder folder) {
         this.folder = folder;
     }
+
+    @Override
+    public int compareTo(MyBook myBook){
+        Integer myBookId = myBook.getMyBookId();
+        return myBookId.compareTo(this.myBookId);
+    }
+
 }

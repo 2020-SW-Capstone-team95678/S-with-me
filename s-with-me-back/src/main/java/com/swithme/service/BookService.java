@@ -60,7 +60,7 @@ public class BookService {
         Publisher publisher = publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 publisher가 없습니다. publisherId = " + publisherId));
         List<Book> bookList = bookRepository.findByPublisher(publisher);
-        Collections.reverse(bookList);
+        if(bookList.size() > 1) Collections.reverse(bookList);
         List<BookInformationResponseDto> responseDtoList = new ArrayList<>();
         for(Book book : bookList){
             String cover;
