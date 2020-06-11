@@ -5,8 +5,8 @@ import VerticalList from '../../../common-ui/VerticalList';
 import Spacing from '../../../common-ui/Spacing';
 import withLoading from '../../../common-ui/withLoading';
 
+import { isMobileOnly, isTablet } from 'react-device-detect';
 import ProblemViewContainer from '../../../containers/student/problem/ProblemViewContainer';
-import { isMobile } from '../../../isMobile';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -17,8 +17,10 @@ const LoadingMessage = (
 class ProblemBar extends PureComponent {
   render() {
     const { myProblemList, page } = this.props;
-    if (isMobile()) {
+    if (isMobileOnly) {
       return <div>모바일 전용</div>;
+    } else if (isTablet) {
+      return <div>테블릿 전용</div>;
     }
     return (
       <VerticalList spacingBetween={10}>
