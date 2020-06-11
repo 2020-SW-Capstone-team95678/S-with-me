@@ -69,6 +69,7 @@ public class MyBookControllerTest {
                 .monthlyProfit(0)
                 .monthlySold(0)
                 .price(12000)
+                .subject("test subject")
                 .build());
 
         folderRepository.save(Folder.builder()
@@ -169,6 +170,18 @@ public class MyBookControllerTest {
     public void getMyBookListFilteredByFolder(){
         String url = "http://localhost:" + port + "/student/library/my-book/folderFilter?folderId=" + folderRepository.findAll().get(0).getFolderId();
 
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void findMyBookListFilteredBySubject(){
+        Student student = studentRepository.findAll().get(0);
+        String expectedSubject = "test subject";
+
+        String url = "http://localhost:" + port + "/student/" + student.getStudentId() + "/library/my-book/subjectFilter?subject="
+                + expectedSubject;
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

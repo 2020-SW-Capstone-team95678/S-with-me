@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -94,6 +95,7 @@ public class MyBookService {
                 .lastPageNumber((short) 1)
                 .receiptId(myBookCreateDto.getReceiptId())
                 .build());
+
         int last = myBookRepository.findAll().size() - 1;
         int createdMyBookId = myBookRepository.findAll().get(last).getMyBookId();
 
@@ -115,20 +117,24 @@ public class MyBookService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다. studentId="+ studentId));
         List<Folder> folderList = folderRepository.findByStudent(student);
+        List<MyBook> myBookList = new ArrayList<>();
         List<MyBookResponseDto> responseDtoList = new ArrayList<>();
-        for(Folder folder : folderList){
-            List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-            for(MyBook myBook : myBookList){
-                responseDtoList.add(MyBookResponseDto.builder()
-                        .myBookId(myBook.getMyBookId())
-                        .bookId(myBook.getBook().getBookId())
-                        .folderId(myBook.getFolder().getFolderId())
-                        .receiptId(myBook.getReceiptId())
-                        .lastSubChapterId(myBook.getLastSubChapterId())
-                        .lastPageNumber(myBook.getLastPageNumber())
-                        .build());
-            }
+
+        for(Folder folder : folderList)
+            myBookList.addAll(myBookRepository.findByFolder(folder));
+        if(myBookList.size() > 1) Collections.sort(myBookList);
+
+        for(MyBook myBook : myBookList) {
+            responseDtoList.add(MyBookResponseDto.builder()
+                    .myBookId(myBook.getMyBookId())
+                    .bookId(myBook.getBook().getBookId())
+                    .folderId(myBook.getFolder().getFolderId())
+                    .receiptId(myBook.getReceiptId())
+                    .lastSubChapterId(myBook.getLastSubChapterId())
+                    .lastPageNumber(myBook.getLastPageNumber())
+                    .build());
         }
+
         return responseDtoList;
     }
 
@@ -137,6 +143,9 @@ public class MyBookService {
         Folder folder = folderRepository.findById(folderId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 폴더가 없습니다. folderId = " + folderId));
         List<MyBook> myBookList = myBookRepository.findByFolder(folder);
+
+        if(myBookList.size() > 1) Collections.sort(myBookList);
+
         List<MyBookResponseDto> responseDtoList = new ArrayList<>();
         for(MyBook myBook : myBookList){
             responseDtoList.add(MyBookResponseDto.builder()
@@ -148,6 +157,7 @@ public class MyBookService {
                     .lastPageNumber(myBook.getLastPageNumber())
                     .build());
         }
+
         return responseDtoList;
     }
 
@@ -157,6 +167,7 @@ public class MyBookService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 myBook이 없습니다. myBookId = " + myBookId));
         String myBookName = myBook.getBook().getName();
         List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+
         for(MyProblem myProblem : myProblemList){
             if(noteRepository.findByMyProblem(myProblem) != null){
                 noteRepository.delete(noteRepository.findByMyProblem(myProblem));
@@ -166,5 +177,36 @@ public class MyBookService {
         myBookRepository.delete(myBook);
 
         return myBookName + " 문제집과 그에 관련된 문제, 오답노트가 삭제되었습니다.";
+    }
+
+    @Transactional
+    public List<MyBookResponseDto> findMyBookListFilteredBySubject(int studentId, String subject) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+        List<Folder> folderList = folderRepository.findByStudent(student);
+        List<MyBook> myBookList = new ArrayList<>();
+        List<MyBookResponseDto> responseDtoList = new ArrayList<>();
+
+        for(Folder folder: folderList){
+            List<MyBook> myBookListInFolder = myBookRepository.findByFolder(folder);
+            myBookList.addAll(myBookListInFolder);
+        }
+
+        if(myBookList.size() > 1) Collections.sort(myBookList);
+
+        for(MyBook myBook : myBookList){
+            if(myBook.getBook().getSubject().equals(subject)){
+                responseDtoList.add(MyBookResponseDto.builder()
+                        .myBookId(myBook.getMyBookId())
+                        .bookId(myBook.getBook().getBookId())
+                        .receiptId(myBook.getReceiptId())
+                        .folderId(myBook.getFolder().getFolderId())
+                        .lastSubChapterId(myBook.getLastSubChapterId())
+                        .lastPageNumber(myBook.getLastPageNumber())
+                        .build());
+            }
+        }
+
+        return responseDtoList;
     }
 }

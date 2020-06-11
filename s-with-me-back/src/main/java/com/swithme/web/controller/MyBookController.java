@@ -32,9 +32,16 @@ public class MyBookController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/library/my-book/folderFilter")
+    @GetMapping("/student/library/my-book/folder-filter")
     public List<MyBookResponseDto> getMyBookListFilteredByFolder(@RequestParam("folderId") int folderId){
         return myBookService.findMyBookListFilteredByFolder(folderId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/{studentId}/library/my-book/subject-filter")
+    public List<MyBookResponseDto> getMyBookListFilteredBySubject(@PathVariable int studentId,
+                                                                  @RequestParam("subject") String subject){
+        return myBookService.findMyBookListFilteredBySubject(studentId, subject);
     }
 
     @CrossOrigin
