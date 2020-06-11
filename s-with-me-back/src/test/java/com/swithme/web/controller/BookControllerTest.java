@@ -62,7 +62,6 @@ public class BookControllerTest {
         bookRepository.save(Book.builder()
                 .monthlySold(123)
                 .monthlyProfit(123)
-                .totalProblemNumber((short)123)
                 .isAdvertised(false)
                 .cover(ClobProxy.generateProxy("test cover"))
                 .grade((short)4)
@@ -87,7 +86,6 @@ public class BookControllerTest {
             bookRepository.save(Book.builder()
                     .monthlySold(123)
                     .monthlyProfit(123)
-                    .totalProblemNumber((short)123)
                     .isAdvertised(false)
                     .cover(ClobProxy.generateProxy("test cover"))
                     .grade((short)4)
@@ -110,6 +108,8 @@ public class BookControllerTest {
     public void getBookTest(){
         bookRepository.save(Book.builder()
                 .subject("test subject")
+                .price(0)
+                .grade((short)0)
                 .build());
         Book book = bookRepository.findAll().get(0);
 
