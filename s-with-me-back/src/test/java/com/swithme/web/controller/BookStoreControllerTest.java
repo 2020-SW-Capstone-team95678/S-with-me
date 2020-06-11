@@ -43,6 +43,7 @@ public class BookStoreControllerTest {
                 .grade((short) 2)
                 .isOnSale(true)
                 .subject("math")
+                .price(0)
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
@@ -51,6 +52,7 @@ public class BookStoreControllerTest {
                 .grade((short) 2)
                 .isOnSale(true)
                 .subject("english")
+                .price(0)
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
@@ -59,6 +61,7 @@ public class BookStoreControllerTest {
                 .isOnSale(false)
                 .name("kkkkqqqq")
                 .subject("math")
+                .price(0)
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
@@ -67,6 +70,7 @@ public class BookStoreControllerTest {
                 .isOnSale(false)
                 .subject("english")
                 .name("qqkkqqqq")
+                .price(0)
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
@@ -75,6 +79,7 @@ public class BookStoreControllerTest {
                 .name("oooo")
                 .subject("math")
                 .isOnSale(false)
+                .price(0)
                 .build());
         bookRepository.save(Book.builder()
                 .publisher(publisherRepository.findAll().get(0))
@@ -83,6 +88,7 @@ public class BookStoreControllerTest {
                 .name("okokok")
                 .isAdvertised(true)
                 .subject("science")
+                .price(0)
                 .build());
     }
 
@@ -113,6 +119,5 @@ public class BookStoreControllerTest {
         String url="http://localhost:"+port+"/student/bookstore/search?bookName=kk&pageNumber=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        //assertThat(responseEntity.getBody()).isEqualTo("33");
     }
 }

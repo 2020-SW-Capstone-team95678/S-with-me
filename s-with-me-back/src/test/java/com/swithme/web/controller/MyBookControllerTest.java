@@ -12,11 +12,12 @@ import com.swithme.domain.myProblem.MyProblem;
 import com.swithme.domain.myProblem.MyProblemRepository;
 import com.swithme.domain.note.Note;
 import com.swithme.domain.note.NoteRepository;
+import com.swithme.domain.problem.Problem;
+import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
-import com.swithme.web.dto.CurriculumCreateDto;
 import com.swithme.web.dto.MyBookCreateDto;
 import com.swithme.web.dto.MyBookUpdateRequestDto;
 import org.junit.After;
@@ -57,12 +58,18 @@ public class MyBookControllerTest {
     private MainChapterRepository mainChapterRepository;
     @Autowired
     private SubChapterRepository subChapterRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
 
     @Before
     public void setup(){
         studentRepository.save(new Student());
 
-        bookRepository.save(new Book());
+        bookRepository.save(Book.builder()
+                .monthlyProfit(0)
+                .monthlySold(0)
+                .price(12000)
+                .build());
 
         folderRepository.save(Folder.builder()
                 .folderName("분류되지 않음")
@@ -79,9 +86,10 @@ public class MyBookControllerTest {
     public void cleanup(){
         noteRepository.deleteAll();
         myProblemRepository.deleteAll();
-        myBookRepository.deleteAll();
+        problemRepository.deleteAll();
         subChapterRepository.deleteAll();
         mainChapterRepository.deleteAll();
+        myBookRepository.deleteAll();
         bookRepository.deleteAll();
         folderRepository.deleteAll();
         studentRepository.deleteAll();
@@ -100,6 +108,10 @@ public class MyBookControllerTest {
                 .beforeSubChapterId(0)
                 .build());
 
+        problemRepository.save(Problem.builder()
+                .isMath(false)
+                .subChapter(subChapterRepository.findAll().get(0))
+                .build());
 
         MyBookCreateDto myBookCreateDto= MyBookCreateDto.builder()
                 .studentId(studentRepository.findAll().get(0).getStudentId())
@@ -107,11 +119,20 @@ public class MyBookControllerTest {
                 .bookId(bookRepository.findAll().get(0).getBookId())
                 .build();
 
+        assertThat(myProblemRepository.findAll()).isEmpty();
+
         HttpEntity<MyBookCreateDto> requestEntity = new HttpEntity<>(myBookCreateDto);
         String url="http://localhost:"+port+"/student/library/my-book";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        //assertThat(responseEntity.getBody()).isEqualTo("33");
+
+        assertThat(myBookRepository.findAll().size()).isGreaterThan(1);
+        assertThat(myProblemRepository.findAll()).isNotEmpty();
+
+        Book book = bookRepository.findAll().get(0);
+        assertThat(book.getMonthlySold()).isEqualTo(1);
+        assertThat(book.getMonthlyProfit()).isEqualTo(12000);
     }
 
     @Test
