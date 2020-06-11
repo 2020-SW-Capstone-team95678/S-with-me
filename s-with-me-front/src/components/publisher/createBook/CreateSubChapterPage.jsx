@@ -4,7 +4,6 @@ import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
 const CreateSubChapterPage = props => {
   const { mainChapterId } = props;
-  const [subChapterId, setSubChapterId] = useState(null);
   const [subChapterTitle, setSubChapterTitle] = useState('');
 
   console.log(mainChapterId);
@@ -33,9 +32,7 @@ const CreateSubChapterPage = props => {
                 Api.post('/publisher/library/book/mainChapter/subChapter', {
                   subChapterName: subChapterTitle,
                   mainChapterId: mainChapterId,
-                }).then(response => {
-                  setSubChapterId(response.data);
-                });
+                })
               }}
             >
               등록

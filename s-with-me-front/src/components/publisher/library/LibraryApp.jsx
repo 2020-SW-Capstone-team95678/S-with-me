@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
-//import {Modal} from 'react-responsive-modal';
 import Latex from 'react-latex-next';
 import { delimeters } from '../../../constants/delimeters';
 import notSale from './isOnSale.png';
@@ -140,22 +139,24 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   const [cover, setCover] = useState(book.cover);
   const [isOnSale,setIsOnSale]=useState(book.isOnSale);
   const [price, setPrice] = useState(book.price);
-  const [subject, setSubject] = useState(book.subject);
-  const [grade, setGrade] = useState(book.grade);
+  //const [subject,setSubject] = useState(book.subject);
+  //const [grade,setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
   console.log(book.bookId);
   console.log(book);
+  console.log(book.grade);
 
   useEffect(() => {
     setName(book.name ? book.name : '');
+    setIntroduction(book.introduction ? book.introduction : '');
     setPrice(book.price ? book.price : 0);
-    // setName(book.introduction ? book.introduction : '');
-    // setPrice(book.grade ? book.grade : 0);
     setCover(
       book.cover
         ? book.cover
         : 'https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0309/IE002297749_STD.jpg',
     );
+    //setGrade(book.grade ? book.grade : 1);
+    //setSubject(book.subject ? book.subject : "국어");
   }, [book]);
 
   function handleEnter(event) {
@@ -176,7 +177,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             return [...prev];
           }),
         )
-        .catch(reason => setGrade(book.grade));
+        //.catch(reason => setGrade(book.grade));
       console.log(book.grade);
     }
   }
@@ -190,7 +191,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             return [...prev];
           }),
         )
-        .catch(reason => setSubject(book.subject));
+       // .catch(reason => setSubject(book.subject));
       console.log(book.subject);
     }
   }
@@ -276,7 +277,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
           <div>
             <p>학년</p>
-            <select defaultValue={book.grade} onChange={handleGradeChange}>
+            <select value={book.grade} onChange={handleGradeChange}>
               <option value="1">1학년</option>
               <option value="2">2학년</option>
               <option value="3">3학년</option>
@@ -284,7 +285,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </div>
           <div>
             <p>과목</p>
-            <select defaultValue={book.subject} onChange={handleSubjectChange}>
+            <select value={book.subject} onChange={handleSubjectChange}>
               <option value="국어">국어</option>
               <option value="수학">수학</option>
               <option value="사회">사회</option>
@@ -295,7 +296,6 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             <p>설명</p>
             <input
               type="text"
-              name="introduction"
               value={introduction}
               onKeyDown={handleEnter}
               onChange={onChangeIntro}
@@ -313,6 +313,13 @@ export const BookInfo = ({ setData, book, setBooks }) => {
                 }
               }}
             ></input>
+           
+
+
+
+
+
+
           </div>
         </div>
         <div>

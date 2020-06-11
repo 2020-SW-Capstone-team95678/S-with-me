@@ -13,7 +13,7 @@ class HandWriteSolution extends React.Component {
   }
 
   _save = () => {
-    const {setHandSolution,id} =this.props;
+   // const {setHandSolution,id} =this.props; 여기도 쓸거같아서 안지웠어용
     const drawings = this._sketch.toDataURL('image/png');
     console.log(drawings);
     const drawData=JSON.stringify(drawings);
@@ -23,7 +23,7 @@ class HandWriteSolution extends React.Component {
 
   _change = () => {
     const pencil = this.state.pencil;
-    this.state = {
+    this.setState = {
       pencil: !pencil,
     };
   };
