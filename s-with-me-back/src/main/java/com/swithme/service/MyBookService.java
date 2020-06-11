@@ -64,6 +64,8 @@ public class MyBookService {
         Book book = bookRepository.findById(myBookCreateDto.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. myBookId=" + myBookCreateDto.getBookId()));
 
+        book.sold();
+        
         List<Folder> folderList = folderRepository.findByStudent(student);
         Folder defaultFolder = new Folder();
         for(Folder folder : folderList)
@@ -84,6 +86,7 @@ public class MyBookService {
         {
             if(subChapter.getBeforeSubChapterId()==0){firstSubChapter=subChapter;}
         }
+
 
         myBookRepository.save(MyBook.builder()
                 .folder(defaultFolder)
