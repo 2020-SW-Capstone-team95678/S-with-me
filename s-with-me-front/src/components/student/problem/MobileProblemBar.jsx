@@ -1,9 +1,9 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
-import { Carousel } from 'react-responsive-carousel';
 
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import './MobileProblemBar.css';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
 import ProblemViewContainer from '../../../containers/student/problem/ProblemViewContainer';
 
 export default function MobileProblemBar(props) {
@@ -17,13 +17,17 @@ export default function MobileProblemBar(props) {
           스와이프하여 문제를 이동해주세요. 한 페이지당 8문제 입니다. <br />
           페이지 내 문제를 전체 채점하려면 상단의 이 페이지 전체 채점을 눌러주세요.
         </Segment>
-        <Carousel useKeyboardArrows showStatus={true} showThumbs={false}>
-          {myProblemList.map((myProblem, i) => (
-            <div className="my-slide content" key={i}>
-              <ProblemViewContainer myProblem={myProblem} page={page} />
-            </div>
-          ))}
-        </Carousel>
+        <CarouselProvider naturalSlideWidth={100} naturalSlideHeight={50} totalSlides={8}>
+          <ButtonBack>Back</ButtonBack>
+          <ButtonNext>Next</ButtonNext>
+          <Slider>
+            {myProblemList.map((myProblem, i) => (
+              <Slide index={i}>
+                <ProblemViewContainer myProblem={myProblem} page={page} />
+              </Slide>
+            ))}
+          </Slider>
+        </CarouselProvider>
       </div>
     );
   }

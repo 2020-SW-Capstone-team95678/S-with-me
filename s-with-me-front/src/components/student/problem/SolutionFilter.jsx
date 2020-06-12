@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 
 export default class SolutionFilter extends PureComponent {
-  state = { activeItem: 'text' };
+  state = { activeItem: 'text', touchEnabled: true };
   handleItemClick = (e, { name }) => {
     const { id, setSolutionType } = this.props;
     this.setState({ activeItem: name });

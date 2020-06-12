@@ -1,4 +1,5 @@
 import React from 'react';
+import { WithStore } from 'pure-react-carousel';
 import { SketchField, Tools } from 'react-sketch';
 import { Icon, Menu } from 'semantic-ui-react';
 
@@ -17,6 +18,10 @@ class HandWriteSolution extends React.Component {
     if (isNote) setMyNewHandSolution(id, drawData);
     else setHandSolution(id, drawData);
   };
+
+  componentDidMount() {
+    this.props.carouselStore.setStoreState({ touchEnabled: false });
+  }
 
   render = () => {
     const { activeItem } = this.state;
@@ -50,4 +55,4 @@ class HandWriteSolution extends React.Component {
   };
 }
 
-export default HandWriteSolution;
+export default WithStore(HandWriteSolution);
