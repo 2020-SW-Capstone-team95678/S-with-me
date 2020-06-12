@@ -11,7 +11,7 @@ export default function FolderButton(props) {
     accept: ItemTypes.BOOKCARD,
     drop: item => {
       moveMyBook(item.myBookId, { folderId: folderId }, () => {
-        requestFilteredMyBookList({ folderId: folderId });
+        requestFilteredMyBookList('FOLDER', { folderId: folderId });
       });
     },
     collect: monitor => ({
@@ -21,7 +21,10 @@ export default function FolderButton(props) {
 
   return (
     <div ref={drop} style={{ position: 'relative' }}>
-      <Button primary={isOver} onPress={() => requestFilteredMyBookList({ folderId: folderId })}>
+      <Button
+        primary={isOver}
+        onPress={() => requestFilteredMyBookList('FOLDER', { folderId: folderId })}
+      >
         {folderName}
       </Button>
     </div>

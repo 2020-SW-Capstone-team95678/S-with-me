@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import { Menu } from 'semantic-ui-react';
 
-import Table from '../../../common-ui/table/Table';
-import TableBody from '../../../common-ui/table/TableBody';
-import TableRow from '../../../common-ui/table/TableRow';
-import TableCell from '../../../common-ui/table/TableCell';
-import Button from '../../../common-ui/Button';
-
-export default function LibrarySubjectTable(props) {
-  return (
-    <Table>
-      <TableBody>
-        {props.subjectList.map((subject, index) => (
-          <TableRow key={index}>
-            <TableCell>
-              <Button>{subject}</Button>
-            </TableCell>
-          </TableRow>
+export default class LibrarySubjectTable extends PureComponent {
+  handleClick = (e, { name }) => {
+    const studentId = window.sessionStorage.getItem('studentId');
+    const { requestFilteredMyBookList } = this.props;
+    requestFilteredMyBookList('SUBJECT', { subject: name }, studentId);
+  };
+  render() {
+    return (
+      <Menu vertical>
+        {this.props.subjectList.map((subject, index) => (
+          <Menu.Item key={index} onClick={this.handleClick} name={subject}>
+            {subject}
+          </Menu.Item>
         ))}
-      </TableBody>
-    </Table>
-  );
+      </Menu>
+    );
+  }
 }
