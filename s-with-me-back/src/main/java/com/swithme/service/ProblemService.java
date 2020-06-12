@@ -150,13 +150,7 @@ public class ProblemService {
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
         if(problemList.size() > 1) Collections.sort(problemList);
 
-        List<Problem> problemListInPage = new ArrayList<>();
-        try{
-            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, problemList.size());
-        }
+        List<Problem> problemListInPage = Problem.paginate(problemList, lastPageNumber);
 
         List<AnswerResponseDto> responseDtoList = new ArrayList<>();
         for (Problem problem : problemListInPage) {

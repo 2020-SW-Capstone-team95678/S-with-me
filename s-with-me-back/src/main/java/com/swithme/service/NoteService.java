@@ -52,13 +52,7 @@ public class NoteService{
         List<Note> noteList = noteRepository.findByStudent(student);
         if(noteList.size() > 1) Collections.sort(noteList);
 
-        List<Note> noteListInPage = new ArrayList<>();
-        try{
-            noteListInPage = noteList.subList(page * 8 - 8, page * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            noteListInPage = noteList.subList(page * 8 - 8, noteList.size());
-        }
+        List<Note> noteListInPage = Note.paginate(noteList, page);
 
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note : noteListInPage){
@@ -126,13 +120,7 @@ public class NoteService{
                 noteListFilteredByFolder.add(note);
         }
 
-        List<Note> noteListInPage = new ArrayList<>();
-        try{
-            noteListInPage = noteListFilteredByFolder.subList(page * 8 - 8, page * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            noteListInPage = noteListFilteredByFolder.subList(page * 8 - 8, noteListFilteredByFolder.size());
-        }
+        List<Note> noteListInPage = Note.paginate(noteListFilteredByFolder, page);
 
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteListInPage){
@@ -174,13 +162,7 @@ public class NoteService{
                 noteListFilteredBySubject.add(note);
         }
 
-        List<Note> noteListInPage = new ArrayList<>();
-        try{
-            noteListInPage = noteListFilteredBySubject.subList(page * 8 - 8, page * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            noteListInPage = noteListFilteredBySubject.subList(page * 8 - 8, noteListFilteredBySubject.size());
-        }
+        List<Note> noteListInPage = Note.paginate(noteListFilteredBySubject, page);
 
         List<NoteResponseDto> responseDtoList = new ArrayList<>();
         for(Note note: noteListInPage){

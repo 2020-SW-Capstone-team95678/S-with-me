@@ -76,13 +76,7 @@ public class MyProblemService {
 
         if(myProblemList.size() > 1) Collections.sort(myProblemList);
 
-        List<MyProblem> myProblemListInPage = new ArrayList<>();
-        try{
-            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, myProblemList.size());
-        }
+        List<MyProblem> myProblemListInPage = MyProblem.paginate(myProblemList, lastPageNumber);
 
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemListInPage) {

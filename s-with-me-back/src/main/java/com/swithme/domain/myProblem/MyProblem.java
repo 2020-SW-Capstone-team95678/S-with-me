@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -167,5 +168,16 @@ public class MyProblem implements Comparable<MyProblem>{
                 stringBuffer.append(buffer, 0, length);
         }
         return stringBuffer.toString();
+    }
+
+    public static List<MyProblem> paginate(List<MyProblem> myProblemList, short lastPageNumber){
+        List<MyProblem> myProblemListInPage;
+        try{
+            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, myProblemList.size());
+        }
+        return myProblemListInPage;
     }
 }

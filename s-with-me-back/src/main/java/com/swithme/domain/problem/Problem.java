@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -158,7 +160,6 @@ public class Problem implements Comparable<Problem>{
             return 0;
     }
 
-
     public static String readClobData(Reader reader) throws IOException{
         StringBuffer stringBuffer = new StringBuffer();
         char[] buffer = new char[1024];
@@ -168,5 +169,16 @@ public class Problem implements Comparable<Problem>{
                 stringBuffer.append(buffer, 0, length);
         }
         return stringBuffer.toString();
+    }
+
+    public static List<Problem> paginate(List<Problem> problemList, short lastPageNumber){
+        List<Problem> problemListInPage;
+        try{
+            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, problemList.size());
+        }
+        return problemListInPage;
     }
 }

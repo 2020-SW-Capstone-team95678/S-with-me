@@ -45,4 +45,15 @@ public class Note implements Comparable<Note>{
     public void update(long addedDateTime) {
         this.addedDateTime = addedDateTime;
     }
+
+    public static List<Note> paginate(List<Note> noteList, short page){
+        List<Note> noteListInPage;
+        try{
+            noteListInPage = noteList.subList(page * 8 - 8, page * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            noteListInPage = noteList.subList(page * 8 - 8, noteList.size());
+        }
+        return noteListInPage;
+    }
 }
