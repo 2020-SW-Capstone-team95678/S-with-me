@@ -151,6 +151,8 @@ url: "http://localhost:3000"
   const [isOnSale, setIsOnSale] = useState(book.isOnSale);
   const [price, setPrice] = useState(book.price);
 
+  //부트 페이 내역 가져오기 되면 사용될 아이들이라 안지웠습니다.
+
   console.log(book.bookId);
   console.log(book);
 

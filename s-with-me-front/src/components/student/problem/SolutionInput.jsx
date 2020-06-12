@@ -3,12 +3,13 @@ import React, { PureComponent } from 'react';
 import LinkSolutionInputContainer from '../../../containers/student/note/LinkSolutionInputContainer';
 import ImageSolutionInput from './solutionInput/ImageSolutionInput';
 import TextSolutionInput from './solutionInput/TextSolutionInput';
+import HandWriteSolutionInput from './solutionInput/HandWriteSolution';
 
 export default class SolutionInput extends PureComponent {
   render() {
     const { solutionType, onChange, values } = this.props;
     const { id, myBookId, setSolutionType, setIsMath } = this.props;
-    const { setTextSolution, setImageSolution } = this.props;
+    const { setTextSolution, setImageSolution,/*setHandSolution*/ } = this.props;
     if (solutionType === 'link') {
       return (
         <LinkSolutionInputContainer
@@ -20,7 +21,10 @@ export default class SolutionInput extends PureComponent {
       );
     } else if (solutionType === 'img') {
       return <ImageSolutionInput id={id} setImageSolution={setImageSolution} />;
-    } else {
+    } else if (solutionType === 'hand') {
+      return <HandWriteSolutionInput id={id} /*setHandSolution={setHandSolution}*/ />;
+    }  
+    else {
       return (
         <TextSolutionInput
           id={id}

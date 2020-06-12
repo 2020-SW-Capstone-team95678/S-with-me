@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -14,20 +14,10 @@ import {
 const RenameMainChapter = props => {
   const { bookId, chapter } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
-  const [chapters, setChapters] = useState([]);
+  const [chapters, setChapters] = useState([]);//상태변화에 필요
 
   console.log(bookId);
  
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await Api.get(`/library/book/${bookId}/chapters`);
-      setChapters(data.data);
-    };
-
-    if (bookId) {
-      fetchData();
-    }
-  }, [bookId]);
 
 
   return (
