@@ -151,7 +151,7 @@ public class NoteControllerTest {
         }
 
         String url = "http://localhost:" + port + "/student/" + student.getStudentId()
-                + "/note/folderFilter?folderId=" + folder.getFolderId() + "&page=1";
+                + "/note/folder-filter?folderId=" + folder.getFolderId() + "&page=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -168,7 +168,7 @@ public class NoteControllerTest {
         }
 
         String url = "http://localhost:" + port + "/student/" + student.getStudentId()
-                + "/note/subjectFilter?subject=" + book.getSubject() + "&page=1";
+                + "/note/subject-filter?subject=" + book.getSubject() + "&page=1";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
