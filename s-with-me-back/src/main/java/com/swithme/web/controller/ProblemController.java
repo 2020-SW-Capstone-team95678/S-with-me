@@ -27,20 +27,20 @@ public class ProblemController {
     }
 
     @CrossOrigin
-    @GetMapping("/publisher/library/book/mainChapter")
+    @GetMapping("/publisher/library/book/main-chapter")
     public List<ProblemResponseDto> getProblemList(@RequestParam("subChapterId") int subChapterId) throws SQLException {
         return problemService.getProblemList(subChapterId);
     }
 
 
     @CrossOrigin
-    @PostMapping("/publisher/library/book/mainChapter/subChapter/problem")
+    @PostMapping("/publisher/library/book/main-chapter/sub-chapter/problem")
     public int createProblem (@RequestBody ProblemCreateDto createDto){
         return problemService.createProblem(createDto);
     }
 
     @CrossOrigin
-    @PutMapping("/publisher/library/book/mainChapter/subChapter/problem/{problemId}")
+    @PutMapping("/publisher/library/book/main-chapter/sub-chapter/problem/{problemId}")
     public String updateProblem(@PathVariable int problemId,
                                 @RequestBody ProblemUpdateRequestDto requestDto){
         return problemService.updateProblem(problemId, requestDto);

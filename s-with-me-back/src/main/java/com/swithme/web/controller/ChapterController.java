@@ -32,26 +32,26 @@ public class ChapterController {
     }
 
     @CrossOrigin
-    @PostMapping("/publisher/library/book/mainChapter")
+    @PostMapping("/publisher/library/book/main-chapter")
     public int createMainChapter(@RequestBody MainChapterCreateDto createDto){
         return chapterService.createMainChapter(createDto);
     }
 
     @CrossOrigin
-    @PostMapping("/publisher/library/book/mainChapter/subChapter")
+    @PostMapping("/publisher/library/book/main-chapter/sub-chapter")
     public int createSubChapter(@RequestBody SubChapterCreateDto createDto){
         return chapterService.createSubChapter(createDto);
     }
 
     @CrossOrigin
-    @PutMapping("/publisher/library/book/mainChapter/{mainChapterId}")
+    @PutMapping("/publisher/library/book/main-chapter/{mainChapterId}")
     public String updateMainChapter(@PathVariable int mainChapterId,
                                     @RequestBody MainChapterUpdateRequestDto requestDto){
         return chapterService.updateMainChapter(mainChapterId, requestDto);
     }
 
     @CrossOrigin
-    @PutMapping("/publisher/library/book/mainChapter/subChapter/{subChapterId}")
+    @PutMapping("/publisher/library/book/main-chapter/sub-chapter/{subChapterId}")
     public String updateSubChapter(@PathVariable int subChapterId,
                                    @RequestBody SubChapterUpdateRequestDto requestDto){
         return chapterService.updateSubChapter(subChapterId, requestDto);
