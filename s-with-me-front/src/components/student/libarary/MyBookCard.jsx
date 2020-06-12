@@ -14,7 +14,7 @@ export default function MyBookCard(props) {
   const { myBookId, lastPageNumber, lastSubChapterId } = props.myBook;
   const { subject, name, cover, grade } = props.book;
 
-  const [dimmer, setDimmer] = useState(false);
+  const [dimmer, setDimmer] = useState('inverted');
   const [open, setOpen] = useState(false);
   const show = dimmer => () => {
     setOpen(true);

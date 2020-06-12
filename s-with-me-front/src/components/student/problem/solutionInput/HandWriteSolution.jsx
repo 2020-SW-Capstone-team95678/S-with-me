@@ -1,7 +1,6 @@
 import React from 'react';
 import { SketchField, Tools } from 'react-sketch';
 
-
 class HandWriteSolution extends React.Component {
   constructor(props) {
     super(props);
@@ -13,16 +12,17 @@ class HandWriteSolution extends React.Component {
   }
 
   _save = () => {
-   // const {setHandSolution,id} =this.props; 여기도 쓸거같아서 안지웠어용
+    const { id, setHandSolution } = this.props;
     const drawings = this._sketch.toDataURL('image/png');
     console.log(drawings);
-    const drawData=JSON.stringify(drawings);
+    const drawData = JSON.stringify(drawings);
     console.log(drawData);
-    //setHandSolution(id, drawData);
+    // setHandSolution(id, drawData);
   };
 
   _change = () => {
     const pencil = this.state.pencil;
+    const { id, setHandSolution } = this.props;
     this.setState = {
       pencil: !pencil,
     };
@@ -30,15 +30,16 @@ class HandWriteSolution extends React.Component {
 
   render = () => {
     const pencil = this.state;
-    
+
     return (
       <div>
         {pencil ? (
           <div>
-            <div position="static" style={{ display:'flex',backgroundColor: 'green' }}>
-              <button style={{flex:1}} onClick={this._change}>지우개</button>
+            <div position="static" style={{ display: 'flex', backgroundColor: 'green' }}>
+              <button style={{ flex: 1 }} onClick={this._change}>
+                지우개
+              </button>
             </div>
-
             <SketchField
               name="sketch"
               className="canvas-area"
@@ -53,10 +54,12 @@ class HandWriteSolution extends React.Component {
           </div>
         ) : (
           <div>
-            ><div position="static" style={{ display:'flex',backgroundColor: 'green' }}>
-              <button style={{flex:1}} onClick={this._change}>연필</button>
+            >
+            <div position="static" style={{ display: 'flex', backgroundColor: 'green' }}>
+              <button style={{ flex: 1 }} onClick={this._change}>
+                연필
+              </button>
             </div>
-
             <SketchField
               name="sketch"
               className="canvas-area"

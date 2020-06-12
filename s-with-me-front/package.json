@@ -48,13 +48,10 @@
     "shallow-equal": "^1.2.1"
   },
   "scripts": {
-    "storybook": "start-storybook -p 9001 -c .storybook",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "mockserver": "json-server --watch --delay 500 --port 4000 mock/db.json",
-    "errorserver": "node mock/fake.js",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
@@ -77,9 +74,6 @@
   "devDependencies": {
     "@babel/core": "7.5.5",
     "@babel/plugin-syntax-object-rest-spread": "^7.2.0",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/react": "^5.3.18",
     "aphrodite": "^2.4.0",
     "babel-loader": "^8.0.5",
     "gh-pages": "^3.0.0",
