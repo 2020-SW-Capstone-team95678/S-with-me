@@ -2,7 +2,6 @@
   "name": "s-with-me-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://2020-SW-Capstone-team95678.github.io/swithme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",

@@ -17,7 +17,7 @@ class HandWriteSolution extends React.Component {
     console.log(drawings);
     const drawData = JSON.stringify(drawings);
     console.log(drawData);
-    // setHandSolution(id, drawData);
+    setHandSolution(id, drawData);
   };
 
   _change = () => {
