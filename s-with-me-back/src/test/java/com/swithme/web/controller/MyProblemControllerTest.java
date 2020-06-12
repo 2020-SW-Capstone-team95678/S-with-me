@@ -134,6 +134,7 @@ public class MyProblemControllerTest {
                 .linkSolutionId(null)
                 .imageSolution(null)
                 .textSolution(expectedTextSolution)
+                .handSolution(null)
                 .solutionType("text")
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)

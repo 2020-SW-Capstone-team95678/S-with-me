@@ -24,7 +24,7 @@ public class BookStoreController {
     @CrossOrigin
     @GetMapping("/student/bookstore/{grade}")
     public List<BookResponseDto> getSailingBookByFilter(@PathVariable("grade") int grade,String subject,int pageNumber)throws SQLException{
-        return bookStoreService.getSailingBookByFilter(grade,subject,pageNumber);
+        return bookStoreService.getOnSaleBookByFilter(grade,subject,pageNumber);
     }
     @CrossOrigin
     @GetMapping("/student/bookstore/search")

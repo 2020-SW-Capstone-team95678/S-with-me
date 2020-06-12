@@ -14,6 +14,7 @@ public class MyProblemResponseDto {
     private Integer linkSolutionId;
     private String imageSolution;
     private String textSolution;
+    private String handSolution;
     private String solutionType;
     private String myAnswer;
     private Boolean isConfused;
@@ -24,7 +25,7 @@ public class MyProblemResponseDto {
 
     @Builder
     public MyProblemResponseDto(int myProblemId, int myBookId, int problemId, Integer linkSolutionId,
-                                String imageSolution, String textSolution, String solutionType,
+                                String imageSolution, String textSolution, String handSolution, String solutionType,
                                 Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved,
                                 Boolean isMath){
         this.myProblemId = myProblemId;
@@ -33,6 +34,7 @@ public class MyProblemResponseDto {
         this.linkSolutionId = linkSolutionId;
         this.imageSolution = imageSolution;
         this.textSolution = textSolution;
+        this.handSolution = handSolution;
         this.solutionType = solutionType;
         this.isConfused = isConfused;
         this.isRight = isRight;

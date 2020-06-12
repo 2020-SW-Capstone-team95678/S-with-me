@@ -6,12 +6,9 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -27,26 +24,13 @@ public class ProblemService {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 problem이 없습니다. problemId = " + problemId));
 
-        String content;
-        String solution;
-        String image;
-
-        try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ content = null; }
-
-        try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ solution = null; }
-
-        try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ image = null; }
-
         ProblemResponseDto responseDto =  ProblemResponseDto.builder()
                 .problemId(problem.getProblemId())
                 .subChapterId(problem.getSubChapter().getSubChapterId())
                 .title(problem.getTitle())
-                .content(content)
-                .solution(solution)
-                .image(image)
+                .content(problem.getContent())
+                .solution(problem.getSolution())
+                .image(problem.getImage())
                 .problemNumber(problem.getProblemNumber())
                 .answer(problem.getAnswer())
                 .isOptional(problem.getIsOptional())
@@ -63,31 +47,18 @@ public class ProblemService {
 
     @Transactional
     public int createProblem(ProblemCreateDto createDto) {
-        Clob content;
-        Clob solution;
-        Clob image;
-
         SubChapter subChapter = subChapterRepository.findById(createDto.getSubChapterId())
                 .orElseThrow(() -> new IllegalArgumentException
                         ("해당 sub chapter가 없습니다. subChapterId = " + createDto.getSubChapterId()));
 
         if(problemRepository.findBySubChapter(subChapter).isEmpty()){
-            try{ content = ClobProxy.generateProxy(createDto.getContent()); }
-            catch (NullPointerException nullPointerException){ content = null; }
-
-            try{ solution = ClobProxy.generateProxy(createDto.getSolution()); }
-            catch (NullPointerException nullPointerException){ solution = null; }
-
-            try{ image = ClobProxy.generateProxy(createDto.getImage()); }
-            catch (NullPointerException nullPointerException){ image = null; }
-
             problemRepository.save(Problem.builder()
                     .subChapter(subChapter)
                     .title(createDto.getTitle())
-                    .content(content)
-                    .solution(solution)
+                    .content(createDto.getContent())
+                    .solution(createDto.getSolution())
                     .answer(createDto.getAnswer())
-                    .image(image)
+                    .image(createDto.getImage())
                     .problemNumber(createDto.getProblemNumber())
                     .isOptional(createDto.getIsOptional())
                     .option1(createDto.getOption1())
@@ -103,23 +74,13 @@ public class ProblemService {
             List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
             int last = problemList.size() - 1;
             Problem lastProblem = problemList.get(last);
-
-            try{ content = ClobProxy.generateProxy(createDto.getContent()); }
-            catch (NullPointerException nullPointerException){ content = null; }
-
-            try{ solution = ClobProxy.generateProxy(createDto.getSolution()); }
-            catch (NullPointerException nullPointerException){ solution = null; }
-
-            try{ image = ClobProxy.generateProxy(createDto.getImage()); }
-            catch (NullPointerException nullPointerException){ image = null; }
-
             problemRepository.save(Problem.builder()
                     .subChapter(subChapter)
                     .title(createDto.getTitle())
-                    .content(content)
-                    .solution(solution)
+                    .content(createDto.getContent())
+                    .solution(createDto.getSolution())
                     .answer(createDto.getAnswer())
-                    .image(image)
+                    .image(createDto.getImage())
                     .problemNumber(createDto.getProblemNumber())
                     .isOptional(createDto.getIsOptional())
                     .option1(createDto.getOption1())
@@ -147,7 +108,7 @@ public class ProblemService {
 
         problem.update(subChapter, requestDto);
 
-        return problem.getProblemNumber() + "번 문제가 수정되었습니다.";
+        return "[" + problem.getProblemNumber() + "]" + "번 문제가 수정되었습니다.";
     }
 
     @Transactional
@@ -157,29 +118,16 @@ public class ProblemService {
 
         List<Problem> problemList = problemRepository.findBySubChapter(subChapter);
         if(problemList.size() > 1) Collections.sort(problemList);
+
         List<ProblemResponseDto> responseDtoList = new ArrayList<>();
-
-        String content;
-        String solution;
-        String image;
-
         for(Problem problem : problemList){
-            try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ content = null; }
-
-            try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ solution = null; }
-
-            try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ image = null; }
-
             responseDtoList.add(ProblemResponseDto.builder()
                     .problemId(problem.getProblemId())
                     .subChapterId(subChapterId)
                     .title(problem.getTitle())
-                    .content(content)
-                    .solution(solution)
-                    .image(image)
+                    .content(problem.getContent())
+                    .solution(problem.getSolution())
+                    .image(problem.getImage())
                     .problemNumber(problem.getProblemNumber())
                     .answer(problem.getAnswer())
                     .isOptional(problem.getIsOptional())
@@ -247,6 +195,6 @@ public class ProblemService {
                 afterProblem.update(beforeProblem.getProblemId());
         }
 
-        return problemNumber + "번 문제가 삭제되었습니다.";
+        return "[" + problemNumber + "]" + "번 문제가 삭제되었습니다.";
     }
 }

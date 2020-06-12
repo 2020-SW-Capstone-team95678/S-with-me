@@ -12,6 +12,7 @@ public class MyProblemUpdateRequestDto {
     private Integer linkSolutionId;
     private String imageSolution;
     private String textSolution;
+    private String handSolution;
     private String solutionType;
     private String myAnswer;
     private Long solvedDateTime;
@@ -19,13 +20,14 @@ public class MyProblemUpdateRequestDto {
 
     @Builder
     public MyProblemUpdateRequestDto(Boolean isConfused, Boolean isRight, Integer linkSolutionId, String imageSolution,
-                                     String textSolution, String solutionType,
+                                     String textSolution, String handSolution, String solutionType,
                                      String myAnswer, Long solvedDateTime, Boolean isSolved){
         this.isConfused = isConfused;
         this.isRight = isRight;
         this.linkSolutionId = linkSolutionId;
         this.imageSolution = imageSolution;
         this.textSolution = textSolution;
+        this.handSolution = handSolution;
         this.solutionType = solutionType;
         this.myAnswer = myAnswer;
         this.solvedDateTime = solvedDateTime;
