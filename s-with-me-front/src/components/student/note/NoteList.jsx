@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
@@ -18,21 +19,14 @@ const LoadingMessage = (
 
 class NoteList extends PureComponent {
   render() {
-    const { noteList } = this.props;
+    const { noteList, styles } = this.props;
     const noteList1 = noteList.slice(0, noteList.length / 2);
     const noteList2 = noteList.slice(noteList.length / 2);
     if (isMobile) {
       return (
         <React.Fragment>
           <MobileNoteBar noteList={noteList} />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingTop: '3px',
-              paddingBottom: '3px',
-            }}
-          >
+          <div {...css(styles.pagination)}>
             <PaginationContainer isNote />
           </div>
         </React.Fragment>
@@ -40,17 +34,10 @@ class NoteList extends PureComponent {
     } else {
       return (
         <React.Fragment>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingTop: '3px',
-              paddingBottom: '3px',
-            }}
-          >
+          <div {...css(styles.pagination)}>
             <PaginationContainer isNote />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div {...css(styles.bar)}>
             <div style={{ flex: 1, padding: 3 }}>
               <VerticalList spacingBetween={10}>
                 {noteList1.map((note, index) => (
@@ -66,14 +53,7 @@ class NoteList extends PureComponent {
               </VerticalList>
             </div>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingTop: '3px',
-              paddingBottom: '3px',
-            }}
-          >
+          <div {...css(styles.pagination)}>
             <PaginationContainer isNote />
           </div>
         </React.Fragment>
@@ -82,4 +62,21 @@ class NoteList extends PureComponent {
   }
 }
 
-export default withLoading(LoadingMessage)(NoteList);
+export default withStyles(({ responsive }) => ({
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: '3px',
+    paddingBottom: '3px',
+  },
+  bar: {
+    display: 'flex',
+    [responsive.medium]: {
+      flexDirection: 'column',
+    },
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+    flexDirection: 'row',
+  },
+}))(withLoading(LoadingMessage)(NoteList));

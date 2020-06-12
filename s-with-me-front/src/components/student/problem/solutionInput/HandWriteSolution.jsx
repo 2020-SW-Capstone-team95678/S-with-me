@@ -9,12 +9,13 @@ class HandWriteSolution extends React.Component {
   }
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
   _save = () => {
-    const { id, setHandSolution } = this.props;
+    const { id, setHandSolution, isNote, setMyNewHandSolution } = this.props;
     const drawings = this._sketch.toDataURL('image/png');
     console.log(drawings);
     const drawData = JSON.stringify(drawings);
     console.log(drawData);
-    setHandSolution(id, drawData);
+    if (isNote) setMyNewHandSolution(id, drawData);
+    else setHandSolution(id, drawData);
   };
 
   render = () => {

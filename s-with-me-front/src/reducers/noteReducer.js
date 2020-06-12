@@ -11,6 +11,7 @@ import {
   SET_MY_NEW_IMAGE_SOLUTION,
   SET_MY_NEW_LINK_SOLUTION,
   SET_TEMP_SOLUTION_TYPE,
+  SET_MY_NEW_HAND_SOLUTION,
   SET_TEMP_IS_MATH,
   SET_NOTE_FILTER,
 } from '../actions/noteActions';
@@ -122,6 +123,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], myNewImageSolution },
+        },
+      };
+    }
+    case SET_MY_NEW_HAND_SOLUTION: {
+      const { id, myNewHandSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entites,
+          [id]: { ...state.entites[id], myNewHandSolution },
         },
       };
     }

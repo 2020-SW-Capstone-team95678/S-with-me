@@ -54,7 +54,7 @@ class ProblemView extends PureComponent {
       formValue = { ...formValue, textSolution: myProblem.textSolution };
     } else if (myProblem.solutionType === 'img') {
       formValue = { ...formValue, imageSolution: myProblem.imageSolution };
-    } else {
+    } else if (myProblem.solutionType === 'link') {
       formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
     } else if (myProblem.solutionType === 'hand') {
       formValue = { ...formValue, handSolution: myProblem.handSolution };
