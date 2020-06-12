@@ -29,7 +29,7 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @GetMapping("/student/{studentId}/note/folderFilter")
+    @GetMapping("/student/{studentId}/note/folder-filter")
     public List<NoteResponseDto> getNoteListFilteredByFolder(@PathVariable int studentId,
                                                              @RequestParam("folderId") int folderId,
                                                              @RequestParam("page") short page) throws SQLException {
@@ -37,7 +37,7 @@ public class NoteController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/student/{studentId}/note/subjectFilter")
+    @GetMapping(value = "/student/{studentId}/note/subject-filter")
     public List<NoteResponseDto> getNoteListFilteredBySubject(@PathVariable int studentId,
                                                               @RequestParam("subject") String subject,
                                                               @RequestParam("page") short page) throws SQLException {
