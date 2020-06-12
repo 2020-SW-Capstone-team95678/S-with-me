@@ -7,6 +7,7 @@ import {
   SET_MY_TEXT_SOLUTION,
   SET_MY_IMAGE_SOLUTION,
   SET_MY_LINK_SOLUTION,
+  SET_MY_HAND_SOLUTION,
   SET_SOLUTION_TYPE,
   SET_IS_MATH,
 } from '../actions/myProblemActions';
@@ -139,6 +140,16 @@ export default (state = initState, action) => {
         entities: {
           ...state.entities,
           [id]: { ...state.entities[id], linkSolutionId },
+        },
+      };
+    }
+    case SET_MY_HAND_SOLUTION: {
+      const { id, handSolution } = payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [id]: { ...state.entities[id], handSolution },
         },
       };
     }

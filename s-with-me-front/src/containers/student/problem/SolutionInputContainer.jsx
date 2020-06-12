@@ -3,6 +3,7 @@ import {
   setImageSolution,
   setTextSolution,
   setLinkSolutionId,
+  setHandSolution,
   setSolutionType,
   setIsMath,
 } from '../../../actions/myProblemActions';
@@ -20,6 +21,7 @@ const mapDispatchToProps = {
   setImageSolution,
   setTextSolution,
   setLinkSolutionId,
+  setHandSolution,
   requestChapterList,
   setSolutionType,
   setIsMath,
