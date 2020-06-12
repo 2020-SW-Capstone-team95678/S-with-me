@@ -63,14 +63,14 @@ public class BookControllerTest {
                 .monthlySold(123)
                 .monthlyProfit(123)
                 .isAdvertised(false)
-                .cover(ClobProxy.generateProxy("test cover"))
+                .cover("test cover")
                 .grade((short)4)
                 .publishedDate("2020-02-02")
                 .name("test name")
                 .subject("test subject")
                 .publisher(publisher)
                 .price(12345)
-                .introduction(ClobProxy.generateProxy("test"))
+                .introduction("test")
                 .build());
         Book book = bookRepository.findAll().get(0);
 
@@ -87,14 +87,14 @@ public class BookControllerTest {
                     .monthlySold(123)
                     .monthlyProfit(123)
                     .isAdvertised(false)
-                    .cover(ClobProxy.generateProxy("test cover"))
+                    .cover("test cover")
                     .grade((short)4)
                     .publishedDate("2020-02-02")
                     .name("test name")
                     .subject("test subject")
                     .publisher(publisher)
                     .price(12345)
-                    .introduction(ClobProxy.generateProxy("test"))
+                    .introduction("test")
                     .build());
         }
 

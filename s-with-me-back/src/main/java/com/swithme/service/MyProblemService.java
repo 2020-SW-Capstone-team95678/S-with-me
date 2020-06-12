@@ -1,7 +1,6 @@
 package com.swithme.service;
 
 import com.swithme.domain.book.Book;
-import com.swithme.domain.book.BookRepository;
 import com.swithme.domain.mainChapter.MainChapter;
 import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -51,7 +49,8 @@ public class MyProblemService {
                         .myProblem(myProblem)
                         .addedDateTime(myProblem.getSolvedDateTime())
                         .build());
-                return myProblem.getProblem().getProblemNumber() + "번 문제가 오답노트에 추가되었습니다.";
+
+                return "[" + myProblem.getProblem().getProblemNumber()+ "]" + "번 문제가 오답노트에 추가되었습니다.";
             } else {
                 Note note = noteRepository.findByMyProblem(myProblem);
                 note.update(myProblem.getSolvedDateTime());
@@ -76,32 +75,19 @@ public class MyProblemService {
         }
 
         if(myProblemList.size() > 1) Collections.sort(myProblemList);
-        List<MyProblem> myProblemListInPage = new ArrayList<>();
-        try{
-            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
-        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
-            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
-            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, myProblemList.size());
-        }
+
+        List<MyProblem> myProblemListInPage = MyProblem.paginate(myProblemList, lastPageNumber);
 
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemListInPage) {
-
-            String imageSolution;
-            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ imageSolution = null; }
-
-            String textSolution;
-            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ textSolution = null; }
-
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
                     .linkSolutionId(myProblem.getLinkSolutionId())
-                    .imageSolution(imageSolution)
-                    .textSolution(textSolution)
+                    .imageSolution(myProblem.getImageSolution())
+                    .textSolution(myProblem.getTextSolution())
+                    .handSolution(myProblem.getHandSolution())
                     .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
@@ -129,24 +115,17 @@ public class MyProblemService {
         }
 
         if(myProblemList.size() > 1) Collections.sort(myProblemList);
+
         List<MyProblemResponseDto> responseDtoList = new ArrayList<>();
         for (MyProblem myProblem : myProblemList) {
-
-            String imageSolution;
-            try{ imageSolution = MyProblem.readClobData(myProblem.getImageSolution().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ imageSolution = null; }
-
-            String textSolution;
-            try{ textSolution = MyProblem.readClobData(myProblem.getTextSolution().getCharacterStream()); }
-            catch (NullPointerException | IOException exception){ textSolution = null; }
-
             responseDtoList.add(new MyProblemResponseDto().builder()
                     .myProblemId(myProblem.getMyProblemId())
                     .myBookId(myProblem.getMyBook().getMyBookId())
                     .problemId(myProblem.getProblem().getProblemId())
                     .linkSolutionId(myProblem.getLinkSolutionId())
-                    .imageSolution(imageSolution)
-                    .textSolution(textSolution)
+                    .imageSolution(myProblem.getImageSolution())
+                    .textSolution(myProblem.getTextSolution())
+                    .handSolution(myProblem.getHandSolution())
                     .solutionType(myProblem.getSolutionType())
                     .myAnswer(myProblem.getMyAnswer())
                     .isConfused(myProblem.getIsConfused())
@@ -168,25 +147,13 @@ public class MyProblemService {
         Problem problem = myProblem.getProblem();
         SubChapter subChapter = problem.getSubChapter();
 
-        String content;
-        try{ content = Problem.readClobData(problem.getContent().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ content = null; }
-
-        String solution;
-        try{ solution = Problem.readClobData(problem.getSolution().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ solution = null; }
-
-        String image;
-        try{ image = Problem.readClobData(problem.getImage().getCharacterStream()); }
-        catch (NullPointerException | IOException exception){ image = null; }
-
         ProblemResponseDto problemResponseDto = ProblemResponseDto.builder().build().builder()
                 .problemId(problem.getProblemId())
                 .subChapterId(subChapter.getSubChapterId())
                 .title(problem.getTitle())
-                .content(content)
-                .solution(solution)
-                .image(image)
+                .content(problem.getContent())
+                .solution(problem.getSolution())
+                .image(problem.getImage())
                 .answer(problem.getAnswer())
                 .problemNumber(problem.getProblemNumber())
                 .isOptional(problem.getIsOptional())
@@ -200,9 +167,10 @@ public class MyProblemService {
 
         MySolutionResponseDto responseDto = MySolutionResponseDto.builder()
                 .problem(problemResponseDto)
+                .linkSolutionId(myProblem.getLinkSolutionId())
                 .textSolution(myProblem.getTextSolution())
                 .imageSolution(myProblem.getImageSolution())
-                .linkSolutionId(myProblem.getLinkSolutionId())
+                .handSolution(myProblem.getHandSolution())
                 .solutionType(myProblem.getSolutionType())
                 .myAnswer(myProblem.getMyAnswer())
                 .build();
@@ -230,6 +198,7 @@ public class MyProblemService {
                             .linkSolutionId(null)
                             .textSolution(null)
                             .imageSolution(null)
+                            .handSolution(null)
                             .isConfused(false)
                             .isRight(false)
                             .isSolved(false)
@@ -239,6 +208,7 @@ public class MyProblemService {
                 }
             }
         }
+
         return "[" + book.getName() + "] 문제집이 구매되었습니다.";
     }
 }

@@ -208,6 +208,7 @@ public class NoteControllerTest {
                 .linkSolutionId(null)
                 .imageSolution(null)
                 .textSolution("test solution")
+                .handSolution(null)
                 .solutionType("text")
                 .build();
 

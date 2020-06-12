@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
+import java.sql.SQLException;
 
 @Getter
 @NoArgsConstructor
@@ -64,20 +65,24 @@ public class Book {
 
     @Builder
     public Book(Publisher publisher, String subject, Integer price, String publishedDate,
-                String name, Short grade, Clob cover, Boolean isAdvertised, Boolean isOnSale,
-                Integer monthlyProfit, Integer monthlySold, Clob introduction){
+                String name, Short grade, String cover, Boolean isAdvertised, Boolean isOnSale,
+                Integer monthlyProfit, Integer monthlySold, String introduction){
         this.publisher = publisher;
         this.subject = subject;
         this.price = price;
         this.publishedDate = publishedDate;
         this.name = name;
         this.grade = grade;
-        this.cover = cover;
         this.isAdvertised = isAdvertised;
         this.isOnSale = isOnSale;
         this.monthlyProfit = monthlyProfit;
         this.monthlySold = monthlySold;
-        this.introduction = introduction;
+
+        try{ this.cover = ClobProxy.generateProxy(cover); }
+        catch (NullPointerException nullPointerException){ this.cover = null; }
+
+        try{ this.introduction = ClobProxy.generateProxy(introduction); }
+        catch (NullPointerException nullPointerException){ this.introduction = null; }
     }
 
     public void sold(){
@@ -100,6 +105,21 @@ public class Book {
         catch (NullPointerException nullPointerException){ this.introduction = null; }
     }
 
+
+    public String getCover() throws SQLException {
+        String cover;
+        try{ cover = readClobData(this.cover.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ cover = null; }
+        return cover;
+    }
+
+    public String getIntroduction() throws  SQLException {
+        String introduction;
+        try{ introduction = readClobData(this.introduction.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ introduction = null; }
+        return introduction;
+    }
+
     public static String readClobData(Reader reader) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         char[] buffer = new char[1024];
@@ -114,7 +134,5 @@ public class Book {
     public void cleanUpMonthlyProfitAndSold() {
         this.monthlyProfit = 0;
         this.monthlySold = 0;
-        System.out.println(this.monthlyProfit);
-        System.out.println(this.monthlySold);
     }
 }

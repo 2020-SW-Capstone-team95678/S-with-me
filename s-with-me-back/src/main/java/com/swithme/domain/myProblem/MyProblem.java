@@ -14,6 +14,8 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -44,6 +46,10 @@ public class MyProblem implements Comparable<MyProblem>{
     @Column(name = "textSolution")
     private Clob textSolution;
 
+    @Lob
+    @Column(name = "handSolution")
+    private Clob handSolution;
+
     @Column(name = "solutionType")
     private String solutionType;
 
@@ -67,7 +73,7 @@ public class MyProblem implements Comparable<MyProblem>{
 
     @Builder
     public MyProblem(MyBook myBook, Problem problem, Integer linkSolutionId,
-                     Clob imageSolution, Clob textSolution, String solutionType,
+                     Clob imageSolution, Clob textSolution, Clob handSolution, String solutionType,
                      Boolean isConfused, Boolean isRight, Long solvedDateTime, String myAnswer, Boolean isSolved,
                      Boolean isMath) {
         this.myBook = myBook;
@@ -75,6 +81,7 @@ public class MyProblem implements Comparable<MyProblem>{
         this.linkSolutionId = linkSolutionId;
         this.imageSolution = imageSolution;
         this.textSolution = textSolution;
+        this.handSolution = handSolution;
         this.solutionType = solutionType;
         this.isConfused = isConfused;
         this.isRight = isRight;
@@ -102,6 +109,9 @@ public class MyProblem implements Comparable<MyProblem>{
         try{ this.textSolution = ClobProxy.generateProxy(requestDto.getTextSolution()); }
         catch (NullPointerException nullPointerException){ this.textSolution = null; }
 
+        try{ this.handSolution = ClobProxy.generateProxy(requestDto.getHandSolution()); }
+        catch (NullPointerException nullPointerException){ this.handSolution = null; }
+
         this.solutionType = requestDto.getSolutionType();
         this.isConfused = requestDto.getIsConfused();
         this.isRight = requestDto.getIsRight();
@@ -122,7 +132,31 @@ public class MyProblem implements Comparable<MyProblem>{
         try{ this.textSolution = ClobProxy.generateProxy(requestDto.getTextSolution()); }
         catch (NullPointerException nullPointerException){ this.textSolution = null; }
 
+        try{ this.handSolution = ClobProxy.generateProxy(requestDto.getHandSolution()); }
+        catch (NullPointerException nullPointerException){ this.handSolution = null; }
+
         this.solutionType = requestDto.getSolutionType();
+    }
+
+    public String getImageSolution() throws SQLException {
+        String imageSolution;
+        try{ imageSolution = readClobData(this.imageSolution.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ imageSolution = null; }
+        return imageSolution;
+    }
+
+    public String getTextSolution() throws  SQLException {
+        String textSolution;
+        try{ textSolution = readClobData(this.textSolution.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ textSolution = null; }
+        return textSolution;
+    }
+
+    public String getHandSolution() throws SQLException {
+        String handSolution;
+        try{ handSolution = readClobData(this.handSolution.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ handSolution = null; }
+        return handSolution;
     }
 
     public static String readClobData(Reader reader) throws IOException {
@@ -134,5 +168,16 @@ public class MyProblem implements Comparable<MyProblem>{
                 stringBuffer.append(buffer, 0, length);
         }
         return stringBuffer.toString();
+    }
+
+    public static List<MyProblem> paginate(List<MyProblem> myProblemList, short lastPageNumber){
+        List<MyProblem> myProblemListInPage;
+        try{
+            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            myProblemListInPage = myProblemList.subList(lastPageNumber * 8 - 8, myProblemList.size());
+        }
+        return myProblemListInPage;
     }
 }

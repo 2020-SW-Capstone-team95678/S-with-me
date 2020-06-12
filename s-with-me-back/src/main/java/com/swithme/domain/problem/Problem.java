@@ -11,6 +11,9 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -72,16 +75,23 @@ public class Problem implements Comparable<Problem>{
     private Integer beforeProblemId;
 
     @Builder
-    public Problem(SubChapter subChapter, String title, Clob content, Clob solution,
-                    short problemNumber, Clob image, String answer, Boolean isOptional,
+    public Problem(SubChapter subChapter, String title, String content, String solution,
+                    short problemNumber, String image, String answer, Boolean isOptional,
                    String option1, String option2, String option3, String option4, String option5,
                    Boolean isMath, Integer beforeProblemId){
         this.subChapter = subChapter;
         this.title = title;
-        this.content = content;
-        this.solution = solution;
         this.problemNumber = problemNumber;
-        this.image = image;
+
+        try{ this.content = ClobProxy.generateProxy(content); }
+        catch (NullPointerException nullPointerException){ this.content = null; }
+
+        try{ this.solution = ClobProxy.generateProxy(solution); }
+        catch (NullPointerException nullPointerException){ this.solution = null; }
+
+        try{ this.image = ClobProxy.generateProxy(image); }
+        catch (NullPointerException nullPointerException){ this.image = null; }
+
         this.answer = answer;
         this.isOptional = isOptional;
         this.option1 = option1;
@@ -116,6 +126,30 @@ public class Problem implements Comparable<Problem>{
         this.option5 = requestDto.getOption5();
     }
 
+    public void update(Integer beforeProblemId){
+        this.beforeProblemId = beforeProblemId;
+    }
+
+    public String getContent() throws SQLException {
+        String content;
+        try{ content = readClobData(this.content.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ content = null; }
+        return content;
+    }
+
+    public String getImage() throws SQLException {
+        String image;
+        try{ image = readClobData(this.image.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ image = null; }
+        return image;
+    }
+    public String getSolution() throws SQLException {
+        String solution;
+        try{ solution = readClobData(this.solution.getCharacterStream()); }
+        catch (NullPointerException | IOException exception){ solution = null; }
+        return solution;
+    }
+
     @Override
     public int compareTo(Problem problem){
         if(problem.getBeforeProblemId() == this.getProblemId())
@@ -124,10 +158,6 @@ public class Problem implements Comparable<Problem>{
             return 1;
         else
             return 0;
-    }
-
-    public void update(Integer beforeProblemId){
-        this.beforeProblemId = beforeProblemId;
     }
 
     public static String readClobData(Reader reader) throws IOException{
@@ -139,5 +169,16 @@ public class Problem implements Comparable<Problem>{
                 stringBuffer.append(buffer, 0, length);
         }
         return stringBuffer.toString();
+    }
+
+    public static List<Problem> paginate(List<Problem> problemList, short lastPageNumber){
+        List<Problem> problemListInPage;
+        try{
+            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, lastPageNumber * 8);
+        } catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            //subChapter의 마지막 페이지의 경우 문제가 8문제가 아닐 수도 있음.
+            problemListInPage = problemList.subList(lastPageNumber * 8 - 8, problemList.size());
+        }
+        return problemListInPage;
     }
 }
