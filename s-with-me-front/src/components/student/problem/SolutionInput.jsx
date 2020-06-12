@@ -9,7 +9,7 @@ export default class SolutionInput extends PureComponent {
   render() {
     const { solutionType, onChange, values } = this.props;
     const { id, myBookId, setSolutionType, setIsMath } = this.props;
-    const { setTextSolution, setImageSolution,/*setHandSolution*/ } = this.props;
+    const { setTextSolution, setImageSolution, setHandSolution } = this.props;
     if (solutionType === 'link') {
       return (
         <LinkSolutionInputContainer
@@ -22,9 +22,8 @@ export default class SolutionInput extends PureComponent {
     } else if (solutionType === 'img') {
       return <ImageSolutionInput id={id} setImageSolution={setImageSolution} />;
     } else if (solutionType === 'hand') {
-      return <HandWriteSolutionInput id={id} /*setHandSolution={setHandSolution}*/ />;
-    }  
-    else {
+      return <HandWriteSolutionInput id={id} setHandSolution={setHandSolution} />;
+    } else {
       return (
         <TextSolutionInput
           id={id}

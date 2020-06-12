@@ -3,9 +3,12 @@ import React, { PureComponent } from 'react';
 import InlineList from '../../../common-ui/InlineList';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
-import { faAlignLeft } from '@fortawesome/free-solid-svg-icons';
-import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCamera,
+  faAlignLeft,
+  faPaperclip,
+  faFileSignature,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default class SolutionFilter extends PureComponent {
   render() {
@@ -25,7 +28,7 @@ export default class SolutionFilter extends PureComponent {
           링크 연결하기
         </div>
         <div onClick={() => setSolutionType(id, 'hand')}>
-          <FontAwesomeIcon icon={faPaperclip} size="lg" />
+          <FontAwesomeIcon icon={faFileSignature} size="lg" />
           손글씨 입력
         </div>
       </InlineList>

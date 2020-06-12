@@ -19,8 +19,8 @@ export default function MobileProblemBar(props) {
         </Segment>
         <Carousel useKeyboardArrows showStatus={true} showThumbs={false}>
           {myProblemList.map((myProblem, i) => (
-            <div className="my-slide content">
-              <ProblemViewContainer myProblem={myProblem} page={page} key={i} />
+            <div className="my-slide content" key={i}>
+              <ProblemViewContainer myProblem={myProblem} page={page} />
             </div>
           ))}
         </Carousel>

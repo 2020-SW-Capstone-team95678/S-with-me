@@ -2,7 +2,6 @@
   "name": "s-with-me-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://2020-SW-Capstone-team95678.github.io/swithme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
@@ -48,13 +47,10 @@
     "shallow-equal": "^1.2.1"
   },
   "scripts": {
-    "storybook": "start-storybook -p 9001 -c .storybook",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "mockserver": "json-server --watch --delay 500 --port 4000 mock/db.json",
-    "errorserver": "node mock/fake.js",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
@@ -77,10 +73,6 @@
   "devDependencies": {
     "@babel/core": "7.5.5",
     "@babel/plugin-syntax-object-rest-spread": "^7.2.0",
-    "@storybook/addon-actions": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/react": "^5.3.18",
     "aphrodite": "^2.4.0",
     "babel-loader": "^8.0.5",
     "gh-pages": "^3.0.0",
@@ -88,7 +80,6 @@
     "node-sass": "^4.11.0",
     "react-with-styles-interface-aphrodite": "^6.0.1",
     "redux-devtools-extension": "^2.13.8",
-    "sass-loader": "^8.0.2",
-    "storybook-addon-jsx": "^7.2.3"
+    "sass-loader": "^8.0.2"
   }
 }
