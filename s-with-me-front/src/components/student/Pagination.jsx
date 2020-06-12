@@ -106,10 +106,10 @@ export default class Pagination extends PureComponent {
     return (
       <InlineList align="right">
         <Button disabled={prevDisabled} onPress={this.handlePrevPress}>
-          이전
+          이전 페이지 이동
         </Button>
         <Button disabled={nextDisabled} onPress={this.handleNextPress}>
-          다음
+          다음 페이지 이동
         </Button>
       </InlineList>
     );
