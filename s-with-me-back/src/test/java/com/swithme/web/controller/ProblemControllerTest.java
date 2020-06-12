@@ -6,7 +6,6 @@ import com.swithme.domain.subChapter.SubChapter;
 import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.ProblemCreateDto;
 import com.swithme.web.dto.ProblemUpdateRequestDto;
-import org.hibernate.engine.jdbc.ClobProxy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -75,7 +72,7 @@ public class ProblemControllerTest {
                 .image("test image")
                 .beforeProblemId(problem.getProblemId())
                 .build());
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter?subChapterId="
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter?subChapterId="
                  + subChapter.getSubChapterId();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
@@ -117,7 +114,7 @@ public class ProblemControllerTest {
 
 
         HttpEntity<ProblemCreateDto> createEntity = new HttpEntity<>(createDto);
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problem";
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem";
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -144,7 +141,7 @@ public class ProblemControllerTest {
 
         Problem problem = problemRepository.findAll().get(0);
 
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/problem/" + problem.getProblemId();
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/problem/" + problem.getProblemId();
 
         HttpEntity<ProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);

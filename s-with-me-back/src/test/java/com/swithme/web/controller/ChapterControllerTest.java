@@ -110,7 +110,7 @@ public class ChapterControllerTest {
                 .mainChapterName("test name")
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter";
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter";
 
         HttpEntity<MainChapterCreateDto> createEntity = new HttpEntity<>(createDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
@@ -129,7 +129,7 @@ public class ChapterControllerTest {
                 .subChapterName("test name")
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter";
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter";
 
         HttpEntity<SubChapterCreateDto> createEntity = new HttpEntity<>(createDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, createEntity, String.class);
@@ -148,7 +148,7 @@ public class ChapterControllerTest {
                 .mainChapterName(expectedName)
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/" + mainChapter.getMainChapterId();
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/" + mainChapter.getMainChapterId();
 
         HttpEntity<MainChapterUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
@@ -167,7 +167,7 @@ public class ChapterControllerTest {
                 .subChapterName(expectedName)
                 .build();
 
-        String url = "http://localhost:" + port + "/publisher/library/book/mainChapter/subChapter/" + subChapter.getSubChapterId();
+        String url = "http://localhost:" + port + "/publisher/library/book/main-chapter/sub-chapter/" + subChapter.getSubChapterId();
 
         HttpEntity<SubChapterUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
