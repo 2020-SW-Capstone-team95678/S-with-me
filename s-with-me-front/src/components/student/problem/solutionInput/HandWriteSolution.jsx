@@ -1,16 +1,13 @@
 import React from 'react';
 import { SketchField, Tools } from 'react-sketch';
+import { Icon, Menu } from 'semantic-ui-react';
 
 class HandWriteSolution extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      drawings: [],
-      pencil: true,
-    };
+    this.state = { drawings: [], activeItem: 'write' };
   }
-
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
   _save = () => {
     const { id, setHandSolution } = this.props;
     const drawings = this._sketch.toDataURL('image/png');
@@ -20,59 +17,33 @@ class HandWriteSolution extends React.Component {
     setHandSolution(id, drawData);
   };
 
-  _change = () => {
-    const pencil = this.state.pencil;
-    const { id, setHandSolution } = this.props;
-    this.setState = {
-      pencil: !pencil,
-    };
-  };
-
   render = () => {
-    const pencil = this.state;
-
+    const { activeItem } = this.state;
     return (
-      <div>
-        {pencil ? (
-          <div>
-            <div position="static" style={{ display: 'flex', backgroundColor: 'green' }}>
-              <button style={{ flex: 1 }} onClick={this._change}>
-                지우개
-              </button>
-            </div>
-            <SketchField
-              name="sketch"
-              className="canvas-area"
-              ref={c => (this._sketch = c)}
-              width="100%"
-              height="50%"
-              tool={Tools.Pencil}
-              lineColor="black"
-              lineWidth={3}
-              onChange={this._save}
-            />
-          </div>
-        ) : (
-          <div>
-            >
-            <div position="static" style={{ display: 'flex', backgroundColor: 'green' }}>
-              <button style={{ flex: 1 }} onClick={this._change}>
-                연필
-              </button>
-            </div>
-            <SketchField
-              name="sketch"
-              className="canvas-area"
-              ref={c => (this._sketch = c)}
-              width="100%"
-              height="50%"
-              tool={Tools.Pencil}
-              lineColor="white"
-              lineWidth={5}
-              onChange={this._save}
-            />
-          </div>
-        )}
+      <div style={{ display: 'flex' }}>
+        <div style={{ disply: 'flex', alignContent: 'center' }}>
+          <Menu compact icon="labeled" vertical size="mini">
+            <Menu.Item name="write" active={activeItem === 'write'} onClick={this.handleItemClick}>
+              <Icon name="pencil" />
+              연필
+            </Menu.Item>
+            <Menu.Item name="erase" active={activeItem === 'erase'} onClick={this.handleItemClick}>
+              <Icon name="eraser" />
+              지우개
+            </Menu.Item>
+          </Menu>
+        </div>
+        <SketchField
+          name="sketch"
+          className="canvas-area"
+          ref={c => (this._sketch = c)}
+          width="100%"
+          height="50%"
+          tool={Tools.Pencil}
+          lineColor={activeItem === 'write' ? 'black' : 'white'}
+          lineWidth={activeItem === 'write' ? '3' : '5'}
+          onChange={this._save}
+        />
       </div>
     );
   };
