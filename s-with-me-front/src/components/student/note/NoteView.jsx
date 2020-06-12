@@ -126,7 +126,11 @@ class NoteView extends Component {
             </Text>
             {image ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img src={image} alt={problemNumber + '문제 그림'} style={{ width: '80%' }} />
+                <img
+                  src={image}
+                  alt={problemNumber + '문제 그림'}
+                  style={{ maxHeight: '30vh', minHeight: '10vh', width: 'auto', maxWidth: '100%' }}
+                />
               </div>
             ) : null}
             {content ? (
