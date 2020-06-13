@@ -10,7 +10,7 @@ import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
 import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
-import InstallPWA from '../InstallPWA';
+import { InstallButton } from '../InstallPWA';
 
 class LoginApp extends react.PureComponent {
   constructor(props) {
@@ -59,13 +59,23 @@ class LoginApp extends react.PureComponent {
             <Image wrapped size="medium" src={logo} />
             <Modal.Description>
               <p>SwithMe App을 다운받으시겠습니까?</p>
+              <p>홈 화면에 SwithMe를 추가하실 수 있습니다.</p>
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <SemanticButton color="black" onClick={this.close}>
-              모바일로 이용할래요
-            </SemanticButton>
-            <InstallPWA />
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <SemanticButton color="black" onClick={this.close}>
+                모바일로 이용할래요
+              </SemanticButton>
+              <div id="install-button" hidden>
+                <SemanticButton
+                  positive
+                  icon="checkmark"
+                  labelPosition="right"
+                  content="네, 다운받을래요"
+                />
+              </div>
+            </div>
           </Modal.Actions>
         </Modal>
         <header className="loginHeader">
