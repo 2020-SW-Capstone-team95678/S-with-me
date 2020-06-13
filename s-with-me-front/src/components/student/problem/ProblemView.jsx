@@ -54,8 +54,10 @@ class ProblemView extends PureComponent {
       formValue = { ...formValue, textSolution: myProblem.textSolution };
     } else if (myProblem.solutionType === 'img') {
       formValue = { ...formValue, imageSolution: myProblem.imageSolution };
-    } else {
+    } else if (myProblem.solutionType === 'link') {
       formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+    } else if (myProblem.solutionType === 'hand') {
+      formValue = { ...formValue, handSolution: myProblem.handSolution };
     }
     updateMyProblem(myProblem.myProblemId, formValue, () => {
       setIsSolved(myProblem.myProblemId, true);
@@ -136,20 +138,9 @@ class ProblemView extends PureComponent {
                   ) : null}
                 </div>
                 <div>
-                  {' '}
                   {problemNumber ? (
                     <div {...css(styles.container)}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          padding: 3,
-                          border: '1px solid',
-                          fontSize: 'small',
-                        }}
-                      >
-                        <SolutionFilterContainer id={myProblemId} />
-                      </div>
+                      <SolutionFilterContainer id={myProblemId} />
                       <SolutionInputContainer
                         id={myProblemId}
                         solutionType={solutionType}

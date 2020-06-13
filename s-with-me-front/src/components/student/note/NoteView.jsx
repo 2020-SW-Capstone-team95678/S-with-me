@@ -49,8 +49,10 @@ class NoteView extends Component {
       formValue = { ...formValue, textSolution: note.textSolution };
     } else if (note.tempSolutionType === 'img') {
       formValue = { ...formValue, imageSolution: note.myNewImageSolution };
-    } else {
+    } else if (note.tempSolutionType === 'link') {
       formValue = { ...formValue, linkSolutionId: note.myNewLinkSolution };
+    } else if (note.tempSolutionType === 'hand') {
+      formValue = { ...formValue, linkSolutionId: note.myNewHandSolution };
     }
     updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
   }

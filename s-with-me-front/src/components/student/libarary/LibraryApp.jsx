@@ -28,6 +28,7 @@ class LibraryApp extends PureComponent {
 
   render() {
     const { myBookList, bookListLoading, folderLoading, folderList, styles } = this.props;
+    const { requestMyBookList } = this.props;
     const { curriculumList } = this.props;
     return (
       <DndProvider backend={HTML5Backend}>
@@ -35,7 +36,11 @@ class LibraryApp extends PureComponent {
           <div
             style={{ flex: 1, border: '1px solid', borderColor: '#D9CBC7', borderRadius: '0.5rem' }}
           >
-            <LibraryFilterList folders={folderList} isLoading={folderLoading} />
+            <LibraryFilterList
+              folders={folderList}
+              isLoading={folderLoading}
+              requestMyBookList={requestMyBookList}
+            />
           </div>
           <div
             style={{ flex: 3, border: '1px solid', borderColor: '#D9CBC7', borderRadius: '0.5rem' }}

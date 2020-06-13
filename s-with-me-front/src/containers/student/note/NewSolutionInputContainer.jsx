@@ -4,6 +4,7 @@ import {
   setMyNewTextSolution,
   setTempSolutionType as setSolutionType,
   setTempIsMath,
+  setMyNewHandSolution,
 } from '../../../actions/noteActions';
 import NewSolutionInput from '../../../components/student/note/NewSolutionInput';
 
@@ -12,6 +13,7 @@ const mapDispatchToProps = {
   setMyNewTextSolution,
   setSolutionType,
   setTempIsMath,
+  setMyNewHandSolution,
 };
 
 export default connect(null, mapDispatchToProps)(NewSolutionInput);

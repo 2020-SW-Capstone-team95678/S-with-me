@@ -1,37 +1,34 @@
 import React, { PureComponent } from 'react';
-
-import InlineList from '../../../common-ui/InlineList';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCamera,
-  faAlignLeft,
-  faPaperclip,
-  faFileSignature,
-} from '@fortawesome/free-solid-svg-icons';
+import { Menu, Icon } from 'semantic-ui-react';
 
 export default class SolutionFilter extends PureComponent {
-  render() {
+  state = { activeItem: 'text', touchEnabled: true };
+  handleItemClick = (e, { name }) => {
     const { id, setSolutionType } = this.props;
+    this.setState({ activeItem: name });
+    setSolutionType(id, name);
+  };
+  render() {
+    const { activeItem } = this.state;
     return (
-      <InlineList spacingBetween={5}>
-        <div onClick={() => setSolutionType(id, 'text')}>
-          <FontAwesomeIcon icon={faAlignLeft} size="lg" />
+      <Menu color="orange" widths={4}>
+        <Menu.Item name="text" active={activeItem === 'text'} onClick={this.handleItemClick}>
+          <Icon name="file text" />
           텍스트 풀이 입력
-        </div>
-        <div onClick={() => setSolutionType(id, 'img')}>
-          <FontAwesomeIcon icon={faCamera} size="lg" />
-          사진 첨부 하기
-        </div>
-        <div onClick={() => setSolutionType(id, 'link')}>
-          <FontAwesomeIcon icon={faPaperclip} size="lg" />
-          링크 연결하기
-        </div>
-        <div onClick={() => setSolutionType(id, 'hand')}>
-          <FontAwesomeIcon icon={faFileSignature} size="lg" />
-          손글씨 입력
-        </div>
-      </InlineList>
+        </Menu.Item>
+        <Menu.Item name="img" active={activeItem === 'img'} onClick={this.handleItemClick}>
+          <Icon name="file image outline" />
+          이미지 풀이 입력
+        </Menu.Item>
+        <Menu.Item name="hand" active={activeItem === 'hand'} onClick={this.handleItemClick}>
+          <Icon name="signup" />
+          손글씨 풀이 입력하기
+        </Menu.Item>
+        <Menu.Item name="link" active={activeItem === 'link'} onClick={this.handleItemClick}>
+          <Icon name="pin" />
+          비슷한 문제 연결하기
+        </Menu.Item>
+      </Menu>
     );
   }
 }

@@ -9,6 +9,7 @@ export const SET_MY_NEW_ANSWER = 'note/SET_MY_NEW_ANSWER';
 export const SET_MY_NEW_TEXT_SOLUTION = 'note/SET_MY_NEW_TEXT_SOLUTION';
 export const SET_MY_NEW_IMAGE_SOLUTION = 'note/SET_MY_NEW_IMAGE_SOLUTION';
 export const SET_MY_NEW_LINK_SOLUTION = 'note/SET_MY_NEW_LINK_SOLUTION';
+export const SET_MY_NEW_HAND_SOLUTION = 'note/SET_MY_NEW_HAND_SOLUTION';
 export const SET_NEW_IS_RIGHT = 'note/SET_NEW_IS_RIGHT';
 export const SET_NEW_SOLVED_DATE_TIME = 'note/SET_NEW_SOLVED_DATE_TIME';
 export const SET_TEMP_SOLUTION_TYPE = 'note/SET_TEMP_SOLUTION_TYPE';
@@ -36,10 +37,10 @@ export function requestFilteredNoteList(id, filterType, params, pageNumber = 1) 
     type: FETCH_FILTERED_NOTE_LIST,
     promise:
       filterType === 'FOLDER'
-        ? Api.get(`/student/${id}/note/folderFilter`, {
+        ? Api.get(`/student/${id}/note/folder-filter`, {
             params: { folderId: params.folderId, page: pageNumber },
           })
-        : Api.get(`/student/${id}/note/subjectFilter`, {
+        : Api.get(`/student/${id}/note/subject-filter`, {
             params: { subject: params.subject, page: pageNumber },
           }),
     meta: {
@@ -94,6 +95,11 @@ export const setMyNewTextSolution = (id, myNewTextSolution) => ({
 export const setMyNewImageSolution = (id, myNewImageSolution) => ({
   type: SET_MY_NEW_IMAGE_SOLUTION,
   payload: { id, myNewImageSolution },
+});
+
+export const setMyNewHandSolution = (id, myNewHandSolution) => ({
+  type: SET_MY_NEW_HAND_SOLUTION,
+  payload: { id, myNewHandSolution },
 });
 
 export const setMyNewLinkSolution = (id, myNewLinkSolution) => ({

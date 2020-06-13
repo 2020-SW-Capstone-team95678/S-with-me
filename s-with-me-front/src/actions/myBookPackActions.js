@@ -7,10 +7,13 @@ export const MOVE_MY_BOOK = 'myBook/MOVE_MY_BOOK';
 export const DELETE_MY_BOOK = 'myBook/DELETE_MY_BOOK';
 export const CREATE_MY_BOOK = 'myBook/CREATE_MY_BOOK';
 
-export function requestMyBookList(params) {
+export function requestMyBookList(params, filterType = null) {
   return {
     type: FETCH_MY_BOOK_LIST,
-    promise: Api.get('/student/library', { params: params }),
+    promise:
+      filterType === 'ALPHABET'
+        ? Api.get(`/student/${params.studentId}/library/my-book/alphabet-filter`)
+        : Api.get('/student/library', { params: params }),
     meta: {
       notification: {
         error: '문제집을 불러오는 중에 문제가 발생했습니다.',
@@ -19,10 +22,13 @@ export function requestMyBookList(params) {
   };
 }
 
-export function requestFilteredMyBookList(params) {
+export function requestFilteredMyBookList(filterType, params, id = null) {
   return {
     type: FETCH_FILTERED_MY_BOOK_LIST,
-    promise: Api.get('/student/library/my-book/folderFilter', { params }),
+    promise:
+      filterType === 'FOLDER'
+        ? Api.get('/student/library/my-book/folder-filter', { params })
+        : Api.get(`/student/${id}/library/my-book/subject-filter`, { params }),
     meta: {
       notification: {
         error: '폴더별 문제집을 불러오는 중에 문제가 발생했습니다.',

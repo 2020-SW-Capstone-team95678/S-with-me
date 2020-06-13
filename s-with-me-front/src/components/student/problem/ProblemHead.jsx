@@ -86,6 +86,8 @@ class ProblemHead extends PureComponent {
         formValue = { ...formValue, imageSolution: myProblem.imageSolution };
       } else if (myProblem.solutionType === 'link') {
         formValue = { ...formValue, linkSolutionId: myProblem.linkSolutionId };
+      } else if (myProblem.solutionType === 'hand') {
+        formValue = { ...formValue, handSolution: myProblem.handSolution };
       }
       if (myProblem.myAnswer && !myProblem.isSolved) {
         console.log(formValue);
