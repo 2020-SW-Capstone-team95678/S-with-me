@@ -1,26 +1,48 @@
 import React from 'react';
-import { Segment } from 'semantic-ui-react';
+import { withOrientationChange } from 'react-device-detect';
+import { Segment, Button, Icon } from 'semantic-ui-react';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
 import NoteViewContainer from '../../../containers/student/note/NoteViewContainer';
 
-export default function MobileNoteBar(props) {
-  const { noteList } = props;
+function MobileNoteBar(props) {
+  const { noteList, isLandscape } = props;
   if (noteList.length === 0) {
     return null;
   } else {
     return (
       <div>
-        <Segment>
-          스와이프하여 문제를 이동해주세요. 한 페이지당 8문제 입니다. <br />
-          상단 메뉴에서 보기 방식을 변경할 수 있습니다.
-        </Segment>
-        {/* <Carousel useKeyboardArrows showStatus={true} showThumbs={false}>
-          {noteList.map((note, i) => (
-            <div className="my-slide content">
-              <NoteViewContainer note={note} key={i} />
-            </div>
-          ))}
-        </Carousel> */}
+        <CarouselProvider
+          naturalSlideWidth={window.innerWidth}
+          isIntrinsicHeight={true}
+          // naturalSlideHeight={isLandscape ? window.innerHeight * 0.65 : window.innerHeight * 0.7}
+          totalSlides={8}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Button icon labelPosition="left">
+              <ButtonBack className="buttonBack">이전 문제</ButtonBack>
+              <Icon name="left arrow" />
+            </Button>
+            <Segment>스와이프하여 문제를 이동해주세요. 한 페이지당 8문제 입니다.</Segment>
+            <Button icon labelPosition="right">
+              <ButtonNext>다음 문제</ButtonNext>
+              <Icon name="right arrow" />
+            </Button>
+          </div>
+          <Slider>
+            {noteList.map((note, i) => (
+              <Slide index={i} key={i}>
+                <div style={{ overflow: 'auto' }}>
+                  <NoteViewContainer note={note} key={i} />
+                </div>
+              </Slide>
+            ))}
+          </Slider>
+        </CarouselProvider>
       </div>
     );
   }
 }
+
+export default withOrientationChange(MobileNoteBar);

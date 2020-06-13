@@ -131,8 +131,8 @@ export default (state = initState, action) => {
       return {
         ...state,
         entities: {
-          ...state.entites,
-          [id]: { ...state.entites[id], myNewHandSolution },
+          ...state.entities,
+          [id]: { ...state.entities[id], myNewHandSolution },
         },
       };
     }

@@ -1,8 +1,9 @@
 import React from 'react';
+import { WithStore } from 'pure-react-carousel';
 import { SketchField, Tools } from 'react-sketch';
 import { Icon, Menu } from 'semantic-ui-react';
 
-class HandWriteSolution extends React.Component {
+class MobileHandWriteSolution extends React.Component {
   constructor(props) {
     super(props);
     this.state = { drawings: [], activeItem: 'write' };
@@ -18,7 +19,11 @@ class HandWriteSolution extends React.Component {
   render = () => {
     const { activeItem } = this.state;
     return (
-      <div style={{ display: 'flex' }}>
+      <div
+        style={{ display: 'flex' }}
+        onPointerOut={() => this.props.carouselStore.setStoreState({ touchEnabled: true })}
+        onPointerEnter={() => this.props.carouselStore.setStoreState({ touchEnabled: false })}
+      >
         <div style={{ disply: 'flex', alignContent: 'center' }}>
           <Menu compact icon="labeled" vertical size="mini">
             <Menu.Item name="write" active={activeItem === 'write'} onClick={this.handleItemClick}>
@@ -47,4 +52,4 @@ class HandWriteSolution extends React.Component {
   };
 }
 
-export default HandWriteSolution;
+export default WithStore(MobileHandWriteSolution);
