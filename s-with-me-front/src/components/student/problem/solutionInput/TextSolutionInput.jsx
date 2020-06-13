@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CheckBox from '../../../../common-ui/CheckBox';
 import Button from '../../../../common-ui/Button';
 import MathSolutionPreview from './MathSolutionPreview';
+import { TextArea } from 'semantic-ui-react';
 
 export default function TextSolutionInput(props) {
   const [isMath, setIsMathState] = useState(false);
@@ -39,15 +40,11 @@ export default function TextSolutionInput(props) {
         ) : null}
       </div>
       <div style={{ display: 'flex', paddingBottom: 5 }}>
-        <textarea
-          type="text"
-          onChange={handleChange}
+        <TextArea
           name="textSolutionInput"
-          style={{
-            width: '100%',
-            height: '120px',
-            resize: 'none',
-          }}
+          onChange={handleChange}
+          placeholder="풀이를 입력하세요"
+          style={{ width: '100%', height: '120px', resize: 'none' }}
         />
       </div>
       {isMath ? <MathSolutionPreview textSolution={textSolution} /> : null}
