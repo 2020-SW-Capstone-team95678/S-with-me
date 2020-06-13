@@ -12,21 +12,18 @@ class HandWriteSolution extends React.Component {
   _save = () => {
     const { id, setHandSolution, isNote, setMyNewHandSolution } = this.props;
     const drawings = this._sketch.toDataURL('image/png');
-    console.log(drawings);
     const drawData = JSON.stringify(drawings);
-    console.log(drawData);
     if (isNote) setMyNewHandSolution(id, drawData);
     else setHandSolution(id, drawData);
   };
-
-  componentDidMount() {
-    this.props.carouselStore.setStoreState({ touchEnabled: false });
-  }
-
   render = () => {
     const { activeItem } = this.state;
     return (
-      <div style={{ display: 'flex' }}>
+      <div
+        style={{ display: 'flex' }}
+        onPointerOut={() => this.props.carouselStore.setStoreState({ touchEnabled: true })}
+        onPointerEnter={() => this.props.carouselStore.setStoreState({ touchEnabled: false })}
+      >
         <div style={{ disply: 'flex', alignContent: 'center' }}>
           <Menu compact icon="labeled" vertical size="mini">
             <Menu.Item name="write" active={activeItem === 'write'} onClick={this.handleItemClick}>
