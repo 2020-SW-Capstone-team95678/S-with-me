@@ -9,10 +9,13 @@ import Button from '../common-ui/Button';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
+import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
+import InstallPWA from '../InstallPWA';
+
 class LoginApp extends react.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isStudent: false, isPublisher: false, isLogin: false };
+    this.state = { isStudent: false, isPublisher: false, isLogin: false, open: true };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
@@ -39,17 +42,39 @@ class LoginApp extends react.PureComponent {
       });
     }
   }
+  show = () => () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   render() {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
+    const { open } = this.state;
 
-    if (this.state.isLogin && isStudent) return <Redirect to="/library" />;
-    if (this.state.isLogin && isPublisher) return <Redirect to="/library" />;
+    if (this.state.isLogin) return <Redirect to="/library" />;
 
     return (
       <div className="login">
+        <Modal dimmer="inverted" open={open} onClose={this.close}>
+          <Modal.Content image>
+            <Image wrapped size="medium" src={logo} />
+            <Modal.Description>
+              <p>SwithMe App을 다운받으시겠습니까?</p>
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <SemanticButton color="black" onClick={this.close}>
+              모바일로 이용할래요
+            </SemanticButton>
+            <InstallPWA />
+          </Modal.Actions>
+        </Modal>
         <header className="loginHeader">
+          <SemanticButton
+            onClick={this.show()}
+            icon="download"
+            labelPosition="right"
+            content="App Download"
+          />
           <img src={logo} className="logo" alt="logo" />
           <div>
             <div className="checkBox">
