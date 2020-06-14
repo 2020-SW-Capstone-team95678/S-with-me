@@ -11,7 +11,7 @@ export default function MySolutionView(props) {
   const { isNewSolution, solutionType, note } = props;
   const { isMath, tempIsMath } = note;
   if (solutionType === 'text') {
-    if (isMath || tempIsMath) {
+    if ((isMath && !isNewSolution) || (tempIsMath && isNewSolution)) {
       return <MyMathSolutionView isMath tempIsMath isNewSolution note={note} />;
     } else {
       return (
