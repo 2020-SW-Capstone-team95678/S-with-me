@@ -12,11 +12,7 @@ import { Link, Redirect, withRouter } from 'react-router-dom';
 import {
   Button as SemanticButton,
   Image,
-  Modal,
-  Grid,
-  Header,
-  Message,
-  Segment,
+  Modal
 } from 'semantic-ui-react';
 import InstallPWA from '../InstallPWA';
 
@@ -64,7 +60,7 @@ class LoginApp extends react.PureComponent {
       <div className="login">
         <Modal dimmer="inverted" open={open} onClose={this.close}>
           <Modal.Content image>
-            <Image wrapped size="medium" src={logo} />
+            <Image wrapped size="medium" src={logo}/>
             <Modal.Description>
               <p>SwithMe App을 다운받으시겠습니까?</p>
             </Modal.Description>
@@ -85,7 +81,7 @@ class LoginApp extends react.PureComponent {
           />
 
           <div className="logoSize">
-            <img src={logo} className="content" />
+            <img src={logo} className="content" alt="logo" />
           </div>
 
           <div className="loginSection">

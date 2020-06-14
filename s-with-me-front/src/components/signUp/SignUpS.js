@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import logo from '../../logo.png';
-import user from '../../user.png';
 import './SignUpS.css';
 
 import Button from '../../common-ui/Button';
@@ -42,7 +41,7 @@ export default class SignUpS extends PureComponent {
         <div className="studentSignUp">
           <header className="header">
             <div className="logoStudent">
-              <img src={logo} className="content" />
+              <img src={logo} className="content" alt="logo" />
             </div>
             <div className="signUpSection">
               <div className="content">
