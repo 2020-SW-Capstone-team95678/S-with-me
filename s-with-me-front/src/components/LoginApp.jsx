@@ -123,15 +123,15 @@ class LoginApp extends react.PureComponent {
                         <img src={user} className="userLogin" alt="user" />
                         <div className="inputCss">
                           <div className="inputID">
-                            <input name="id" onChange={onChange} placeholder="ID" />
+                            <Input name="id" onChange={onChange} placeholder="ID" />
                           </div>
                           <div className="inputPW">
-                            <input name="password" onChange={onChange} placeholder="PW" type="password" />
+                            <Input name="password" onChange={onChange} placeholder="PW" type="password" />
                           </div>
                         </div>
-                        <button className="loginButton" type="submit" disabled={loading}>
+                        <Button className="loginButton" type="submit" disabled={loading}>
                           로그인
-                        </button>
+                        </Button>
                       </div>
                       <div className="loginSignUp">
                         <Link to="/signup">

@@ -1,51 +1,61 @@
 .studentSignUp {
   text-align: center;
-}
-
-.logo {
-  height: 15rem;
-  min-height: 300px;
-  pointer-events: none;
-}
-
-.userStudentSignUp {
-  height: 8rem;
-  margin-left: 10px;
-  padding-right: 15px;
-  pointer-events: none;
-  justify-content: center;
-  float: left;
-}
-.signUpInput {
   flex-direction: column;
-  height: 200px;
-  min-width: 100px;
-  width: 10em;
-  font-size: 0.4em;
-  padding-left: 10px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-div.inputCheck > button {
-  min-width: 60px;
-  margin-left: 5px;
-}
-
-.signUp {
-  width: 15em;
-  height: 10em;
-  min-height: 270px;
-  display: inline-flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
 }
+
+.logoStudent .content{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0px;
+  right:0px;
+  bottom: 0px;
+}
+
+.logoStudent {
+  position: relative;
+  max-width: 400px;
+  width: 50%;
+  border: 2px solid rgb(54, 11, 173);
+}
+
+.logoStudent:after {
+  content: "";
+  display: block;
+  padding-bottom: 60%;
+}
+
+.signUpSection .content{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0px;
+  right:0px;
+  bottom: 0px;
+  left: 0px;
+
+}
+
+.signUpSection {
+  position: relative;
+  max-width: 500px;
+  width: 70%;
+  border: 2px solid rgb(54, 11, 173);
+}
+
+.signUpSection:after {
+  content: "";
+  display: block;
+  padding-bottom: 175%;
+}
+
 
 .header {
   background-color: white;
-  min-height: 300px;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,51 +67,441 @@ div.inputCheck > button {
 .studentSignUpBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgrey;
-  height: 30rem;
-  min-height: 350px;
-  min-width: 250px;
-  width: 35rem;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   color: rgb(173, 5, 5);
-  padding-top: 20px;
+  padding-top: 10px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  margin-bottom: 50px;
 }
 
 .signUpButton {
-  width: 30vh;
-  min-width: 200px;
-  min-height: 50px;
+  width: 100%;
+  height: 100%;
+  top:0px;
+  right:0px;
+  left: 0px;
+  bottom: 0px;
   align-items: center;
-  justify-content: center;
+  margin: 10px;
 }
 
 .welcomeText {
   box-shadow: 5px 5px 5px darkgray;
   background-color: rgb(252, 230, 222);
-  min-height: 30px;
-  min-width: 480px;
-  height: 1rem;
-  width: 35rem;
+  min-height: 20px;
+  width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5vh;
+  font-size: 10px;
+  text-justify: center;
+  padding-top: 3px;
   color: gray;
 }
 
-.inputCheck {
-  min-width: 150px;
+.inputCssStudent {
+  width: 80%;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  flex-direction: column;
   flex: 1;
-  margin-left: 100px;
+  display: flex;
+  margin-left:40px;
+  border: 2px solid rgb(10, 100, 55);
+  font-size: 11px;
+  text-align: start;
+}
+.checkID { 
+
+  min-width: 50px;
+  margin-right: 20px;
+  border: 2px solid rgb(255, 5, 255);
 }
 
-.input {
-  min-width: 130px;
-  margin-left: 45px;
+@media(min-width : 390px)and (max-width : 499px){
+  .studentSignUp {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logoStudent .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+  }
+  
+  .logoStudent {
+    position: relative;
+    max-width: 400px;
+    width: 50%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .logoStudent:after {
+    content: "";
+    display: block;
+    padding-bottom: 60%;
+  }
+  
+  .signUpSection .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+    left: 0px;
+  
+  }
+  
+  .signUpSection {
+    position: relative;
+    max-width: 500px;
+    width: 70%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .signUpSection:after {
+    content: "";
+    display: block;
+    padding-bottom: 150%;
+  }
+  
+  
+  .header {
+    background-color: white;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .studentSignUpBox {
+    background-color: rgb(247, 207, 192);
+    box-shadow: 5px 5px 5px darkgrey;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: rgb(173, 5, 5);
+    padding-top: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .signUpButton {
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    left: 0px;
+    bottom: 0px;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .welcomeText {
+    box-shadow: 5px 5px 5px darkgray;
+    background-color: rgb(252, 230, 222);
+    min-height: 20px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 10px;
+    text-justify: center;
+    padding-top: 3px;
+    color: gray;
+  }
+  
+  .inputCssStudent {
+    width: 80%;
+    height: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    flex-direction: column;
+    flex: 1;
+    display: flex;
+    margin-left:40px;
+    border: 2px solid rgb(10, 100, 55);
+    font-size: calc(9px + 1vmin);
+    text-align: start;
+  }
+  .checkID { 
+  
+    min-width: 50px;
+    margin-right: 20px;
+    border: 2px solid rgb(255, 5, 255);
+  }
+
+
+}
+
+@media(min-width : 500px)and (max-width : 600px){
+  .studentSignUp {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logoStudent .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+  }
+  
+  .logoStudent {
+    position: relative;
+    max-width: 400px;
+    width: 50%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .logoStudent:after {
+    content: "";
+    display: block;
+    padding-bottom: 60%;
+  }
+  
+  .signUpSection .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+    left: 0px;
+  
+  }
+  
+  .signUpSection {
+    position: relative;
+    max-width: 500px;
+    width: 70%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .signUpSection:after {
+    content: "";
+    display: block;
+    padding-bottom: 110%;
+  }
+  
+  
+  .header {
+    background-color: white;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .studentSignUpBox {
+    background-color: rgb(247, 207, 192);
+    box-shadow: 5px 5px 5px darkgrey;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: rgb(173, 5, 5);
+    padding-top: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .signUpButton {
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    left: 0px;
+    bottom: 0px;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .welcomeText {
+    box-shadow: 5px 5px 5px darkgray;
+    background-color: rgb(252, 230, 222);
+    min-height: 20px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 10px;
+    text-justify: center;
+    padding-top: 3px;
+    color: gray;
+  }
+  
+  .inputCssStudent {
+    width: 80%;
+    height: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    flex-direction: column;
+    flex: 1;
+    display: flex;
+    margin-left:40px;
+    border: 2px solid rgb(10, 100, 55);
+    font-size: calc(9px + 1vmin);
+    text-align: start;
+  }
+  .checkID { 
+  
+    min-width: 50px;
+    margin-right: 20px;
+    border: 2px solid rgb(255, 5, 255);
+  }
+
+
+}
+
+@media(min-width : 601px){
+  .studentSignUp {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logoStudent .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+  }
+  
+  .logoStudent {
+    position: relative;
+    max-width: 400px;
+    width: 50%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .logoStudent:after {
+    content: "";
+    display: block;
+    padding-bottom: 60%;
+  }
+  
+  .signUpSection .content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    bottom: 0px;
+    left: 0px;
+  
+  }
+  
+  .signUpSection {
+    position: relative;
+    max-width: 500px;
+    width: 70%;
+    border: 2px solid rgb(54, 11, 173);
+  }
+  
+  .signUpSection:after {
+    content: "";
+    display: block;
+    padding-bottom: 90%;
+  }
+  
+  
+  .header {
+    background-color: white;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .studentSignUpBox {
+    background-color: rgb(247, 207, 192);
+    box-shadow: 5px 5px 5px darkgrey;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: center;
+    color: rgb(173, 5, 5);
+    padding-top: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .signUpButton {
+    width: 100%;
+    height: 100%;
+    top:0px;
+    right:0px;
+    left: 0px;
+    bottom: 0px;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .welcomeText {
+    box-shadow: 5px 5px 5px darkgray;
+    background-color: rgb(252, 230, 222);
+    min-height: 20px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 10px;
+    text-justify: center;
+    padding-top: 3px;
+    color: gray;
+  }
+  
+  .inputCssStudent {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-content: space-between;
+    flex: 1;
+    display: flex;
+    border: 2px solid rgb(10, 100, 55);
+    font-size: calc(9px + 1vmin);
+    text-align: start;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .checkID { 
+    min-width: 50px;
+    flex-direction: column;
+    display: flex;
+  }
+ 
+  
 }
