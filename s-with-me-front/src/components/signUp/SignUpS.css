@@ -17,7 +17,6 @@
   position: relative;
   max-width: 400px;
   width: 50%;
-  border: 2px solid rgb(54, 11, 173);
 }
 
 .logoStudent:after {
@@ -41,7 +40,6 @@
   position: relative;
   max-width: 500px;
   width: 70%;
-  border: 2px solid rgb(54, 11, 173);
 }
 
 .signUpSection:after {
@@ -111,7 +109,6 @@
   flex: 1;
   display: flex;
   margin-left:40px;
-  border: 2px solid rgb(10, 100, 55);
   font-size: 11px;
   text-align: start;
 }
@@ -119,7 +116,6 @@
 
   min-width: 50px;
   margin-right: 20px;
-  border: 2px solid rgb(255, 5, 255);
 }
 
 @media(min-width : 390px)and (max-width : 499px){
@@ -142,7 +138,6 @@
     position: relative;
     max-width: 400px;
     width: 50%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .logoStudent:after {
@@ -166,7 +161,6 @@
     position: relative;
     max-width: 500px;
     width: 70%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .signUpSection:after {
@@ -236,7 +230,6 @@
     flex: 1;
     display: flex;
     margin-left:40px;
-    border: 2px solid rgb(10, 100, 55);
     font-size: calc(9px + 1vmin);
     text-align: start;
   }
@@ -244,7 +237,6 @@
   
     min-width: 50px;
     margin-right: 20px;
-    border: 2px solid rgb(255, 5, 255);
   }
 
 
@@ -270,7 +262,6 @@
     position: relative;
     max-width: 400px;
     width: 50%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .logoStudent:after {
@@ -294,7 +285,6 @@
     position: relative;
     max-width: 500px;
     width: 70%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .signUpSection:after {
@@ -364,7 +354,6 @@
     flex: 1;
     display: flex;
     margin-left:40px;
-    border: 2px solid rgb(10, 100, 55);
     font-size: calc(9px + 1vmin);
     text-align: start;
   }
@@ -372,7 +361,6 @@
   
     min-width: 50px;
     margin-right: 20px;
-    border: 2px solid rgb(255, 5, 255);
   }
 
 
@@ -398,7 +386,6 @@
     position: relative;
     max-width: 400px;
     width: 50%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .logoStudent:after {
@@ -422,7 +409,6 @@
     position: relative;
     max-width: 500px;
     width: 70%;
-    border: 2px solid rgb(54, 11, 173);
   }
   
   .signUpSection:after {
@@ -491,7 +477,6 @@
     align-content: space-between;
     flex: 1;
     display: flex;
-    border: 2px solid rgb(10, 100, 55);
     font-size: calc(9px + 1vmin);
     text-align: start;
     padding-left: 0px;
