@@ -60,6 +60,9 @@ const CreateBookPage = props => {
               <option value="수학">수학</option>
               <option value="사회">사회</option>
               <option value="과학">과학</option>
+              <option value="영어">영어</option>
+              <option value="한국사">한국사</option>
+              <option value="기타">기타</option>
             </select>
             {/* <input
               type="text"
@@ -68,12 +71,12 @@ const CreateBookPage = props => {
               onChange={({ target: { value } }) => setSubject(value)}
             /> */}
             Introduction
-            <input
+            <textarea
               type="text"
               value={introduction}
               placeholder="please input introduction"
               onChange={({ target: { value } }) => setIntroduction(value)}
-            ></input>
+            ></textarea>
             Price
             <input
               type="number"

@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
 import Input from '../../../common-ui/Input';
+import Text from '../../../common-ui/Text';
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
 
 import 'katex/dist/katex.min.css';
 import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
+import { TextArea } from 'semantic-ui-react';
 
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
@@ -16,6 +18,8 @@ export default class RegisterProblem extends PureComponent {
     console.log(subChapterId);
 
     this.state = {
+      content: '',
+      solution: '',
       isOptional: false,
       file: '',
       previewURL: '',
@@ -34,16 +38,16 @@ export default class RegisterProblem extends PureComponent {
 
       values = {
         ...values,
-        option1:this.state.optionOneM,
-        option2:this.state.optionTwoM,
-        option3:this.state.optionThrM,
-        option4:this.state.optionFouM,
-        option5:this.state.optionFivM,
+        option1:JSON.stringify(this.state.optionOneM),
+        option2:JSON.stringify(this.state.optionTwoM),
+        option3:JSON.stringify(this.state.optionThrM),
+        option4:JSON.stringify(this.state.optionFouM),
+        option5:JSON.stringify(this.state.optionFivM),
         isMath: this.state.isMath,
-        title: this.state.titleM,
-        content: this.state.contentM,
+        title: JSON.stringify(this.state.titleM),
+        content:JSON.stringify( this.state.contentM),
         answer: this.state.answerM,
-        solution: this.state.answerM,
+        solution: JSON.stringify(this.state.solutionM),
       };
 
     }
@@ -186,7 +190,7 @@ export default class RegisterProblem extends PureComponent {
                       }}
                     >
                       <Button small>수식 입력 방법 보러 가기!</Button>
-                      <input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                       <ProblemInputMathTop
                         isMath={this.state.isMath}
                         onContent={this.handleContent}

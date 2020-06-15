@@ -3,6 +3,7 @@ import OverflowScrolling from 'react-overflow-scrolling';
 import './ModifyProblem.css';
 
 import Form from '../../../common-ui/Form';
+import Input from '../../../common-ui/Input';
 
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
@@ -18,31 +19,64 @@ export default class ModifyProblem extends PureComponent {
     const { problem } = props;
     console.log(problem);
 
-    this.state = {
-      content: problem.content,
-      answer: problem.answer,
-      image: problem.image,
-      option1: problem.option1,
-      option2: problem.option2,
-      option3: problem.option3,
-      option4: problem.option4,
-      option5: problem.option5,
-      problemNumber: problem.problemNumber,
-      solution: problem.solution,
-      title: problem.title,
-      subChapterId: problem.subChapterId,
+    if(problem.isMath){
+      this.state = {
+        content: JSON.parse(problem.content),
+        answer: problem.answer,
+        image: problem.image,
+        option1: JSON.parse(problem.option1),
+        option2: JSON.parse(problem.option2),
+        option3: JSON.parse(problem.option3),
+        option4: JSON.parse(problem.option4),
+        option5: JSON.parse(problem.option5),
+        problemNumber: problem.problemNumber,
+        solution: JSON.parse(problem.solution),
+        title: JSON.parse(problem.title),
+        subChapterId: problem.subChapterId,
+  
+        isOptional: problem.isOptional,
+        isMath: problem.isMath,
+        file: '',
+        previewURL: problem.image,
+        delimeters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '$', right: '$', display: false },
+          { left: '\\[', right: '\\]', display: true },
+        ],
+      };
 
-      isOptional: problem.isOptional,
-      isMath: problem.isMath,
-      file: '',
-      previewURL: problem.image,
-      delimeters: [
-        { left: '$$', right: '$$', display: true },
-        { left: '\\(', right: '\\)', display: false },
-        { left: '$', right: '$', display: false },
-        { left: '\\[', right: '\\]', display: true },
-      ],
-    };
+    }
+    else{
+      this.state = {
+        content: problem.content,
+        answer: problem.answer,
+        image: problem.image,
+        option1: problem.option1,
+        option2: problem.option2,
+        option3: problem.option3,
+        option4: problem.option4,
+        option5: problem.option5,
+        problemNumber: problem.problemNumber,
+        solution: problem.solution,
+        title: problem.title,
+        subChapterId: problem.subChapterId,
+  
+        isOptional: problem.isOptional,
+        isMath: problem.isMath,
+        file: '',
+        previewURL: problem.image,
+        delimeters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '$', right: '$', display: false },
+          { left: '\\[', right: '\\]', display: true },
+        ],
+      };
+
+    }
+
+   
   }
 
   handleSubmit = (values, problemId, subChapterId) => {
@@ -302,19 +336,22 @@ export default class ModifyProblem extends PureComponent {
                                 flexDirection: 'column',
                               }}
                             >
+                              문제 번호
                               <input
                                 label="문제 번호"
                                 value={this.state.problemNumber}
                                 onChange={this.handleChangeInput}
                                 name="problemNumber"
                               />
+                              문제 제목
                               <input
                                 label="문제 제목"
                                 name="title"
                                 value={this.state.title}
                                 onChange={this.handleChangeInput}
                               />
-                              <input
+                              문제 내용
+                              <textarea
                                 label="문제 내용"
                                 name="content"
                                 value={this.state.content}
@@ -345,30 +382,39 @@ export default class ModifyProblem extends PureComponent {
 
                               {isOptional ? (
                                 <div>
+                                  객관식 1번
                                   <input
                                     label="객관식 1번"
                                     value={this.state.optionOne}
                                     onChange={this.handleChangeInput}
                                     name="option1"
                                   />
+                                  <br/>
+                                  객관식 2번
                                   <input
                                     label="객관식 2번"
                                     value={this.state.optionTwo}
                                     onChange={this.handleChangeInput}
                                     name="option2"
                                   />
+                                  <br/>
+                                  객관식 3번
                                   <input
                                     label="객관식 3번"
                                     value={this.state.onOptionThr}
                                     onChange={this.handleChangeInput}
                                     name="option3"
                                   />
+                                  <br/>
+                                  객관식 4번
                                   <input
                                     label="객관식 4번"
                                     value={this.state.optionFou}
                                     onChange={this.handleChangeInput}
                                     name="option4"
                                   />
+                                  <br/>
+                                  객관식 5번
                                   <input
                                     label="객관식 5번"
                                     value={this.state.optionFiv}
@@ -378,13 +424,15 @@ export default class ModifyProblem extends PureComponent {
                                 </div>
                               ) : null}
 
+                              문제 정답
                               <input
                                 label="문제 정답"
                                 value={this.state.answer}
                                 onChange={this.handleChangeInput}
                                 name="answer"
                               />
-                              <input
+                              문제 해설
+                              <textarea
                                 label="문제 해설"
                                 value={this.state.solution}
                                 onChange={this.handleChangeInput}

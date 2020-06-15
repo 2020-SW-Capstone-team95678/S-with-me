@@ -290,6 +290,9 @@ export const BookInfo = ({ setData, book, setBooks }) => {
               <option value="수학">수학</option>
               <option value="사회">사회</option>
               <option value="과학">과학</option>
+              <option value="영어">영어</option>
+              <option value="한국사">한국사</option>
+              <option value="기타">기타</option>
             </select>
           </div>
           <div>
@@ -619,7 +622,7 @@ const ProblemItem = ({ problem, setBooks }) => {
                         </div>
                       ) : null}
           <p>문제 답 {problem.answer}</p>
-          <p>문제 해설{problem.solution}</p>
+          <p>문제 해설 {problem.solution}</p>
           <Modal>
             {({ openModal }) => (
               <>
@@ -633,8 +636,7 @@ const ProblemItem = ({ problem, setBooks }) => {
                           problemId,
                         })
                       }
-                    >문제 수정</button>
-               
+                    >문제 수정</button> 
               </>
             )}
           </Modal>
@@ -657,16 +659,25 @@ const ProblemItem = ({ problem, setBooks }) => {
       ) : (
         <div>
           <p>문제 제목 </p>
-          <Latex delimiters={delimeters}>{problem.title}</Latex>
+          <Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="사진이 없습니다." />
           </div>
           <p>문제 내용</p>
-          <Latex delimiters={delimeters}>{problem.content}</Latex>
+          <Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex>
+          {problem.isOptional ? (
+                        <div>
+                          <p>객관식 1번 {JSON.parse(problem.option1)}</p> 
+                          <p>객관식 2번 {JSON.parse(problem.option2)}</p> 
+                          <p>객관식 3번 {JSON.parse(problem.option3)}</p> 
+                          <p>객관식 4번 {JSON.parse(problem.option4)}</p> 
+                          <p>객관식 5번 {JSON.parse(problem.option5)}</p> 
+                        </div>
+                      ) : null}
           <p>문제 답 </p>
           <Latex delimiters={delimeters}>{problem.answer}</Latex>
           <p>문제 해설</p>
-          <Latex delimiters={delimeters}>{problem.solution}</Latex>
+          <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
           <Modal>
             {({ openModal }) => (
               <>

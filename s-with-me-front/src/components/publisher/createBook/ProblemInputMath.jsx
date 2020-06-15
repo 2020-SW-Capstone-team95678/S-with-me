@@ -72,7 +72,7 @@ export function ProblemInputMathBottom(props) {
   //const [isMath, setIsMathState] = useState(false);
 
   const {prevAnswer,prevSolution,PrevOptionOne, prevOptionTwo, prevOptionThr,prevOptionFou,prevOptionFiv
-    ,onAnswer,onSolution,onOptionOne,onOptiontwo, onOptionthr,onOptionFou,onOptionFiv, isMath, isOptional } = props;
+    ,onAnswer,onSolution,onOptionOne,onOptionTwo, onOptionThr,onOptionFou,onOptionFiv, isMath, isOptional } = props;
 
   const [mathAnswer, setMathAnswer] = useState(prevAnswer);
   const [mathSolution, setMathSolution] = useState(prevSolution);
@@ -110,12 +110,12 @@ export function ProblemInputMathBottom(props) {
   const handleOptionTwoChange = e => {
     setOptionTwo(e.target.value);
     setMathOptionTwo(e.target.value);
-    onOptiontwo(e.target.value);
+    onOptionTwo(e.target.value);
   };
   const handleOptionThrChange = e => {
     setOptionThr(e.target.value);
     setMathOptionThr(e.target.value);
-    onOptionthr(e.target.value);
+    onOptionThr(e.target.value);
   };
   const handleOptionFouChange = e => {
     setOptionFou(e.target.value);
