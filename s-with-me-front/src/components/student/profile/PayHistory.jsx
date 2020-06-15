@@ -46,6 +46,9 @@ const BookInfo = ({ myBook, onClick }) => {
   const [selectedBook, setSelectedBook] = useState(null);
   const [clicked,setClicked]=useState(false);
   const bookId = myBook.bookId;
+  const receiptId=myBook.receiptId;
+  console.log(myBook);
+  console.log(receiptId);
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/student/library/my-book`, {
@@ -86,7 +89,11 @@ const BookInfo = ({ myBook, onClick }) => {
           display: 'flex',
           flexDirection: 'row',
         }}
-        onClick={()=>{setClicked(!clicked); setSelectedBook(book)}}
+        onClick={()=>{
+          setClicked(!clicked); setSelectedBook(book);
+
+
+        }}
       >
         <div style={{ display: 'flex', marginRight: 20 }}>
           <img width={100} src={book.cover} alt="bookCover" />
@@ -109,7 +116,7 @@ const BookInfo = ({ myBook, onClick }) => {
       <div style={{ flex: 4, padding: 3 }}>
         {(() => {
           if (selectedBook&&clicked) {
-            return <PayDetail book={selectedBook}  />;
+            return <PayDetail book={selectedBook} receiptId={receiptId}  />;
           }
         })()}
       </div>
@@ -118,7 +125,25 @@ const BookInfo = ({ myBook, onClick }) => {
   );
 };
 
-export const PayDetail = ({  book, setBooks }) => {
+
+
+export const PayDetail = ({  book , receiptId}) => {
+  console.log(receiptId);
+  const [payDetail, setPayDetail] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await Api.get(`/student/profile/payHistory`, {
+        params: {
+          receiptId,
+        },
+      });
+      setPayDetail(data.data);
+      console.log(data.data);
+    };
+
+    fetchData();
+  }, []);
+
     const dumpdata={
         action: "BootpayDone",
 amount: 2000,
@@ -146,27 +171,10 @@ status: 1,
 tax_free: 0,
 url: "http://localhost:3000"
     }
-  const [name, setName] = useState(book.name);
-  const [cover, setCover] = useState(book.cover);
-  const [isOnSale, setIsOnSale] = useState(book.isOnSale);
-  const [price, setPrice] = useState(book.price);
-
-  //부트 페이 내역 가져오기 되면 사용될 아이들이라 안지웠습니다.
+ 
 
   console.log(book.bookId);
   console.log(book);
-
-  useEffect(() => {
-    setName(book.name ? book.name : '');
-    setPrice(book.price ? book.price : 0);
-    // setName(book.introduction ? book.introduction : '');
-    // setPrice(book.grade ? book.grade : 0);
-    setCover(
-      book.cover
-        ? book.cover
-        : 'https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0309/IE002297749_STD.jpg',
-    );
-  }, [book]);
 
   console.log(dumpdata);
 
@@ -178,9 +186,9 @@ url: "http://localhost:3000"
           <div>
             <p>문제집 이름 : {book.name}</p>
             <p>가격 : {book.price}</p>
-            <p>결제 금액 : {dumpdata.amount}</p>
-            <p>결제 수단 : {dumpdata.payment_name}</p>
-            <p>결제 시간 : {dumpdata.purchased_at}</p>
+            <p>결제 금액 : {payDetail.amount}</p>
+            <p>결제 수단 : {payDetail.payment_name}</p>
+            <p>결제 시간 : {payDetail.purchased_at}</p>
           </div>
         </div>
       </div>

@@ -62,8 +62,7 @@ export default function MySolutionView(props) {
     return (
       <div>
         <Text>{isNewSolution ? '나의 새 ' : '나의 예전 '}풀이</Text>
-        {/* 이미지 풀이 보여주는 부분 */}
-        {/* isNewSolution? note.myNewHandSolution : note.handSolution */}
+        <img src={isNewSolution? note.myNewHandSolution : note.handSolution} alt="나의 손글씨 풀이"/>
       </div>
     );
   } else return null;
