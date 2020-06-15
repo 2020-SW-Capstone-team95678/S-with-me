@@ -3,7 +3,6 @@ import OverflowScrolling from 'react-overflow-scrolling';
 import './ModifyProblem.css';
 
 import Form from '../../../common-ui/Form';
-import Input from '../../../common-ui/Input';
 
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Latex from 'react-latex-next';
 import { delimeters } from '../../../constants/delimeters';
-import notSale from './isOnSale.png';
 
 import {
   Accordion,
@@ -28,13 +27,8 @@ import RegisterProblem from '../createBook/RegisterProblem';
 
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
-  const [count, setUpDate] = useState(0);
   const [selectedBook, setSelectedBook] = useState(null);
   const publisherId = window.sessionStorage.getItem('publisherId');
-
-  const onUpDate = () => {
-    setUpDate(count + 1);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,18 +50,13 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
-            <Button
-              primary
-              onPress={() =>
-                openModal(CREATE_BOOK, { onUpDate: onUpDate, publisherId: publisherId })
-              }
-            >
+            <Button primary onPress={() => openModal(CREATE_BOOK, { publisherId: publisherId })}>
               Create Book
             </Button>
           )}
         </Modal>
         <div>
-          <ol style={{ overflow: 'hidden', 'overflow-y': 'scroll' }}>
+          <ol style={{ maxHeight: '800px', overflow: 'hidden', overflowY: 'scroll' }}>
             {books.map(book => {
               return <SideBookInfo book={book} onClick={() => setSelectedBook(book)} />;
             })}
@@ -87,64 +76,110 @@ const LibraryApp = () => {
 
 const SideBookInfo = ({ book, onClick }) => {
   return (
-    <div
-      style={{
-        backgroundColor: 'rgb(255, 245, 238)',
-        borderRadius: 5,
-        padding: 5,
-        minHeight: 150,
-        marginTop: 10,
-        marginBottom: 10,
-        marginRight: 40,
-        justifyItems: 'center',
-        textAlign: 'center',
-        cursor: 'pointer',
-      }}
-    >
-      <div
-        style={{
-          borderRadius: 5,
-          padding: 8,
-          minHeight: '100%',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        onClick={onClick}
-      >
-        {book.isOnSale? (<div>
-          <img width={100} src={book.cover} alt="bookCover" />
-        </div>):(<div>
-          <img width={100} src={notSale} alt="bookCover" />
-        </div>)}
-        
+    <div>
+      {book.isOnSale ? (
         <div
           style={{
-            backgroundColor: 'white',
+            backgroundColor: 'rgb(251, 231, 220)',
             borderRadius: 5,
+            padding: 5,
+            minHeight: 150,
+            marginTop: 10,
+            marginBottom: 10,
+            marginRight: 40,
+            justifyItems: 'center',
             textAlign: 'center',
-            marginTop: 3,
-            padding: 2,
+            cursor: 'pointer',
+            border:'solid',
+            borderColor:'gray'
           }}
         >
-          {book.name}
+          <div
+            style={{
+              borderRadius: 5,
+              padding: 8,
+              minHeight: '100%',
+              marginTop: 10,
+              marginBottom: 10,
+              
+            }}
+            onClick={onClick}
+          >
+            <div>
+              <img width={100} src={book.cover} alt="bookCover" />
+            </div>
+
+            <div
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 5,
+                textAlign: 'center',
+                marginTop: 3,
+                padding: 2,
+              }}
+            >
+              {book.name}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          style={{
+            backgroundColor: 'lightgray',
+            borderRadius: 5,
+            padding: 5,
+            minHeight: 150,
+            marginTop: 10,
+            marginBottom: 10,
+            marginRight: 40,
+            justifyItems: 'center',
+            textAlign: 'center',
+            cursor: 'pointer',
+            opacity:0.3
+
+          }}
+        >
+          <div
+            style={{
+              borderRadius: 5,
+              padding: 8,
+              minHeight: '100%',
+              marginTop: 10,
+              marginBottom: 10,
+              color: 'red',
+            }}
+            onClick={onClick}
+          >
+            <div>
+              <img width={100} src={book.cover} alt="bookCover" />
+            </div>
+
+            <div
+              style={{
+                backgroundColor: 'grey',
+                borderRadius: 5,
+                textAlign: 'center',
+                marginTop: 3,
+                padding: 2,
+              }}
+            >
+              {book.name}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-export const BookInfo = ({ setData, book, setBooks }) => {
+export const BookInfo = ({ book, setBooks }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
-
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
-  const [isOnSale,setIsOnSale]=useState(book.isOnSale);
   const [price, setPrice] = useState(book.price);
   //const [subject,setSubject] = useState(book.subject);
   //const [grade,setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
-  console.log(book.bookId);
-  console.log(book);
-  console.log(book.grade);
+  const [chapters, setChapters] = useState([]);
 
   useEffect(() => {
     setName(book.name ? book.name : '');
@@ -171,13 +206,12 @@ export const BookInfo = ({ setData, book, setBooks }) => {
     if (e.target.value !== book.grade) {
       //setGrade(e.target.value);
       book.grade = e.target.value;
-      Api.put(`/publisher/library/book/${book.bookId}`, book)
-        .then(response =>
-          setBooks(prev => {
-            return [...prev];
-          }),
-        )
-        //.catch(reason => setGrade(book.grade));
+      Api.put(`/publisher/library/book/${book.bookId}`, book).then(response =>
+        setBooks(prev => {
+          return [...prev];
+        }),
+      );
+      //.catch(reason => setGrade(book.grade));
       console.log(book.grade);
     }
   }
@@ -185,13 +219,12 @@ export const BookInfo = ({ setData, book, setBooks }) => {
     if (e.target.value !== book.subject) {
       //setSubject(e.target.value);
       book.subject = e.target.value;
-      Api.put(`/publisher/library/book/${book.bookId}`, book)
-        .then(response =>
-          setBooks(prev => {
-            return [...prev];
-          }),
-        )
-       // .catch(reason => setSubject(book.subject));
+      Api.put(`/publisher/library/book/${book.bookId}`, book).then(response =>
+        setBooks(prev => {
+          return [...prev];
+        }),
+      );
+      // .catch(reason => setSubject(book.subject));
       console.log(book.subject);
     }
   }
@@ -205,14 +238,31 @@ export const BookInfo = ({ setData, book, setBooks }) => {
   };
 
   return (
-    <>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 1, textAlign: 'center' }}>
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div
+          style={{
+            textAlign: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            marginRight: 50,
+          }}
+        >
           <p>북커버</p>
-          <img width={100} src={book.cover} alt="non-bookCover" />
+          <img width={200} src={book.cover} alt="non-bookCover" />
           <InputBookCover setCover={setCover} />
           <button
-            style={{ cursor: 'point' }}
+            style={{
+              cursor: 'point',
+              marginRight: 10,
+              borderRadius: 10,
+              padding: 10,
+              paddingLeft: 20,
+              paddingRight: 20,
+              margin: 5,
+              borderColor: 'lightgray',
+              backgroundColor: 'rgb(255, 245, 238)',
+            }}
             primary
             onClick={() => {
               Api.put(`/publisher/library/book/${book.bookId}`, { ...book, cover: cover })
@@ -228,7 +278,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           </button>
         </div>
 
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
             <p>제목</p>
 
@@ -316,41 +366,56 @@ export const BookInfo = ({ setData, book, setBooks }) => {
                 }
               }}
             ></input>
-           
-
-
-
-
-
-
           </div>
         </div>
-        <div>
-        {book.isOnSale?(
-          <button style={{cursor:'pointer'}} onClick={()=>{
-            setIsOnSale(!book.isOnSale)
-            console.log(isOnSale)
-            book.isOnSale=isOnSale
-            Api.put(`/publisher/library/book/${book.bookId}`, book)
-            .then(response =>
-              setBooks(prev => {
-                return [...prev];
-              }),
-            )
-
-            }}>판매 중단</button>):(<button style={{cursor:'pointer'}} onClick={()=>{
-              console.log("b: "+isOnSale)
-              setIsOnSale(!book.isOnSale)
-              console.log(book);
-              book.isOnSale=isOnSale
-              Api.put(`/publisher/library/book/${book.bookId}`, book)
-              .then(response =>
-                setBooks(prev => {
-                  return [...prev];
-                }),
-              )
-  
-              }}>판매 시작</button>)}
+        <div style={{ marginLeft: 100, marginTop: 50 }}>
+          {book.isOnSale ? (
+            <button
+              style={{
+                cursor: 'pointer',
+                borderRadius: 3,
+                padding: 10,
+                margin: 5,
+                outline: 'none',
+                border: 'none',
+                color: 'white',
+                backgroundColor: 'rgb(237, 88, 56)',
+              }}
+              onClick={() => {
+                book.isOnSale = !book.isOnSale;
+                Api.put(`/publisher/library/book/${book.bookId}`, book).then(response =>
+                  setBooks(prev => {
+                    return [...prev];
+                  }),
+                );
+              }}
+            >
+              판매 중단
+            </button>
+          ) : (
+            <button
+              style={{
+                cursor: 'pointer',
+                borderRadius: 3,
+                padding: 10,
+                margin: 5,
+                outline: 'none',
+                border: 'none',
+                color: 'white',
+                backgroundColor: 'rgb(237, 88, 56)',
+              }}
+              onClick={() => {
+                book.isOnSale = !book.isOnSale;
+                Api.put(`/publisher/library/book/${book.bookId}`, book).then(response =>
+                  setBooks(prev => {
+                    return [...prev];
+                  }),
+                );
+              }}
+            >
+              판매 시작
+            </button>
+          )}
         </div>
       </div>
       <div>
@@ -359,16 +424,35 @@ export const BookInfo = ({ setData, book, setBooks }) => {
             <>
               <br />
               <button
-                style={{ cursor: 'point', marginRight: 10 }}
+                style={{
+                  cursor: 'pointer',
+                  marginRight: 5,
+                  marginLeft: 20,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  padding: 10,
+                  borderColor: 'lightgray',
+                  borderBottom: 'none',
+                  backgroundColor: 'rgb(255, 245, 238)',
+                }}
                 primary
                 onClick={() =>
-                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
+                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId, setChapters })
                 }
               >
                 mainChapter add
               </button>
               <button
-                style={{ cursor: 'point' }}
+                style={{
+                  cursor: 'pointer',
+                  marginRight: 10,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  padding: 10,
+                  borderColor: 'lightgray',
+                  borderBottom: 'none',
+                  backgroundColor: 'rgb(255, 245, 238)',
+                }}
                 primary
                 onClick={() =>
                   openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
@@ -382,6 +466,7 @@ export const BookInfo = ({ setData, book, setBooks }) => {
         <div id="main">
           <ChapterInfo
             bookId={book.bookId}
+            prevChapters={chapters}
             onClick={subChapterId => {
               setSelectedSubChapter(subChapterId);
             }}
@@ -391,20 +476,17 @@ export const BookInfo = ({ setData, book, setBooks }) => {
           <ProblemInfo book={book} setBooks={setBooks} subChapterId={selectedSubChapter} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
-export const ChapterInfo = ({ bookId, onClick }) => {
+export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
   const [chapters, setChapters] = useState([]);
-  //const [mainChapterName, setMainChapterName] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/library/book/${bookId}/chapters`);
       setChapters(data.data);
     };
-
     if (bookId) {
       fetchData();
     }
@@ -416,38 +498,55 @@ export const ChapterInfo = ({ bookId, onClick }) => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
         console.log(mainChapterId);
         return (
-          <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection:'column' }}>
-            <div style={{display: 'flex', flexDirection:'row'}}>
-            <AccordionItemHeading
-              style={{ flex:4, cursor: 'pointer' }}
-              onClick={() => onClick(null)}
-            >
-              <AccordionItemButton style={{ button:'focus',outline:'none', cursor: 'point' }}>
-                {chapter.mainChapterResponseDto.mainChapterName}
-              </AccordionItemButton>
-            </AccordionItemHeading>
-            <button
-              style={{ flex: 1, cursor: 'pointer' }}
-              primary
-              onClick={() =>
-                Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
-                  mainChapterId,
-                }).then(
-                  setChapters(prev => {
-                    return [...prev];
-                  }),
-                )
-              }
-            >
-              삭제
-            </button>
+          <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <AccordionItemHeading
+                style={{ flex: 4, cursor: 'pointer' }}
+                onClick={() => onClick(null)}
+              >
+                <AccordionItemButton style={{ button: 'focus', outline: 'none', cursor: 'point' }}>
+                  {chapter.mainChapterResponseDto.mainChapterName}
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <button
+                style={{
+                  flex: 1,
+                  cursor: 'pointer',
+                  border: 'none',
+                  '&:hover': {
+                    background: '#efefef',
+                  },
+                }}
+                primary
+                onClick={() =>
+                  Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
+                    mainChapterId,
+                  }).then(
+                    setChapters(prev => {
+                      return [...prev];
+                    }),
+                  )
+                }
+              >
+                삭제
+              </button>
             </div>
             <AccordionItemPanel style={{ cursor: 'pointer' }}>
               <Modal>
                 {({ openModal }) => (
                   <>
                     <button
-                      style={{ marginRight: 10 }}
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: 5,
+                        marginLeft: 20,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10,
+                        padding: 10,
+                        borderColor: 'lightgray',
+                        borderBottom: 'none',
+                        backgroundColor: 'rgb(255, 245, 238)',
+                      }}
                       primary
                       onClick={() =>
                         openModal(CREATE_SUB_CHAPTER, {
@@ -458,7 +557,16 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                       subChapter add
                     </button>
                     <button
-                      style={{ cursor: 'pointer' }}
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: 10,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10,
+                        padding: 10,
+                        borderColor: 'lightgray',
+                        borderBottom: 'none',
+                        backgroundColor: 'rgb(255, 245, 238)',
+                      }}
                       primary
                       onClick={() =>
                         openModal(UPDATE_SUB_CHAPTER, {
@@ -479,8 +587,8 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                   const subChapterId = subChapter.subChapterId;
                   console.log(subChapterId);
                   return (
-                    <Modal>
-                      {({ openModal }) => (
+                    <>
+                    <div  style={{border:'solid', borderColor:'rgba(185, 176, 176, 0.87)',borderRadius:5}}>
                         <div
                           style={{
                             display: 'flex',
@@ -490,7 +598,9 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                             style={{
                               display: 'flex',
                               flex: 4,
-
+                              textAlign:'center',
+                              alignItems:'center',
+                              justifyContent:'centr',
                               flexDirection: 'row',
                               backgroundColor: 'rgb(255, 245, 238)',
                               paddingLeft: 20,
@@ -502,12 +612,11 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                               onClick(subChapter.subChapterId);
                             }}
                           >
-                            <br></br>
                             {subChapter.subChapterName}
-                            <div style={{ width: 20 }}></div>
+
                           </div>
                           <button
-                            style={{ flex: 1, cursor: 'pointer' }}
+                            style={{ flex: 1, cursor: 'pointer',border: 'none', }}
                             primary
                             onClick={() =>
                               Api.delete(
@@ -525,8 +634,11 @@ export const ChapterInfo = ({ bookId, onClick }) => {
                             삭제
                           </button>
                         </div>
-                      )}
-                    </Modal>
+                        <ProblemInfo subChapterId={subChapter.subChapterId} />
+                        
+                        </div>
+                        <br></br>
+                        </>
                   );
                 })}
               </ol>
@@ -560,24 +672,18 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
 
   return (
     <div>
-      <br></br>
-      <br></br>
-      <Accordion style={{ marginTop:  20}} allowZeroExpanded={true}>
+      <Accordion allowZeroExpanded={true}>
         {problems.map(problem => {
           return (
-            <AccordionItem >
-              
-              <AccordionItemHeading  >
-                <AccordionItemButton
-                  style={{ flex:1, backgroundColor: 'rgb(247, 207, 192)' }}
-                >
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton style={{ flex: 1, backgroundColor: 'rgb(247, 207, 192)' }}>
                   {problem.problemNumber}
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>
                 <ProblemItem setBooks={setBooks} problem={problem} />
               </AccordionItemPanel>
-              
             </AccordionItem>
           );
         })}
@@ -602,25 +708,24 @@ const ProblemItem = ({ problem, setBooks }) => {
   const problemId = problem.problemId;
   console.log(problemId);
 
-
   return (
     <div>
       {!problem.isMath ? (
         <div>
-          <p >문제 제목 {problem.title}</p>
+          <p>문제 제목 {problem.title}</p>
           <div style={{ borderWidth: 2, borderColor: 'gray' }}>
-            <img width={300} src={problem.image} alt="사진이 없습니다."/>
+            <img width={300} src={problem.image} alt="사진이 없습니다." />
           </div>
           <p>문제 내용 {problem.content}</p>
           {problem.isOptional ? (
-                        <div>
-                          <p>객관식 1번 {problem.option1}</p> 
-                          <p>객관식 2번 {problem.option2}</p> 
-                          <p>객관식 3번 {problem.option3}</p> 
-                          <p>객관식 4번 {problem.option4}</p> 
-                          <p>객관식 5번 {problem.option5}</p> 
-                        </div>
-                      ) : null}
+            <div>
+              <p>객관식 1번 {problem.option1}</p>
+              <p>객관식 2번 {problem.option2}</p>
+              <p>객관식 3번 {problem.option3}</p>
+              <p>객관식 4번 {problem.option4}</p>
+              <p>객관식 5번 {problem.option5}</p>
+            </div>
+          ) : null}
           <p>문제 답 {problem.answer}</p>
           <p>문제 해설 {problem.solution}</p>
           <Modal>
@@ -628,15 +733,17 @@ const ProblemItem = ({ problem, setBooks }) => {
               <>
                 <br />
                 <button
-                      style={{ marginRight: 10 }}
-                      primary
-                      onClick={() =>
-                        openModal(UPDATE_PROBLEM, {
-                          problem,
-                          problemId,
-                        })
-                      }
-                    >문제 수정</button> 
+                  style={{ marginRight: 10 }}
+                  primary
+                  onClick={() =>
+                    openModal(UPDATE_PROBLEM, {
+                      problem,
+                      problemId,
+                    })
+                  }
+                >
+                  문제 수정
+                </button>
               </>
             )}
           </Modal>
@@ -666,15 +773,17 @@ const ProblemItem = ({ problem, setBooks }) => {
           <p>문제 내용</p>
           <Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex>
           {problem.isOptional ? (
-                        <div>
-                          <p>객관식 1번 {JSON.parse(problem.option1)}</p> 
-                          <p>객관식 2번 {JSON.parse(problem.option2)}</p> 
-                          <p>객관식 3번 {JSON.parse(problem.option3)}</p> 
-                          <p>객관식 4번 {JSON.parse(problem.option4)}</p> 
-                          <p>객관식 5번 {JSON.parse(problem.option5)}</p> 
-                        </div>
-                      ) : null}
-          <p><Latex delimiters={delimeters}> 문제 답 : {problem.answer}</Latex></p>
+            <div>
+              <p>객관식 1번 {JSON.parse(problem.option1)}</p>
+              <p>객관식 2번 {JSON.parse(problem.option2)}</p>
+              <p>객관식 3번 {JSON.parse(problem.option3)}</p>
+              <p>객관식 4번 {JSON.parse(problem.option4)}</p>
+              <p>객관식 5번 {JSON.parse(problem.option5)}</p>
+            </div>
+          ) : null}
+          <p>
+            <Latex delimiters={delimeters}> 문제 답 : {problem.answer}</Latex>
+          </p>
           <p>문제 해설</p>
           <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
           <Modal>
@@ -682,16 +791,17 @@ const ProblemItem = ({ problem, setBooks }) => {
               <>
                 <br />
                 <button
-                      style={{ marginRight: 10 }}
-                      primary
-                      onClick={() =>
-                        openModal(UPDATE_PROBLEM, {
-                          problem,
-                          problemId
-                        })
-                      }
-                    >문제 수정</button>
-               
+                  style={{ marginRight: 10 }}
+                  primary
+                  onClick={() =>
+                    openModal(UPDATE_PROBLEM, {
+                      problem,
+                      problemId,
+                    })
+                  }
+                >
+                  문제 수정
+                </button>
               </>
             )}
           </Modal>

@@ -20,6 +20,7 @@ import SignUpPublisherInputContainer from './containers/publisher/SignUpPublishe
 import MyBookDetail from './components/student/libarary/MyBookDetail';
 
 import LibraryApp from './components/publisher/library/LibraryApp';
+import ProfilePublisher from './components/publisher/profile/Profile';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
 import BookstoreAppContainer from './containers/bookstore/BookstoreAppContainer';
 import BookDetailContainer from './containers/bookstore/BookDetailContainer';
@@ -132,6 +133,7 @@ export default class App extends PureComponent {
                 />
 
                 <PAppLayout>
+                  <Route path="/profile" render={() => <ProfilePublisher />} />
                   <Route path="/library" render={() => <LibraryApp />} />
                   <Route path="/register-problem" render={() => <RegisterProblem />} />
                   <Route path="/publisher/library/book2" exact render={() => <BookInfoPage />} />

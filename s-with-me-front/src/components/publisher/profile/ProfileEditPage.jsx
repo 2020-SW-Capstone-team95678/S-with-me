@@ -21,7 +21,7 @@ class ProfileEditPage extends PureComponent {
       code,
       name,
     };
-    Api.post('/profile', formValues).then(() => closeModal());
+    Api.post('/profile', formValues).then(() => closeModal());//put api 필요
   }
   render() {
     const { price, type } = this.props;
@@ -37,12 +37,9 @@ class ProfileEditPage extends PureComponent {
               {({ onChange, values }) => (
                 <Spacing horizontal={4} vertical={8}>
                   <Text xlarge bold>
-                    프로필 수정
+                    비밀번호 수정
                   </Text>
                   <Spacing bottom={2}>
-                    <div>
-                      프로필 사진<Button>사진 변경</Button>
-                    </div>
                     <Input
                       name="password"
                       label="비밀번호"

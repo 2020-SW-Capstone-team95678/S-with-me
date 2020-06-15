@@ -16,9 +16,9 @@ const CreateBookPage = props => {
   const [subject, setSubject] = useState('');
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState([]);
-  const isOnSale=false;
+  //const isOnSale=false;
   const [introduction, setIntroduction] = useState('');
-  const { onUpDate, publisherId } = props;
+  const { publisherId } = props;
 
   function handleSubjectChange(e) {
     setSubject(e.target.value);
@@ -32,9 +32,7 @@ const CreateBookPage = props => {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             Book infos
             <br />
-            <br />
-            <h2>book Id : {bookId}</h2>
-            <h2>Publisher Id : {publisherId}</h2>
+         
             북커버
             <InputBookCover setCover={setCover} />
             Grade
@@ -99,7 +97,6 @@ const CreateBookPage = props => {
                   isOnSale:false
                 }).then(response => {
                   setBookId(response.data);
-                  console.log(isOnSale);
                 });
               }}
             >
@@ -107,7 +104,6 @@ const CreateBookPage = props => {
             </button>
             <button
               onClick={() => {
-                onUpDate();
                 closeModal();
               }}
             >

@@ -2,14 +2,12 @@ import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
 import Input from '../../../common-ui/Input';
-import Text from '../../../common-ui/Text';
 import CheckBox from '../../../common-ui/CheckBox';
 import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
 
 import 'katex/dist/katex.min.css';
 import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
-import { TextArea } from 'semantic-ui-react';
 
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
