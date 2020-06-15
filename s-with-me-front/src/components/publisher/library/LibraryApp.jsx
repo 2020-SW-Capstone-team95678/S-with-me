@@ -674,8 +674,7 @@ const ProblemItem = ({ problem, setBooks }) => {
                           <p>객관식 5번 {JSON.parse(problem.option5)}</p> 
                         </div>
                       ) : null}
-          <p>문제 답 </p>
-          <Latex delimiters={delimeters}>{problem.answer}</Latex>
+          <p><Latex delimiters={delimeters}> 문제 답 : {problem.answer}</Latex></p>
           <p>문제 해설</p>
           <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
           <Modal>

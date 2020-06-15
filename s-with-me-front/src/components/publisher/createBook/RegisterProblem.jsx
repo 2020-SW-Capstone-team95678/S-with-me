@@ -51,6 +51,14 @@ export default class RegisterProblem extends PureComponent {
       };
 
     }
+    else{
+      values = {
+        ...values,
+        content:this.state.content,
+        solution:this.state.solution,
+      };
+
+    }
     const formValue = {
       ...values,
       subChapterId:subChapterId,
@@ -133,6 +141,12 @@ export default class RegisterProblem extends PureComponent {
     this.setState({
       optionFivM:optionFiv
 
+    });
+  };
+
+  handleChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -248,7 +262,13 @@ export default class RegisterProblem extends PureComponent {
                     >
                       <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                       <Input label="문제 제목" name="title" onChange={onChange} />
-                      <Input label="문제 내용" name="content" onChange={onChange} />
+                      문제 내용
+                              <textarea
+                                label="문제 내용"
+                                name="content"
+                                value={this.state.content}
+                                onChange={this.handleChangeInput}
+                              />
                       
                       <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                         <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
@@ -278,7 +298,13 @@ export default class RegisterProblem extends PureComponent {
                       ) : null}
 
                       <Input label="문제 정답" name="answer" onChange={onChange} />
-                      <Input label="문제 해설" name="solution" onChange={onChange} />
+                      문제 해설
+                              <textarea
+                                label="문제 해설"
+                                name="solution"
+                                value={this.state.solution}
+                                onChange={this.handleChangeInput}
+                              />
                     </div>
                     <Button>등록!</Button>
                     </div>
