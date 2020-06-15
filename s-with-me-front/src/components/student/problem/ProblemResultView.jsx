@@ -3,14 +3,12 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 
 import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
-import VerticalList from '../../../common-ui/VerticalList';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { DELETE_NOTE } from '../../../constants/modals';
 import Api from '../../../Api';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPoo } from '@fortawesome/free-solid-svg-icons';
+import ProblemContentView from './ProblemContentView';
 
 class ProblemResultView extends PureComponent {
   constructor(props) {
@@ -46,50 +44,18 @@ class ProblemResultView extends PureComponent {
 
   render() {
     const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
-    const { problemNumber, content, isOptional, answer } = this.props.problem;
-    const { solution, image, title } = this.props.problem;
+    const { problemNumber, isOptional, answer, solution } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
-    let numbers = ['①', '②', '③', '④', '⑤'];
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div {...css(styles.body)}>
-          {isRight ? (
-            <Text>딩동댕</Text>
-          ) : (
-            <Text primary>
-              <FontAwesomeIcon icon={faPoo} />땡
-            </Text>
-          )}
-          {isConfused ? <Text>헷갈렸어요</Text> : null}
-          <Text large>
-            {problemNumber ? problemNumber + '.' : null}
-            {title}
-          </Text>
-          {image ? (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <img
-                src={image}
-                alt={problemNumber + '문제 그림'}
-                style={{ maxHeight: '30vh', minHeight: '10vh', width: 'auto', maxWidth: '100%' }}
-              />
-            </div>
-          ) : null}
-          {content ? (
-            <div style={{ border: '0.5px solid', padding: 2 }}>
-              <Text>{content}</Text>
-            </div>
-          ) : null}
-          {isOptional ? (
-            <VerticalList spacingBetween={1}>
-              {optionContents.map((option, index) => (
-                <Text key={index}>
-                  {numbers[index]} : {option}
-                </Text>
-              ))}
-            </VerticalList>
-          ) : null}
-        </div>
+        <ProblemContentView
+          problem={this.props.problem}
+          myProblem={this.props.myProblem}
+          optionContents={optionContents}
+          isResultView
+        />
         <div {...css(styles.container)}>
           {showSolution ? (
             <div>
