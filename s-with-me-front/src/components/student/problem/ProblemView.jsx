@@ -44,6 +44,7 @@ class ProblemView extends PureComponent {
       if (myProblem.isMath) {
         const mathSolution = JSON.stringify(myProblem.textSolution);
         formValue = { ...formValue, textSolution: mathSolution };
+        console.log(formValue);
       }
       formValue = { ...formValue, textSolution: myProblem.textSolution };
     } else if (myProblem.solutionType === 'img') {

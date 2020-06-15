@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react';
 import CheckBox from '../../../common-ui/CheckBox';
 import VerticalList from '../../../common-ui/VerticalList';
 
+import { delimeters } from '../../../constants/delimeters';
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
+
 export default class AnswerInput extends PureComponent {
   constructor(props) {
     super(props);
@@ -44,7 +48,7 @@ export default class AnswerInput extends PureComponent {
 
   render() {
     const { options, optionlabels } = this.state;
-    const { optionContents } = this.props;
+    const { optionContents, isMath } = this.props;
     if (this.props.isOptional) {
       return (
         <VerticalList spacingBetween={1}>
@@ -59,7 +63,13 @@ export default class AnswerInput extends PureComponent {
               }}
               checked={option.isChecked}
             >
-              {optionContents[index]}
+              {isMath ? (
+                <Latex delimiters={delimeters}>
+                  {optionContents[index].replaceAll('\\\\', '\\').replace(/"/g, '')}
+                </Latex>
+              ) : (
+                optionContents[index]
+              )}
             </CheckBox>
           ))}
         </VerticalList>

@@ -12,6 +12,7 @@ import Api from '../../../Api';
 import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
 import MySolutionView from './MySolutionView';
 import ProblemContentView from '../problem/ProblemContentView';
+import MathSolutionView from '../problem/MathSolutionView';
 
 class NoteView extends Component {
   _isMounted = false;
@@ -96,7 +97,7 @@ class NoteView extends Component {
     const { isConfused, isRight, myProblemId, resolve, myAnswer } = note;
     const { solutionType, tempSolutionType } = note;
     const { showMySolution, showSolution, showMyNewSolution } = this.state;
-    const { problemNumber, isOptional, solution, answer } = this.state.problem;
+    const { problemNumber, isOptional, solution, answer, isMath } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.problem.option1);
@@ -170,7 +171,10 @@ class NoteView extends Component {
                     정답:{answer} <br />
                   </Text>
                 ) : null}
-                <Text>해설: {solution}</Text>
+                <Text>
+                  해설 <br />
+                  {isMath ? <MathSolutionView solution={solution} /> : solution}
+                </Text>
                 <br />
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>

@@ -7,27 +7,22 @@ import { faPoo } from '@fortawesome/free-solid-svg-icons';
 import { withStyles, css } from '../../../common-ui/withStyles';
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import NewAnswerInputContainer from '../../../containers/student/note/NewAnswerInputContainer';
-import MathProblemContentView from './MathProblemContentView';
 
-function ProblemContentView(props) {
+import { delimeters } from '../../../constants/delimeters';
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
+
+String.prototype.replaceAll = function(org, dest) {
+  return this.split(org).join(dest);
+};
+
+function MathProblemContentView(props) {
   const numbers = ['①', '②', '③', '④', '⑤'];
   const { styles, optionContents, isResultView, isNote } = props;
   if (!isNote) {
     var { myProblemId, isRight, isConfused } = props.myProblem;
   }
-  const { problemNumber, image, content, title, isOptional, isMath } = props.problem;
-  if (isMath) {
-    return (
-      <MathProblemContentView
-        myProblem={props.myProblem}
-        note={props.note}
-        optionContents={optionContents}
-        problem={props.problem}
-        isResultView={isResultView}
-        isNote={isNote}
-      />
-    );
-  }
+  const { problemNumber, image, content, title, isOptional } = props.problem;
   return (
     <div {...css(styles.body)}>
       {isResultView && !isNote ? (
@@ -49,7 +44,7 @@ function ProblemContentView(props) {
       ) : null}
       <Text large>
         {problemNumber ? problemNumber + '.' : null}
-        {title}
+        <Latex delimiters={delimeters}>{title.replaceAll('\\\\', '\\').replace(/"/g, '')}</Latex>
       </Text>
       {image ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -65,22 +60,28 @@ function ProblemContentView(props) {
           />
         </div>
       ) : null}
-      {content ? (
+      {content && content.length > 2 ? (
         <div style={{ border: '0.5px solid', padding: 2 }}>
-          <Text>{content}</Text>
+          <Latex delimiters={delimeters}>
+            {content.replaceAll('\\\\', '\\').replace(/"/g, '')}
+          </Latex>
         </div>
       ) : null}
       {isOptional && isResultView ? (
         <VerticalList spacingBetween={1}>
           {optionContents.map((option, index) => (
             <Text key={index}>
-              {numbers[index]} : {option}
+              {numbers[index]}
+              <Latex delimiters={delimeters}>
+                {option.replaceAll('\\\\', '\\').replace(/"/g, '')}
+              </Latex>
             </Text>
           ))}
         </VerticalList>
       ) : null}
       {!isResultView && problemNumber && !isNote ? (
         <AnswerInputContainer
+          isMath
           id={myProblemId}
           isOptional={isOptional}
           optionContents={optionContents}
@@ -88,6 +89,7 @@ function ProblemContentView(props) {
       ) : null}
       {!isResultView && problemNumber && isNote ? (
         <NewAnswerInputContainer
+          isMath
           id={props.note.noteId}
           isOptional={isOptional}
           optionContents={optionContents}
@@ -105,4 +107,4 @@ export default withStyles(() => ({
     padding: 5,
     borderRadius: 2,
   },
-}))(ProblemContentView);
+}))(MathProblemContentView);

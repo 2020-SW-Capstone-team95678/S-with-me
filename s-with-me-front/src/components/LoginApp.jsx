@@ -9,10 +9,7 @@ import Button from '../common-ui/Button';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
-
 import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
-import { InstallButton } from '../InstallPWA';
-
 
 class LoginApp extends react.PureComponent {
   constructor(props) {
@@ -58,7 +55,7 @@ class LoginApp extends react.PureComponent {
       <div className="login">
         <Modal dimmer="inverted" open={open} onClose={this.close}>
           <Modal.Content image>
-            <Image wrapped size="medium" src={logo}/>
+            <Image wrapped size="medium" src={logo} />
             <Modal.Description>
               <p>SwithMe App을 다운받으시겠습니까?</p>
               <p>홈 화면에 SwithMe를 추가하실 수 있습니다.</p>
@@ -95,7 +92,7 @@ class LoginApp extends react.PureComponent {
           <div className="loginSection">
             <div className="content">
               <div className="checkBox">
-                <CheckBox 
+                <CheckBox
                   name="isStudnet"
                   font-color="red"
                   onChange={() => this.setState({ isStudent: !isStudent })}
@@ -130,7 +127,12 @@ class LoginApp extends react.PureComponent {
                             <Input name="id" onChange={onChange} placeholder="ID" />
                           </div>
                           <div className="inputPW">
-                            <Input name="password" onChange={onChange} placeholder="PW" type="password" />
+                            <Input
+                              name="password"
+                              onChange={onChange}
+                              placeholder="PW"
+                              type="password"
+                            />
                           </div>
                         </div>
                         <Button className="loginButton" type="submit" disabled={loading}>

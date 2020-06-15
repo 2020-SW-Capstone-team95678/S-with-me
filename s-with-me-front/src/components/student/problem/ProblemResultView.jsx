@@ -9,6 +9,7 @@ import { DELETE_NOTE } from '../../../constants/modals';
 import Api from '../../../Api';
 
 import ProblemContentView from './ProblemContentView';
+import MathSolutionView from './MathSolutionView';
 
 class ProblemResultView extends PureComponent {
   constructor(props) {
@@ -44,7 +45,7 @@ class ProblemResultView extends PureComponent {
 
   render() {
     const { myProblemId, isRight, isConfused, myAnswer } = this.props.myProblem;
-    const { problemNumber, isOptional, answer, solution } = this.props.problem;
+    const { problemNumber, isOptional, answer, solution, isMath } = this.props.problem;
     const { styles, optionContents } = this.props;
     const { isSavedNote, showSolution } = this.state;
 
@@ -59,7 +60,9 @@ class ProblemResultView extends PureComponent {
         <div {...css(styles.container)}>
           {showSolution ? (
             <div>
-              <div style={{ paddingBottom: '5px' }}>{solution}</div>
+              <div style={{ paddingBottom: '5px' }}>
+                {isMath ? <MathSolutionView solution={solution} /> : solution}
+              </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>
