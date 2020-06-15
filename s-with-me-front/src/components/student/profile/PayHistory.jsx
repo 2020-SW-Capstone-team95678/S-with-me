@@ -132,52 +132,16 @@ export const PayDetail = ({  book , receiptId}) => {
   const [payDetail, setPayDetail] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await Api.get(`/student/profile/payHistory`, {
+      const data = await Api.get(`/student/profile/payhistory`, {
         params: {
           receiptId,
         },
       });
-      setPayDetail(data.data);
-      console.log(data.data);
+      setPayDetail(data.data.data);
     };
 
     fetchData();
   }, []);
-
-    const dumpdata={
-        action: "BootpayDone",
-amount: 2000,
-card_code: "97",
-card_name: null,
-card_no: "*********",
-card_quota: null,
-item_name: "수학문제집",
-method: "kakao",
-method_name: "카카오페이",
-order_id: "8dc9d433-8d46-b5f7-afc8-46a69e95091c",
-params: null,
-parent: 2,
-payment_group: "card",
-payment_group_name: "신용카드",
-payment_name: "카카오페이",
-pg: "inicis",
-pg_name: "이니시스",
-price: 2000,
-purchased_at: "2020-06-10 01:05:02",
-receipt_id: "5edfb31618e1ae0025c3bbef",
-receipt_url: "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20200610010501896424&noMethod=1",
-requested_at: "2020-06-10 01:04:38",
-status: 1,
-tax_free: 0,
-url: "http://localhost:3000"
-    }
- 
-
-  console.log(book.bookId);
-  console.log(book);
-
-  console.log(dumpdata);
-
 
   return (
     <>
@@ -186,8 +150,8 @@ url: "http://localhost:3000"
           <div>
             <p>문제집 이름 : {book.name}</p>
             <p>가격 : {book.price}</p>
-            <p>결제 금액 : {payDetail.amount}</p>
-            <p>결제 수단 : {payDetail.payment_name}</p>
+            <p>결제 금액 : {payDetail.price}</p>
+            <p>결제 수단 : {payDetail.method_name}</p>
             <p>결제 시간 : {payDetail.purchased_at}</p>
           </div>
         </div>
