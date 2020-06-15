@@ -10,7 +10,7 @@ public class Test {
         api = new BootpayApi("5edb7b5c8f0751002bfcd4bf", "/mKKFkSwJ/N7RJ5Hpb96YbvzVZA+VH+knKrGq4HD6zU=");
         goGetToken();
         goVerfity();
-        goCancel();
+        //goCancel();
     }
 
     public static void goGetToken() {
