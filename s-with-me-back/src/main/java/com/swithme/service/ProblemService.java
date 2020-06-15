@@ -181,7 +181,7 @@ public class ProblemService {
 
         if(!problemRepository.findBySubChapter(subChapter).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeProblem == null)
+            if(beforeProblem == null && afterProblem != null)
                 afterProblem.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterProblem == null);
