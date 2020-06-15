@@ -127,7 +127,6 @@ AppNav.propTypes = {
 
 export default withStyles(({ color, depth, unit, responsive }) => ({
   wrapper: {
-    ...depth.level1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

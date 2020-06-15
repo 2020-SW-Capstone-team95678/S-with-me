@@ -213,7 +213,7 @@ class NoteView extends Component {
               </div>
             )}
           </div>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Modal>
               {({ openModal }) => (
                 <div>
@@ -226,7 +226,9 @@ class NoteView extends Component {
                 </div>
               )}
             </Modal>
-            <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+            <div>
+              <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+            </div>
           </div>
         </VerticalList>
       );

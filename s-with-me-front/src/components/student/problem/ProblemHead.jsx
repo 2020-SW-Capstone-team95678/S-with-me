@@ -116,13 +116,13 @@ class ProblemHead extends PureComponent {
           </div>
           <div style={{ flex: 1 }} {...css(styles.head)}>
             <Button xsmall onPress={() => this.handleViewWrongOnly()}>
-              {viewWrongOnly ? '전체 보기' : '틀린 문제만 보기'}
+              {viewWrongOnly ? '전체 보기' : '틀린 문제 보기'}
             </Button>
           </div>
-          <div style={{ flex: 6 }} {...css(styles.head)}>
+          <div style={{ flex: 3 }} {...css(styles.head)}>
             <Heading level={4}>{bookName}</Heading>
           </div>
-          <div style={{ flex: 1.5 }} {...css(styles.head)}>
+          <div style={{ flex: 2 }} {...css(styles.head)}>
             <Form onSubmit={this.handleSubmit}>
               <Form.Consumer>
                 {() => (
