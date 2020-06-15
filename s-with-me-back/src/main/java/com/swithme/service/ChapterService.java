@@ -217,7 +217,7 @@ public class ChapterService {
         mainChapterRepository.delete(mainChapter);
         if(!mainChapterRepository.findByBook(book).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeMainChapter == null)
+            if(beforeMainChapter == null && afterMainChapter != null)
                 afterMainChapter.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterMainChapter == null);
@@ -250,7 +250,7 @@ public class ChapterService {
 
         if(!subChapterRepository.findByMainChapter(mainChapter).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeSubChapter == null)
+            if(beforeSubChapter == null && afterSubChapter != null)
                 afterSubChapter.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterSubChapter == null);
