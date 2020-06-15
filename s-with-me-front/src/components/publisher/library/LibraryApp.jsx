@@ -541,7 +541,7 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await Api.get('/publisher/library/book/mainChapter', {
+      const data = await Api.get('/publisher/library/book/main-chapter', {
         params: {
           subChapterId: subChapterId,
         },

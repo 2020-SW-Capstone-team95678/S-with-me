@@ -55,7 +55,7 @@ export default class RegisterProblem extends PureComponent {
       isMath:this.state.isMath,
     };
     console.log(formValue);
-    Api.post('/publisher/library/book/mainChapter/subChapter/problem', formValue)
+    Api.post('/publisher/library/book/main-chapter/sub-chapter/problem', formValue)
       .then(({ data }) => console.log(data))
       .catch(error => console.log(error.message));
   };

@@ -29,7 +29,7 @@ const CreateSubChapterPage = props => {
             <br></br>
             <button
               onClick={() => {
-                Api.post('/publisher/library/book/mainChapter/subChapter', {
+                Api.post('/publisher/library/book/main-chapter/sub-chapter', {
                   subChapterName: subChapterTitle,
                   mainChapterId: mainChapterId,
                 })
