@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PaymentController {
 
-    static BootpayApi api;
+    static BootpayApi api = new BootpayApi("5edb7b5c8f0751002bfcd4bf", "/mKKFkSwJ/N7RJ5Hpb96YbvzVZA+VH+knKrGq4HD6zU=");
 
     @CrossOrigin
     @GetMapping("student/profile/payhistory")
