@@ -1,10 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import Text from '../../../common-ui/Text';
 import Form from '../../../common-ui/Form';
-
-import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import IsConfusedContainer from '../../../containers/student/problem/IsConfusedContainer';
 import SolutionInputContainer from '../../../containers/student/problem/SolutionInputContainer';
 import ScoringButtonContainer from '../../../containers/student/problem/ScoringButtonContainer';
@@ -12,10 +9,7 @@ import ProblemResultViewContainer from '../../../containers/student/problem/Prob
 import SolutionFilterContainer from '../../../containers/student/problem/SolutionFilterContainer';
 
 import Api from '../../../Api';
-
-// String.prototype.replaceAll = function(org, dest) {
-//   return this.split(org).join(dest);
-// };
+import ProblemContentView from './ProblemContentView';
 
 class ProblemView extends PureComponent {
   _isMounted = false;
@@ -50,6 +44,7 @@ class ProblemView extends PureComponent {
       if (myProblem.isMath) {
         const mathSolution = JSON.stringify(myProblem.textSolution);
         formValue = { ...formValue, textSolution: mathSolution };
+        console.log(formValue);
       }
       formValue = { ...formValue, textSolution: myProblem.textSolution };
     } else if (myProblem.solutionType === 'img') {
@@ -90,7 +85,7 @@ class ProblemView extends PureComponent {
   render() {
     const { myProblem, styles, loading, page } = this.props;
     const { myProblemId, myAnswer, myBookId, isSolved, solutionType } = myProblem;
-    const { problemNumber, content, isOptional, answer, title, image } = this.state.problem;
+    const { problemNumber, isOptional, answer } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.problem.option1);
@@ -105,38 +100,11 @@ class ProblemView extends PureComponent {
           <Form.Consumer>
             {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: 2 }}>
-                <div {...css(styles.body)}>
-                  <Text large>
-                    {problemNumber ? problemNumber + '.' : null}
-                    {title}
-                  </Text>
-                  {image ? (
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <img
-                        src={image}
-                        alt={problemNumber + '문제 그림'}
-                        style={{
-                          maxHeight: '30vh',
-                          minHeight: '10vh',
-                          width: 'auto',
-                          maxWidth: '100%',
-                        }}
-                      />
-                    </div>
-                  ) : null}
-                  {content ? (
-                    <div style={{ border: '0.5px solid', padding: 2 }}>
-                      <Text>{content}</Text>
-                    </div>
-                  ) : null}
-                  {problemNumber ? (
-                    <AnswerInputContainer
-                      id={myProblemId}
-                      isOptional={isOptional}
-                      optionContents={optionContents}
-                    />
-                  ) : null}
-                </div>
+                <ProblemContentView
+                  problem={this.state.problem}
+                  myProblem={myProblem}
+                  optionContents={optionContents}
+                />
                 <div>
                   {problemNumber ? (
                     <div {...css(styles.container)}>
@@ -184,13 +152,6 @@ class ProblemView extends PureComponent {
 }
 
 export default withStyles(() => ({
-  body: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#FFF5EB',
-    padding: 5,
-    borderRadius: 2,
-  },
   container: {
     display: 'flex',
     flexDirection: 'column',

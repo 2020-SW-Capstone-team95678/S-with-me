@@ -11,6 +11,8 @@ import { DELETE_NOTE } from '../../../constants/modals';
 import Api from '../../../Api';
 import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
 import MySolutionView from './MySolutionView';
+import ProblemContentView from '../problem/ProblemContentView';
+import MathSolutionView from '../problem/MathSolutionView';
 
 class NoteView extends Component {
   _isMounted = false;
@@ -95,15 +97,7 @@ class NoteView extends Component {
     const { isConfused, isRight, myProblemId, resolve, myAnswer } = note;
     const { solutionType, tempSolutionType } = note;
     const { showMySolution, showSolution, showMyNewSolution } = this.state;
-    const {
-      problemNumber,
-      content,
-      title,
-      image,
-      isOptional,
-      solution,
-      answer,
-    } = this.state.problem;
+    const { problemNumber, isOptional, solution, answer, isMath } = this.state.problem;
     let optionContents = [];
     if (isOptional) {
       optionContents.push(this.state.problem.option1);
@@ -121,35 +115,13 @@ class NoteView extends Component {
             {isRight ? <Text>(맞았어요)</Text> : <Text>(틀렸어요)</Text>}
             {isConfused ? <Text>(+헷갈렸어요)</Text> : null}
           </div>
-          <div {...css(styles.body)}>
-            <Text>
-              {problemNumber ? problemNumber + '.' : null}
-              {title}
-            </Text>
-            {image ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                  src={image}
-                  alt={problemNumber + '문제 그림'}
-                  style={{ maxHeight: '30vh', minHeight: '10vh', width: 'auto', maxWidth: '100%' }}
-                />
-              </div>
-            ) : null}
-            {content ? (
-              <div style={{ border: '0.5px solid', padding: 2 }}>
-                <Text>{content}</Text>
-              </div>
-            ) : null}
-            {isOptional ? (
-              <VerticalList spacingBetween={1}>
-                {optionContents.map((option, index) => (
-                  <Text key={index}>
-                    {index + 1} : {option}
-                  </Text>
-                ))}
-              </VerticalList>
-            ) : null}
-          </div>
+          <ProblemContentView
+            problem={this.state.problem}
+            optionContents={optionContents}
+            isNote
+            isResultView
+            note={note}
+          />
           <div {...css(styles.container)}>
             {showMySolution || showMyNewSolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
@@ -199,7 +171,10 @@ class NoteView extends Component {
                     정답:{answer} <br />
                   </Text>
                 ) : null}
-                <Text>해설: {solution}</Text>
+                <Text>
+                  해설 <br />
+                  {isMath ? <MathSolutionView solution={solution} /> : solution}
+                </Text>
                 <br />
                 <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
               </div>
@@ -213,7 +188,7 @@ class NoteView extends Component {
               </div>
             )}
           </div>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Modal>
               {({ openModal }) => (
                 <div>
@@ -226,7 +201,9 @@ class NoteView extends Component {
                 </div>
               )}
             </Modal>
-            <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+            <div>
+              <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+            </div>
           </div>
         </VerticalList>
       );
@@ -235,11 +212,6 @@ class NoteView extends Component {
 }
 
 export default withStyles(() => ({
-  body: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#FFF5EB',
-  },
   container: {
     display: 'flex',
     justifyContent: 'center',

@@ -8,8 +8,8 @@ class AppLayout extends PureComponent {
     const { children, styles, logged, setLogged } = this.props;
     return (
       <div {...css(styles.wrapper)}>
-        <AppNav logged={logged} setLogged={setLogged} />
         <div {...css(styles.body)}>{children}</div>
+        <AppNav logged={logged} setLogged={setLogged} />
       </div>
     );
   }

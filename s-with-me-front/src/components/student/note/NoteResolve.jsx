@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react';
 
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
 import Form from '../../../common-ui/Form';
 
 import NewSolutionInputContainer from '../../../containers/student/note/NewSolutionInputContainer';
-import NewAnswerInputContainer from '../../../containers/student/note/NewAnswerInputContainer';
 import NewScoringButtonContainer from '../../../containers/student/note/NewScoringButtonContainer';
 import NoteSolutionFilterContainer from '../../../containers/student/note/NoteSolutionFilterContainer';
+import ProblemContentView from '../problem/ProblemContentView';
 
 class NoteResolve extends PureComponent {
   constructor(props) {
@@ -24,7 +23,7 @@ class NoteResolve extends PureComponent {
 
   render() {
     const { problem, note, styles } = this.props;
-    const { problemNumber, content, isOptional, answer, title, image } = problem;
+    const { problemNumber, isOptional, answer } = problem;
     const { noteId, myAnswer, tempSolutionType, myBookId } = note;
     let optionContents = [];
     if (isOptional) {
@@ -40,38 +39,12 @@ class NoteResolve extends PureComponent {
         <Form.Consumer>
           {({ onChange, values }) => (
             <VerticalList spacingBetween={2}>
-              <div {...css(styles.body)}>
-                <Text>
-                  {problemNumber ? problemNumber + '.' : null}
-                  {title}
-                </Text>
-                {image ? (
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <img
-                      src={image}
-                      alt={problemNumber + '문제 그림'}
-                      style={{
-                        maxHeight: '30vh',
-                        minHeight: '10vh',
-                        width: 'auto',
-                        maxWidth: '100%',
-                      }}
-                    />
-                  </div>
-                ) : null}
-                {content ? (
-                  <div style={{ border: '0.5px solid', padding: 2 }}>
-                    <Text>{content}</Text>
-                  </div>
-                ) : null}
-                {problemNumber ? (
-                  <NewAnswerInputContainer
-                    id={noteId}
-                    isOptional={isOptional}
-                    optionContents={optionContents}
-                  />
-                ) : null}
-              </div>
+              <ProblemContentView
+                note={note}
+                problem={problem}
+                isNote
+                optionContents={optionContents}
+              />
               <div {...css(styles.container)}>
                 <div
                   style={{
