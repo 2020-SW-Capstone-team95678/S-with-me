@@ -30,7 +30,7 @@ const CreateMainChapterPage = props => {
             <br></br>
             <button
               onClick={() => {
-                Api.post('/publisher/library/book/mainChapter', {
+                Api.post('/publisher/library/book/main-chapter', {
                   mainChapterName: mainChapterTitle,
                   bookId: bookId,
                 }).then(response => {

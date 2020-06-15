@@ -46,7 +46,7 @@ const RenameMainChapter = props => {
               onBlur={e => {
                 if (e.target.value !== subChapter.subChapterName) {
                     subChapter.subChapterName=e.target.value;
-                  Api.put(`/publisher/library/book/mainChapter/subChapter/${subChapterId}`,{mainChapterId:mainChapterId, subChapterName:subChapterTitle})
+                  Api.put(`/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,{mainChapterId:mainChapterId, subChapterName:subChapterTitle})
                     .then(response =>
                       setChapters(prev => {
                         return [...prev];
