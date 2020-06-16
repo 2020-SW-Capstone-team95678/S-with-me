@@ -3,6 +3,10 @@ import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles
 import logo from '../../common-ui/logo.png';
 import Button from '../../common-ui/Button';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookReader } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
 import { NavLink } from 'react-router-dom';
 export const HEIGHT = 80;
 
@@ -19,39 +23,65 @@ class AppNav extends PureComponent {
   }
   render() {
     const { styles } = this.props;
-    // const activeStyle = {
-    //   fontWeight: 'bold',
-    //   color: '#9C2D17',
-    //   fontSize: '2rem',
-    // };
+    const activeStyle = {
+      fontWeight: 'bold',
+      color: '#9C2D17',
+      fontSize: '2rem',
+    };
     return (
-      <div>
-        <div {...css(styles.wrapper)}>
-          <div style={{ display: 'flex' }} {...css(styles.container)}>
-            <div style={{ flex: 1, padding: 30 }}>
-              <img
-                src={logo}
-                alt="s-with-me logo"
-                style={{
-                  height: 80,
-                  top: this.props.top,
-                  left: this.props.left,
-                }}
-              />
-            </div>
-            <div style={{ flex: 3, padding: 30 }}>검색</div>
-            <div style={{ flex: 1, padding: 30 }}>서점</div>
-            <div style={{ flex: 1, padding: 30 }}>프로필</div>
-            <NavLink to="/">
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 10 }}>
-                <Button small onPress={() => this.handleLogout()}>
-                  Logout
-                </Button>
+      
+        <div>
+          <div {...css(styles.wrapper)}>
+            <div style={{ display: 'flex' }} {...css(styles.container)}>
+              <div style={{ flex: 1 }}>
+                <NavLink to="/library">
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <img src={logo} alt="s-with-me logo" style={{ height: 80 }} />
+                  </div>
+                </NavLink>
               </div>
-            </NavLink>
+              <div style={{ flex: 1 }}>
+                <NavLink
+                  to="/library"
+                  activeStyle={activeStyle}
+                  style={{ textDecoration: 'none', color: '#333333' }}
+                >
+                  <div
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                  >
+                    <FontAwesomeIcon icon={faBookReader} size="lg" />
+                    <div {...css(styles.navTitle)}>서재</div>
+                  </div>
+                </NavLink>
+              </div>
+              <div style={{ flex: 1, color: '#333333' }}>
+                <NavLink
+                  to="/profile"
+                  activeStyle={activeStyle}
+                  style={{ textDecoration: 'none', color: '#333333' }}
+                >
+                  <div
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                  >
+                    <FontAwesomeIcon icon={faUserCircle} size="lg" />
+                    <div {...css(styles.navTitle)}>프로필</div>
+                    {/* <div id="install-button">
+                      <Button circular icon="arrow alternate circle down" />
+                    </div> */}
+                  </div>
+                </NavLink>
+              </div>
+              <NavLink to="/">
+                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 10 }}>
+                  <Button small onPress={() => this.handleLogout()}>
+                    Logout
+                  </Button>
+                </div>
+              </NavLink>
+            </div>
           </div>
         </div>
-      </div>
+
     );
   }
 }

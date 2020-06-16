@@ -3,11 +3,11 @@ import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
 const CreateMainChapterPage = props => {
-  const { bookId } = props;
+  const { bookId} = props;
   const [mainChapterId, setMainChapterId] = useState(null);
   const [mainChapterTitle, setMainChapterTitle] = useState('');
-
-  console.log(bookId);
+  console.log(mainChapterId);
+  //console.log(bookId);
 
   return (
     <Modal>
@@ -16,9 +16,7 @@ const CreateMainChapterPage = props => {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             MainChapter info
             <br />
-            <br />
-            <h2>book Id : {bookId}</h2>
-            <h2>mainChapter Id : {mainChapterId}</h2>
+           
             Name
             <input
               type="text"
@@ -32,7 +30,7 @@ const CreateMainChapterPage = props => {
               onClick={() => {
                 Api.post('/publisher/library/book/main-chapter', {
                   mainChapterName: mainChapterTitle,
-                  bookId: bookId,
+                  bookId,
                 }).then(response => {
                   setMainChapterId(response.data);
                 });
@@ -42,6 +40,10 @@ const CreateMainChapterPage = props => {
             </button>
             <button
               onClick={() => {
+                // const chapters = Api.get(`/library/book/${bookId}/chapters`,bookId);
+                // console.log(chapters);
+                // props.setChapters(chapters);
+                // document.location.reload();
                 closeModal();
               }}
             >

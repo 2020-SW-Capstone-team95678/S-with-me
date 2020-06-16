@@ -16,9 +16,9 @@ const CreateBookPage = props => {
   const [subject, setSubject] = useState('');
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState([]);
-  const isOnSale=false;
+  //const isOnSale=false;
   const [introduction, setIntroduction] = useState('');
-  const { onUpDate, publisherId } = props;
+  const { publisherId } = props;
 
   function handleSubjectChange(e) {
     setSubject(e.target.value);
@@ -32,9 +32,7 @@ const CreateBookPage = props => {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             Book infos
             <br />
-            <br />
-            <h2>book Id : {bookId}</h2>
-            <h2>Publisher Id : {publisherId}</h2>
+         
             북커버
             <InputBookCover setCover={setCover} />
             Grade
@@ -60,6 +58,9 @@ const CreateBookPage = props => {
               <option value="수학">수학</option>
               <option value="사회">사회</option>
               <option value="과학">과학</option>
+              <option value="영어">영어</option>
+              <option value="한국사">한국사</option>
+              <option value="기타">기타</option>
             </select>
             {/* <input
               type="text"
@@ -68,12 +69,12 @@ const CreateBookPage = props => {
               onChange={({ target: { value } }) => setSubject(value)}
             /> */}
             Introduction
-            <input
+            <textarea
               type="text"
               value={introduction}
               placeholder="please input introduction"
               onChange={({ target: { value } }) => setIntroduction(value)}
-            ></input>
+            ></textarea>
             Price
             <input
               type="number"
@@ -96,7 +97,6 @@ const CreateBookPage = props => {
                   isOnSale:false
                 }).then(response => {
                   setBookId(response.data);
-                  console.log(isOnSale);
                 });
               }}
             >
@@ -104,7 +104,6 @@ const CreateBookPage = props => {
             </button>
             <button
               onClick={() => {
-                onUpDate();
                 closeModal();
               }}
             >

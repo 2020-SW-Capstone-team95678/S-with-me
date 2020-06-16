@@ -16,6 +16,8 @@ export default class RegisterProblem extends PureComponent {
     console.log(subChapterId);
 
     this.state = {
+      content: '',
+      solution: '',
       isOptional: false,
       file: '',
       previewURL: '',
@@ -34,16 +36,24 @@ export default class RegisterProblem extends PureComponent {
 
       values = {
         ...values,
-        option1:this.state.optionOneM,
-        option2:this.state.optionTwoM,
-        option3:this.state.optionThrM,
-        option4:this.state.optionFouM,
-        option5:this.state.optionFivM,
+        option1:JSON.stringify(this.state.optionOneM),
+        option2:JSON.stringify(this.state.optionTwoM),
+        option3:JSON.stringify(this.state.optionThrM),
+        option4:JSON.stringify(this.state.optionFouM),
+        option5:JSON.stringify(this.state.optionFivM),
         isMath: this.state.isMath,
-        title: this.state.titleM,
-        content: this.state.contentM,
+        title: JSON.stringify(this.state.titleM),
+        content:JSON.stringify( this.state.contentM),
         answer: this.state.answerM,
-        solution: this.state.answerM,
+        solution: JSON.stringify(this.state.solutionM),
+      };
+
+    }
+    else{
+      values = {
+        ...values,
+        content:this.state.content,
+        solution:this.state.solution,
       };
 
     }
@@ -132,6 +142,12 @@ export default class RegisterProblem extends PureComponent {
     });
   };
 
+  handleChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
 
   render() {
     const { file, previewURL, isOptional, isMath } = this.state;
@@ -186,7 +202,7 @@ export default class RegisterProblem extends PureComponent {
                       }}
                     >
                       <Button small>수식 입력 방법 보러 가기!</Button>
-                      <input label="문제 번호" name="problemNumber" onChange={onChange} />
+                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                       <ProblemInputMathTop
                         isMath={this.state.isMath}
                         onContent={this.handleContent}
@@ -244,7 +260,13 @@ export default class RegisterProblem extends PureComponent {
                     >
                       <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                       <Input label="문제 제목" name="title" onChange={onChange} />
-                      <Input label="문제 내용" name="content" onChange={onChange} />
+                      문제 내용
+                              <textarea
+                                label="문제 내용"
+                                name="content"
+                                value={this.state.content}
+                                onChange={this.handleChangeInput}
+                              />
                       
                       <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                         <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
@@ -274,7 +296,13 @@ export default class RegisterProblem extends PureComponent {
                       ) : null}
 
                       <Input label="문제 정답" name="answer" onChange={onChange} />
-                      <Input label="문제 해설" name="solution" onChange={onChange} />
+                      문제 해설
+                              <textarea
+                                label="문제 해설"
+                                name="solution"
+                                value={this.state.solution}
+                                onChange={this.handleChangeInput}
+                              />
                     </div>
                     <Button>등록!</Button>
                     </div>

@@ -5,11 +5,11 @@ import AppNav, { HEIGHT } from './AppNav';
 
 class AppLayout extends PureComponent {
   render() {
-    const { children, styles } = this.props;
+    const { children, styles, logged, setLogged } = this.props;
     return (
       <div {...css(styles.wrapper)}>
-        <AppNav />
         <div {...css(styles.body)}>{children}</div>
+        <AppNav logged={logged} setLogged={setLogged} />
       </div>
     );
   }
