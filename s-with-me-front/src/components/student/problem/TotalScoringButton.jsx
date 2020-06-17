@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import Button from '../../../common-ui/Button';
+// import Button from '../../../common-ui/Button';
+import { Popup, Button } from 'semantic-ui-react';
 
 export default class TotalScoringButton extends PureComponent {
   constructor(props) {
@@ -34,9 +35,19 @@ export default class TotalScoringButton extends PureComponent {
   render() {
     const { loadingUpdateMyProblemList } = this.props;
     return (
-      <Button small disabled={loadingUpdateMyProblemList} onPress={this.handleTotalScroing}>
-        이 페이지 전체 채점
-      </Button>
+      <Popup
+        content="페이지당 8문제 입니다"
+        trigger={
+          <Button
+            basic
+            color="red"
+            size="small"
+            content="이 페이지 전체 채점"
+            onClick={this.handleTotalScroing}
+            disabled={loadingUpdateMyProblemList}
+          />
+        }
+      />
     );
   }
 }

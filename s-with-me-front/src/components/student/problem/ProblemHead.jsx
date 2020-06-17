@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import Button from '../../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 import Heading from '../../../common-ui/Heading';
 import Form from '../../../common-ui/Form';
 import { Redirect } from 'react-router-dom';
@@ -107,15 +107,17 @@ class ProblemHead extends PureComponent {
         <div {...css(styles.container)}>
           <div style={{ flex: 1 }} {...css(styles.head)}>
             <Button
-              xsmall
-              onPress={() => this.handleCloseBook()}
+              icon="close"
+              basic
+              color="red"
+              size="tiny"
+              onClick={() => this.handleCloseBook()}
               disabled={loadingUpdatePageNumber}
-            >
-              문제집 닫기
-            </Button>
+              content="문제집 닫기"
+            />
           </div>
           <div style={{ flex: 1 }} {...css(styles.head)}>
-            <Button xsmall onPress={() => this.handleViewWrongOnly()}>
+            <Button size="tiny" basic color="red" onClick={() => this.handleViewWrongOnly()}>
               {viewWrongOnly ? '전체 보기' : '틀린 문제 보기'}
             </Button>
           </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
@@ -24,7 +24,6 @@ export default function MobileProblemBar(props) {
               <Icon name="left arrow" />
               이전 문제
             </ButtonBack>
-            <Segment>스와이프하여 문제를 이동해주세요. 한 페이지당 8문제 입니다.</Segment>
             <ButtonNext>
               다음 문제
               <Icon name="right arrow" />

@@ -4,7 +4,6 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { isMobileOnly } from 'react-device-detect';
 import { Segment, Sidebar, Button } from 'semantic-ui-react';
-import Card from '../../../common-ui/Card';
 import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';
 import CurriculumList from './CurriculumList';
@@ -55,9 +54,6 @@ class LibraryApp extends PureComponent {
               />
             ) : (
               <div>
-                <Card vertical={4}>
-                  <div {...css(styles.head)}>나의 커리큘럼</div>
-                </Card>
                 <CurriculumList curriculumList={curriculumList} />
               </div>
             )}
@@ -80,10 +76,9 @@ class LibraryApp extends PureComponent {
                   나의 커리큘럼 보기
                 </Button>
               </Button.Group>
-              <Card vertical={4}>
-                <div {...css(styles.head)}>나의 문제집</div>
-              </Card>
-              <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
+              <div style={{ paddingTop: 10 }}>
+                <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
+              </div>
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
@@ -99,16 +94,10 @@ class LibraryApp extends PureComponent {
               requestMyBookList={requestMyBookList}
             />
           </div>
-          <div style={{ flex: 3 }} {...css(styles.table)}>
-            <Card vertical={4}>
-              <div {...css(styles.head)}>나의 문제집</div>
-            </Card>
+          <div style={{ flex: 3, paddingTop: 10 }} {...css(styles.table)}>
             <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
           </div>
           <div style={{ flex: 1 }} {...css(styles.table)}>
-            <Card vertical={4}>
-              <div {...css(styles.head)}>나의 커리큘럼</div>
-            </Card>
             <CurriculumList curriculumList={curriculumList} />
           </div>
         </div>

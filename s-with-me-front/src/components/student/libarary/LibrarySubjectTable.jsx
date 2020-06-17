@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 
 export default class LibrarySubjectTable extends PureComponent {
   handleClick = (e, { name }) => {
@@ -9,13 +9,18 @@ export default class LibrarySubjectTable extends PureComponent {
   };
   render() {
     return (
-      <Menu vertical>
+      <List divided verticalAlign="middle">
         {this.props.subjectList.map((subject, index) => (
-          <Menu.Item key={index} onClick={this.handleClick} name={subject}>
-            {subject}
-          </Menu.Item>
+          <List.Item key={index} name={subject} onClick={this.handleClick}>
+            <List.Content>
+              <div style={{ fontSize: 'large', paddingLeft: 5 }}>
+                <List.Icon name="book" size="large" verticalAlign="middle" />
+                {subject}
+              </div>
+            </List.Content>
+          </List.Item>
         ))}
-      </Menu>
+      </List>
     );
   }
 }

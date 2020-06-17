@@ -81,8 +81,10 @@ class LoginApp extends react.PureComponent {
           <SemanticButton
             onClick={this.show()}
             icon="download"
+            basic
+            color="red"
             labelPosition="right"
-            content="App Download"
+            content="어플로 사용하기"
           />
 
           <div className="logoSize">
