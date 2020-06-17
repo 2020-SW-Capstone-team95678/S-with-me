@@ -1,16 +1,14 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css } from '../../../common-ui/withStyles';
-import { Progress } from 'semantic-ui-react';
+import { Progress, Card, Image, Label, Button } from 'semantic-ui-react';
 
-import Card from '../../../common-ui/Card';
-import Button from '../../../common-ui/Button';
 import Text from '../../../common-ui/Text';
-import { Consumer as Modal } from '../../../common-ui/Modal/context';
+import Heading from '../../../common-ui/Heading';
 
 import { Link } from 'react-router-dom';
+
 import Api from '../../../Api';
-import { CREATE_CURRICULUM } from '../../../constants/modals';
 import ChapterListContainer from '../../../containers/student/book/ChapterListContainer';
+import CreateCurriculumPageContainer from '../../../containers/student/book/CreateCurriculumPageContainer';
 
 class MyBookDetail extends PureComponent {
   _isMounted = false;
@@ -24,7 +22,6 @@ class MyBookDetail extends PureComponent {
       myBook: {},
     };
   }
-
   componentDidMount() {
     this._isMounted = true;
     const { myBookId } = this.props.match.params;
@@ -55,11 +52,10 @@ class MyBookDetail extends PureComponent {
   }
 
   render() {
-    const { book, myBook, isCoverClicked, curriculum, achievement } = this.state;
+    const { book, myBook, curriculum, achievement } = this.state;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
     const { grade, subject, name, cover, introduction } = book;
-    const { styles } = this.props;
     let achievementColor = '';
 
     if (achievement <= 33) {
@@ -71,107 +67,83 @@ class MyBookDetail extends PureComponent {
     }
     return (
       <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1.5, flexDirection: 'row', padding: 3 }}>
-          {isCoverClicked ? (
-            <div onClick={() => this.setState({ isCoverClicked: false })} {...css(styles.bookInfo)}>
-              {grade}학년 / 과목 : {subject} <br /> <br />
-              이름: {name} <br />
-              <br />
-              소개: {introduction}
-            </div>
-          ) : (
-            <div onClick={() => this.setState({ isCoverClicked: true })} {...css(styles.bookInfo)}>
-              <img src={cover} alt="책 커버" style={{ height: 'auto', width: '100%' }} />
-            </div>
-          )}
-          <Modal>
-            {({ openModal }) => (
-              <div style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
-                <div style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
-                  {curriculum.type ? (
-                    <Button
-                      small
-                      onPress={() =>
-                        openModal(CREATE_CURRICULUM, {
-                          myBookId: myBookId,
-                          type: 'old',
-                          curriculum: curriculum,
-                        })
-                      }
-                    >
-                      수정하기
-                    </Button>
-                  ) : (
-                    <Button
-                      small
-                      onPress={() =>
-                        openModal(CREATE_CURRICULUM, { myBookId: myBookId, type: 'new' })
-                      }
-                    >
-                      새로운 목표 설정하기
-                    </Button>
-                  )}
-                </div>
-                <Card>
-                  <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
-                    <Text large>이 책의 목표</Text>
-                    <Text small>목표 type: {curriculum.type}</Text>
-                    <Text>
-                      {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
-                      {curriculum.type === 'weekly' ? (
-                        <Link
-                          to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
-                          style={{ textDecoration: 'none', color: 'black' }}
-                        >
-                          이번주 목표 소단원 풀러 가기
-                        </Link>
-                      ) : null}
-                      {curriculum.type === 'daily'
-                        ? '하루에 ' + curriculum.dailyGoal + '문제 풀기'
-                        : null}
-                    </Text>
-                  </div>
-                </Card>
-                {curriculum.type !== 'monthly' ? (
-                  <Card>
-                    <div style={{ display: 'flex', flexDirection: 'column', padding: 3 }}>
-                      <Text large>달성도</Text>
-                      {achievement === 100 ? (
-                        <Progress percent={100} color="green" success>
-                          계획 수행 완료! 정말 멋져요!
-                        </Progress>
-                      ) : (
-                        <Progress percent={achievement} color={achievementColor} progress>
-                          거의 다 왔어요! 아자 아자 화이팅!
-                        </Progress>
-                      )}
-                    </div>
-                  </Card>
-                ) : null}
-              </div>
-            )}
-          </Modal>
+        <div style={{ flex: 1 }}>
+          <Card centered>
+            <Card.Content textAlign="center">
+              <Image src={cover} size="medium" />
+            </Card.Content>
+            <Card.Content>
+              <Card.Meta>
+                <Text large>{name}</Text>
+                <Label icon="graduation" content={grade + '학년'} />
+                <Label icon="tags" content={subject} />
+              </Card.Meta>
+              <Card.Description>{introduction}</Card.Description>
+            </Card.Content>
+          </Card>
+          <Card centered>
+            <Card.Content textAlign="center">
+              <Heading level={6}>이 책의 목표</Heading>
+            </Card.Content>
+            <Card.Content textAlign="center">
+              {curriculum.type === 'monthly' ? curriculum.monthlyGoal : null}
+              {curriculum.type === 'weekly' ? (
+                <Link
+                  to={`/library/myBook/${myBookId}/solve/${curriculum.subChapterId}?page=1`}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  이번주 목표 소단원 풀러 가기
+                </Link>
+              ) : null}
+              {curriculum.type === 'daily' ? '하루에 ' + curriculum.dailyGoal + '문제 풀기' : null}
+              {curriculum.type ? null : '설정된 목표가 없습니다.'}
+            </Card.Content>
+            <Card.Content extra textAlign="center">
+              {curriculum.type ? (
+                <CreateCurriculumPageContainer
+                  type="old"
+                  curriculum={curriculum}
+                  myBookId={myBookId}
+                />
+              ) : (
+                <CreateCurriculumPageContainer
+                  type="new"
+                  curriculum={curriculum}
+                  myBookId={myBookId}
+                />
+              )}
+            </Card.Content>
+          </Card>
+
+          {curriculum.type !== 'monthly' ? (
+            <Card centered>
+              <Card.Content textAlign="center">
+                <Heading level={6}>달성도</Heading>
+              </Card.Content>
+              <Card.Content>
+                {achievement === 100 ? (
+                  <Progress percent={100} color="green" success>
+                    계획 수행 완료! 정말 멋져요!
+                  </Progress>
+                ) : (
+                  <Progress percent={achievement} color={achievementColor} progress>
+                    아자 아자 화이팅!
+                  </Progress>
+                )}
+              </Card.Content>
+            </Card>
+          ) : null}
         </div>
-        <div style={{ flex: 5, flexDirection: 'row', paddingLeft: 30 }}>
+        <div style={{ flex: 2 }}>
+          <Link to={`/library/myBook/${myBookId}/solve/${lastSubChapterId}?page=${lastPageNumber}`}>
+            <Button floated="right" color="green" inverted content="이어 풀기" />
+          </Link>
           <Text>소단원 목차를 클릭하면 해당 문제풀이 페이지로 이동합니다.</Text>
           <ChapterListContainer myBookId={myBookId} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <Link to={`/library/myBook/${myBookId}/solve/${lastSubChapterId}?page=${lastPageNumber}`}>
-            <Button>이어 풀기</Button>
-          </Link>
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(() => ({
-  bookInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 3,
-    border: '1px solid',
-    borderRadius: 2,
-  },
-}))(MyBookDetail);
+export default MyBookDetail;

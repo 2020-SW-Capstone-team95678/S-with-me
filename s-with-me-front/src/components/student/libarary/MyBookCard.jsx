@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import { ItemTypes } from '../../../constants/itemTypes';
 import { Button, Modal, Image, Label, Card } from 'semantic-ui-react';
-import { isMobile, isMobileOnly } from 'react-device-detect';
+import { isMobileOnly } from 'react-device-detect';
 
 import Heading from '../../../common-ui/Heading';
 import bookImage from '../../../common-ui/bookImage.png';
