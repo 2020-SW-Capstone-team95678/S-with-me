@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { WithStore } from 'pure-react-carousel';
 import CanvasDraw from 'react-canvas-draw';
@@ -83,5 +84,6 @@ class MobileHandWriteSolution extends React.Component {
     );
   };
 }
+
 
 export default WithStore(MobileHandWriteSolution);

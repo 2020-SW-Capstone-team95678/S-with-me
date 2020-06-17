@@ -168,6 +168,7 @@ public class ProblemService {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제가 없습니다. problemId = " + problemId));
         short problemNumber = problem.getProblemNumber();
+        SubChapter subChapter = problem.getSubChapter();
 
         Problem beforeProblem = null;
         if(problem.getBeforeProblemId() != 0) {
@@ -178,9 +179,9 @@ public class ProblemService {
 
         problemRepository.delete(problem);
 
-        if(!problemRepository.findAll().isEmpty()) {
+        if(!problemRepository.findBySubChapter(subChapter).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeProblem == null)
+            if(beforeProblem == null && afterProblem != null)
                 afterProblem.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterProblem == null);

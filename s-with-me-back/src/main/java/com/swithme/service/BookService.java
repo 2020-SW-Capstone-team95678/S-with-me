@@ -89,6 +89,8 @@ public class BookService {
                 .publisher(publisher)
                 .subject(createDto.getSubject())
                 .price(createDto.getPrice())
+                .monthlySold(0)
+                .monthlyProfit(0)
                 .publishedDate(createDto.getPublishedDate())
                 .name(createDto.getName())
                 .grade(createDto.getGrade())

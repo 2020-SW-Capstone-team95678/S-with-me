@@ -1,8 +1,6 @@
+
 import React from 'react';
 import CanvasDraw from 'react-canvas-draw';
-
-//import { SketchField, Tools } from 'react-sketch';
-//import {ReactSketchCanvas} from 'react-sketch-canvas';
 import { Icon, Menu } from 'semantic-ui-react';
 import { Slider } from 'react-semantic-ui-range';
 

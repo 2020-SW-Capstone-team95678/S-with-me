@@ -195,6 +195,8 @@ public class ChapterService {
         MainChapter mainChapter = mainChapterRepository.findById(mainChapterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
         String mainChapterName = mainChapter.getMainChapterName();
+        Book book = mainChapter.getBook();
+
 
         MainChapter beforeMainChapter = null;
         if(mainChapter.getBeforeMainChapterId() != 0) {
@@ -213,9 +215,9 @@ public class ChapterService {
         }
 
         mainChapterRepository.delete(mainChapter);
-        if(!mainChapterRepository.findAll().isEmpty()) {
+        if(!mainChapterRepository.findByBook(book).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeMainChapter == null)
+            if(beforeMainChapter == null && afterMainChapter != null)
                 afterMainChapter.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterMainChapter == null);
@@ -232,6 +234,8 @@ public class ChapterService {
         SubChapter subChapter = subChapterRepository.findById(subChapterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 소단원이 없습니다. subChapterId = " + subChapterId));
         String subChapterName = subChapter.getSubChapterName();
+        MainChapter mainChapter = subChapter.getMainChapter();
+
 
         SubChapter beforeSubChapter = null;
         if(subChapter.getBeforeSubChapterId() != 0) {
@@ -244,9 +248,9 @@ public class ChapterService {
         if(!problemList.isEmpty()) problemRepository.deleteAll(problemList);
         subChapterRepository.delete(subChapter);
 
-        if(!subChapterRepository.findAll().isEmpty()) {
+        if(!subChapterRepository.findByMainChapter(mainChapter).isEmpty()) {
             //가장 앞을 삭제한 경우
-            if(beforeSubChapter == null)
+            if(beforeSubChapter == null && afterSubChapter != null)
                 afterSubChapter.update(0);
                 //가장 뒤를 삭제한 경우
             else if(afterSubChapter == null);

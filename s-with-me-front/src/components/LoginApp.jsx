@@ -14,7 +14,7 @@ import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
 class LoginApp extends react.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isStudent: false, isPublisher: false, isLogin: false, open: true };
+    this.state = { isStudent: false, isPublisher: false, isLogin: false, open: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
