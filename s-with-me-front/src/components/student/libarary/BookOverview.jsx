@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 
-import InlineList from '../../../common-ui/InlineList';
 import BookPreview from './BookPreview';
 
 import Text from '../../../common-ui/Text';
 import Spacing from '../../../common-ui/Spacing';
 import withLoading from '../../../common-ui/withLoading';
+import { Card } from 'semantic-ui-react';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -17,13 +17,15 @@ class BookOverview extends PureComponent {
   render() {
     const { myBookList } = this.props;
     return (
-      <React.Fragment>
-        <InlineList spacingBetween={1} align="center">
+      <div style={{ paddingTop: 5 }}>
+        <Card.Group centered stackable doubling itemsPerRow={3}>
           {myBookList.map((myBook, index) => (
-            <BookPreview myBook={myBook} key={index} />
+            <Card key={index} centered>
+              <BookPreview myBook={myBook} />
+            </Card>
           ))}
-        </InlineList>
-      </React.Fragment>
+        </Card.Group>
+      </div>
     );
   }
 }

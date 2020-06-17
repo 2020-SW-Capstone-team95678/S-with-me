@@ -60,23 +60,25 @@ class LibraryApp extends PureComponent {
           </Sidebar>
           <Sidebar.Pusher dimmed={true && this.state.visible}>
             <Segment>
-              <Button.Group attached="top">
-                <Button
-                  onClick={() => this.setState({ visible: true, showFilter: true })}
-                  basic
-                  color="red"
-                >
-                  정렬 방식 선택하기
-                </Button>
-                <Button
-                  onClick={() => this.setState({ visible: true, showFilter: false })}
-                  basic
-                  color="red"
-                >
-                  나의 커리큘럼 보기
-                </Button>
-              </Button.Group>
-              <div style={{ paddingTop: 10 }}>
+              <div style={{ padding: 10 }}>
+                <Button.Group attached="top">
+                  <Button
+                    onClick={() => this.setState({ visible: true, showFilter: true })}
+                    basic
+                    color="red"
+                  >
+                    정렬 방식 선택하기
+                  </Button>
+                  <Button
+                    onClick={() => this.setState({ visible: true, showFilter: false })}
+                    basic
+                    color="red"
+                  >
+                    나의 커리큘럼 보기
+                  </Button>
+                </Button.Group>
+              </div>
+              <div style={{ padding: 10 }} {...css(styles.table)}>
                 <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
               </div>
             </Segment>
@@ -94,7 +96,7 @@ class LibraryApp extends PureComponent {
               requestMyBookList={requestMyBookList}
             />
           </div>
-          <div style={{ flex: 3, paddingTop: 10 }} {...css(styles.table)}>
+          <div style={{ flex: 3, padding: 10 }} {...css(styles.table)}>
             <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
           </div>
           <div style={{ flex: 1 }} {...css(styles.table)}>
