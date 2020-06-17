@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 import InlineList from '../../common-ui/InlineList';
 
 export default class Pagination extends PureComponent {
@@ -41,13 +41,12 @@ export default class Pagination extends PureComponent {
       }
     } else if (isBookstore) {
       const grade = window.sessionStorage.getItem('grade');
-      const { subject, grade: filteredGrade } = filter.value;
       if (filter.type === 'BOTH') {
-        requestBookList(filteredGrade, subject, pageNumber * 1 + 1);
+        requestBookList(filter.value.grade, filter.value.subject, pageNumber * 1 + 1);
       } else if (filter.type === 'SUBJECT') {
-        requestBookList(grade, subject, pageNumber * 1 + 1);
+        requestBookList(grade, filter.value.subject, pageNumber * 1 + 1);
       } else if (filter.type === 'GRADE') {
-        requestBookList(filteredGrade, null, pageNumber * 1 + 1);
+        requestBookList(filter.value.grade, null, pageNumber * 1 + 1);
       } else if (filter.type === 'SEARCH') {
         requestSearchResultList(filter.value, pageNumber * 1 + 1);
       } else {
@@ -83,13 +82,12 @@ export default class Pagination extends PureComponent {
       }
     } else if (isBookstore) {
       const grade = window.sessionStorage.getItem('grade');
-      const { subject, grade: filteredGrade } = filter.value;
       if (filter.type === 'BOTH') {
-        requestBookList(filteredGrade, subject, pageNumber * 1 - 1);
+        requestBookList(filter.value.grade, filter.value.subject, pageNumber * 1 - 1);
       } else if (filter.type === 'SUBJECT') {
-        requestBookList(grade, subject, pageNumber * 1 - 1);
+        requestBookList(grade, filter.value.subject, pageNumber * 1 - 1);
       } else if (filter.type === 'GRADE') {
-        requestBookList(filteredGrade, null, pageNumber * 1 - 1);
+        requestBookList(filter.value.grade, null, pageNumber * 1 - 1);
       } else if (filter.type === 'SEARCH') {
         requestSearchResultList(filter.value, pageNumber * 1 - 1);
       } else {
@@ -105,12 +103,22 @@ export default class Pagination extends PureComponent {
     const nextDisabled = loading || !hasNext;
     return (
       <InlineList align="right">
-        <Button disabled={prevDisabled} onPress={this.handlePrevPress}>
-          이전 페이지 이동
-        </Button>
-        <Button disabled={nextDisabled} onPress={this.handleNextPress}>
-          다음 페이지 이동
-        </Button>
+        <Button
+          content="이전 페이지 이동"
+          basic
+          disabled={prevDisabled}
+          icon="left arrow"
+          labelPosition="left"
+          onClick={this.handlePrevPress}
+        />
+        <Button
+          content="다음 페이지 이동"
+          basic
+          disabled={nextDisabled}
+          icon="right arrow"
+          labelPosition="right"
+          onClick={this.handleNextPress}
+        />
       </InlineList>
     );
   }

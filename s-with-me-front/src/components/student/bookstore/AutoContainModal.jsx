@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Image, Modal } from 'semantic-ui-react';
 
 export default class AutoContainModal extends Component {
   state = { open: false };
@@ -20,14 +20,14 @@ export default class AutoContainModal extends Component {
     const { open, dimmer } = this.state;
     return (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={this.show(true)}>내 서재 담기</Button>
+        <Button basic color="green" onClick={this.show(true)}>
+          내 서재 담기
+        </Button>
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
           <Modal.Content image>
             <Image wrapped size="medium" src={this.props.cover} />
             <Modal.Description>
-              <Header>
-                스윗미에서 무료로 제공하는 기본 문제집입니다. 내 서재에 담으시겠습니까?
-              </Header>
+              스윗미에서 무료로 제공하는 기본 문제집입니다. 내 서재에 담으시겠습니까?
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>

@@ -4,7 +4,6 @@ import {
   P_PROFILE_EDIT_MODAL,
   S_PROFILE_EDIT_MODAL,
   DELETE_NOTE,
-  CREATE_CURRICULUM,
   PREVIEW_PROBLEM,
   CREATE_BOOK,
   CREATE_MAIN_CHAPTER,
@@ -17,7 +16,6 @@ import {
 import ProfileEditPage from './components/publisher/profile/ProfileEditPage';
 import ProfileEditPageStudent from './components/student/profile/ProfileEditPage';
 import DeleteNoteContainer from './containers/student/note/DeleteNoteContainer';
-import CreateCurriculumPageContainer from './containers/student/book/CreateCurriculumPageContainer';
 import ProblemPreviewPage from './components/student/problem/ProblemPreviewPage';
 import CreateBookPage from './components/publisher/createBook/CreateBookPage';
 import CreateMainChapterPage from './components/publisher/createBook/CreateMainChapterPage';
@@ -31,7 +29,6 @@ export default createProvider({
   [P_PROFILE_EDIT_MODAL]: ProfileEditPage,
   [S_PROFILE_EDIT_MODAL]: ProfileEditPageStudent,
   [DELETE_NOTE]: DeleteNoteContainer,
-  [CREATE_CURRICULUM]: CreateCurriculumPageContainer,
   [PREVIEW_PROBLEM]: ProblemPreviewPage,
   [CREATE_BOOK]: CreateBookPage,
   [CREATE_MAIN_CHAPTER]: CreateMainChapterPage,

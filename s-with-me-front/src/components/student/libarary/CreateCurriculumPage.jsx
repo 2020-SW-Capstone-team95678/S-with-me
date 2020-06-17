@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Modal, Button } from 'semantic-ui-react';
+import { Modal, Button, TextArea } from 'semantic-ui-react';
 import Form from '../../../common-ui/Form';
 import Text from '../../../common-ui/Text';
 import Spacing from '../../../common-ui/Spacing';
@@ -20,6 +20,7 @@ export default class CreateCurriculumPage extends PureComponent {
   }
   show = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
+  handleMonthlyGoal = (e, { value }) => this.setState({ monthlyGoal: value });
   handleSubmit(values) {
     const { myBookId, createCurriculum, updateCurriculum } = this.props;
     const { type, curriculum } = this.props;
@@ -28,7 +29,7 @@ export default class CreateCurriculumPage extends PureComponent {
     if (values.curriculumType === 'monthly') {
       formValue = {
         type: 'monthly',
-        monthlyGoal: values.monthlyGoal,
+        monthlyGoal: this.state.monthlyGoal,
       };
     } else if (values.curriculumType === 'weekly') {
       formValue = {
@@ -105,8 +106,11 @@ export default class CreateCurriculumPage extends PureComponent {
                       </Spacing>
                     ) : values.curriculumType === 'monthly' ? (
                       <Spacing bottom={2}>
-                        <Text>이번 달 다짐(목표)을 입력해주세요!</Text>
-                        <Input name="monthlyGoal" onChange={onChange} />
+                        <TextArea
+                          placeholder="이번 달 다짐(목표)를 입력해 주세요."
+                          onChange={this.handleMonthlyGoal}
+                          style={{ minHeight: 100, width: '100%' }}
+                        />
                       </Spacing>
                     ) : null}
                   </Spacing>
