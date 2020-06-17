@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Label, Segment } from 'semantic-ui-react';
+import { Grid, Label, Segment, List } from 'semantic-ui-react';
 
 export default function BookInfo(props) {
   const { book } = props;
@@ -11,13 +11,23 @@ export default function BookInfo(props) {
             Overview
           </Label>
           <br />
-          <span>
-            이름: {book.name} ({book.grade}학년) <br />
-            과목: {book.subject} <br />
-            가격: {book.price}원 <br />
-            출판일: {book.publishedDate}
-          </span>
-          <br />
+          <List divided verticalAlign="middle">
+            <List.Item>
+              <List.Content>이름: {book.name}</List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>학년: {book.grade}</List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>과목: {book.subject}</List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>가격: {book.price}원</List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>출판일: {book.publishedDate}</List.Content>
+            </List.Item>
+          </List>
           <Label as="a" color="orange" ribbon>
             Introduction
           </Label>

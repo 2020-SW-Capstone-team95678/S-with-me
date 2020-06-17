@@ -46,7 +46,7 @@ export default function BookPayInput(props) {
                 <label>e-mail</label>
                 <input placeholder="swithme@sth.com" name="email" />
               </SemanticForm.Field>
-              <Button type="submit">결제하기</Button>
+              <Button content="결제하기" basic icon="payment" labelPosition="right" type="submit" />
             </SemanticForm>
           )}
         </Form.Consumer>

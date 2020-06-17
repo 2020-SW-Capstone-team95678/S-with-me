@@ -4,7 +4,7 @@ import Api from '../../../Api';
 
 import BookstoreFilter from './BookstoreFilter';
 import BookInfo from './BookInfo';
-import { Button, Icon, Modal } from 'semantic-ui-react';
+import { Button, Icon, Modal, Image } from 'semantic-ui-react';
 
 import AutoContainModal from './AutoContainModal';
 import BookPayInputContainer from '../../../containers/bookstore/BookPayInputContainer';
@@ -52,17 +52,22 @@ class BookDetail extends PureComponent {
     const { bookId } = this.props.match.params;
     const { book, isPayMode, autoContainModalOpen } = this.state;
     return (
-      <div style={{ display: 'flex' }}>
+      <div {...css(styles.app)}>
         <BookstoreFilter />
         <div style={{ flex: 4 }}>
           <div style={{ flex: 1, padding: 3 }} {...css(styles.box)}>
-            <div style={{ flex: 1 }}>
-              <img src={book.cover} alt="book-cover" style={{ width: '100%', height: 'auto' }} />
+            <div style={{ flex: 1 }} {...css(styles.imageBox)}>
+              <Image src={book.cover} size="small" bordered centered />
             </div>
             <div style={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
               <BookInfo book={book} />
               <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 5 }}>
-                <Button animated="vertical" size="large" onClick={() => this.handlePayButton()}>
+                <Button
+                  animated="vertical"
+                  basic
+                  size="large"
+                  onClick={() => this.handlePayButton()}
+                >
                   <Button.Content hidden>{isPayMode ? '되돌리기' : '구입하기'}</Button.Content>
                   <Button.Content visible>
                     <Icon name="shop" />
@@ -78,7 +83,7 @@ class BookDetail extends PureComponent {
                 </Modal.Content>
                 <Modal.Actions>
                   <Button color="green" onClick={this.handleClose} inverted>
-                    <Icon name="checkmark" /> Got it
+                    <Icon name="checkmark" /> 알겠어요
                   </Button>
                 </Modal.Actions>
               </Modal>
@@ -95,11 +100,34 @@ class BookDetail extends PureComponent {
   }
 }
 
-export default withStyles(() => ({
+export default withStyles(({ responsive }) => ({
+  app: {
+    display: 'flex',
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+    flexDirection: 'row',
+  },
   box: {
     display: 'flex',
     border: '1px solid',
     borderColor: '#D9CBC7',
     borderRadius: '0.5rem',
+    [responsive.medium]: {
+      flexDirection: 'column',
+    },
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
+  },
+  imageBox: {
+    [responsive.medium]: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    [responsive.small]: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
   },
 }))(BookDetail);
