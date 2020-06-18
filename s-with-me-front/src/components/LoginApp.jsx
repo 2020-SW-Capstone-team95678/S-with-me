@@ -5,7 +5,7 @@ import './LoginApp.css';
 
 import Input from '../common-ui/Input';
 import Form from '../common-ui/Form';
-import Button from '../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ class LoginApp extends react.PureComponent {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
         window.sessionStorage.setItem('grade', this.props.user.grade);
+        window.sessionStorage.setItem('isSubscribing', this.props.user.isSubscribing);
         window.sessionStorage.setItem('name', this.props.user.name);
         this.setState({ isLogin: true });
         setUserType(true);
@@ -63,9 +64,7 @@ class LoginApp extends react.PureComponent {
           </Modal.Content>
           <Modal.Actions>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <SemanticButton color="black" onClick={this.close}>
-                모바일로 이용할래요
-              </SemanticButton>
+              <SemanticButton color="black" onClick={this.close} content="닫기" />
               <div id="install-button" hidden>
                 <SemanticButton
                   positive
@@ -78,7 +77,8 @@ class LoginApp extends react.PureComponent {
           </Modal.Actions>
         </Modal>
         <header className="loginHeader">
-          <SemanticButton style={{marginTop:'8%'}}
+          <SemanticButton
+            style={{ marginTop: '8%' }}
             onClick={this.show()}
             icon="download"
             basic
@@ -128,25 +128,33 @@ class LoginApp extends react.PureComponent {
                           <div className="inputID">
                             <Input name="id" onChange={onChange} placeholder="ID" />
                           </div>
+                          <div style={{ paddingTop: 10 }} />
                           <div className="inputPW">
                             <Input
                               name="password"
                               onChange={onChange}
-                              placeholder="PW"
+                              placeholder="Password"
                               type="password"
                             />
                           </div>
                         </div>
-                        <Button className="loginButton" type="submit" disabled={loading}>
-                          로그인
-                        </Button>
+                        <Button
+                          className="loginButton"
+                          type="submit"
+                          disabled={loading}
+                          basic
+                          circular
+                          icon="sign in"
+                          content="로그인"
+                          color="black"
+                        />
                       </div>
                       <div className="loginSignUp">
                         <Link to="/signup">
-                          <Button>학생으로 회원가입</Button>
+                          <Button basic icon="signup" color="black" content="학생으로 회원가입" />
                         </Link>
                         <Link to="/signup-publisher">
-                          <Button>출판사로 회원가입</Button>
+                          <Button basic icon="signup" color="black" content="출판사로 회원가입" />
                         </Link>
                       </div>
                     </div>

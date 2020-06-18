@@ -15,7 +15,7 @@ function SliderButton(props) {
   const handleDismissLast = () => {
     setVisibleLast(false);
   };
-  const { styles, myBookId, subChapterId } = props;
+  const { styles } = props;
   return (
     <div>
       {currentSlide === 0 || currentSlide === 7 ? (
@@ -35,7 +35,7 @@ function SliderButton(props) {
               content="페이지의 마지막 문제입니다. 채점은 모두 하셨나요?"
             />
           ) : (
-            <PaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
+            <PaginationContainer isNote />
           )}
         </div>
       ) : null}

@@ -19,14 +19,27 @@ export default function BookPayInput(props) {
       <Form
         onSubmit={values => {
           if (props.book.price !== 0) {
-            let form = {
-              book: props.book,
-              user: values,
-              bookId: props.bookId,
-              orderId: generateOrderId(),
-              buyMyBook: props.buyMyBook,
-              studentId: studentId,
-            };
+            let form = {};
+            if (props.bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1') {
+              form = {
+                book: props.book,
+                user: values,
+                bookId: props.bookId,
+                orderId: generateOrderId(),
+                close: props.close,
+                buyMyBook: props.updateSubscription,
+                studentId: studentId,
+              };
+            } else {
+              form = {
+                book: props.book,
+                user: values,
+                bookId: props.bookId,
+                orderId: generateOrderId(),
+                buyMyBook: props.buyMyBook,
+                studentId: studentId,
+              };
+            }
             bootPayRequest(form);
           }
         }}

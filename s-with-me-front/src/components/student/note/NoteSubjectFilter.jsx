@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
 import Select, { Option } from '../../../common-ui/Select';
-import Button from '../../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 
 export default class NoteSubjectFilter extends PureComponent {
   constructor(props) {
@@ -29,9 +29,7 @@ export default class NoteSubjectFilter extends PureComponent {
                 <Option label="영어" value="영어" />
                 <Option label="사회" value="사회" />
               </Select>
-              <Button type="submit" small>
-                찾기
-              </Button>
+              <Button size="tiny" icon="search" circular basic color="black" />
             </div>
           )}
         </Form.Consumer>

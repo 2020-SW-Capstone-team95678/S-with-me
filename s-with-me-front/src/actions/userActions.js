@@ -3,6 +3,7 @@ import Api from '../Api';
 export const SET_USER = 'user/SET_USER';
 export const CREATE_USER = 'user/CREATE_USER';
 export const CHECK_ID_DUPLICATION = 'user/CHECK_ID_DUPLICATION';
+export const UPDATE_SUBSCRIPTION = 'user/UPDATE_SUBSCRIPTION';
 
 export function setUser(isStudent, data, onComplete) {
   const params = new URLSearchParams();
@@ -61,6 +62,22 @@ export function checkIdDuplication(isStudent, data, onComplete) {
       : Api.post('/signup/publisher/dupcheck', params),
     meta: {
       onSuccess: onComplete,
+    },
+  };
+}
+
+export function updateSubscription(data, onComplete) {
+  return {
+    type: UPDATE_SUBSCRIPTION,
+    promise: Api.put(`/student/profile/subscription?studentId=${data.studentId}`, {
+      isSubscribing: data.isSubscribing,
+    }),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '멤버십 가입이 완료되었습니다.',
+        error: '멤버십 가입에 실패하였습니다.',
+      },
     },
   };
 }

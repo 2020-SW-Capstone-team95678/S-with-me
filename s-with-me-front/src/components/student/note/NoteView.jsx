@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
+import { Segment, Label, Button } from 'semantic-ui-react';
 import Text from '../../../common-ui/Text';
-import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
 import Api from '../../../Api';
@@ -108,10 +108,23 @@ class NoteView extends Component {
     } else {
       return (
         <VerticalList spacingBetween={2}>
-          <div style={{ border: '1px solid' }}>
-            {isRight ? <Text>(맞았어요)</Text> : <Text>(틀렸어요)</Text>}
-            {isConfused ? <Text>(+헷갈렸어요)</Text> : null}
-          </div>
+          <Segment>
+            {isRight ? (
+              <Label color="green" attached="top left" basic size="medium">
+                딩동댕! 맞았어요.
+              </Label>
+            ) : (
+              <Label color="red" attached="top left" basic size="medium">
+                땡! 틀렸어요.
+              </Label>
+            )}
+            {isConfused ? (
+              <Label tag attached="top right" size="medium" color="grey">
+                이런! 헷갈렸어요.
+              </Label>
+            ) : null}
+          </Segment>
+
           <ProblemContentView
             problem={this.state.problem}
             optionContents={optionContents}
@@ -135,26 +148,44 @@ class NoteView extends Component {
                     <MySolutionView solutionType={solutionType} note={note} />
                   )}
                 </div>
-                <Button
-                  onPress={() => this.setState({ showMySolution: false, showMyNewSolution: false })}
-                >
-                  돌아 가기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    size="small"
+                    basic
+                    onClick={() =>
+                      this.setState({ showMySolution: false, showMyNewSolution: false })
+                    }
+                  >
+                    돌아 가기
+                  </Button>
+                </div>
               </div>
             ) : (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 {resolve === 'INIT' ? (
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button onPress={() => this.setState({ showMySolution: true })}>
+                    <Button
+                      size="small"
+                      basic
+                      onClick={() => this.setState({ showMySolution: true })}
+                    >
                       나의 답과 풀이 보기
                     </Button>
                   </div>
                 ) : (
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button onPress={() => this.setState({ showMySolution: true })}>
+                    <Button
+                      size="small"
+                      basic
+                      onClick={() => this.setState({ showMySolution: true })}
+                    >
                       이전 풀이 보기
                     </Button>
-                    <Button onPress={() => this.setState({ showMyNewSolution: true })}>
+                    <Button
+                      size="small"
+                      basic
+                      onClick={() => this.setState({ showMyNewSolution: true })}
+                    >
                       새 풀이 보기
                     </Button>
                   </div>
@@ -173,12 +204,19 @@ class NoteView extends Component {
                   {isMath ? <MathSolutionView solution={solution} /> : solution}
                 </Text>
                 <br />
-                <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button size="small" basic onClick={() => this.setState({ showSolution: false })}>
+                    돌아 가기
+                  </Button>
+                </div>
               </div>
             ) : (
-              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+              <div
+                style={{ flex: 1, padding: 3, border: '1px solid' }}
+                {...css(styles.solutionContainer)}
+              >
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Button onPress={() => this.setState({ showSolution: true })}>
+                  <Button size="small" basic onClick={() => this.setState({ showSolution: true })}>
                     해답과 해설 보기
                   </Button>
                 </div>
@@ -187,7 +225,13 @@ class NoteView extends Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div>
-              <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
+              <Button
+                basic
+                color="green"
+                fluid
+                onClick={() => this.handleResolve()}
+                content="다시 풀기"
+              />
             </div>
           </div>
         </VerticalList>
@@ -196,10 +240,21 @@ class NoteView extends Component {
   }
 }
 
-export default withStyles(() => ({
+export default withStyles(({ responsive }) => ({
   container: {
     display: 'flex',
+    [responsive.small]: {
+      flexDirection: 'column',
+    },
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  solutionContainer: {
+    [responsive.small]: {
+      borderTop: '0px',
+      borderLeft: '1px solid',
+    },
+    borderLeft: '0px',
+    borderTop: '1px solid',
   },
 }))(NoteView);

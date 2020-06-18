@@ -9,7 +9,7 @@ import withLoading from '../../../common-ui/withLoading';
 
 import NoteViewContainer from '../../../containers/student/note/NoteViewContainer';
 import PaginationContainer from '../../../containers/student/PaginationContainer';
-import MobileNoteBar from './MobileNoteBar';
+import MobileNoteBar from './MobileNoteBar/MobileNoteBar';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -23,14 +23,7 @@ class NoteList extends PureComponent {
     const noteList1 = noteList.slice(0, noteList.length / 2);
     const noteList2 = noteList.slice(noteList.length / 2);
     if (isMobile) {
-      return (
-        <React.Fragment>
-          <MobileNoteBar noteList={noteList} />
-          <div {...css(styles.pagination)}>
-            <PaginationContainer isNote />
-          </div>
-        </React.Fragment>
-      );
+      return <MobileNoteBar noteList={noteList} />;
     } else {
       return (
         <React.Fragment>

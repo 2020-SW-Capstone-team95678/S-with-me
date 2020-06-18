@@ -28,14 +28,14 @@ function BookstoreTable(props) {
           <div {...css(styles.head)}>일반 서적</div>
         </Card>
         <div style={{ padding: 3 }}>
-          <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
-            <PaginationContainer isBookstore />
-          </div>
           <InlineList spacingBetween={1} align="center">
             {bookList.map((book, index) => (
               <BookCard book={book} key={index} />
             ))}
           </InlineList>
+          <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
+            <PaginationContainer isBookstore />
+          </div>
         </div>
       </div>
     </div>

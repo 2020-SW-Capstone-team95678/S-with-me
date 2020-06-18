@@ -1,4 +1,9 @@
-import { SET_USER, CREATE_USER, CHECK_ID_DUPLICATION } from '../actions/userActions';
+import {
+  SET_USER,
+  CREATE_USER,
+  CHECK_ID_DUPLICATION,
+  UPDATE_SUBSCRIPTION,
+} from '../actions/userActions';
 import { handle } from 'redux-pack';
 
 const initState = {
@@ -6,10 +11,12 @@ const initState = {
   loadingState: {
     [SET_USER]: false,
     [CREATE_USER]: false,
+    [UPDATE_SUBSCRIPTION]: false,
   },
   errorState: {
     [SET_USER]: false,
     [CREATE_USER]: false,
+    [UPDATE_SUBSCRIPTION]: false,
   },
 };
 
@@ -17,6 +24,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_SUBSCRIPTION:
     case CREATE_USER:
     case CHECK_ID_DUPLICATION:
     case SET_USER: {
@@ -37,6 +45,13 @@ export default (state = initState, action) => {
               ...prevState,
               ...loadingAndErrorState,
               entity: data,
+            };
+          } else if (type === UPDATE_SUBSCRIPTION) {
+            const { data } = payload;
+            return {
+              ...prevState,
+              ...loadingAndErrorState,
+              entity: { ...prevState.entity, isSubscribing: data.isSubscribing },
             };
           } else {
             return {
