@@ -39,6 +39,10 @@ public class Student implements UserDetails {
 
     @Column(name="grade")
     private short grade;
+
+    @Column(name="isSubscribing")
+    private Boolean isSubscribing;
+
     @Override
     public String getUsername() {
         return userId;
@@ -76,7 +80,8 @@ public class Student implements UserDetails {
     }
 
     @Builder
-    public Student(int studentId, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
+    public Student(int studentId, String userId, String name, String password,
+                   String phoneNumber, String birthday, short grade, Boolean isSubscribing) {
         this.studentId = studentId;
         this.userId = userId;
         this.name = name;
@@ -84,10 +89,15 @@ public class Student implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.grade = grade;
+        this.isSubscribing = isSubscribing;
     }
 
     public void update(String phoneNumber,short grade){
         this.phoneNumber = phoneNumber;
         this.grade = grade;
+    }
+
+    public void update(Boolean isSubscribing){
+        this.isSubscribing = isSubscribing;
     }
 }

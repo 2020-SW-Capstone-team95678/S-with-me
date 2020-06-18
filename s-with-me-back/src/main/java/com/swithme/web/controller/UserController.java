@@ -7,15 +7,9 @@ import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.UserService;
 import com.swithme.signup.JwtTokenProvider;
 import com.swithme.web.dto.*;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -96,8 +90,14 @@ public class UserController {
     //프로필 업데이트
     @CrossOrigin
     @PutMapping("/student/profile")
-    public int updateStudentProfile(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
-        return userService.updateStudent(studentId,studentUpdateRequestDto);
+    public int updateStudentProfile(int studentId, @RequestBody StudentInfoUpdateRequestDto studentInfoUpdateRequestDto){
+        return userService.updateStudent(studentId, studentInfoUpdateRequestDto);
+    }
+
+    @CrossOrigin
+    @PutMapping("/student/profile/subscription")
+    public int updateSubscription(int studentId, @RequestBody StudentSubscriptionUpdateRequestDto requestDto){
+        return userService.updateSubscription(studentId, requestDto);
     }
 
     @CrossOrigin

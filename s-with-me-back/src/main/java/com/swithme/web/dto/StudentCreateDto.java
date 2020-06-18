@@ -15,7 +15,8 @@ public class StudentCreateDto {
     short grade;
 
     @Builder
-    public StudentCreateDto(int studentId, String userId, String name, String password, String phoneNumber, String birthday, short grade) {
+    public StudentCreateDto(int studentId, String userId, String name, String password,
+                            String phoneNumber, String birthday, short grade) {
         this.studentId = studentId;
         this.userId = userId;
         this.name = name;
