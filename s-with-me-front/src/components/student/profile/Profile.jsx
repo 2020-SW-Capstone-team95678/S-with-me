@@ -41,38 +41,30 @@ export default class StudentProfile extends PureComponent {
     return (
       <Modal>
         {({ openModal }) => (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="totalBox"  style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ flex: 1, flexDirection: 'row', padding: 3 }}>
-              <div
+              <div 
                 style={{
-                  height: 400,
+                  
                   flexDirection: 'column',
-                  padding: 3,
+                  padding: 10,
                   border: '2px rgb(247, 207, 192) solid',
                   borderRadius: 10,
                   alignItems: 'center',
+                  minWidth:250
                 }}
               >
-                <div>이름 : {name}</div>
-                <div>생년월일 : {birthday}</div>
-                <div>학년 : {grade}</div>
-                <div>휴대폰번호 : {phoneNumber}</div>
+                <div style={{margin:5}}>이름 : {name}</div>
+                <div style={{margin:5}}>생년월일 : {birthday}</div>
+                <div style={{margin:5}}>학년 : {grade}</div>
+                <div style={{margin:5}}>휴대폰번호 : {phoneNumber}</div>
                 <Button onPress={() => openModal(S_PROFILE_EDIT_MODAL, { type: 'edit' })}>
                   나의 프로필 수정/저장
                 </Button>
               </div>
             </div>
 
-            <div
-              style={{
-                flex: 4,
-                height: 800,
-                flexDirection: 'column',
-                padding: 3,
-                border: '2px rgb(247, 207, 192) solid',
-                borderRadius: 10,
-                alignItems: 'center',
-              }}
+            <div className="payHistory"
             >
               <Form.Consumer style={{display:'flex'}}>
                 {({ onChange, values }) => (
@@ -84,7 +76,7 @@ export default class StudentProfile extends PureComponent {
                       <Option label="최근 6개월" value="sixmonth" />
                     </Select>
                   </InlineList>
-                  <Button style={{flex:1}}>조회</Button>
+                  <Button >조회</Button>
                   </div>
                 )}
               </Form.Consumer>
