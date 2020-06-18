@@ -29,6 +29,7 @@ export default class StudentProfile extends PureComponent {
         birthday: data.birthday,
         grade: data.grade,
         phoneNumber: data.phoneNumber,
+        isSubscribing:data.isSubscribing
       });
     });
   }
@@ -36,7 +37,7 @@ export default class StudentProfile extends PureComponent {
 
 
   render() {
-    const { birthday, name, phoneNumber, grade } = this.state;
+    const { birthday, name, phoneNumber, grade,isSubscribing } = this.state;
 
     return (
       <Modal>
@@ -54,13 +55,21 @@ export default class StudentProfile extends PureComponent {
                   minWidth:250
                 }}
               >
-                <div style={{margin:5}}>이름 : {name}</div>
+                <div style={{display:'flex',flexDirection:'row',marginBottom:10}}>
+                <div style={{flexmargin:5, fontWeight:'bold',fontSize:20}}>{name}님 |</div><div> {isSubscribing ? ("스윗미 가족"):
+                ("스윗미 방문자")}</div></div>
+
+                <div style={{textAlign:'center',borderRadius:5, backgroundColor:'rgb(247, 207, 192)'}}>내 정보</div>
                 <div style={{margin:5}}>생년월일 : {birthday}</div>
                 <div style={{margin:5}}>학년 : {grade}</div>
                 <div style={{margin:5}}>휴대폰번호 : {phoneNumber}</div>
-                <Button onPress={() => openModal(S_PROFILE_EDIT_MODAL, { type: 'edit' })}>
+
+                <Button style={{marginTop : 10}}onPress={() => openModal(S_PROFILE_EDIT_MODAL, { type: 'edit' })}>
                   나의 프로필 수정/저장
                 </Button>
+                <Button style={{marginTop : 5}}>{isSubscribing ? ("월정액 회원 해지"):
+                ("월정액 회원 신청")}</Button>
+                
               </div>
             </div>
 
