@@ -13,8 +13,7 @@ import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
     super(props);
-    const { subChapterId } = props;
-    console.log(subChapterId);
+    //const { subChapterId } = props;
 
     this.state = {
       content: '',
@@ -65,7 +64,7 @@ export default class RegisterProblem extends PureComponent {
       isOptional: this.state.isOptional,
       isMath:this.state.isMath,
     };
-    console.log(formValue);
+
     Api.post('/publisher/library/book/main-chapter/sub-chapter/problem', formValue)
       .then(({ data }) => console.log(data))
       .catch(error => console.log(error.message));

@@ -26,7 +26,7 @@ class PublisherProfile extends PureComponent {
   componentDidMount() {
     const publisherId = window.sessionStorage.getItem('publisherId');
     Api.get('publisher/profile/profit', { params: { publisherId } }).then(({ data }) => {
-      console.log(data);
+
 
       this.setState({
         monthlyProfit: data.monthlyProfit,

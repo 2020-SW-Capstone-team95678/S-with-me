@@ -212,7 +212,6 @@ export const BookInfo = ({ book, setBooks }) => {
         }),
       );
       //.catch(reason => setGrade(book.grade));
-      console.log(book.grade);
     }
   }
   function handleSubjectChange(e) {
@@ -225,7 +224,6 @@ export const BookInfo = ({ book, setBooks }) => {
         }),
       );
       // .catch(reason => setSubject(book.subject));
-      console.log(book.subject);
     }
   }
 
@@ -495,7 +493,6 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
     <Accordion allowZeroExpanded={true}>
       {chapters.map(chapter => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
-        console.log(mainChapterId);
         return (
           <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -584,7 +581,6 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
               <ol>
                 {chapter.subChapterResponseDtoList.map(subChapter => {
                   const subChapterId = subChapter.subChapterId;
-                  console.log(subChapterId);
                   return (
                     <>
                     <div  style={{border:'solid', borderColor:'rgba(185, 176, 176, 0.87)',borderRadius:5}}>
@@ -651,8 +647,6 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
 
 const ProblemInfo = ({ subChapterId, setBooks }) => {
   const [problems, setProblems] = useState([]);
-  console.log(subChapterId);
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get('/publisher/library/book/main-chapter', {
@@ -703,9 +697,7 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
 };
 
 const ProblemItem = ({ problem, setBooks }) => {
-  console.log(problem.isMath);
   const problemId = problem.problemId;
-  console.log(problemId);
 
   return (
     <div>

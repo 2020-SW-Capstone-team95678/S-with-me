@@ -47,8 +47,7 @@ const BookInfo = ({ myBook, onClick }) => {
   const [clicked,setClicked]=useState(false);
   const bookId = myBook.bookId;
   const receiptId=myBook.receiptId;
-  console.log(myBook);
-  console.log(receiptId);
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/student/library/my-book`, {
@@ -57,7 +56,6 @@ const BookInfo = ({ myBook, onClick }) => {
         },
       });
       setBook(data.data);
-      console.log('here');
     };
 
     fetchData();
@@ -128,7 +126,6 @@ const BookInfo = ({ myBook, onClick }) => {
 
 
 export const PayDetail = ({  book , receiptId}) => {
-  console.log(receiptId);
   const [payDetail, setPayDetail] = useState([]);
   useEffect(() => {
     const fetchData = async () => {

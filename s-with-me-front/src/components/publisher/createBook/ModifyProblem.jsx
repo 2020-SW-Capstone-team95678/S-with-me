@@ -16,7 +16,6 @@ export default class ModifyProblem extends PureComponent {
   constructor(props) {
     super(props);
     const { problem } = props;
-    console.log(problem);
 
     if(problem.isMath){
       this.state = {
@@ -80,7 +79,6 @@ export default class ModifyProblem extends PureComponent {
 
   handleSubmit = (values, problemId, subChapterId) => {
     const isMath = this.state.isMath;
-    console.log(isMath);
 
     if (isMath) {
       const formValue = {
@@ -99,8 +97,7 @@ export default class ModifyProblem extends PureComponent {
         image: this.state.previewURL,
         isOptional: this.state.isOptional,
       };
-      console.log(values);
-      console.log(formValue);
+ 
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
         .then(({ data }) => console.log(data))
         .catch(error => console.log(error.message));
@@ -122,8 +119,6 @@ export default class ModifyProblem extends PureComponent {
         isOptional: this.state.isOptional,
       };
 
-      console.log(values);
-      console.log(formValue);
 
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
         .then(({ data }) => console.log(data))

@@ -10,7 +10,6 @@ export function createMainChapter(data, onComplete) {
         bookId:1, //현재 있는 책 아이디 임시 설정
         mainChapterName: data.mainChapterName,
     }
-    console.log("Here!!!!"+data);
     return {
       type: CREATE_MAIN_CHAPTER,
       promise: Api.post('/publisher/library/book/mainChapter', formValue),

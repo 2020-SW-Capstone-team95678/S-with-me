@@ -17,8 +17,6 @@ const RenameMainChapter = props => {
   const [mainChapterTitle, setMainChapterTitle] = useState('');
   const [chapters, setChapters] = useState([]);
   const [books, setBooks] = useState([]); // 지금은 상태변화를 위해 필요해요. 나중에 다시 바꿀게요.
-
-  console.log(bookId);
  
   useEffect(() => {
     const fetchData = async () => {

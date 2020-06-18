@@ -23,7 +23,6 @@ const CreateBookPage = props => {
 
   function handleSubjectChange(e) {
     setSubject(e.target.value);
-    console.log(subject);
   }
 
   return (
