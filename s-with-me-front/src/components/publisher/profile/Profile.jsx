@@ -9,7 +9,7 @@ import { P_PROFILE_EDIT_MODAL } from '../../../constants/modals';
 import Api from '../../../Api';
 import EachBookSold from './eachBookSold';
 
-import AppNav, { HEIGHT } from '../AppNav';
+import AppNav from '../AppNav';
 //import Button from '../../../common-ui/Button';
 
 class PublisherProfile extends PureComponent {

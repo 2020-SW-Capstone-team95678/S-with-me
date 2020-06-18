@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
 import Input from '../../../common-ui/Input';
-import CheckBox from '../../../common-ui/CheckBox';
+//import CheckBox from '../../../common-ui/CheckBox';
 //import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
-import { Button } from 'semantic-ui-react';
+import { Button, Checkbox } from 'semantic-ui-react';
 
 import 'katex/dist/katex.min.css';
-import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
+import { ProblemInputMathTop, ProblemInputMathBottom } from './ProblemInputMath';
 
 export default class RegisterProblem extends PureComponent {
   constructor(props) {
@@ -32,37 +32,33 @@ export default class RegisterProblem extends PureComponent {
   }
 
   handleSubmit = (values, subChapterId) => {
-    if(this.state.isMath){
-
+    if (this.state.isMath) {
       values = {
         ...values,
-        option1:JSON.stringify(this.state.optionOneM),
-        option2:JSON.stringify(this.state.optionTwoM),
-        option3:JSON.stringify(this.state.optionThrM),
-        option4:JSON.stringify(this.state.optionFouM),
-        option5:JSON.stringify(this.state.optionFivM),
+        option1: JSON.stringify(this.state.optionOneM),
+        option2: JSON.stringify(this.state.optionTwoM),
+        option3: JSON.stringify(this.state.optionThrM),
+        option4: JSON.stringify(this.state.optionFouM),
+        option5: JSON.stringify(this.state.optionFivM),
         isMath: this.state.isMath,
         title: JSON.stringify(this.state.titleM),
-        content:JSON.stringify( this.state.contentM),
+        content: JSON.stringify(this.state.contentM),
         answer: this.state.answerM,
         solution: JSON.stringify(this.state.solutionM),
       };
-
-    }
-    else{
+    } else {
       values = {
         ...values,
-        content:this.state.content,
-        solution:this.state.solution,
+        content: this.state.content,
+        solution: this.state.solution,
       };
-
     }
     const formValue = {
       ...values,
-      subChapterId:subChapterId,
+      subChapterId: subChapterId,
       image: this.state.previewURL,
       isOptional: this.state.isOptional,
-      isMath:this.state.isMath,
+      isMath: this.state.isMath,
     };
 
     Api.post('/publisher/library/book/main-chapter/sub-chapter/problem', formValue)
@@ -100,45 +96,44 @@ export default class RegisterProblem extends PureComponent {
   };
   handleSolution = solution => {
     this.setState({
-      solutionM:solution,
+      solutionM: solution,
     });
   };
   handleAnswer = answer => {
     this.setState({
-      answerM:answer,
+      answerM: answer,
     });
   };
 
-  handleOptionOne = optionOne=> {
+  handleOptionOne = optionOne => {
     this.setState({
-      optionOneM:optionOne
+      optionOneM: optionOne,
     });
   };
 
   handleOptionTwo = optionTwo => {
     this.setState({
-      optionTwoM:optionTwo
+      optionTwoM: optionTwo,
     });
   };
 
-  handleOptionThr = optionThr  => {
+  handleOptionThr = optionThr => {
     this.setState({
-     optionThrM:optionThr
+      optionThrM: optionThr,
     });
   };
 
-  handleOptionFou = optionFou=> {
-    if(optionFou){
-    this.setState({
-      optionFouM:optionFou
-    });
-  }
+  handleOptionFou = optionFou => {
+    if (optionFou) {
+      this.setState({
+        optionFouM: optionFou,
+      });
+    }
   };
 
   handleOptionFiv = optionFiv => {
     this.setState({
-      optionFivM:optionFiv
-
+      optionFivM: optionFiv,
     });
   };
 
@@ -147,7 +142,6 @@ export default class RegisterProblem extends PureComponent {
       [e.target.name]: e.target.value,
     });
   };
-
 
   render() {
     const { file, previewURL, isOptional, isMath } = this.state;
@@ -174,139 +168,196 @@ export default class RegisterProblem extends PureComponent {
           <Form.Consumer>
             {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div
                     style={{
                       flex: 1,
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
+                      backgroundColor: 'rgb(255, 245, 238)',
+                      borderRadius: 10,
+                      padding: 10,
                     }}
                   >
-                    
-                    <CheckBox
-                  label="수식 입력하기"
-                  onChange={() => this.setState({ isMath: !isMath })}
-                  checked={isMath}
-                />
+                    <Checkbox
+                      label="수식 입력하기"
+                      onChange={() => this.setState({ isMath: !isMath })}
+                      checked={isMath}
+                    />
                   </div>
-                  <br/>
+                  <br />
                   {isMath ? (
                     <div>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      <Button small>수식 입력 방법 보러 가기!</Button>
-                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
-                      <ProblemInputMathTop
-                        isMath={this.state.isMath}
-                        onContent={this.handleContent}
-                        onTitle={this.handleTitle}
-                      />
-                    
-                      <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
-                        <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
-                        <input
-                          type="file"
-                          accept="image/jpg,impge/png,image/jpeg,image/gif"
-                          name="mySolutionImage"
-                          onChange={this.handleFileOnChange}
+                      <div
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <Button small>수식 입력 방법 보러 가기!</Button>
+                        <br />
+
+                        <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                        <ProblemInputMathTop
+                          isMath={this.state.isMath}
+                          onContent={this.handleContent}
+                          onTitle={this.handleTitle}
                         />
-                        {solution_preview}
-                      </div>
 
-                      <CheckBox
-                        label="객관식 문제입니까?"
-                        onChange={() => this.handleOptional()}
-                        checked={isOptional}
-                      />
-
-
-
-
-                      <ProblemInputMathBottom
-                        isMath={this.state.isMath}
-                        isOptional={this.state.isOptional}
-                        onContent={this.handleContent}
-                        onTitle={this.handleTitle}
-                        onSolution={this.handleSolution}
-                        onAnswer={this.handleAnswer}
-                        onOptionOne={this.handleOptionOne}
-                        onOptionTwo={this.handleOptionTwo}
-                        onOptionThr={this.handleOptionThr}
-                        onOptionFou={this.handleOptionFou}
-                        onOptionFiv={this.handleOptionFiv}
-                        />
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'rgb(245,245,245)',
+                            padding: 10,
+                            borderRadius: 5,
+                            margin: 10,
+                          }}
+                        >
+                          <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
+                          <input
+                            type="file"
+                            accept="image/jpg,impge/png,image/jpeg,image/gif"
+                            name="mySolutionImage"
+                            onChange={this.handleFileOnChange}
+                          />
+                          {solution_preview}
+                        </div>
+                        <div
+                          style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgb(255, 245, 238)',
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                            padding: 10,
+                            marginTop:10,
+                            marginLeft:10,
+                            marginRight:10
+                          }}
+                        >
+                          <Checkbox
+                            label="객관식 문제입니까?"
+                            onChange={() => this.handleOptional()}
+                            checked={isOptional}
+                          />
+                        </div>
                         
-                    </div>
-                    <Button style={{marginTop:5}}>문제 등록!</Button>
-                    </div>
 
-
+                        <ProblemInputMathBottom
+                          isMath={this.state.isMath}
+                          isOptional={this.state.isOptional}
+                          onContent={this.handleContent}
+                          onTitle={this.handleTitle}
+                          onSolution={this.handleSolution}
+                          onAnswer={this.handleAnswer}
+                          onOptionOne={this.handleOptionOne}
+                          onOptionTwo={this.handleOptionTwo}
+                          onOptionThr={this.handleOptionThr}
+                          onOptionFou={this.handleOptionFou}
+                          onOptionFiv={this.handleOptionFiv}
+                        />
+                      </div>
+                      <Button style={{ marginTop: 5 }}>문제 등록!</Button>
+                    </div>
                   ) : (
                     <div>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      <Input label="문제 번호" name="problemNumber" onChange={onChange} />
-                      <Input label="문제 제목" name="title" onChange={onChange} />
-                      문제 내용
-                              <textarea
-                                style={{minHeight:200}}
-                                label="문제 내용"
-                                name="content"
-                                value={this.state.content}
-                                onChange={this.handleChangeInput}
-                              />
-                      
-                      <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
-                        <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
-                        <input
-                          type="file"
-                          accept="image/jpg,impge/png,image/jpeg,image/gif"
-                          name="mySolutionImage"
-                          onChange={this.handleFileOnChange}
+                      <div
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <Input label="문제 번호" name="problemNumber" onChange={onChange} />
+                        <br />
+                        <Input label="문제 제목" name="title" onChange={onChange} />
+                        <br />
+                        문제 내용
+                        <textarea
+                          style={{ minHeight: 200 }}
+                          label="문제 내용"
+                          name="content"
+                          value={this.state.content}
+                          onChange={this.handleChangeInput}
                         />
-                        {solution_preview}
-                      </div>
-
-                      <CheckBox
-                        label="객관식 문제입니까?"
-                        onChange={() => this.handleOptional()}
-                        checked={isOptional}
-                      />
-
-                      {isOptional ? (
-                        <div>
-                          <Input label="객관식 1번" name="option1" onChange={onChange} />
-                          <Input label="객관식 2번" name="option2" onChange={onChange} />
-                          <Input label="객관식 3번" name="option3" onChange={onChange} />
-                          <Input label="객관식 4번" name="option4" onChange={onChange} />
-                          <Input label="객관식 5번" name="option5" onChange={onChange} />
+                        <br />
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: 'rgb(245,245,245)',
+                            padding: 10,
+                            borderRadius: 5,
+                            margin: 10,
+                          }}
+                        >
+                          <p>문제에 사진이 있으면 첨부해주세요.↓↓↓↓</p>
+                          <input
+                            type="file"
+                            accept="image/jpg,impge/png,image/jpeg,image/gif"
+                            name="mySolutionImage"
+                            onChange={this.handleFileOnChange}
+                          />
+                          {solution_preview}
                         </div>
-                      ) : null}
-
-                      <Input label="문제 정답" name="answer" onChange={onChange} />
-                      문제 해설
-                              <textarea
-                                style={{minHeight:200}}
-                                label="문제 해설"
-                                name="solution"
-                                value={this.state.solution}
-                                onChange={this.handleChangeInput}
-                              />
-                    </div>
-                    <Button style={{marginTop:5}}>문제 등록!</Button>
+                        <br />
+                        <div
+                          style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgb(255, 245, 238)',
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                            padding: 10,
+                            marginTop:10,
+                            marginLeft:10,
+                            marginRight:10
+                          }}
+                        >
+                          <Checkbox
+                            label="객관식 문제입니까?"
+                            onChange={() => this.handleOptional()}
+                            checked={isOptional}
+                          />
+                          
+                        </div>
+                        {isOptional ? (
+                          <div style={{
+                            backgroundColor:'rgb(245,245,245)',
+                            marginLeft:10,
+                            marginRight:10,
+                            padding:5,
+                          }}>
+                            <Input label="객관식 1번" name="option1" onChange={onChange} />
+                            <Input label="객관식 2번" name="option2" onChange={onChange} />
+                            <Input label="객관식 3번" name="option3" onChange={onChange} />
+                            <Input label="객관식 4번" name="option4" onChange={onChange} />
+                            <Input label="객관식 5번" name="option5" onChange={onChange} />
+                          </div>
+                        ) : null}
+                        
+                        <br />
+                        <Input label="문제 정답" name="answer" onChange={onChange} />
+                        <br />
+                        문제 해설
+                        <textarea
+                          style={{ minHeight: 200 }}
+                          label="문제 해설"
+                          name="solution"
+                          value={this.state.solution}
+                          onChange={this.handleChangeInput}
+                        />
+                      </div>
+                      <Button style={{ marginTop: 5 }}>문제 등록!</Button>
                     </div>
                   )}
                 </div>
@@ -314,8 +365,6 @@ export default class RegisterProblem extends PureComponent {
                 {/* <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                 <Input label="문제 제목" name="title" onChange={onChange} />
                 <ProblemInputMath onContent={this.handleContent} label="문제 내용" name="content" /> */}
-
-                
               </div>
             )}
           </Form.Consumer>

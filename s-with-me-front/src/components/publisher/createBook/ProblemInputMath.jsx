@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { MathContent, MathTitle, MathAnswer, MathOptionOne, MathOptionTwo, MathOptionThr, MathOptionFou,MathOptionFiv, MathSolution } from './MathInputPreview';
+import {
+  MathContent,
+  MathTitle,
+  MathAnswer,
+  MathOptionOne,
+  MathOptionTwo,
+  MathOptionThr,
+  MathOptionFou,
+  MathOptionFiv,
+  MathSolution,
+} from './MathInputPreview';
 
 export function ProblemInputMathTop(props) {
   //const [isMath, setIsMathState] = useState(false);
-  
-  const { prevTitle,prevContent,onTitle, onContent, isMath } = props;
-  const [title,setTitle] = useState(prevTitle);
+
+  const { prevTitle, prevContent, onTitle, onContent, isMath } = props;
+  const [title, setTitle] = useState(prevTitle);
   const [mathTitle, setMathTitle] = useState(prevTitle);
 
-  const [content,setContent] = useState(prevContent);
+  const [content, setContent] = useState(prevContent);
   const [mathContent, setMathContent] = useState(prevContent);
 
   const handleTitleChange = e => {
@@ -25,8 +35,8 @@ export function ProblemInputMathTop(props) {
 
   return (
     <div style={{ padding: '5px', paddingTop: 5 }}>
-      <div>
-        {' '}
+      <br />
+      <div style={{ backgroundColor: 'rgb(245,245,245)', padding: 10, borderRadius: 5 }}>
         문제 제목
         <div style={{ display: 'flex', paddingBottom: 5 }}>
           <input
@@ -45,8 +55,7 @@ export function ProblemInputMathTop(props) {
         {isMath ? <MathTitle mathTitle={mathTitle} /> : null}
       </div>
       <br />
-      <div>
-        {' '}
+      <div style={{ backgroundColor: 'rgb(245,245,245)', padding: 10, borderRadius: 5 }}>
         문제 내용
         <div style={{ display: 'flex', paddingBottom: 5 }}>
           <textarea
@@ -71,8 +80,24 @@ export function ProblemInputMathTop(props) {
 export function ProblemInputMathBottom(props) {
   //const [isMath, setIsMathState] = useState(false);
 
-  const {prevAnswer,prevSolution,PrevOptionOne, prevOptionTwo, prevOptionThr,prevOptionFou,prevOptionFiv
-    ,onAnswer,onSolution,onOptionOne,onOptionTwo, onOptionThr,onOptionFou,onOptionFiv, isMath, isOptional } = props;
+  const {
+    prevAnswer,
+    prevSolution,
+    PrevOptionOne,
+    prevOptionTwo,
+    prevOptionThr,
+    prevOptionFou,
+    prevOptionFiv,
+    onAnswer,
+    onSolution,
+    onOptionOne,
+    onOptionTwo,
+    onOptionThr,
+    onOptionFou,
+    onOptionFiv,
+    isMath,
+    isOptional,
+  } = props;
 
   const [mathAnswer, setMathAnswer] = useState(prevAnswer);
   const [mathSolution, setMathSolution] = useState(prevSolution);
@@ -89,7 +114,6 @@ export function ProblemInputMathBottom(props) {
   const [optionFou, setOptionFou] = useState(prevOptionFou);
   const [optionFiv, setOptionFiv] = useState(prevOptionFiv);
 
-  
   const handleAnswerChange = e => {
     setMathAnswer(e.target.value);
     setAnswer(e.target.value);
@@ -129,11 +153,25 @@ export function ProblemInputMathBottom(props) {
   };
 
   return (
-    <div style={{ padding: '5px', paddingTop: 5 }}>
+    <div>
       {isOptional ? (
-        <div>
-          <div>
-            {' '}
+        <div
+          style={{
+            border: '5px rgb(245,245,245) solid',
+            backgroundColor: 'rgb(245,245,245)',
+            padding: 10,
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          <div
+            style={{
+              padding: 10,
+              marginLeft: 10,
+              marginRight: 10,
+              backgroundColor: 'white',
+            }}
+          >
             객관식 1번
             <div style={{ display: 'flex', paddingBottom: 5 }}>
               <input
@@ -151,8 +189,14 @@ export function ProblemInputMathBottom(props) {
             </div>
             {isMath ? <MathOptionOne mathOptionOne={mathOptionOne} /> : null}
           </div>
-          <div>
-            {' '}
+          <div
+            style={{
+              padding: 10,
+              marginLeft: 10,
+              marginRight: 10,
+              backgroundColor: 'white',
+            }}
+          >
             객관식 2번
             <div style={{ display: 'flex', paddingBottom: 5 }}>
               <input
@@ -170,8 +214,15 @@ export function ProblemInputMathBottom(props) {
             </div>
             {isMath ? <MathOptionTwo mathOptionTwo={mathOptionTwo} /> : null}
           </div>
-          <div>
-            {' '}
+          <div
+            style={{
+              backgroundColor: 'white',
+
+              padding: 10,
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             객관식 3번
             <div style={{ display: 'flex', paddingBottom: 5 }}>
               <input
@@ -189,8 +240,14 @@ export function ProblemInputMathBottom(props) {
             </div>
             {isMath ? <MathOptionThr mathOptionThr={mathOptionThr} /> : null}
           </div>
-          <div>
-            {' '}
+          <div
+            style={{
+              padding: 10,
+              marginLeft: 10,
+              marginRight: 10,
+              backgroundColor: 'white',
+            }}
+          >
             객관식 4번
             <div style={{ display: 'flex', paddingBottom: 5 }}>
               <input
@@ -208,8 +265,14 @@ export function ProblemInputMathBottom(props) {
             </div>
             {isMath ? <MathOptionFou mathOptionFou={mathOptionFou} /> : null}
           </div>
-          <div>
-            {' '}
+          <div
+            style={{
+              padding: 10,
+              marginLeft: 10,
+              marginRight: 10,
+              backgroundColor: 'white',
+            }}
+          >
             객관식 5번
             <div style={{ display: 'flex', paddingBottom: 5 }}>
               <input
@@ -229,8 +292,9 @@ export function ProblemInputMathBottom(props) {
           </div>
         </div>
       ) : null}
-      <div>
-        {' '}
+      <div
+        style={{ backgroundColor: 'rgb(245,245,245)', padding: 10, borderRadius: 5, marginTop: 20 }}
+      >
         문제 정답
         <div style={{ display: 'flex', paddingBottom: 5 }}>
           <input
@@ -249,8 +313,7 @@ export function ProblemInputMathBottom(props) {
         {isMath ? <MathAnswer mathAnswer={mathAnswer} /> : null}
       </div>
       <br />
-      <div>
-        {' '}
+      <div style={{ backgroundColor: 'rgb(245,245,245)', padding: 10, borderRadius: 5 }}>
         문제 해설
         <div style={{ display: 'flex', paddingBottom: 5 }}>
           <textarea
