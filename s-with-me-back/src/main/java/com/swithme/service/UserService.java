@@ -8,10 +8,7 @@ import com.swithme.domain.publisher.Publisher;
 import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
-import com.swithme.web.dto.MonthlyProfitAndSoldResponseDto;
-import com.swithme.web.dto.PublisherCreateDto;
-import com.swithme.web.dto.StudentCreateDto;
-import com.swithme.web.dto.StudentUpdateRequestDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,6 +37,7 @@ public class UserService implements UserDetailsService {
                 .phoneNumber(studentCreateDto.getPhoneNumber())
                 .birthday(studentCreateDto.getBirthday())
                 .grade(studentCreateDto.getGrade())
+                .isSubscribing(false)
                 .build());
         Student student=studentRepository.findByUserId(studentCreateDto.getUserId());
         folderRepository.save(Folder.builder()
@@ -60,13 +58,23 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public int updateStudent(int studentId , StudentUpdateRequestDto studentUpdateRequestDto){
+    public int updateStudent(int studentId , StudentInfoUpdateRequestDto studentInfoUpdateRequestDto){
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(()-> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
-        student.update(studentUpdateRequestDto.getPhoneNumber(),studentUpdateRequestDto.getGrade());
+                .orElseThrow(()-> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+        student.update(studentInfoUpdateRequestDto.getPhoneNumber(), studentInfoUpdateRequestDto.getGrade());
 
         return studentId;
     }
+
+    @Transactional
+    public int updateSubscription(int studentId, StudentSubscriptionUpdateRequestDto requestDto) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
+        student.update(requestDto.getIsSubscribing());
+
+        return studentId;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -103,4 +111,5 @@ public class UserService implements UserDetailsService {
 
         return responseDto;
     }
+
 }
