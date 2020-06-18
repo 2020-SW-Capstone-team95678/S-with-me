@@ -104,7 +104,7 @@ export default class Pagination extends PureComponent {
     return (
       <InlineList align="right">
         <Button
-          content="이전 페이지 이동"
+          content="이전 페이지"
           basic
           disabled={prevDisabled}
           icon="left arrow"
@@ -112,7 +112,7 @@ export default class Pagination extends PureComponent {
           onClick={this.handlePrevPress}
         />
         <Button
-          content="다음 페이지 이동"
+          content="다음 페이지"
           basic
           disabled={nextDisabled}
           icon="right arrow"

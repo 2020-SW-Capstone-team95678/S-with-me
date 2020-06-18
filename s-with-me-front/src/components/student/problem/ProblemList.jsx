@@ -3,9 +3,8 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 
 import ProblemBar from './ProblemBar';
 import PaginationContainer from '../../../containers/student/PaginationContainer';
-
 import { isMobile } from 'react-device-detect';
-import MobileProblemBar from './MobileProblemBar';
+import MobileProblemBar from './MobileProblemBar/MobileProblemBar';
 
 class ProblemList extends PureComponent {
   render() {
@@ -15,10 +14,11 @@ class ProblemList extends PureComponent {
     if (isMobile) {
       return (
         <React.Fragment>
-          <MobileProblemBar myProblemList={myProblemList} />
-          <div {...css(styles.pagination)}>
-            <PaginationContainer myBookId={myBookId} subChapterId={subChapterId} />
-          </div>
+          <MobileProblemBar
+            myProblemList={myProblemList}
+            myBookId={myBookId}
+            subChapterId={subChapterId}
+          />
         </React.Fragment>
       );
     } else {
