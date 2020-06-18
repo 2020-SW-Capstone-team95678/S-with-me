@@ -103,12 +103,12 @@ export default class SignUpS extends PureComponent {
                                 />
 
                                 <div className="signUpButton">
-                                  <Button type="submit" disabled={loading}>
-                                    제출
-                                  </Button>
-                                  <Link to="/">
+                                <Link to="/">
                                     <Button small>로그인으로 돌아가기</Button>
                                   </Link>
+                                  <Button type="submit" disabled={loading}>
+                                    가입하기
+                                  </Button>
                                 </div>
                               </VerticalList>
                             </div>
@@ -123,7 +123,7 @@ export default class SignUpS extends PureComponent {
                                 small
                                 onPress={() => this.handleCheckDuplication(currentUserId)}
                               >
-                                검사
+                                중복확인
                               </Button>
                               <div>
                                 {isCheck &&

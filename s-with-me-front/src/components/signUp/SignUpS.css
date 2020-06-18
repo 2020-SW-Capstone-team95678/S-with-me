@@ -65,7 +65,7 @@
 .studentSignUpBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgrey;
-  height: 100%;
+  height: 90%;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -114,8 +114,8 @@
 }
 .checkID { 
 
-  min-width: 50px;
-  margin-right: 20px;
+  min-width: 70px;
+  margin-right: 40px;
 }
 
 @media(min-width : 390px)and (max-width : 499px){
@@ -186,7 +186,7 @@
   .studentSignUpBox {
     background-color: rgb(247, 207, 192);
     box-shadow: 5px 5px 5px darkgrey;
-    height: 100%;
+    height: 90%;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -235,7 +235,7 @@
   }
   .checkID { 
   
-    min-width: 50px;
+    min-width: 80px;
     margin-right: 20px;
   }
 
@@ -359,7 +359,7 @@
   }
   .checkID { 
   
-    min-width: 50px;
+    min-width: 80px;
     margin-right: 20px;
   }
 
@@ -477,15 +477,16 @@
     align-content: space-between;
     flex: 1;
     display: flex;
-    font-size: calc(9px + 1vmin);
+    font-size: calc(8.5px + 1vmin);
     text-align: start;
     padding-left: 0px;
     padding-right: 0px;
   }
   .checkID { 
-    min-width: 50px;
+    min-width: 80px;
     flex-direction: column;
     display: flex;
+    margin-left: 5;
   }
  
   

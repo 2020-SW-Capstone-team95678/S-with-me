@@ -65,7 +65,7 @@
 .publisherSignUpBox {
   background-color: rgb(247, 207, 192);
   box-shadow: 5px 5px 5px darkgrey;
-  height: 100%;
+  height: 110%;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -81,12 +81,8 @@
 .signUpButton {
   width: 100%;
   height: 100%;
-  top:0px;
-  right:0px;
-  left: 0px;
-  bottom: 0px;
   align-items: center;
-  margin: 10px;
+
 }
 
 .welcomeText {
@@ -109,15 +105,15 @@
   flex-direction: column;
   flex: 1;
   display: flex;
-  margin-left:50px;
+  margin-left:30px;
   font-size: calc(9px + 1vmin);
   text-align: start;
 }
 .inputCheck { 
   flex: 1;
-  min-width: 50px;
-  margin-right: 50px;
-  margin-left: 10px;
+  min-width: 60px;
+  margin-right: 60px;
+  margin-left: 0px;
     flex-direction: column;
     display: flex;
 }
@@ -135,7 +131,7 @@
     flex-direction: column;
     flex: 1;
     display: flex;
-    margin-left:50px; 
+    margin-left:30px; 
     font-size: calc(9px + 1vmin);
     text-align: start;
   }
@@ -153,7 +149,6 @@
     flex-direction: column;
     flex: 1;
     display: flex;
-    margin-left:50px;
     font-size: calc(9px + 1vmin);
     text-align: start;
   }
