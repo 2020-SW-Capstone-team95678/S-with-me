@@ -148,13 +148,17 @@ class NoteView extends Component {
                     <MySolutionView solutionType={solutionType} note={note} />
                   )}
                 </div>
-                <Button
-                  size="small"
-                  basic
-                  onClick={() => this.setState({ showMySolution: false, showMyNewSolution: false })}
-                >
-                  돌아 가기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    size="small"
+                    basic
+                    onClick={() =>
+                      this.setState({ showMySolution: false, showMyNewSolution: false })
+                    }
+                  >
+                    돌아 가기
+                  </Button>
+                </div>
               </div>
             ) : (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
@@ -200,12 +204,17 @@ class NoteView extends Component {
                   {isMath ? <MathSolutionView solution={solution} /> : solution}
                 </Text>
                 <br />
-                <Button size="small" basic onClick={() => this.setState({ showSolution: false })}>
-                  돌아 가기
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button size="small" basic onClick={() => this.setState({ showSolution: false })}>
+                    돌아 가기
+                  </Button>
+                </div>
               </div>
             ) : (
-              <div style={{ flex: 1, padding: 3, border: '1px solid', borderTop: '0px' }}>
+              <div
+                style={{ flex: 1, padding: 3, border: '1px solid' }}
+                {...css(styles.solutionContainer)}
+              >
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button size="small" basic onClick={() => this.setState({ showSolution: true })}>
                     해답과 해설 보기
@@ -239,5 +248,13 @@ export default withStyles(({ responsive }) => ({
     },
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  solutionContainer: {
+    [responsive.small]: {
+      borderTop: '0px',
+      borderLeft: '1px solid',
+    },
+    borderLeft: '0px',
+    borderTop: '1px solid',
   },
 }))(NoteView);

@@ -14,7 +14,7 @@ export default class LibrarySubjectTable extends PureComponent {
           <List.Item key={index} name={subject} onClick={this.handleClick}>
             <List.Content>
               <div style={{ fontSize: 'large', paddingLeft: 5 }}>
-                <List.Icon name="book" size="large" verticalAlign="middle" />
+                <List.Icon name="world" size="large" verticalAlign="middle" />
                 {subject}
               </div>
             </List.Content>
