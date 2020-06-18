@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Button from '../../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 
 export default class NewScoringButton extends PureComponent {
   constructor(props) {
@@ -37,8 +37,10 @@ export default class NewScoringButton extends PureComponent {
     const { children, id, answer, myAnswer } = this.props;
     return (
       <Button
-        type="submit"
-        onPress={() => this.handleScoringButtonClick(id, answer, myAnswer, dateTime)}
+        fluid
+        basic
+        color="orange"
+        onClick={() => this.handleScoringButtonClick(id, answer, myAnswer, dateTime)}
       >
         {children}
       </Button>

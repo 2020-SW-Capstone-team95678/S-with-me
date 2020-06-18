@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import Form from '../../../common-ui/Form';
 import Select, { Option } from '../../../common-ui/Select';
-import Button from '../../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 import Api from '../../../Api';
 
 export default class NoteFolderFilter extends PureComponent {
@@ -37,9 +37,7 @@ export default class NoteFolderFilter extends PureComponent {
                   <Option label={folderName} value={folderId} />
                 ))}
               </Select>
-              <Button type="submit" small>
-                찾기
-              </Button>
+              <Button size="tiny" icon="search" circular basic color="black" />
             </div>
           )}
         </Form.Consumer>

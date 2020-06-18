@@ -1,57 +1,73 @@
 import React, { PureComponent } from 'react';
-import { withStyles, css } from '../../../common-ui/withStyles';
 
-import Button from '../../../common-ui/Button';
+import { Menu, Sidebar, Button, Dropdown, Ref } from 'semantic-ui-react';
 import NoteFolderFilterContainer from '../../../containers/student/note/NoteFolderFilterContainer';
 import NoteSubjectFilterContainer from '../../../containers/student/note/NoteSubjectFilterContainer';
+import { isMobileOnly } from 'react-device-detect';
 
-class NoteHead extends PureComponent {
+export default class NoteHead extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { viewFolderList: false, viewSubjectList: false };
+    this.state = { activeItem: 'latest', visible: false };
   }
-
   render() {
-    const { styles } = this.props;
-    const { viewFolderList, viewSubjectList } = this.state;
-    return (
-      <div {...css(styles.container)}>
-        <div style={{ flex: 1, padding: 3, display: 'flex' }}>
-          <Button small onPress={() => this.setState({ viewSubjectList: !viewSubjectList })}>
-            과목별 보기
-          </Button>
-          {viewSubjectList ? <NoteSubjectFilterContainer /> : null}
-        </div>
-        <div style={{ flex: 1, padding: 3, display: 'flex' }}>
-          <Button small onPress={() => this.setState({ viewFolderList: !viewFolderList })}>
-            폴더별 보기
-          </Button>
-          {viewFolderList ? <NoteFolderFilterContainer /> : null}
-        </div>
-        <div style={{ flex: 1, padding: 3 }}>
-          <Button
-            small
-            onPress={() => {
-              this.setState({ viewFolderList: false, viewSubjectList: false });
-              this.props.handleViewOrigin();
-            }}
-          >
-            최신순 보기
-          </Button>
-        </div>
-      </div>
+    const { activeItem } = this.state;
+    const { targetRef } = this.props;
+
+    const NoteMenu = () => (
+      <Menu stackable>
+        <Menu.Item
+          name="최신순 보기"
+          active={activeItem === 'latest'}
+          onClick={() => {
+            this.setState({ activeItem: 'latest' });
+            this.setState({ viewFolderList: false, viewSubjectList: false });
+            this.props.handleViewOrigin();
+          }}
+        />
+        <Dropdown
+          item
+          text="폴더별 보기"
+          active={activeItem === 'folder'}
+          onClick={() => this.setState({ activeItem: 'folder' })}
+        >
+          {activeItem === 'folder' ? <NoteFolderFilterContainer /> : null}
+        </Dropdown>
+        <Dropdown
+          item
+          text="과목별 보기"
+          active={activeItem === 'subject'}
+          onClick={() => this.setState({ activeItem: 'subject' })}
+        >
+          {activeItem === 'subject' ? <NoteSubjectFilterContainer /> : null}
+        </Dropdown>
+      </Menu>
     );
+    if (isMobileOnly) {
+      return (
+        <React.Fragment>
+          <Sidebar
+            as={Menu}
+            animation="push"
+            direction="top"
+            onHide={() => this.setState({ visible: false })}
+            target={targetRef}
+            visible={this.state.visible}
+          >
+            <NoteMenu />
+          </Sidebar>
+          <Sidebar.Pusher dimmed={this.state.visible}>
+            <Button
+              attached="top"
+              content="보기 방식 변경"
+              icon="eye"
+              basic
+              color="orange"
+              onClick={() => this.setState({ visible: true })}
+            />
+          </Sidebar.Pusher>
+        </React.Fragment>
+      );
+    } else return <NoteMenu />;
   }
 }
-
-export default withStyles(({ color, unit }) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: unit * 2,
-    paddingRight: unit * 2,
-    backgroundColor: color.secondary,
-  },
-}))(NoteHead);

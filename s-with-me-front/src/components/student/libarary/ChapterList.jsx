@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Heading from '../../../common-ui/Heading';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeading, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faAlignLeft, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { List } from 'semantic-ui-react';
 
 export default class ChapterList extends PureComponent {
@@ -21,7 +21,7 @@ export default class ChapterList extends PureComponent {
             <div key={index}>
               <List.Item>
                 <Heading level={2}>
-                  <FontAwesomeIcon icon={faHeading} style={{ paddingRight: 2 }} />
+                  <FontAwesomeIcon icon={faAlignLeft} style={{ paddingRight: 2 }} />
                   {mainChapter.mainChapterName}
                 </Heading>
               </List.Item>

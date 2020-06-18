@@ -125,7 +125,7 @@ AppNav.propTypes = {
   ...withStylesPropTypes,
 };
 
-export default withStyles(({ color, depth, unit, responsive }) => ({
+export default withStyles(({ color, unit, responsive }) => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
