@@ -9,7 +9,7 @@ import { P_PROFILE_EDIT_MODAL } from '../../../constants/modals';
 import Api from '../../../Api';
 import EachBookSold from './eachBookSold';
 
-import AppNav, { HEIGHT } from '../AppNav';
+import AppNav from '../AppNav';
 //import Button from '../../../common-ui/Button';
 
 class PublisherProfile extends PureComponent {
@@ -26,7 +26,7 @@ class PublisherProfile extends PureComponent {
   componentDidMount() {
     const publisherId = window.sessionStorage.getItem('publisherId');
     Api.get('publisher/profile/profit', { params: { publisherId } }).then(({ data }) => {
-      console.log(data);
+
 
       this.setState({
         monthlyProfit: data.monthlyProfit,

@@ -20,7 +20,6 @@ class HandWriteSolution extends React.Component {
   handleLineWeghit = e => {
     const { controlWeghit } = this.state;
     this.setState({ controlWeghit: !controlWeghit });
-    console.log(controlWeghit);
   };
   _save = () => {
     const { id, setHandSolution, isNote, setMyNewHandSolution } = this.props;

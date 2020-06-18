@@ -8,7 +8,6 @@ const CreateSubChapterPage = props => {
   const { mainChapterId } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
 
-  console.log(mainChapterId);
 
   return (
     <Modal>

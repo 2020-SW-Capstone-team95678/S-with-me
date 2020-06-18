@@ -17,9 +17,6 @@ const RenameMainChapter = props => {
   const [subChapterTitle, setSubChapterTitle] = useState('');
   const [chapters, setChapters] = useState([]);//상태변화에 필요
 
-  console.log(bookId);
- 
-
 
   return (
     <Modal>

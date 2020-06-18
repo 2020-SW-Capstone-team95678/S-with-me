@@ -131,7 +131,6 @@ const BookInfoPage = () => {
               }
             });
 
-            console.log(subChapters);
           }}
         >
           Add
