@@ -78,7 +78,7 @@ class LoginApp extends react.PureComponent {
           </Modal.Actions>
         </Modal>
         <header className="loginHeader">
-          <SemanticButton
+          <SemanticButton style={{marginTop:'8%'}}
             onClick={this.show()}
             icon="download"
             labelPosition="right"
