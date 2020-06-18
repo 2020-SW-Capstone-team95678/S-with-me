@@ -26,7 +26,7 @@ const eachBookSold = () => {
 
 
   return (
-    <OverflowScrolling style={{ maxHeight: '70%' }} className="overflow-scrolling">
+    <OverflowScrolling style={{ maxHeight: '90%' }} className="overflow-scrolling">
       <div style={{ display: 'flex' }}>
         <div style={{flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
           <div>

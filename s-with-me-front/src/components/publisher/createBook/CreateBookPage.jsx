@@ -71,6 +71,7 @@ const CreateBookPage = props => {
             Introduction
             <textarea
               type="text"
+              style={{minHeight:'300px'}}
               value={introduction}
               placeholder="please input introduction"
               onChange={({ target: { value } }) => setIntroduction(value)}

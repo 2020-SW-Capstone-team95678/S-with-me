@@ -40,82 +40,78 @@ export default class SignUpP extends PureComponent {
       return (
         <div className="publisherSignUp">
           <header className="header">
-          <div className="logoPublisher">
-              <img src={logo} className="content" alt="logo"/>
+            <div className="logoPublisher">
+              <img src={logo} className="content" alt="logo" />
             </div>
             <div className="signUpSectionP">
               <div className="content">
-              <div className="welcomeText">
-                반갑습니다.
-              </div>
-              <div className="publisherSignUpBox">
-                <div className="signUp" style={{ display: 'flex', alignItems: 'stretch' }}>
-                  <div style={{ flex: 3 }}>
-                    <div
-                      className="signUpInput"
-                      style={{ display: 'flex', flexDirection: 'column' }}
-                    >
-                      <Form onSubmit={values => this.handleSubmit(values)}>
-                        <Form.Consumer>
-                          {({ onChange, values }) => {
-                            this.setState({ currentUserId: values['userId'] });
-                            if (!values['userId']) this.setState({ isCheck: false });
-                            let errors = validate(values, isCheck, isOnlyId);
-                            if (!errors.length) this.setState({ isValidForm: true });
-                            return (
-                              <div className="inputCssPublisher">
-                                <VerticalList spacingBetween={1} >
-                                  <Input
-                                    name="userId"
-                                    placeholder="ID"
-                                    onChange={onChange}
-                                    errorMessage={errors['userId']}
-                                  />
-                                  <Input
-                                    name="password"
-                                    placeholder="PW"
-                                    type="password"
-                                    onChange={onChange}
-                                    errorMessage={errors['password']}
-                                  />
-                                  <Input
-                                    name="code"
-                                    placeholder="출판사 코드"
-                                    onChange={onChange}
-                                    errorMessage={errors['code']}
-                                  />
-                                </VerticalList>
-                                <div className="signUpButton">
-                                <Button type="submit" disabled={loading}>
-                                제출
-                                </Button>
-                               
-                    <Link to="/">
-                      <Button small>로그인으로 돌아가기</Button>
-                    </Link>
+                <div className="welcomeText">반갑습니다.</div>
+                <div className="publisherSignUpBox">
+                  <div className="signUp" style={{ display: 'flex', alignItems: 'stretch' }}>
+                    <div style={{ flex: 3 }}>
+                      <div
+                        className="signUpInput"
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                      >
+                        <Form onSubmit={values => this.handleSubmit(values)}>
+                          <Form.Consumer>
+                            {({ onChange, values }) => {
+                              this.setState({ currentUserId: values['userId'] });
+                              if (!values['userId']) this.setState({ isCheck: false });
+                              let errors = validate(values, isCheck, isOnlyId);
+                              if (!errors.length) this.setState({ isValidForm: true });
+                              return (
+                                <div className="inputCssPublisher">
+                                  <div style={{margin:10}}>
+                                  <VerticalList spacingBetween={1}>
+                                    <Input
+                                      name="userId"
+                                      placeholder="ID"
+                                      onChange={onChange}
+                                      errorMessage={errors['userId']}
+                                    />
+                                    <Input
+                                      name="password"
+                                      placeholder="PW"
+                                      type="password"
+                                      onChange={onChange}
+                                      errorMessage={errors['password']}
+                                    />
+                                    <Input
+                                      name="code"
+                                      placeholder="출판사 코드"
+                                      onChange={onChange}
+                                      errorMessage={errors['code']}
+                                    />
+                                  </VerticalList>
+                                  </div>
+                                  <div className="signUpButton">
+                                    <Link to="/">
+                                      <Button small>로그인으로 돌아가기</Button>
+                                    </Link>
+                                    <Button type="submit" disabled={loading}>
+                                      가입하기
+                                    </Button>
+                                  </div>
+                                </div>
+                              );
+                            }}
+                          </Form.Consumer>
+                        </Form>
+                      </div>
                     </div>
-                              </div>
-                            );
-                          }}
-                        </Form.Consumer>
-                      </Form>
-                    </div>
-                  </div>
-                  <div
-                    className="inputCheck"
-                   
-                  >
-                    <br />
-                    <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
-                      검사
-                    </Button>
-                    
-                    <div>
-                      {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
+                    <div className="inputCheck">
+                      <br />
+                      <Button small onPress={() => this.handleCheckDuplication(currentUserId)}>
+                        중복확인
+                      </Button>
+
+                      <div>
+                        {isCheck && (isOnlyId ? <Text>사용 가능</Text> : <Text>아이디 중복</Text>)}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </header>
