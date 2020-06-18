@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import { Button } from 'semantic-ui-react';
 import {
     Accordion,
     AccordionItem,
@@ -74,13 +75,13 @@ const RenameMainChapter = props => {
             <br />
             <br />
 
-            <button
+            <Button
               onClick={() => {
                 closeModal();
               }}
             >
               닫기
-            </button>
+            </Button>
           </div>
         </div>
       )}

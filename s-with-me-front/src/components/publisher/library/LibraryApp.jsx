@@ -471,9 +471,9 @@ export const BookInfo = ({ book, setBooks }) => {
             }}
           />
         </div>
-        {selectedSubChapter !== null && (
+        {/* {selectedSubChapter !== null && (
           <ProblemInfo book={book} setBooks={setBooks} subChapterId={selectedSubChapter} />
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -691,7 +691,7 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
       <Accordion allowZeroExpanded={true}>
         <AccordionItem>
           <AccordionItemHeading>
-            <AccordionItemButton>problem add</AccordionItemButton>
+            <AccordionItemButton>문제 추가하기</AccordionItemButton>
           </AccordionItemHeading>
           <AccordionItemPanel>
             <RegisterProblem subChapterId={subChapterId} />

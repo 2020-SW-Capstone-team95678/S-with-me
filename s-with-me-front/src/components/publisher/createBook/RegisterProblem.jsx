@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react';
 import Form from '../../../common-ui/Form';
 import Input from '../../../common-ui/Input';
 import CheckBox from '../../../common-ui/CheckBox';
-import Button from '../../../common-ui/Button';
+//import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
+import { Button } from 'semantic-ui-react';
 
 import 'katex/dist/katex.min.css';
 import {ProblemInputMathTop,ProblemInputMathBottom} from './ProblemInputMath';
@@ -174,7 +175,7 @@ export default class RegisterProblem extends PureComponent {
           <Form.Consumer>
             {({ onChange, values }) => (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', }}>
                   <div
                     style={{
                       flex: 1,
@@ -244,7 +245,7 @@ export default class RegisterProblem extends PureComponent {
                         />
                         
                     </div>
-                    <Button>등록!</Button>
+                    <Button style={{marginTop:5}}>문제 등록!</Button>
                     </div>
 
 
@@ -262,6 +263,7 @@ export default class RegisterProblem extends PureComponent {
                       <Input label="문제 제목" name="title" onChange={onChange} />
                       문제 내용
                               <textarea
+                                style={{minHeight:200}}
                                 label="문제 내용"
                                 name="content"
                                 value={this.state.content}
@@ -298,13 +300,14 @@ export default class RegisterProblem extends PureComponent {
                       <Input label="문제 정답" name="answer" onChange={onChange} />
                       문제 해설
                               <textarea
+                                style={{minHeight:200}}
                                 label="문제 해설"
                                 name="solution"
                                 value={this.state.solution}
                                 onChange={this.handleChangeInput}
                               />
                     </div>
-                    <Button>등록!</Button>
+                    <Button style={{marginTop:5}}>문제 등록!</Button>
                     </div>
                   )}
                 </div>

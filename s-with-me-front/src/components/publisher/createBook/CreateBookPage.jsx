@@ -5,6 +5,7 @@ import Api from '../../../Api';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import InputBookCover from '../library/InputBookCover';
+import { Button } from 'semantic-ui-react';
 
 
 const CreateBookPage = props => {
@@ -85,7 +86,7 @@ const CreateBookPage = props => {
             ></input>
             <br></br>
             <br></br>
-            <button
+            <Button
               onClick={() => {
                 Api.post('/publisher/library/book', {
                   cover: cover,
@@ -102,14 +103,15 @@ const CreateBookPage = props => {
               }}
             >
               등록
-            </button>
-            <button
+            </Button>
+            <Button
+              style={{marginTop:5}}
               onClick={() => {
                 closeModal();
               }}
             >
               닫기
-            </button>
+            </Button>
           </div>
         </div>
       )}
