@@ -25,6 +25,7 @@ class LoginApp extends react.PureComponent {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
         window.sessionStorage.setItem('grade', this.props.user.grade);
+        window.sessionStorage.setItem('isSubscribing', this.props.user.isSubscribing);
         window.sessionStorage.setItem('name', this.props.user.name);
         this.setState({ isLogin: true });
         setUserType(true);
@@ -78,7 +79,8 @@ class LoginApp extends react.PureComponent {
           </Modal.Actions>
         </Modal>
         <header className="loginHeader">
-          <SemanticButton style={{marginTop:'8%'}}
+          <SemanticButton
+            style={{ marginTop: '8%' }}
             onClick={this.show()}
             icon="download"
             basic

@@ -21,7 +21,12 @@ function SliderButton(props) {
       {currentSlide === 0 || currentSlide === 7 ? (
         <div {...css(styles.pagination)}>
           {visibleFisrt && currentSlide === 0 ? (
-            <Message floating onDismiss={handleDismissFirst} content="페이지 당 8문제 입니다." />
+            <Message
+              floating
+              warning
+              onDismiss={handleDismissFirst}
+              content="페이지 당 8문제 입니다."
+            />
           ) : visibleLast && currentSlide === 7 ? (
             <Message
               floating

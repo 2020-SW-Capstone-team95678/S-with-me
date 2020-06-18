@@ -59,13 +59,23 @@ export const bootPayRequest = form => {
     .done(function(data) {
       //결제가 정상적으로 완료되면 수행됩니다
       //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-      let formValue = {
-        bookId: bookId,
-        receiptId: data.receipt_id,
-        studentId: studentId,
-      };
-      buyMyBook(formValue, () => console.log('complete'));
-      console.log(data);
-      
+      if (bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1') {
+        let formValue = {
+          studentId: studentId * 1,
+          isSubscribing: true,
+        };
+        buyMyBook(formValue, () => {
+          window.sessionStorage.setItem('isSubscribing', true);
+          console.log('update membership complete');
+          form.close();
+        });
+      } else {
+        let formValue = {
+          bookId: bookId,
+          receiptId: data.receipt_id,
+          studentId: studentId,
+        };
+        buyMyBook(formValue, () => console.log('complete'));
+      }
     });
 };

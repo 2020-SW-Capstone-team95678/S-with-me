@@ -7,6 +7,7 @@ import { Segment, Sidebar, Button } from 'semantic-ui-react';
 import LibraryFilterList from './LibraryFilterList';
 import BookOverview from './BookOverview';
 import CurriculumList from './CurriculumList';
+import TutorialModal from './TutorialModal';
 
 class LibraryApp extends PureComponent {
   constructor(props) {
@@ -35,6 +36,7 @@ class LibraryApp extends PureComponent {
     const { myBookList, bookListLoading, folderLoading, folderList, styles } = this.props;
     const { requestMyBookList } = this.props;
     const { curriculumList } = this.props;
+    const isSubscribing = window.sessionStorage.getItem('isSubscribing');
     if (isMobileOnly) {
       return (
         <Sidebar.Pushable as={Segment}>
@@ -88,6 +90,7 @@ class LibraryApp extends PureComponent {
     }
     return (
       <DndProvider backend={HTML5Backend}>
+        <TutorialModal show={isSubscribing === 'false'} />
         <div {...css(styles.app)}>
           <div style={{ flex: 1 }} {...css(styles.table)}>
             <LibraryFilterList
