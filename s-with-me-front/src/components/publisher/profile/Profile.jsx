@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../../common-ui/withStyles';
-import Select, { Option } from '../../../common-ui/Select';
-import Form from '../../../common-ui/Form';
-import InlineList from '../../../common-ui/InlineList';
+//import Select, { Option } from '../../../common-ui/Select';
+//import Form from '../../../common-ui/Form';
+//import InlineList from '../../../common-ui/InlineList';
+import { Button } from 'semantic-ui-react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import { P_PROFILE_EDIT_MODAL } from '../../../constants/modals';
 import Api from '../../../Api';
 import EachBookSold from './eachBookSold';
 
 import AppNav, { HEIGHT } from '../AppNav';
-import Button from '../../../common-ui/Button';
+//import Button from '../../../common-ui/Button';
 
 class PublisherProfile extends PureComponent {
   static propTypes = {
@@ -74,7 +75,7 @@ class PublisherProfile extends PureComponent {
                   style={{
                     textAlign: 'center',
                     display: 'tableCell',
-                    paddingTop: '3%',
+                    paddingTop: '2%',
                     height: '10%',
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
@@ -117,7 +118,7 @@ class PublisherProfile extends PureComponent {
                   style={{
                     textAlign: 'center',
                     display: 'tableCell',
-                    paddingTop: '8%',
+                    paddingTop: '6%',
                     height: '10%',
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
