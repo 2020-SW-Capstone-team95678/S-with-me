@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import { Button } from 'semantic-ui-react';
+
 const CreateSubChapterPage = props => {
   const { mainChapterId } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
@@ -13,12 +15,12 @@ const CreateSubChapterPage = props => {
       {({ closeModal }) => (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            SubChapter info
+            소단원 만들기
             <br />
             <br />
             {/* <h2>mainChapter Id : {mainChapterId}</h2>
             <h2>subChapter Id : {subChapterId}</h2> */}
-            Name
+            소단원 제목
             <input
               type="text"
               value={subChapterTitle}
@@ -27,7 +29,7 @@ const CreateSubChapterPage = props => {
             />
             <br></br>
             <br></br>
-            <button
+            <Button
               onClick={() => {
                 Api.post('/publisher/library/book/main-chapter/sub-chapter', {
                   subChapterName: subChapterTitle,
@@ -35,15 +37,16 @@ const CreateSubChapterPage = props => {
                 })
               }}
             >
-              등록
-            </button>
-            <button
+              등록 하기
+            </Button>
+            <Button
+              style={{marginTop:5}}
               onClick={() => {
                 closeModal();
               }}
             >
               닫기
-            </button>
+            </Button>
           </div>
         </div>
       )}
