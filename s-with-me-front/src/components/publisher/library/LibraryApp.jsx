@@ -51,7 +51,7 @@ const LibraryApp = () => {
         <Modal>
           {({ openModal }) => (
             <Button primary onPress={() => openModal(CREATE_BOOK, { publisherId: publisherId })}>
-              Create Book
+              문제집 등록하기
             </Button>
           )}
         </Modal>
@@ -440,7 +440,7 @@ export const BookInfo = ({ book, setBooks }) => {
                   openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId, setChapters })
                 }
               >
-                mainChapter add
+                대단원 추가
               </button>
               <button
                 style={{
@@ -458,7 +458,7 @@ export const BookInfo = ({ book, setBooks }) => {
                   openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
                 }
               >
-                mainChapter rename
+                대단원 수정
               </button>
             </>
           )}
@@ -554,7 +554,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                         })
                       }
                     >
-                      subChapter add
+                      소단원 추가
                     </button>
                     <button
                       style={{
@@ -576,7 +576,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                         })
                       }
                     >
-                      subChapter rename
+                      소단원 수정
                     </button>
                   </>
                 )}
