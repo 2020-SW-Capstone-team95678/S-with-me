@@ -280,8 +280,7 @@ export const BookInfo = ({ book, setBooks }) => {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
-            <p>제목</p>
-
+            <div>제목</div>
             <input
               type="text"
               value={name}
@@ -303,8 +302,7 @@ export const BookInfo = ({ book, setBooks }) => {
             ></input>
           </div>
           <div>
-            <p>가격</p>
-
+            <div>가격</div>
             <input
               type="number"
               value={price}
@@ -326,7 +324,7 @@ export const BookInfo = ({ book, setBooks }) => {
             ></input>
           </div>
           <div>
-            <p>학년</p>
+            <div>학년</div>
             <select value={book.grade} onChange={handleGradeChange}>
               <option value="1">1학년</option>
               <option value="2">2학년</option>
@@ -334,7 +332,7 @@ export const BookInfo = ({ book, setBooks }) => {
             </select>
           </div>
           <div>
-            <p>과목</p>
+            <div>과목</div>
             <select value={book.subject} onChange={handleSubjectChange}>
               <option value="국어">국어</option>
               <option value="수학">수학</option>
@@ -345,10 +343,11 @@ export const BookInfo = ({ book, setBooks }) => {
               <option value="기타">기타</option>
             </select>
           </div>
-          <div>
-            <p>설명</p>
-            <input
+          <div style={{verticalAlign:'top'}}>
+            <div>책소개</div>
+            <textarea
               type="text"
+              style={{minHeight:200,minWidth:400}}     
               value={introduction}
               onKeyDown={handleEnter}
               onChange={onChangeIntro}
@@ -365,7 +364,7 @@ export const BookInfo = ({ book, setBooks }) => {
                     .catch(reason => setIntroduction(book.introduction));
                 }
               }}
-            ></input>
+            ></textarea>
           </div>
         </div>
         <div style={{ marginLeft: 100, marginTop: 50 }}>
