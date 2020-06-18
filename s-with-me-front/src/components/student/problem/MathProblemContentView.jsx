@@ -11,6 +11,7 @@ import { delimeters } from '../../../constants/delimeters';
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 
+/*eslint no-extend-native: ["error", { "exceptions": ["String"] }]*/
 String.prototype.replaceAll = function(org, dest) {
   return this.split(org).join(dest);
 };

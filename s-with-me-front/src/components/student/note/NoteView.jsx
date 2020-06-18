@@ -5,9 +5,6 @@ import Text from '../../../common-ui/Text';
 import Button from '../../../common-ui/Button';
 import VerticalList from '../../../common-ui/VerticalList';
 
-import { Consumer as Modal } from '../../../common-ui/Modal/context';
-import { DELETE_NOTE } from '../../../constants/modals';
-
 import Api from '../../../Api';
 import NoteResolveContainer from '../../../containers/student/note/NoteResolveContainer';
 import MySolutionView from './MySolutionView';
@@ -189,18 +186,6 @@ class NoteView extends Component {
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Modal>
-              {({ openModal }) => (
-                <div>
-                  <Button onPress={() => openModal(DELETE_NOTE, { myProblemId: myProblemId })}>
-                    문제 삭제
-                  </Button>
-                  {resolve === 'INIT' ? null : (
-                    <Button onPress={() => this.handleSaveNote()}>새 답과 풀이 저장</Button>
-                  )}
-                </div>
-              )}
-            </Modal>
             <div>
               <Button onPress={() => this.handleResolve()}>다시 풀기</Button>
             </div>
