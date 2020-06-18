@@ -7,6 +7,7 @@ import { Slider } from 'react-semantic-ui-range';
 class MobileHandWriteSolution extends React.Component {
   constructor(props) {
     super(props);
+    this.canvas = React.createRef();
     this.state = {
       drawings: [],
       activeItem: 'write',
@@ -70,7 +71,7 @@ class MobileHandWriteSolution extends React.Component {
           ref={this.canvas}
           brushColor={activeItem === 'write' ? 'black' : 'white'}
           brushRadius={lineWidth}
-          lazyRadius="0"
+          lazyRadius="1"
           gridColor="white"
           canvasWidth="100%"
           canvasHeight="200"
