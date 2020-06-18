@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { WithStore } from 'pure-react-carousel';
 import CanvasDraw from 'react-canvas-draw';
@@ -23,10 +22,7 @@ class MobileHandWriteSolution extends React.Component {
   };
   _save = () => {
     const { id, setHandSolution, isNote, setMyNewHandSolution } = this.props;
-    //const drawings = this.saveableCanvas.toDataURL("image/png");
     const drawings = this.canvas.current.canvasContainer.children[1].toDataURL();
-    //const drawings = this.saveableCanvas.getSaveData();
-    //console.log(drawings);
     if (isNote) setMyNewHandSolution(id, drawings);
     else setHandSolution(id, drawings);
   };
@@ -48,7 +44,7 @@ class MobileHandWriteSolution extends React.Component {
               <Icon name="eraser" />
               지우개
             </Menu.Item>
-            <Menu.Item value={Tools.Line} onClick={this.handleLineWeghit} key="Line">
+            <Menu.Item onClick={this.handleLineWeghit} key="Line">
               Line
             </Menu.Item>
             {controlWeghit ? (
@@ -84,6 +80,5 @@ class MobileHandWriteSolution extends React.Component {
     );
   };
 }
-
 
 export default WithStore(MobileHandWriteSolution);

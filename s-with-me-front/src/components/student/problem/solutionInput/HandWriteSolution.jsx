@@ -1,4 +1,3 @@
-
 import React from 'react';
 import CanvasDraw from 'react-canvas-draw';
 import { Icon, Menu } from 'semantic-ui-react';
@@ -28,7 +27,6 @@ class HandWriteSolution extends React.Component {
     //const drawings = this.saveableCanvas.toDataURL("image/png");
     const drawings = this.canvas.current.canvasContainer.children[1].toDataURL();
     //const drawings = this.saveableCanvas.getSaveData();
-    console.log(drawings);
     if (isNote) setMyNewHandSolution(id, drawings);
     else setHandSolution(id, drawings);
   };
