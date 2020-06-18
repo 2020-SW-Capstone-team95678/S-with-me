@@ -119,7 +119,9 @@ class ProblemView extends PureComponent {
                     </div>
                   ) : null}
                   {problemNumber ? (
-                    <div style={{ display: 'flex' }}>
+                    <div
+                      style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 10 }}
+                    >
                       <IsConfusedContainer id={myProblemId} />
                       <ScoringButtonContainer
                         id={myProblemId}
@@ -128,9 +130,7 @@ class ProblemView extends PureComponent {
                         myBookId={myBookId}
                         disabled={loading}
                         page={page}
-                      >
-                        개별 채점
-                      </ScoringButtonContainer>
+                      />
                     </div>
                   ) : null}
                 </div>
@@ -158,5 +158,6 @@ export default withStyles(() => ({
     padding: 5,
     alignContent: 'flex-start',
     border: '1px solid',
+    borderTop: '0px',
   },
 }))(ProblemView);

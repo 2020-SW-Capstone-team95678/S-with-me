@@ -15,7 +15,7 @@ function BookstoreTable(props) {
         <Card vertical={2}>
           <div {...css(styles.head)}>SwithMe Pick!</div>
         </Card>
-        <div style={{ padding: 3 }}>
+        <div style={{ paddingBottom: 15 }}>
           <InlineList spacingBetween={1} align="center">
             {adBookList.map((book, index) => (
               <BookCard book={book} key={index} />
@@ -47,7 +47,6 @@ export default withStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 11,
     paddingTop: 11,
     fontWeight: 'bold',
   },

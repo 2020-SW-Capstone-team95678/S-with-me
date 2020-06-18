@@ -31,7 +31,10 @@ export function requestFilteredMyBookList(filterType, params, id = null) {
         : Api.get(`/student/${id}/library/my-book/subject-filter`, { params }),
     meta: {
       notification: {
-        error: '폴더별 문제집을 불러오는 중에 문제가 발생했습니다.',
+        error:
+          filterType === 'FOLDER'
+            ? '폴더별 문제집을 불러오는 중에 문제가 발생했습니다.'
+            : '과목별 문제집을 불러오는 중에 문제가 발생했습니다.',
       },
     },
   };

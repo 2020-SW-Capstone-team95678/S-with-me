@@ -4,8 +4,8 @@ import { isMobile } from 'react-device-detect';
 import LinkSolutionInputContainer from '../../../containers/student/note/LinkSolutionInputContainer';
 import ImageSolutionInput from './solutionInput/ImageSolutionInput';
 import TextSolutionInput from './solutionInput/TextSolutionInput';
-// import HandWriteSolutionInput from './solutionInput/HandWriteSolution';
-// import MobileHandWriteSolutionInput from './solutionInput/MobileHandWriteSolutionInput';
+import HandWriteSolutionInput from './solutionInput/HandWriteSolution';
+import MobileHandWriteSolutionInput from './solutionInput/MobileHandWriteSolutionInput';
 
 export default class SolutionInput extends PureComponent {
   render() {
@@ -24,10 +24,11 @@ export default class SolutionInput extends PureComponent {
     } else if (solutionType === 'img') {
       return <ImageSolutionInput id={id} setImageSolution={setImageSolution} />;
     } else if (solutionType === 'hand') {
-      return null;
-      // if (isMobile)
-      //   return <MobileHandWriteSolutionInput id={id} setHandSolution={setHandSolution} />;
-      // else return <HandWriteSolutionInput id={id} setHandSolution={setHandSolution} />;
+      if (isMobile) {
+        return <MobileHandWriteSolutionInput id={id} setHandSolution={setHandSolution} />;
+      } else {
+        return <HandWriteSolutionInput id={id} setHandSolution={setHandSolution} />;
+      }
     } else {
       return (
         <TextSolutionInput

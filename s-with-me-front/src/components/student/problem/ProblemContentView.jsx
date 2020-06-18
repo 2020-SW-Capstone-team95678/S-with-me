@@ -1,9 +1,8 @@
 import React from 'react';
 
+import { Divider, Label, Segment } from 'semantic-ui-react';
 import Text from '../../../common-ui/Text';
 import VerticalList from '../../../common-ui/VerticalList';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPoo } from '@fortawesome/free-solid-svg-icons';
 import { withStyles, css } from '../../../common-ui/withStyles';
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import NewAnswerInputContainer from '../../../containers/student/note/NewAnswerInputContainer';
@@ -30,27 +29,33 @@ function ProblemContentView(props) {
   }
   return (
     <div {...css(styles.body)}>
-      {isResultView && !isNote ? (
-        <div>
-          {isRight ? (
-            <Text>딩동댕</Text>
-          ) : (
-            <Text primary>
-              <FontAwesomeIcon icon={faPoo} />땡
-            </Text>
-          )}
-          {isConfused ? (
-            <Text>
-              <br />
-              헷갈렸어요
-            </Text>
-          ) : null}
-        </div>
-      ) : null}
-      <Text large>
-        {problemNumber ? problemNumber + '.' : null}
-        {title}
-      </Text>
+      <div style={{ padding: 3 }}>
+        {isResultView && !isNote ? (
+          <Segment>
+            {isRight ? (
+              <Label color="green" attached="top left" size="medium">
+                딩동댕! 정답입니다.
+              </Label>
+            ) : (
+              <Label color="red" attached="top left" size="medium">
+                땡! 틀렸습니다.
+              </Label>
+            )}
+            {isConfused ? (
+              <Label tag attached="top right" size="medium" color="grey">
+                이런! 헷갈렸어요.
+              </Label>
+            ) : null}
+          </Segment>
+        ) : null}
+        <Segment>
+          <Text large>
+            {problemNumber ? problemNumber + '.' : null}
+            {title}
+          </Text>
+        </Segment>
+      </div>
+      <Divider />
       {image ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img
@@ -65,11 +70,7 @@ function ProblemContentView(props) {
           />
         </div>
       ) : null}
-      {content ? (
-        <div style={{ border: '0.5px solid', padding: 2 }}>
-          <Text>{content}</Text>
-        </div>
-      ) : null}
+      {content ? <Segment>{content}</Segment> : null}
       {isOptional && isResultView ? (
         <VerticalList spacingBetween={1}>
           {optionContents.map((option, index) => (
@@ -101,7 +102,7 @@ export default withStyles(() => ({
   body: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#FFF5EB',
+    border: '1px solid',
     padding: 5,
     borderRadius: 2,
   },

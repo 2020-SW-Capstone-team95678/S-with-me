@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react';
 
-import { Consumer as Modal } from '../../../common-ui/Modal/context';
-import Form from '../../../common-ui/Form';
-import Spacing from '../../../common-ui/Spacing';
 import Text from '../../../common-ui/Text';
-import InlineList from '../../../common-ui/InlineList';
-import Button from '../../../common-ui/Button';
+import { Button, Modal } from 'semantic-ui-react';
 
 export default class DeleteFolderPage extends PureComponent {
   constructor(props) {
@@ -13,36 +9,35 @@ export default class DeleteFolderPage extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(closeModal) {
-    const { deleteFolder, requestFolderList, requestMyBookList, folderId, studentId } = this.props;
+  handleSubmit() {
+    const studentId = window.sessionStorage.getItem('studentId');
+    const { deleteFolder, requestFolderList, requestMyBookList, folderId } = this.props;
     deleteFolder(folderId * 1, () => {
-      closeModal();
       requestFolderList({ studentId: studentId });
+      this.props.close(false);
       requestMyBookList({ studentId: studentId });
     });
   }
 
   render() {
+    const { open } = this.props;
     return (
-      <Modal>
-        {({ closeModal }) => (
-          <Form onSubmit={() => this.handleSubmit(closeModal)}>
-            <Form.Consumer>
-              {() => (
-                <Spacing horizontal={4} vertical={6}>
-                  <Spacing bottom={2}>
-                    <Text large>정말로 삭제하시겠습니까?</Text> <br />
-                    <Text>폴더 내의 문제집은 분류되지 않음 폴더로 이동됩니다.</Text>
-                  </Spacing>
-                  <InlineList spacingBetween={1}>
-                    <Button primary>삭제</Button>
-                    <Button onPress={closeModal}>취소</Button>
-                  </InlineList>
-                </Spacing>
-              )}
-            </Form.Consumer>
-          </Form>
-        )}
+      <Modal size="tiny" dimmer="inverted" open={open} onClose={() => this.props.close(false)}>
+        <Modal.Content>
+          <Text large>정말로 삭제하시겠습니까?</Text> <br />
+          <Text>폴더 내의 문제집은 분류되지 않음 폴더로 이동됩니다.</Text>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={() => this.props.close(false)} content="취소" />
+          <Button
+            onClick={() => this.handleSubmit()}
+            type="submit"
+            negative
+            icon="delete"
+            labelPosition="right"
+            content="삭제"
+          />
+        </Modal.Actions>
       </Modal>
     );
   }

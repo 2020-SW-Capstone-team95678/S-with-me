@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ItemTypes } from '../../../constants/itemTypes';
 import { useDrop } from 'react-dnd';
-import Button from '../../../common-ui/Button';
 import { isMobileOnly } from 'react-device-detect';
 
 export default function FolderButton(props) {
@@ -21,20 +20,27 @@ export default function FolderButton(props) {
     });
 
     return (
-      <div ref={drop} style={{ position: 'relative' }}>
-        <Button
-          primary={isOver}
-          onPress={() => requestFilteredMyBookList('FOLDER', { folderId: folderId })}
-        >
-          {folderName}
-        </Button>
+      <div
+        ref={drop}
+        style={{
+          position: 'relative',
+          fontSize: 'large',
+          color: isOver ? 'red' : 'black',
+          fontWeight: isOver ? 'bold' : 'normal',
+        }}
+        onClick={() => requestFilteredMyBookList('FOLDER', { folderId: folderId })}
+      >
+        {folderName}
       </div>
     );
   } else {
     return (
-      <Button onPress={() => requestFilteredMyBookList('FOLDER', { folderId: folderId })}>
+      <div
+        onClick={() => requestFilteredMyBookList('FOLDER', { folderId: folderId })}
+        style={{ fontSize: 'large' }}
+      >
         {folderName}
-      </Button>
+      </div>
     );
   }
 }

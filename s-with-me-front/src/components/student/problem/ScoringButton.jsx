@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Button from '../../../common-ui/Button';
+import { Button } from 'semantic-ui-react';
 
 export default class ScoringButton extends PureComponent {
   constructor(props) {
@@ -33,14 +33,15 @@ export default class ScoringButton extends PureComponent {
   }
   render() {
     const dateTime = this.state.date.getTime();
-    const { children, id, answer, myAnswer } = this.props;
+    const { id, answer, myAnswer } = this.props;
     return (
       <Button
-        type="submit"
-        onPress={() => this.handleScoringButtonClick(id, answer, myAnswer, dateTime)}
-      >
-        {children}
-      </Button>
+        size="medium"
+        basic
+        color="green"
+        content="개별 채점"
+        onClick={() => this.handleScoringButtonClick(id, answer, myAnswer, dateTime)}
+      />
     );
   }
 }

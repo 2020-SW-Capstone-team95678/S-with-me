@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-
-import CheckBox from '../../../common-ui/CheckBox';
+import { Checkbox, Button } from 'semantic-ui-react';
 
 export default class IsConfusedInput extends PureComponent {
   constructor(props) {
@@ -19,9 +18,9 @@ export default class IsConfusedInput extends PureComponent {
   render() {
     const { isConfused } = this.state;
     return (
-      <CheckBox name="confused" onChange={this.setConfused} checked={isConfused} autoFocus>
-        헷갈렸어요
-      </CheckBox>
+      <Button color="olive" size="small" basic>
+        <Checkbox onChange={this.setConfused} checked={isConfused} label="헷갈렸어요" />
+      </Button>
     );
   }
 }

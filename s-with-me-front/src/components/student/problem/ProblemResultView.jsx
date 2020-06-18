@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
+import { Checkbox, Segment, Button } from 'semantic-ui-react';
 import Text from '../../../common-ui/Text';
-import Button from '../../../common-ui/Button';
-
-import { Consumer as Modal } from '../../../common-ui/Modal/context';
-import { DELETE_NOTE } from '../../../constants/modals';
 import Api from '../../../Api';
 
 import ProblemContentView from './ProblemContentView';
 import MathSolutionView from './MathSolutionView';
+import DeleteNoteContainer from '../../../containers/student/note/DeleteNoteContainer';
 
 class ProblemResultView extends PureComponent {
   constructor(props) {
@@ -57,61 +55,58 @@ class ProblemResultView extends PureComponent {
           optionContents={optionContents}
           isResultView
         />
-        <div {...css(styles.container)}>
+        <div>
+          <Segment compact floated="right">
+            <Checkbox
+              toggle
+              onChange={() =>
+                this.setState(prevState => ({ showSolution: !prevState.showSolution }))
+              }
+              checked={showSolution}
+              label={showSolution ? '돌아 가기' : '해설 보기'}
+            />
+          </Segment>
           {showSolution ? (
-            <div>
-              <div style={{ paddingBottom: '5px' }}>
-                {isMath ? <MathSolutionView solution={solution} /> : solution}
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button onPress={() => this.setState({ showSolution: false })}>돌아 가기</Button>
-              </div>
+            <div {...css(styles.container)}>
+              {isMath ? <MathSolutionView solution={solution} /> : solution}
             </div>
           ) : (
-            <div>
+            <div {...css(styles.container)}>
               {problemNumber ? (
                 <div style={{ paddingBottom: '5px' }}>
                   {isRight ? null : (
                     <Text>
                       지난 나의 정답은 {myAnswer}
-                      {isOptional ? <Text>번</Text> : null}입니다.
+                      {isOptional ? <Text>번</Text> : null}입니다. <br />
                     </Text>
                   )}
-                  <br />
                   <Text>
                     정답은 {answer}
-                    {isOptional ? <Text>번</Text> : null} 입니다.
+                    {isOptional ? <Text>번</Text> : null} 입니다. <br />
+                    해설을 확인하세요!
                   </Text>
                 </div>
               ) : null}
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button onPress={() => this.setState({ showSolution: true })}>해설 보기</Button>
-              </div>
             </div>
           )}
         </div>
-        <Modal>
-          {({ openModal }) => (
-            <div style={{ display: 'flex' }}>
-              {isRight ? (
-                <Button
-                  onPress={() => {
-                    openModal(DELETE_NOTE, { myProblemId: myProblemId });
-                    this.setState({ isSavedNote: false });
-                  }}
-                >
-                  오답노트에서 삭제
-                </Button>
-              ) : null}
-              {!isSavedNote && (isRight || !isConfused) ? (
-                <Button onPress={() => this.handleSaveProblem(myProblemId)}>문제 저장</Button>
-              ) : null}
-              {problemNumber ? (
-                <Button onPress={() => this.handleResolve(myProblemId)}>다시 풀기</Button>
-              ) : null}
-            </div>
-          )}
-        </Modal>
+        <Button.Group basic size="medium" color="green">
+          {!isSavedNote && (isRight || !isConfused) ? (
+            <Button
+              icon="save"
+              onClick={() => this.handleSaveProblem(myProblemId)}
+              content="문제 저장"
+            />
+          ) : null}
+          {problemNumber ? (
+            <Button
+              onClick={() => this.handleResolve(myProblemId)}
+              icon="redo"
+              content="다시 풀기"
+            />
+          ) : null}
+          {isRight && isSavedNote ? <DeleteNoteContainer myProblemId={myProblemId} /> : null};
+        </Button.Group>
       </div>
     );
   }
@@ -125,11 +120,8 @@ export default withStyles(() => ({
     padding: 5,
   },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 5,
     border: '1px solid',
+    borderTop: '0px',
   },
 }))(ProblemResultView);

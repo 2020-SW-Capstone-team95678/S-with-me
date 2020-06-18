@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { moveMyBook } from '../../../actions/myBookPackActions';
 import LibraryFolderTable from '../../../components/student/libarary/LibraryFolderTable';
-
-export default connect(null, { moveMyBook })(LibraryFolderTable);
+import { requestFolderList, updateFolderName } from '../../../actions/folderActions';
+export default connect(null, { moveMyBook, requestFolderList, updateFolderName })(
+  LibraryFolderTable,
+);

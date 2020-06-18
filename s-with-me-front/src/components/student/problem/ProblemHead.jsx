@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import Button from '../../../common-ui/Button';
+import { Button, Segment } from 'semantic-ui-react';
 import Heading from '../../../common-ui/Heading';
 import Form from '../../../common-ui/Form';
 import { Redirect } from 'react-router-dom';
 import Api from '../../../Api';
 import TotalScoringButtonContainer from '../../../containers/student/problem/TotalScoringButtonContainer';
+import { isMobile, isMobileOnly } from 'react-device-detect';
 
 class ProblemHead extends PureComponent {
   _isMounted = false;
@@ -90,7 +91,6 @@ class ProblemHead extends PureComponent {
         formValue = { ...formValue, handSolution: myProblem.handSolution };
       }
       if (myProblem.myAnswer && !myProblem.isSolved) {
-        console.log(formValue);
         updateMyProblem(myProblem.myProblemId, formValue, () => {
           setIsSolved(myProblem.myProblemId, true);
         });
@@ -101,44 +101,67 @@ class ProblemHead extends PureComponent {
   render() {
     const { styles, loadingUpdatePageNumber, id, myProblemList } = this.props;
     const { bookName, viewWrongOnly, answerList } = this.state;
-
-    if (!this.state.isFinished) {
-      return (
-        <div {...css(styles.container)}>
-          <div style={{ flex: 1 }} {...css(styles.head)}>
+    if (isMobile) {
+      if (!this.state.isFinished) {
+        return (
+          <Segment textAlign="center" size="mini">
             <Button
-              xsmall
-              onPress={() => this.handleCloseBook()}
+              icon="close"
+              floated="left"
+              basic
+              color="black"
+              size="mini"
+              content="나가기"
+              onClick={() => this.handleCloseBook()}
               disabled={loadingUpdatePageNumber}
-            >
-              문제집 닫기
-            </Button>
-          </div>
-          <div style={{ flex: 1 }} {...css(styles.head)}>
-            <Button xsmall onPress={() => this.handleViewWrongOnly()}>
-              {viewWrongOnly ? '전체 보기' : '틀린 문제 보기'}
-            </Button>
-          </div>
-          <div style={{ flex: 3 }} {...css(styles.head)}>
-            <Heading level={4}>{bookName}</Heading>
-          </div>
-          <div style={{ flex: 2 }} {...css(styles.head)}>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Consumer>
-                {() => (
-                  <TotalScoringButtonContainer
-                    id={id}
-                    myProblemList={myProblemList}
-                    answerList={answerList}
-                  />
-                )}
-              </Form.Consumer>
-            </Form>
-          </div>
-        </div>
-      );
+            />
+            <Heading level={isMobileOnly ? 5 : 4}>{bookName}</Heading>
+          </Segment>
+        );
+      } else {
+        return <Redirect to={`/library/myBook/${id}`} />;
+      }
     } else {
-      return <Redirect to={`/library/myBook/${id}`} />;
+      if (!this.state.isFinished) {
+        return (
+          <div {...css(styles.container)}>
+            <div style={{ flex: 1 }} {...css(styles.head)}>
+              <Button
+                icon="close"
+                basic
+                color="red"
+                size="tiny"
+                onClick={() => this.handleCloseBook()}
+                disabled={loadingUpdatePageNumber}
+                content="문제집 닫기"
+              />
+            </div>
+            <div style={{ flex: 1 }} {...css(styles.head)}>
+              <Button size="tiny" basic color="red" onClick={() => this.handleViewWrongOnly()}>
+                {viewWrongOnly ? '전체 보기' : '틀린 문제 보기'}
+              </Button>
+            </div>
+            <div style={{ flex: 3 }} {...css(styles.head)}>
+              <Heading level={4}>{bookName}</Heading>
+            </div>
+            <div style={{ flex: 2 }} {...css(styles.head)}>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Consumer>
+                  {() => (
+                    <TotalScoringButtonContainer
+                      id={id}
+                      myProblemList={myProblemList}
+                      answerList={answerList}
+                    />
+                  )}
+                </Form.Consumer>
+              </Form>
+            </div>
+          </div>
+        );
+      } else {
+        return <Redirect to={`/library/myBook/${id}`} />;
+      }
     }
   }
 }
@@ -151,7 +174,7 @@ export default withStyles(({ color, unit }) => ({
     alignItems: 'center',
     paddingLeft: unit * 2,
     paddingRight: unit * 2,
-    backgroundColor: color.secondary,
+    border: '1px solid',
   },
   head: {
     display: 'flex',
