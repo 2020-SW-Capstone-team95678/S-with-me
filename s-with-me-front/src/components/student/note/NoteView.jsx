@@ -133,7 +133,36 @@ class NoteView extends Component {
             note={note}
           />
           <div {...css(styles.container)}>
-            {showMySolution || showMyNewSolution ? (
+            {showSolution ? (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                {problemNumber ? (
+                  <Text>
+                    정답:{answer} <br />
+                  </Text>
+                ) : null}
+                <Text>
+                  해설 <br />
+                  {isMath ? <MathSolutionView solution={solution} /> : solution}
+                </Text>
+                <br />
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button size="small" basic onClick={() => this.setState({ showSolution: false })}>
+                    돌아 가기
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button size="small" basic onClick={() => this.setState({ showSolution: true })}>
+                    해답과 해설 보기
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div {...css(styles.container)}>
+            {showMySolution ? (
               <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
                 <div>
                   {problemNumber ? (
@@ -142,19 +171,13 @@ class NoteView extends Component {
                       <br />
                     </Text>
                   ) : null}
-                  {showMyNewSolution ? (
-                    <MySolutionView solutionType={tempSolutionType} note={note} isNewSolution />
-                  ) : (
-                    <MySolutionView solutionType={solutionType} note={note} />
-                  )}
+                  <MySolutionView solutionType={solutionType} note={note} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button
                     size="small"
                     basic
-                    onClick={() =>
-                      this.setState({ showMySolution: false, showMyNewSolution: false })
-                    }
+                    onClick={() => this.setState({ showMySolution: false })}
                   >
                     돌아 가기
                   </Button>
@@ -181,6 +204,46 @@ class NoteView extends Component {
                     >
                       이전 풀이 보기
                     </Button>
+                  </div>
+                )}
+              </div>
+            )}
+            {showMyNewSolution ? (
+              <div
+                style={{ flex: 1, padding: 3, border: '1px solid' }}
+                {...css(styles.solutionContainer)}
+              >
+                <div>
+                  {problemNumber ? (
+                    <Text>
+                      나의 답: {myAnswer}
+                      <br />
+                    </Text>
+                  ) : null}
+                  <MySolutionView solutionType={tempSolutionType} note={note} isNewSolution />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    size="small"
+                    basic
+                    onClick={() => this.setState({ showMyNewSolution: false })}
+                  >
+                    돌아 가기
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <>
+                {resolve === 'INIT' ? null : (
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      border: '1px solid',
+                    }}
+                    {...css(styles.solutionContainer)}
+                  >
                     <Button
                       size="small"
                       basic
@@ -190,50 +253,16 @@ class NoteView extends Component {
                     </Button>
                   </div>
                 )}
-              </div>
-            )}
-            {showSolution ? (
-              <div style={{ flex: 1, padding: 3, border: '1px solid' }}>
-                {problemNumber ? (
-                  <Text>
-                    정답:{answer} <br />
-                  </Text>
-                ) : null}
-                <Text>
-                  해설 <br />
-                  {isMath ? <MathSolutionView solution={solution} /> : solution}
-                </Text>
-                <br />
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Button size="small" basic onClick={() => this.setState({ showSolution: false })}>
-                    돌아 가기
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div
-                style={{ flex: 1, padding: 3, border: '1px solid' }}
-                {...css(styles.solutionContainer)}
-              >
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Button size="small" basic onClick={() => this.setState({ showSolution: true })}>
-                    해답과 해설 보기
-                  </Button>
-                </div>
-              </div>
+              </>
             )}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div>
-              <Button
-                basic
-                color="green"
-                fluid
-                onClick={() => this.handleResolve()}
-                content="다시 풀기"
-              />
-            </div>
-          </div>
+          <Button
+            basic
+            color="green"
+            fluid
+            onClick={() => this.handleResolve()}
+            content="다시 풀기"
+          />
         </VerticalList>
       );
     }
@@ -243,10 +272,10 @@ class NoteView extends Component {
 export default withStyles(({ responsive }) => ({
   container: {
     display: 'flex',
+    justifyContent: 'center',
     [responsive.small]: {
       flexDirection: 'column',
     },
-    justifyContent: 'center',
     flexDirection: 'row',
   },
   solutionContainer: {
