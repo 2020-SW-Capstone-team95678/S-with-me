@@ -52,7 +52,7 @@ class NoteView extends Component {
     } else if (note.tempSolutionType === 'link') {
       formValue = { ...formValue, linkSolutionId: note.myNewLinkSolution };
     } else if (note.tempSolutionType === 'hand') {
-      formValue = { ...formValue, linkSolutionId: note.myNewHandSolution };
+      formValue = { ...formValue, handSolution: note.myNewHandSolution };
     }
     updateNote(note.noteId, formValue, () => setResolve(note.noteId, 'INIT'));
   }
@@ -257,8 +257,11 @@ class NoteView extends Component {
               </>
             )}
           </div>
-          <Button.Group basic size="medium" color="green" widths={2}>
+          <Button.Group basic size="medium" color="green" widths={3}>
             <Button icon="redo" onClick={() => this.handleResolve()} content="다시 풀기" />
+            {resolve === 'COMPLETE' ? (
+              <Button icon="save" onClick={() => this.handleSaveNote()} content="새 풀이 저장" />
+            ) : null}
             <DeleteNoteContainer myProblemId={myProblemId} />
           </Button.Group>
         </VerticalList>

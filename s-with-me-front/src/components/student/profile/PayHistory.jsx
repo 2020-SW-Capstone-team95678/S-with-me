@@ -3,9 +3,7 @@ import OverflowScrolling from 'react-overflow-scrolling';
 import Api from '../../../Api';
 import './PayHistory.css';
 
-
 import 'react-accessible-accordion/dist/fancy-example.css';
-
 
 const PayHistory = () => {
   const [myBooks, setMyBooks] = useState([]);
@@ -23,15 +21,14 @@ const PayHistory = () => {
     fetchData();
   }, []);
 
-
   return (
     <OverflowScrolling style={{ maxHeight: '90%' }} className="overflow-scrolling">
       <div style={{ display: 'flex' }}>
-        <div style={{flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
+        <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
           <div>
-            <ol >
+            <ol>
               {myBooks.map(myBook => {
-                return <BookInfo myBook={myBook}/>;
+                return <BookInfo myBook={myBook} />;
               })}
             </ol>
           </div>
@@ -44,9 +41,9 @@ const PayHistory = () => {
 const BookInfo = ({ myBook, onClick }) => {
   const [book, setBook] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [clicked,setClicked]=useState(false);
+  const [clicked, setClicked] = useState(false);
   const bookId = myBook.bookId;
-  const receiptId=myBook.receiptId;
+  const receiptId = myBook.receiptId;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,70 +59,67 @@ const BookInfo = ({ myBook, onClick }) => {
   }, []);
 
   return (
-      <div>
-    <div
-      style={{
-        backgroundColor: 'rgb(255, 245, 238)',
-        borderRadius: 5,
-        padding: 5,
-        minHeight: 150,
-        marginTop: 10,
-        marginBottom: 10,
-        marginRight: 40,
-        justifyItems: 'center',
-        textAlign: 'center',
-        cursor: 'pointer',
-      }}
-    >
+    <div>
       <div
         style={{
+          backgroundColor: 'rgb(255, 245, 238)',
           borderRadius: 5,
-          padding: 8,
-          minHeight: '100%',
+          padding: 5,
+          minHeight: 150,
           marginTop: 10,
           marginBottom: 10,
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-        onClick={()=>{
-          setClicked(!clicked); setSelectedBook(book);
-
-
+          marginRight: 40,
+          justifyItems: 'center',
+          textAlign: 'center',
+          cursor: 'pointer',
         }}
       >
-        <div style={{ display: 'flex', marginRight: 20 }}>
-          <img width={100} src={book.cover} alt="bookCover" />
-        </div>
         <div
           style={{
-            backgroundColor: 'white',
             borderRadius: 5,
-            textAlign: 'center',
-            marginTop: 3,
-            padding: 2,
-            width: '100%',
-            flex: 1,
+            padding: 8,
+            minHeight: '100%',
+            marginTop: 10,
+            marginBottom: 10,
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+          onClick={() => {
+            setClicked(!clicked);
+            setSelectedBook(book);
           }}
         >
-          <p>문제집 이름 : {book.name}</p>
-          <p>가격 : {book.price}원</p>
+          <div style={{ display: 'flex', marginRight: 20 }}>
+            <img width={100} src={book.cover} alt="bookCover" />
+          </div>
+          <div
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 5,
+              textAlign: 'center',
+              marginTop: 3,
+              padding: 2,
+              width: '100%',
+              flex: 1,
+            }}
+          >
+            <p>문제집 이름 : {book.name}</p>
+            <p>가격 : {book.price}원</p>
+          </div>
+        </div>
+        <div style={{ flex: 4, padding: 3 }}>
+          {(() => {
+            if (selectedBook && clicked) {
+              return <PayDetail book={selectedBook} receiptId={receiptId} />;
+            }
+          })()}
         </div>
       </div>
-      <div style={{ flex: 4, padding: 3 }}>
-        {(() => {
-          if (selectedBook&&clicked) {
-            return <PayDetail book={selectedBook} receiptId={receiptId}  />;
-          }
-        })()}
-      </div>
-    </div>
     </div>
   );
 };
 
-
-
-export const PayDetail = ({  book , receiptId}) => {
+export const PayDetail = ({ book, receiptId }) => {
   const [payDetail, setPayDetail] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -142,7 +136,9 @@ export const PayDetail = ({  book , receiptId}) => {
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'row',border: '2px rgb(255, 245, 238) solid' }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'row', border: '2px rgb(255, 245, 238) solid' }}
+      >
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
           <div>
             <p>문제집 이름 : {book.name}</p>
