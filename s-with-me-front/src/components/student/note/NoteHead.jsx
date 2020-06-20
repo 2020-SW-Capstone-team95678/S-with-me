@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { Menu, Sidebar, Button, Dropdown, Ref } from 'semantic-ui-react';
+import { Menu, Sidebar, Button, Dropdown } from 'semantic-ui-react';
 import NoteFolderFilterContainer from '../../../containers/student/note/NoteFolderFilterContainer';
 import NoteSubjectFilterContainer from '../../../containers/student/note/NoteSubjectFilterContainer';
 import { isMobileOnly } from 'react-device-detect';

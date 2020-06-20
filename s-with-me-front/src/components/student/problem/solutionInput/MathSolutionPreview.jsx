@@ -12,7 +12,13 @@ export default function MathSolutionPreview(props) {
         <Text>[입력한 수식 내용]</Text>
       </div>
       <div
-        style={{ whiteSpace: 'pre-line', wordBreak: 'break-all', padding: 3, border: '1px solid' }}
+        style={{
+          whiteSpace: 'pre-line',
+          wordBreak: 'break-all',
+          padding: 3,
+          border: '1px solid',
+          borderTop: '0px',
+        }}
       >
         {props.textSolution ? (
           <Latex delimiters={delimeters}>{props.textSolution}</Latex>

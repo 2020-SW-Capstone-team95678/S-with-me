@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
@@ -98,8 +98,8 @@ const SideBookInfo = ({ book, onClick }) => {
             justifyItems: 'center',
             textAlign: 'center',
             cursor: 'pointer',
-            border:'solid',
-            borderColor:'gray'
+            border: 'solid',
+            borderColor: 'gray',
           }}
         >
           <div
@@ -109,7 +109,6 @@ const SideBookInfo = ({ book, onClick }) => {
               minHeight: '100%',
               marginTop: 10,
               marginBottom: 10,
-              
             }}
             onClick={onClick}
           >
@@ -143,8 +142,7 @@ const SideBookInfo = ({ book, onClick }) => {
             justifyItems: 'center',
             textAlign: 'center',
             cursor: 'pointer',
-            opacity:0.3
-
+            opacity: 0.3,
           }}
         >
           <div
@@ -350,11 +348,11 @@ export const BookInfo = ({ book, setBooks }) => {
               <option value="기타">기타</option>
             </select>
           </div>
-          <div style={{verticalAlign:'top'}}>
+          <div style={{ verticalAlign: 'top' }}>
             <div>책소개</div>
             <textarea
               type="text"
-              style={{minHeight:200,minWidth:400}}     
+              style={{ minHeight: 200, minWidth: 400 }}
               value={introduction}
               onKeyDown={handleEnter}
               onChange={onChangeIntro}
@@ -613,7 +611,13 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                   const subChapterId = subChapter.subChapterId;
                   return (
                     <>
-                    <div  style={{border:'solid', borderColor:'rgba(185, 176, 176, 0.87)',borderRadius:5}}>
+                      <div
+                        style={{
+                          border: 'solid',
+                          borderColor: 'rgba(185, 176, 176, 0.87)',
+                          borderRadius: 5,
+                        }}
+                      >
                         <div
                           style={{
                             display: 'flex',
@@ -623,9 +627,9 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                             style={{
                               display: 'flex',
                               flex: 4,
-                              textAlign:'center',
-                              alignItems:'center',
-                              justifyContent:'centr',
+                              textAlign: 'center',
+                              alignItems: 'center',
+                              justifyContent: 'centr',
                               flexDirection: 'row',
                               backgroundColor: 'rgb(255, 245, 238)',
                               paddingLeft: 20,
@@ -638,10 +642,9 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                             }}
                           >
                             {subChapter.subChapterName}
-
                           </div>
                           <button
-                            style={{ flex: 1, cursor: 'pointer',border: 'none', }}
+                            style={{ flex: 1, cursor: 'pointer', border: 'none' }}
                             primary
                             onClick={() =>
                               Api.delete(
@@ -660,10 +663,9 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                           </button>
                         </div>
                         <ProblemInfo subChapterId={subChapter.subChapterId} />
-                        
-                        </div>
-                        <br></br>
-                        </>
+                      </div>
+                      <br></br>
+                    </>
                   );
                 })}
               </ol>

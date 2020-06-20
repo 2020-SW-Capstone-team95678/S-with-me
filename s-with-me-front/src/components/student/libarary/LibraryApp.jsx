@@ -39,53 +39,56 @@ class LibraryApp extends PureComponent {
     const isSubscribing = window.sessionStorage.getItem('isSubscribing');
     if (isMobileOnly) {
       return (
-        <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Segment}
-            animation="overlay"
-            direction="top"
-            onHide={() => this.setState({ visible: false })}
-            visible={this.state.visible}
-            showFilter={this.state.showFilter}
-          >
-            {this.state.showFilter ? (
-              <LibraryFilterList
-                folders={folderList}
-                isLoading={folderLoading}
-                requestMyBookList={requestMyBookList}
-              />
-            ) : (
-              <div>
-                <CurriculumList curriculumList={curriculumList} />
-              </div>
-            )}
-          </Sidebar>
-          <Sidebar.Pusher dimmed={true && this.state.visible}>
-            <Segment>
-              <div style={{ padding: 10 }}>
-                <Button.Group attached="top">
-                  <Button
-                    onClick={() => this.setState({ visible: true, showFilter: true })}
-                    basic
-                    color="red"
-                  >
-                    정렬 방식 선택하기
-                  </Button>
-                  <Button
-                    onClick={() => this.setState({ visible: true, showFilter: false })}
-                    basic
-                    color="red"
-                  >
-                    나의 커리큘럼 보기
-                  </Button>
-                </Button.Group>
-              </div>
-              <div style={{ padding: 10 }} {...css(styles.table)}>
-                <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
-              </div>
-            </Segment>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+        <div>
+          <TutorialModal show={isSubscribing === 'false'} />
+          <Sidebar.Pushable as={Segment}>
+            <Sidebar
+              as={Segment}
+              animation="overlay"
+              direction="top"
+              onHide={() => this.setState({ visible: false })}
+              visible={this.state.visible}
+              showFilter={this.state.showFilter}
+            >
+              {this.state.showFilter ? (
+                <LibraryFilterList
+                  folders={folderList}
+                  isLoading={folderLoading}
+                  requestMyBookList={requestMyBookList}
+                />
+              ) : (
+                <div>
+                  <CurriculumList curriculumList={curriculumList} />
+                </div>
+              )}
+            </Sidebar>
+            <Sidebar.Pusher dimmed={true && this.state.visible}>
+              <Segment>
+                <div style={{ padding: 10 }}>
+                  <Button.Group attached="top">
+                    <Button
+                      onClick={() => this.setState({ visible: true, showFilter: true })}
+                      basic
+                      color="red"
+                    >
+                      정렬 방식 선택하기
+                    </Button>
+                    <Button
+                      onClick={() => this.setState({ visible: true, showFilter: false })}
+                      basic
+                      color="red"
+                    >
+                      나의 커리큘럼 보기
+                    </Button>
+                  </Button.Group>
+                </div>
+                <div style={{ padding: 10 }} {...css(styles.table)}>
+                  <BookOverview myBookList={myBookList} isLoading={bookListLoading} />
+                </div>
+              </Segment>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </div>
       );
     }
     return (

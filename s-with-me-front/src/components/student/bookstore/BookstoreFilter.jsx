@@ -1,102 +1,90 @@
-import React from 'react';
-import { withStyles, css } from '../../../common-ui/withStyles';
+import React, { useState } from 'react';
 import { subjects } from '../../../constants/subjects';
 
-import Input from '../../../common-ui/Input';
-import Form from '../../../common-ui/Form';
-import { Button as SemanticButton } from 'semantic-ui-react';
-import Select, { Option } from '../../../common-ui/Select';
+import { Menu, Dropdown, Button, Icon, Form } from 'semantic-ui-react';
+import { isMobileOnly } from 'react-device-detect';
 
-function BookstoreFilter(props) {
-  const { styles, requestBookList, requestAdBookList, setBookstoreFilter } = props;
+export default function BookstoreFilter(props) {
+  const [filterGrade, setFilterGrade] = useState(0);
+  const [filterSubject, setFilterSubject] = useState('');
+  const [searchFilter, setSearchFilter] = useState('');
+  const subjectOptions = subjects.map((subject, index) => ({
+    key: index,
+    text: subject,
+    value: subject,
+  }));
+  const { requestBookList, requestAdBookList, setBookstoreFilter } = props;
   const grade = window.sessionStorage.getItem('grade');
-  const handleFilter = values => {
-    if (values.selectGrade && values.selectSubject) {
-      setBookstoreFilter('BOTH', { subject: values.selectSubject, grade: values.selectGrade });
-      requestBookList(values.selectGrade, values.selectSubject);
-      requestAdBookList(values.selectGrade, values.selectSubject);
-    } else if (values.selectGrade) {
-      setBookstoreFilter('GRADE', { grade: values.selectGrade });
-      requestBookList(values.selectGrade);
-      requestAdBookList(values.selectGrade);
-    } else if (values.selectSubject) {
-      setBookstoreFilter('SUBJECT', { subject: values.selectSubject });
-      requestBookList(grade, values.selectSubject);
-      requestAdBookList(grade, values.selectSubject);
+  const handleGrade = (e, { value }) => {
+    setFilterGrade(value);
+  };
+  const handleSubject = (e, { value }) => {
+    setFilterSubject(value);
+  };
+  const handleChange = (e, { value }) => {
+    setSearchFilter(value);
+  };
+  const handleFilter = () => {
+    if (filterGrade !== 0 && filterSubject) {
+      setBookstoreFilter('BOTH', { subject: filterSubject, grade: filterGrade });
+      requestBookList(filterGrade, filterSubject);
+      requestAdBookList(filterGrade, filterSubject);
+    } else if (filterGrade !== 0) {
+      setBookstoreFilter('GRADE', { grade: filterGrade });
+      requestBookList(filterGrade);
+      requestAdBookList(filterGrade);
+    } else if (filterSubject) {
+      setBookstoreFilter('SUBJECT', { subject: filterSubject });
+      requestBookList(grade, filterSubject);
+      requestAdBookList(grade, filterSubject);
     } else {
       requestBookList(grade);
       requestAdBookList(grade);
     }
   };
-  const handleSearch = stringValue => {
+  const handleSearch = () => {
     const { requestSearchResultList, setBookstoreFilter } = props;
-    console.log(stringValue);
-    setBookstoreFilter('SEARCH', stringValue);
-    requestSearchResultList(stringValue);
+    setBookstoreFilter('SEARCH', searchFilter);
+    requestSearchResultList(searchFilter);
   };
   return (
-    <div style={{ flex: 1 }} {...css(styles.box)}>
-      <Form onSubmit={values => handleSearch(values.bookstoreSearch)}>
-        <Form.Consumer>
-          {({ onChange }) => (
-            <React.Fragment>
-              <SemanticButton color="orange" fluid basic>
-                텍스트로 검색하기
-              </SemanticButton>
-              <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: 5 }}>
-                <Input placeholder="Search..." onChange={onChange} name="bookstoreSearch" />
-              </div>
-            </React.Fragment>
-          )}
-        </Form.Consumer>
-      </Form>
-      <Form onSubmit={values => handleFilter(values)}>
-        <Form.Consumer>
-          {({ onChange }) => (
-            <React.Fragment>
-              <SemanticButton color="orange" fluid basic>
-                학년 또는 과목으로 검색하기
-              </SemanticButton>
-              <div style={{ flex: 1 }}>
-                <div {...css(styles.head)}>학년 선택하기</div>
-                <Select name="selectGrade" onChange={onChange}>
-                  <Option label="학년을 선택해주세요" value="" />
-                  <Option value="1" />
-                  <Option value="2" />
-                  <Option value="3" />
-                </Select>
-              </div>
-              <div style={{ flex: 1 }}>
-                <div {...css(styles.head)}>과목 선택하기</div>
-                <Select name="selectSubject" onChange={onChange}>
-                  <Option label="과목을 선택해주세요" value="" />
-                  {subjects.map((subject, index) => (
-                    <Option value={subject} key={index} />
-                  ))}
-                </Select>
-              </div>
-            </React.Fragment>
-          )}
-        </Form.Consumer>
-      </Form>
-    </div>
+    <Menu color="orange" fluid vertical={isMobileOnly}>
+      <Dropdown
+        item
+        button
+        placeholder="학년 선택"
+        direction="left"
+        onChange={handleGrade}
+        options={[
+          { key: 1, value: 1, text: '1학년' },
+          { key: 2, value: 2, text: '2학년' },
+          { key: 3, value: 3, text: '3학년' },
+        ]}
+      />
+      <Dropdown
+        item
+        button
+        placeholder="과목 선택"
+        direction="left"
+        onChange={handleSubject}
+        options={subjectOptions}
+      />
+      <Menu.Item>
+        <Button basic circular content="찾기" icon="search" color="orange" onClick={handleFilter} />
+      </Menu.Item>
+      <Menu.Menu position="right">
+        <Menu.Item>
+          <Form onSubmit={handleSearch}>
+            <Form.Input
+              icon={<Icon circular color="orange" name="search" />}
+              placeholder="Search..."
+              name="search"
+              value={searchFilter}
+              onChange={handleChange}
+            />
+          </Form>
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
-
-export default withStyles(() => ({
-  head: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 11,
-    paddingTop: 11,
-    fontWeight: 'bold',
-  },
-  box: {
-    display: 'flex',
-    flexDirection: 'column',
-    border: '1px solid',
-    borderColor: '#D9CBC7',
-    borderRadius: '0.5rem',
-  },
-}))(BookstoreFilter);

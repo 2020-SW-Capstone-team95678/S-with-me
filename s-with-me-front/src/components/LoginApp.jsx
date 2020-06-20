@@ -9,8 +9,6 @@ import { Button } from 'semantic-ui-react';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
-import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
-
 class LoginApp extends react.PureComponent {
   constructor(props) {
     super(props);
@@ -48,49 +46,23 @@ class LoginApp extends react.PureComponent {
   render() {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
-    const { open } = this.state;
-
     if (this.state.isLogin) return <Redirect to="/library" />;
-
     return (
       <div className="login">
-        <Modal dimmer="inverted" open={open} onClose={this.close}>
-          <Modal.Content image>
-            <Image wrapped size="medium" src={logo} />
-            <Modal.Description>
-              <p>SwithMe App을 다운받으시겠습니까?</p>
-              <p>홈 화면에 SwithMe를 추가하실 수 있습니다.</p>
-            </Modal.Description>
-          </Modal.Content>
-          <Modal.Actions>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <SemanticButton color="black" onClick={this.close} content="닫기" />
-              <div id="install-button" hidden>
-                <SemanticButton
-                  positive
-                  icon="checkmark"
-                  labelPosition="right"
-                  content="네, 다운받을래요"
-                />
-              </div>
-            </div>
-          </Modal.Actions>
-        </Modal>
         <header className="loginHeader">
-          <SemanticButton
-            style={{ marginTop: '8%' }}
-            onClick={this.show()}
-            icon="download"
-            basic
-            color="red"
-            labelPosition="right"
-            content="어플로 사용하기"
-          />
-
+          <div id="install-button" hidden>
+            <Button
+              style={{ marginTop: '30%' }}
+              icon="download"
+              basic
+              color="red"
+              labelPosition="right"
+              content="어플로 사용하기"
+            />
+          </div>
           <div className="logoSize">
             <img src={logo} className="content" alt="logo" />
           </div>
-
           <div className="loginSection">
             <div className="content">
               <div className="checkBox">

@@ -90,7 +90,7 @@ class ProblemResultView extends PureComponent {
             </div>
           )}
         </div>
-        <Button.Group basic size="medium" color="green">
+        <Button.Group basic size="medium" color="green" widths={3}>
           {!isSavedNote && (isRight || !isConfused) ? (
             <Button
               icon="save"
@@ -105,7 +105,7 @@ class ProblemResultView extends PureComponent {
               content="다시 풀기"
             />
           ) : null}
-          {isRight && isSavedNote ? <DeleteNoteContainer myProblemId={myProblemId} /> : null};
+          {isRight ? <DeleteNoteContainer myProblemId={myProblemId} /> : null};
         </Button.Group>
       </div>
     );

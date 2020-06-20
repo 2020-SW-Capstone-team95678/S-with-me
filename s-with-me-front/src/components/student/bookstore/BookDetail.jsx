@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 import Api from '../../../Api';
 
-import BookstoreFilter from './BookstoreFilter';
 import BookInfo from './BookInfo';
 import { Button, Icon, Modal, Image } from 'semantic-ui-react';
 
