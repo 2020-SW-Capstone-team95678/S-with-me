@@ -20,7 +20,7 @@ export default class TotalScoringButton extends PureComponent {
         setSolvedDateTime(myProblem.myProblemId, this.state.date.getTime());
         setLastMyProblemPage(id, pagination.number);
         const found = answerList.find(({ problemId }) => problemId === myProblem.problemId);
-        if (found.answer === String(myProblem.myAnswer)) {
+        if (found.answer.replace(/"/g, '') === String(myProblem.myAnswer)) {
           setIsRight(myProblem.myProblemId, true);
         } else setIsRight(myProblem.myProblemId, false);
       }

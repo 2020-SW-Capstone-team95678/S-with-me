@@ -71,6 +71,7 @@ export function updateNote(id, data, onComplete) {
     meta: {
       onSuccess: onComplete,
       notification: {
+        success: '나의 풀이가 업데이트 되었습니다!',
         error: '오답노트 업데이트에 실패했습니다',
       },
     },

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { isMobile } from 'react-device-detect';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import logo from '../../logo.png';
 import { Form, Button, Divider, Segment } from 'semantic-ui-react';
 import { validate } from './validate';
@@ -157,7 +157,9 @@ export default function StudentSignUp(props) {
               </div>
             </Form>
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
-              <Button basic color="grey" icon="sign-in" content="로그인 화면으로 돌아가기" />
+              <Link to="/">
+                <Button basic color="grey" icon="sign-in" content="로그인 화면으로 돌아가기" />
+              </Link>
             </div>
           </Segment>
         </div>

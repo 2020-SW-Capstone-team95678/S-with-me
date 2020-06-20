@@ -24,7 +24,7 @@ export default class ScoringButton extends PureComponent {
   handleScoringButtonClick(id, realAnswer, myAnswer, dateTime) {
     const { page, setLastMyProblemPage, setSolvedDateTime, setIsRight, myBookId } = this.props;
     setSolvedDateTime(id, dateTime);
-    if (realAnswer === String(myAnswer)) {
+    if (realAnswer.replace(/"/g, '') === String(myAnswer)) {
       setIsRight(id, true);
     } else {
       setIsRight(id, false);
