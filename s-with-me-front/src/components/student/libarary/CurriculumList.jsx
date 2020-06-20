@@ -17,10 +17,11 @@ export default class CurriculumList extends PureComponent {
       curriculum => curriculum.type === 'daily',
     );
     return (
-      <div style={{ paddingLeft: 10 }}>
+      <div style={{ paddingLeft: 20 }}>
         <List relaxed>
           <List.Item>
             <List.Content verticalAlign="middle">
+              <div style={{ paddingTop: 15 }} />
               <Heading level={4}>
                 <Icon name="calendar alternate outline" verticalAlign="middle" />이 달의 목표
               </Heading>
