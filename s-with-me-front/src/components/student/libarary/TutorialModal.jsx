@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal, Image } from 'semantic-ui-react';
+import { Button, Icon, Modal, Image, Segment } from 'semantic-ui-react';
 import Heading from '../../../common-ui/Heading';
 import BookPayInputContainer from '../../../containers/bookstore/BookPayInputContainer';
 
@@ -34,6 +34,16 @@ class NestedModal extends Component {
       tutorial7,
       tutorial8,
     ];
+    const messages = [
+      '구입한 책 목록을 한눈에 확인하고 바로 문제를 이어 풀 수 있습니다.',
+      '문제집을 폴더별로 정리하거나 과목별, 최신순, 가나다순 보기 기능을 지원합니다.',
+      '문제집별로 목표를 설정할 수 있습니다. 해당 목표를 클릭하면 문제 풀이 페이지로 이동됩니다.',
+      '목차를 클릭하여 문제를 풀거나 사이드 바를 열어 문제집 정보와 달성도를 확인할 수 있습니다. ',
+      '텍스트, 사진첨부, 손글씨 풀이 등 다양한 방식으로 풀이를 입력할 수 있고, 수식 입력 또한 지원합니다.',
+      '채점 결과를 한 눈에 확인하고, 헷갈렸어요 체크 기능을 제공합니다. 원한다면 해설도 페이지를 이동하지 않고 확인할 수 있습니다.',
+      '모바일 전용으로 오답노트를 이동 시나 자투리 시간에 효율적으로 학습할 수 있도록 슬라이더 형태의 보기 방식을 지원합니다.',
+      '스윗미를 통해서 e문제집을 판매하거나 구입할 수 있습니다. 구매한 문제집은 바로 서재에서 확인 가능합니다.',
+    ];
     const item = {
       price: 5900,
       name: 'SwithMe 월정액 멤버십',
@@ -45,7 +55,7 @@ class NestedModal extends Component {
         scrolling
         onOpen={this.open}
         onClose={this.close}
-        size="fullscreen"
+        size={isMobile ? 'fullscreen' : 'large'}
         trigger={
           <Button primary icon basic>
             튜토리얼 보러가기 <Icon name="right chevron" />
@@ -66,11 +76,13 @@ class NestedModal extends Component {
               <Heading level={6}>환영합니다!</Heading>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Heading level={4}>자기주도 학습을 위한 e문제집 플랫폼 SwithMe</Heading>
+              <Segment>
+                <Heading level={4}>자기주도 학습을 위한 e문제집 플랫폼 SwithMe</Heading>
+              </Segment>
             </div>
             <Modal.Description>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <p>
+                <Segment size="large" color="orange">
                   학생들 여러분, 종이로 된 문제집으로 문제 풀이를 하다 보면 이면지에 중구난방으로
                   필기하여 복습할 때 어려움을 겪지는 않으셨나요? <br /> 스윗미는 수험생 여러분들에게
                   여러 문제집의 풀이를 한 곳에서 관리하고 중구난방이었던 오답노트를 효율적으로
@@ -82,8 +94,9 @@ class NestedModal extends Component {
                   <br />
                   언제 어디서나 직접 문제를 보고 풀고 복습할 수 있는 e-문제집 플랫폼 스윗미를
                   소개합니다!
-                </p>
+                </Segment>
               </div>
+              <div style={{ paddingBottom: 10 }} />
             </Modal.Description>
             <CarouselProvider
               isIntrinsicHeight
@@ -94,8 +107,11 @@ class NestedModal extends Component {
               <Slider>
                 {tutorials.map((tutorial, i) => (
                   <Slide index={i} key={i} innerClassName="innerSlide">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
+                    >
                       <Image centered size="medium" src={tutorial} wrapped />
+                      <Segment attached="bottom">{messages[i]}</Segment>
                     </div>
                   </Slide>
                 ))}
