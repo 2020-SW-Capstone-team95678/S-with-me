@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import CheckBox from '../../../../common-ui/CheckBox';
-import Button from '../../../../common-ui/Button';
 import MathSolutionPreview from './MathSolutionPreview';
-import { TextArea } from 'semantic-ui-react';
+import { TextArea, Checkbox, Popup, Icon, Modal, Button } from 'semantic-ui-react';
 
 export default function TextSolutionInput(props) {
   const [isMath, setIsMathState] = useState(false);
   const [textSolution, setTextSolutionState] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleChange = e => {
     const { setSolutionType, id, isNote } = props;
@@ -18,26 +17,30 @@ export default function TextSolutionInput(props) {
     setSolutionType(id, 'text');
   };
 
-  const handleMath = e => {
+  const handleMath = (e, { checked }) => {
     const { id, setTempIsMath, setIsMath, isNote } = props;
     setIsMathState(!isMath);
     if (isNote) setTempIsMath(id, !isMath);
     else setIsMath(id, !isMath);
   };
 
+  const show = () => setOpen(true);
+  const close = () => setOpen(false);
   return (
     <div style={{ padding: '5px', paddingTop: 5 }}>
-      <div style={{ display: 'flex', border: '1px solid' }}>
+      <div style={{ display: 'flex', border: '1px solid', borderBottom: '0px' }}>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <CheckBox name="isMath" onChange={handleMath} checked={isMath}>
-            수식 입력하기
-          </CheckBox>
+          <Checkbox toggle label="수식 입력하기" onChange={handleMath} checked={isMath} />
         </div>
-        {isMath ? (
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Button small>수식 입력 방법 보러 가기!</Button>
-          </div>
-        ) : null}
+        <Popup
+          trigger={
+            <div onClick={show}>
+              <Icon fitted size="large" acircular name="question circle outline" basic />
+            </div>
+          }
+        >
+          수식 입력 방법이 궁금해요!
+        </Popup>
       </div>
       <div style={{ display: 'flex', paddingBottom: 5 }}>
         <TextArea
@@ -48,6 +51,14 @@ export default function TextSolutionInput(props) {
         />
       </div>
       {isMath ? <MathSolutionPreview textSolution={textSolution} /> : null}
+      <Modal dimmer="inverted" open={open} onClose={close}>
+        <Modal.Content image>
+          <Modal.Description>수식 입력 방법 입니다.</Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button positive icon="checkmark" content="알겠어요" onClick={close} />
+        </Modal.Actions>
+      </Modal>
     </div>
   );
 }
