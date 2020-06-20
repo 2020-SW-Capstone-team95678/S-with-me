@@ -12,11 +12,9 @@ export default function MyBookCard(props) {
   const { myBookId, lastPageNumber, lastSubChapterId } = props.myBook;
   const { subject, name, cover, grade } = props.book;
 
-  const [dimmer, setDimmer] = useState('inverted');
   const [open, setOpen] = useState(false);
-  const show = dimmer => () => {
+  const show = () => {
     setOpen(true);
-    setDimmer(dimmer);
   };
   const close = () => setOpen(false);
   const handleDelete = () => {
@@ -68,10 +66,10 @@ export default function MyBookCard(props) {
                   이어 풀기
                 </Button>
               </Link>
-              <Button basic color="red" onPress={show(true)} size="mini">
+              <Button basic color="red" onClick={show} size="mini">
                 삭제
               </Button>
-              <Modal dimmer={dimmer} open={open} onClose={close} size="tiny">
+              <Modal dimmer={true} open={open} onClose={close} size="tiny">
                 <Modal.Content>
                   <p>정말로 삭제하시겠습니까?</p>
                 </Modal.Content>
@@ -122,12 +120,12 @@ export default function MyBookCard(props) {
                 이어 풀기
               </Button>
             </Link>
-            <Button basic color="red" onPress={show(true)} size="mini">
+            <Button basic color="red" onClick={show} size="mini">
               삭제
             </Button>
           </div>
 
-          <Modal dimmer={dimmer} open={open} onClose={close} size="tiny">
+          <Modal dimmer={true} open={open} onClose={close} size="tiny">
             <Modal.Content>
               <p>정말로 삭제하시겠습니까?</p>
             </Modal.Content>
