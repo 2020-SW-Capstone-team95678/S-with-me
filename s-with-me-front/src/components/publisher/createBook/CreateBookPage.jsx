@@ -19,7 +19,7 @@ const CreateBookPage = props => {
   const [cover, setCover] = useState([]);
   //const isOnSale=false;
   const [introduction, setIntroduction] = useState('');
-  const { publisherId } = props;
+  const { publisherId, doneCallback } = props;
 
   function handleSubjectChange(e) {
     setSubject(e.target.value);
@@ -98,6 +98,18 @@ const CreateBookPage = props => {
                   isOnSale:false
                 }).then(response => {
                   setBookId(response.data);
+                  doneCallback({
+                    bookId: response.data,
+                    cover: cover,
+                    grade: grade,
+                    name: name,
+                    price: price,
+                    publisherId: publisherId,
+                    subject: subject,
+                    introduction: introduction,
+                    isOnSale:false
+                  });
+                  closeModal();
                 });
               }}
             >
@@ -106,6 +118,7 @@ const CreateBookPage = props => {
             <Button
               style={{marginTop:5}}
               onClick={() => {
+                doneCallback();
                 closeModal();
               }}
             >
