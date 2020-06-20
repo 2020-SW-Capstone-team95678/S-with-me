@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
-import TableCell from '../../../common-ui/table/TableCell';
-import TableRow from '../../../common-ui/table/TableRow';
 import Api from '../../../Api';
 import { Link } from 'react-router-dom';
+import { List } from 'semantic-ui-react';
 
 export default class SubChapterCurriculum extends PureComponent {
   _isMounted = false;
@@ -29,16 +28,13 @@ export default class SubChapterCurriculum extends PureComponent {
     const { myBookId, subChapterId } = curriculum;
     const { subChapterName } = this.state;
     return (
-      <TableRow>
-        <TableCell align="center">
-          <Link
-            to={`/library/myBook/${myBookId}/solve/${subChapterId}?page=1`}
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
+      <List.Item>
+        <List.Content verticalAlign="middle">
+          <Link to={`/library/myBook/${myBookId}/solve/${subChapterId}?page=1`}>
             {subChapterName} 풀기
           </Link>
-        </TableCell>
-      </TableRow>
+        </List.Content>
+      </List.Item>
     );
   }
 }
