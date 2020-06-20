@@ -91,6 +91,13 @@ export default class App extends PureComponent {
           <ModalProvider>
             <Router>
               <Switch>
+                <Route
+                  path="/"
+                  exact
+                  render={() => (
+                    <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
+                  )}
+                />
                 <AppLayout logged={logged} setLogged={this.setLogged}>
                   <Route path="/profile" exact render={() => <Profile />} />
                   <Route

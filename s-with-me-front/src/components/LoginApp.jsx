@@ -9,8 +9,6 @@ import { Button } from 'semantic-ui-react';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
-import { Button as SemanticButton, Image, Modal } from 'semantic-ui-react';
-
 class LoginApp extends react.PureComponent {
   constructor(props) {
     super(props);
@@ -48,15 +46,12 @@ class LoginApp extends react.PureComponent {
   render() {
     const { loading } = this.props;
     const { isStudent, isPublisher } = this.state;
-    const { open } = this.state;
-
     if (this.state.isLogin) return <Redirect to="/library" />;
-
     return (
       <div className="login">
         <header className="loginHeader">
           <div id="install-button" hidden>
-            <SemanticButton
+            <Button
               style={{ marginTop: '30%' }}
               icon="download"
               basic
