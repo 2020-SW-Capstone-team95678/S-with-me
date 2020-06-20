@@ -57,7 +57,7 @@ class LoginApp extends react.PureComponent {
         <header className="loginHeader">
           <div id="install-button" hidden>
             <SemanticButton
-              style={{ marginTop: '8%' }}
+              style={{ marginTop: '30%' }}
               icon="download"
               basic
               color="red"

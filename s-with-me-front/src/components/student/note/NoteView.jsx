@@ -10,6 +10,7 @@ import NoteResolveContainer from '../../../containers/student/note/NoteResolveCo
 import MySolutionView from './MySolutionView';
 import ProblemContentView from '../problem/ProblemContentView';
 import MathSolutionView from '../problem/MathSolutionView';
+import DeleteNoteContainer from '../../../containers/student/note/DeleteNoteContainer';
 
 class NoteView extends Component {
   _isMounted = false;
@@ -256,13 +257,10 @@ class NoteView extends Component {
               </>
             )}
           </div>
-          <Button
-            basic
-            color="green"
-            fluid
-            onClick={() => this.handleResolve()}
-            content="다시 풀기"
-          />
+          <Button.Group basic size="medium" color="green" widths={2}>
+            <Button icon="redo" onClick={() => this.handleResolve()} content="다시 풀기" />
+            <DeleteNoteContainer myProblemId={myProblemId} />
+          </Button.Group>
         </VerticalList>
       );
     }
