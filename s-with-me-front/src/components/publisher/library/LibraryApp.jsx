@@ -50,7 +50,15 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
-            <Button primary onPress={() => openModal(CREATE_BOOK, { publisherId: publisherId })}>
+            <Button primary onPress={() => openModal(CREATE_BOOK, 
+              { 
+              publisherId: publisherId, 
+              doneCallback: (addedbook) => 
+            {
+              setBooks(olddata => {
+                return [...olddata, addedbook];
+              });
+            } })}>
               문제집 등록하기
             </Button>
           )}
@@ -193,6 +201,7 @@ export const BookInfo = ({ book, setBooks }) => {
     //setGrade(book.grade ? book.grade : 1);
     //setSubject(book.subject ? book.subject : "국어");
   }, [book]);
+  console.log(book.bookId);
 
   function handleEnter(event) {
     if (event.keyCode === 13) {
@@ -416,50 +425,7 @@ export const BookInfo = ({ book, setBooks }) => {
         </div>
       </div>
       <div>
-        <Modal>
-          {({ openModal }) => (
-            <>
-              <br />
-              <button
-                style={{
-                  cursor: 'pointer',
-                  marginRight: 5,
-                  marginLeft: 20,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  padding: 10,
-                  borderColor: 'lightgray',
-                  borderBottom: 'none',
-                  backgroundColor: 'rgb(255, 245, 238)',
-                }}
-                primary
-                onClick={() =>
-                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId, setChapters })
-                }
-              >
-                대단원 추가
-              </button>
-              <button
-                style={{
-                  cursor: 'pointer',
-                  marginRight: 10,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  padding: 10,
-                  borderColor: 'lightgray',
-                  borderBottom: 'none',
-                  backgroundColor: 'rgb(255, 245, 238)',
-                }}
-                primary
-                onClick={() =>
-                  openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: book.bookId })
-                }
-              >
-                대단원 수정
-              </button>
-            </>
-          )}
-        </Modal>
+       
         <div id="main">
           <ChapterInfo
             bookId={book.bookId}
@@ -488,8 +454,63 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
       fetchData();
     }
   }, [bookId]);
+  //setChapters(prevChapters);
 
   return (
+    <div>
+      <Modal>
+          {({ openModal }) => (
+            <>
+              <br />
+              <button
+                style={{
+                  cursor: 'pointer',
+                  marginRight: 5,
+                  marginLeft: 20,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  padding: 10,
+                  borderColor: 'lightgray',
+                  borderBottom: 'none',
+                  backgroundColor: 'rgb(255, 245, 238)',
+                }}
+                primary
+                onClick={() =>
+                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId, chapters,
+                  doneCallback: (addedmain) => 
+                  {
+                    setChapters(olddata => {
+                      return [...olddata, addedmain];
+                    });
+                    console.log(chapters);
+                  }
+                   //setChapters 
+                  })
+                }
+              >
+                대단원 추가
+              </button>
+              <button
+                style={{
+                  cursor: 'pointer',
+                  marginRight: 10,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  padding: 10,
+                  borderColor: 'lightgray',
+                  borderBottom: 'none',
+                  backgroundColor: 'rgb(255, 245, 238)',
+                }}
+                primary
+                onClick={() =>
+                  openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId })
+                }
+              >
+                대단원 수정
+              </button>
+            </>
+          )}
+        </Modal>
     <Accordion allowZeroExpanded={true}>
       {chapters.map(chapter => {
         const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
@@ -546,7 +567,16 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                       primary
                       onClick={() =>
                         openModal(CREATE_SUB_CHAPTER, {
-                          mainChapterId: chapter.mainChapterResponseDto.mainChapterId,
+                          mainChapterId: chapter.mainChapterResponseDto.mainChapterId, mainChapterResponseDto :chapter.mainChapterResponseDto ,chapter,prevSub:chapter.subChapterResponseDtoList,
+                          doneCallback: (addedsub) => 
+                          {
+                          
+                            setChapters(olddata => {
+                              return [...olddata];
+                            });
+                            // console.log(addedsub);
+                            // console.log(chapter);
+                          }
                         })
                       }
                     >
@@ -642,6 +672,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
         );
       })}
     </Accordion>
+    </div>
   );
 };
 

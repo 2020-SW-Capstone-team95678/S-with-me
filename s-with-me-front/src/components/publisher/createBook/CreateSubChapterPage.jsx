@@ -5,8 +5,12 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import { Button } from 'semantic-ui-react';
 
 const CreateSubChapterPage = props => {
-  const { mainChapterId } = props;
+  const { mainChapterId ,doneCallback,mainChapterResponseDto,chapter,prevSub } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
+  const [subChapter,setSubChapter]=useState({mainChapterId:"0", subChapterId:"0", subChapterName:"" });
+  const [subChapterResponseDtoList,setSubChapterResponseDtoList]=useState(prevSub);
+ 
+
 
 
   return (
@@ -33,7 +37,25 @@ const CreateSubChapterPage = props => {
                 Api.post('/publisher/library/book/main-chapter/sub-chapter', {
                   subChapterName: subChapterTitle,
                   mainChapterId: mainChapterId,
-                })
+                }).then(response => {
+
+                   subChapter.subChapterId= response.data;
+                   subChapter.subChapterName= subChapterTitle;
+                   subChapter.mainChapterId= mainChapterId;
+                   setSubChapterResponseDtoList(prev=>[...prev,subChapter]);
+                   console.log(subChapter);
+                   console.log(subChapterResponseDtoList);
+                   
+                  
+
+                  
+                  doneCallback({
+                    mainChapterResponseDto,
+                    subChapterResponseDtoList
+                  });
+                  closeModal();
+                });
+                
               }}
             >
               등록 하기

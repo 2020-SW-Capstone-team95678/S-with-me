@@ -4,9 +4,11 @@ import Api from '../../../Api';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { Button } from 'semantic-ui-react';
 const CreateMainChapterPage = props => {
-  const { bookId} = props;
+  const { bookId, doneCallback,chapters} = props;
   const [mainChapterId, setMainChapterId] = useState(null);
   const [mainChapterTitle, setMainChapterTitle] = useState('');
+  const [mainChapterResponseDto,setMainChapterResponseDto]=useState(chapters? chapters:{mainChapterId:"0", mainChapterName:""});
+  const [subChapterResponseDtoList,setSubChapterResponseDtoList]=useState([]);
   console.log(mainChapterId);
   //console.log(bookId);
 
@@ -35,6 +37,14 @@ const CreateMainChapterPage = props => {
                   bookId,
                 }).then(response => {
                   setMainChapterId(response.data);
+                  mainChapterResponseDto.mainChapterId=response.data;
+                  mainChapterResponseDto.mainChapterName=mainChapterTitle;
+                  
+                  doneCallback({
+                    mainChapterResponseDto,
+                    subChapterResponseDtoList
+                  });
+                  closeModal();
                 });
               }}
             >
