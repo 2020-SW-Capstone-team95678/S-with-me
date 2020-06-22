@@ -68,18 +68,26 @@ export default class App extends PureComponent {
         <Provider store={this.store}>
           <Router>
             <Switch>
-              <Route
-                path="/signup-publisher"
-                exact
-                render={() => <SignUpPublisherInputContainer />}
-              />
-              <Route path="/signup" exact render={() => <SignUpInputContainer />} />
-              <Route
-                path="/"
-                render={() => (
-                  <LoginContainer setUserType={this.setUserType} setLogged={this.setLogged} />
-                )}
-              />
+              <AppLayout>
+                <Route
+                  path="/signup-publisher"
+                  exact
+                  render={() => <SignUpPublisherInputContainer />}
+                />
+                <Route path="/signup" exact render={() => <SignUpInputContainer />} />
+                <Route
+                  path="/"
+                  render={() => (
+                    <LoginContainer
+                      setUserType={this.setUserType}
+                      setLogged={this.setLogged}
+                      logged={logged}
+                    />
+                  )}
+                />
+                <NotificationContainer />
+              </AppLayout>
+              <Route path="*" component={NotFound} />
             </Switch>
           </Router>
         </Provider>
