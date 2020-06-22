@@ -81,7 +81,11 @@ export default function StudentSignUp(props) {
             src={logo}
             className="content"
             alt="logo"
-            style={{ width: isMobile ? '50%' : '15%', height: 'auto', resize: 'none' }}
+            style={{
+              width: isMobile ? '50%' : '15%',
+              height: isMobile ? '50%' : '15%',
+              resize: 'none',
+            }}
           />
         </header>
         <Divider />
