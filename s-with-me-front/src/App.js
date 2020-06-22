@@ -77,6 +77,7 @@ export default class App extends PureComponent {
                 <Route path="/signup" exact render={() => <SignUpInputContainer />} />
                 <Route
                   path="/"
+                  exact
                   render={() => (
                     <LoginContainer
                       setUserType={this.setUserType}
@@ -99,6 +100,7 @@ export default class App extends PureComponent {
           <ModalProvider>
             <Router>
               <Switch>
+                <Route path="/signup" exact render={() => <SignUpInputContainer />} />
                 <Route
                   path="/"
                   exact
@@ -110,7 +112,6 @@ export default class App extends PureComponent {
                     />
                   )}
                 />
-                <Route path="/signup" exact render={() => <SignUpInputContainer />} />
                 <AppLayout logged={logged} setLogged={this.setLogged}>
                   <Route path="/profile" exact render={() => <Profile />} />
                   <Route
