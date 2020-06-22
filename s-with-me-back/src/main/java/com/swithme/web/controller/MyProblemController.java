@@ -3,7 +3,7 @@ package com.swithme.web.controller;
 import com.swithme.service.MyProblemService;
 import com.swithme.web.dto.MyProblemResponseDto;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import com.swithme.web.dto.MySolutionResponseDto;
+import com.swithme.web.dto.ProblemResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +38,7 @@ public class MyProblemController {
 
     @CrossOrigin
     @GetMapping("/student/library/my-book/my-problem/problem-id")
-    public MySolutionResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId) throws SQLException {
+    public ProblemResponseDto getMySolution(@RequestParam("myProblemId") int myProblemId) throws SQLException {
         return myProblemService.getMySolution(myProblemId);
     }
 }
