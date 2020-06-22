@@ -261,4 +261,22 @@ public class ChapterService {
 
         return subChapterName + " 소단원과 해당 소단원에 포함된 문제가 모두 삭제되었습니다.";
     }
+
+    @Transactional
+    public List<MainChapterResponseDto> getMainChapters(int bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다 bookId = " + bookId));
+        List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        List<MainChapterResponseDto> responseDtoList = new ArrayList<>();
+
+        for(MainChapter mainChapter : mainChapterList){
+            MainChapterResponseDto responseDto = MainChapterResponseDto.builder()
+                    .mainChapterId(mainChapter.getMainChapterId())
+                    .mainChapterName(mainChapter.getMainChapterName())
+                    .build();
+            responseDtoList.add(responseDto);
+        }
+
+        return  responseDtoList;
+    }
 }
