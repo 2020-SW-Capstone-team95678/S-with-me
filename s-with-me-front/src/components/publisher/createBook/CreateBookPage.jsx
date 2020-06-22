@@ -118,7 +118,6 @@ const CreateBookPage = props => {
             <Button
               style={{marginTop:5}}
               onClick={() => {
-                doneCallback();
                 closeModal();
               }}
             >
