@@ -11,15 +11,15 @@ export default function MyMathSolutionView(props) {
   if (isMath && !isNewSolution) {
     return (
       <div style={{ paddingBottom: 5 }}>
-        <Text>나의 예전 수식 풀이</Text> <br />
         <Text>{note.textSolution}</Text>
       </div>
     );
   } else if (tempIsMath && isNewSolution) {
     return (
       <div style={{ paddingBottom: 5 }}>
-        <Text>나의 새 수식 풀이</Text> <br />
-        <Latex delimiters={delimeters}>{note.myNewTextSolution}</Latex>
+        <Latex delimiters={delimeters}>
+          {note.myNewTextSolution.replaceAll('\\\\', '\\').replace(/"/g, '')}
+        </Latex>
       </div>
     );
   }

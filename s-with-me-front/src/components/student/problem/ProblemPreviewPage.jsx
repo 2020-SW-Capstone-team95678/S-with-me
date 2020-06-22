@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react';
 
 import Text from '../../../common-ui/Text';
-
 import VerticalList from '../../../common-ui/VerticalList';
-
 import { Modal, Segment, Divider, Button, Label } from 'semantic-ui-react';
+
 import Api from '../../../Api';
+import { delimeters } from '../../../constants/delimeters';
+
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
 
 export default class ProblemPreviewPage extends PureComponent {
   constructor(props) {
@@ -41,7 +44,7 @@ export default class ProblemPreviewPage extends PureComponent {
   }
   render() {
     const { problem } = this.state;
-    const { problemNumber, content, isOptional, answer, solution, image, title } = problem;
+    const { problemNumber, content, isOptional, answer, solution, image, title, isMath } = problem;
     let optionContents = [];
     let numbers = ['①', '②', '③', '④', '⑤'];
     if (isOptional) {
@@ -53,16 +56,28 @@ export default class ProblemPreviewPage extends PureComponent {
     }
     return (
       <div style={{ paddingTop: 10 }}>
-        <Segment attached="top">
-          참고할 문제를 선택해 주세요
-          <Label
-            attached="top right"
-            basic
-            icon="eye"
-            content="미리 보기"
+        {this.props.isNote ? (
+          <Button
+            fluid
             onClick={() => this.show()}
+            content="연결된 문제 보기"
+            icon="eye"
+            basic
+            color="black"
           />
-        </Segment>
+        ) : (
+          <Segment attached="top">
+            참고할 문제를 선택해 주세요
+            <Label
+              attached="top right"
+              basic
+              icon="eye"
+              content="미리 보기"
+              onClick={() => this.show()}
+            />
+          </Segment>
+        )}
+
         <Modal open={this.state.open} dimmer="inverted">
           <Modal.Content>
             <Segment>
@@ -101,7 +116,13 @@ export default class ProblemPreviewPage extends PureComponent {
             <Segment>
               {problemNumber ? <Text>정답: {answer}</Text> : null}
               <br />
-              <Text>해설: {solution}</Text>
+              {isMath ? (
+                <Latex delimiters={delimeters}>
+                  {solution.replaceAll('\\\\', '\\').replace(/"/g, '')}
+                </Latex>
+              ) : (
+                <Text>해설: {solution}</Text>
+              )}
             </Segment>
           </Modal.Content>
           <Modal.Actions>
