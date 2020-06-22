@@ -279,4 +279,23 @@ public class ChapterService {
 
         return  responseDtoList;
     }
+
+    @Transactional
+    public List<SubChapterResponseDto> getSubChapters(int mainChapterId) {
+        MainChapter mainChapter = mainChapterRepository.findById(mainChapterId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대단원이 없습니다. mainChapterId = " + mainChapterId));
+        List<SubChapter> subChapterList = subChapterRepository.findByMainChapter(mainChapter);
+        List<SubChapterResponseDto> responseDtoList = new ArrayList<>();
+
+        for(SubChapter subChapter : subChapterList){
+            SubChapterResponseDto responseDto = SubChapterResponseDto.builder()
+                    .mainChapterId(mainChapterId)
+                    .subChapterId(subChapter.getSubChapterId())
+                    .subChapterName(subChapter.getSubChapterName())
+                    .build();
+            responseDtoList.add(responseDto);
+        }
+
+        return responseDtoList;
+    }
 }
