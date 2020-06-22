@@ -9,7 +9,7 @@ import Text from '../../common-ui/Text';
 import VerticalList from '../../common-ui/VerticalList';
 import { Link, Redirect } from 'react-router-dom';
 
-import { validate } from './validate.js';
+import { publisherValidate } from './validate.js';
 
 export default class SignUpP extends PureComponent {
   constructor(props) {
@@ -58,32 +58,32 @@ export default class SignUpP extends PureComponent {
                             {({ onChange, values }) => {
                               this.setState({ currentUserId: values['userId'] });
                               if (!values['userId']) this.setState({ isCheck: false });
-                              let errors = validate(values, isCheck, isOnlyId);
+                              let errors = publisherValidate(values, isCheck, isOnlyId);
                               if (!errors.length) this.setState({ isValidForm: true });
                               return (
                                 <div className="inputCssPublisher">
-                                  <div style={{margin:10}}>
-                                  <VerticalList spacingBetween={1}>
-                                    <Input
-                                      name="userId"
-                                      placeholder="ID"
-                                      onChange={onChange}
-                                      errorMessage={errors['userId']}
-                                    />
-                                    <Input
-                                      name="password"
-                                      placeholder="PW"
-                                      type="password"
-                                      onChange={onChange}
-                                      errorMessage={errors['password']}
-                                    />
-                                    <Input
-                                      name="code"
-                                      placeholder="출판사 코드"
-                                      onChange={onChange}
-                                      errorMessage={errors['code']}
-                                    />
-                                  </VerticalList>
+                                  <div style={{ margin: 10 }}>
+                                    <VerticalList spacingBetween={1}>
+                                      <Input
+                                        name="userId"
+                                        placeholder="ID"
+                                        onChange={onChange}
+                                        errorMessage={errors['userId']}
+                                      />
+                                      <Input
+                                        name="password"
+                                        placeholder="PW"
+                                        type="password"
+                                        onChange={onChange}
+                                        errorMessage={errors['password']}
+                                      />
+                                      <Input
+                                        name="code"
+                                        placeholder="출판사 코드"
+                                        onChange={onChange}
+                                        errorMessage={errors['code']}
+                                      />
+                                    </VerticalList>
                                   </div>
                                   <div className="signUpButton">
                                     <Link to="/">

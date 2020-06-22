@@ -2,15 +2,14 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  
 }
 
-.logoSize .content{
+.logoSize .content {
   position: absolute;
   width: 100%;
   height: 100%;
-  top:0px;
-  right:0px;
+  top: 0px;
+  right: 0px;
   bottom: 0px;
 }
 
@@ -21,18 +20,15 @@
 }
 
 .logoSize:after {
-  content: "";
+  content: '';
   display: block;
   padding-bottom: 60%;
-
 }
 
-.loginSection .content{
+.loginSection .content {
   position: absolute;
   width: 100%;
   height: 80%;
-
-
 }
 
 .loginSection {
@@ -42,21 +38,17 @@
 }
 
 .loginSection:after {
-  content: "";
+  content: '';
   display: block;
   padding-bottom: 60%;
 }
 
-
-
 .userLogin {
   height: 100px;
   pointer-events: none;
-
 }
 
-
-.loginButton{
+.loginButton {
   display: flexbox;
   padding: 5px;
 }
@@ -93,8 +85,8 @@
 .checkBox {
   width: 100%;
   height: 100%;
-  top:0px;
-  right:0px;
+  top: 0px;
+  right: 0px;
   left: 0px;
   bottom: 0px;
   padding-top: 10px;
@@ -123,7 +115,7 @@
 }
 
 .inputID {
-  flex :1;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,7 +123,7 @@
 }
 
 .inputPW {
-  flex :1;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,24 +151,23 @@
 .loginSignUp {
   width: 100%;
   height: 100%;
-  top:0px;
-  right:0px;
+  top: 0px;
+  right: 0px;
   left: 0px;
   bottom: 0px;
   align-items: center;
   margin: 10px;
 }
 
-@media(max-width : 600px){
-  .userLogin{
+@media (max-width: 600px) {
+  .userLogin {
     display: none;
   }
-  .loginButton{
+  .loginButton {
     flex: 1;
     height: 50px;
     padding-left: 30%;
     padding-right: 30%;
-  
   }
   .mainBox {
     background-color: rgb(247, 207, 192);
@@ -191,59 +182,47 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
-  .loginSection .content{
+  .loginSection .content {
     position: absolute;
     width: 100%;
     height: 100%;
-  
   }
-  
+
   .loginSection {
     position: relative;
     max-width: 500px;
     width: 70%;
   }
-  
+
   .loginSection:after {
-    content: "";
+    content: '';
     display: block;
     margin-bottom: 35%;
   }
-  
-
-  
-
 }
 
-@media(max-width : 1024px){
-  
-  .loginButton{
+@media (max-width: 1024px) {
+  .loginButton {
     flex: 1;
     height: 40px;
     padding-left: 30%;
     padding-right: 30%;
-  
   }
 
   .loginSection:after {
-    content: "";
+    content: '';
     display: block;
     margin-bottom: 30%;
   }
-  
-
-  
 }
 
-
-@media all and (min-width:1025px) {
-  .loginButton{
+@media all and (min-width: 1025px) {
+  .loginButton {
     flex: 1;
     height: 50px;
-  
   }
   .loginSection:after {
-    content: "";
+    content: '';
     display: block;
     margin-bottom: 40%;
   }
@@ -252,7 +231,7 @@
     margin-left: 10px;
     pointer-events: none;
   }
-  
+
   .header {
     background-color: white;
     min-height: 100vh;
@@ -265,7 +244,7 @@
     font-size: calc(10px + 2vmin);
     color: white;
   }
-  
+
   .mainBox {
     background-color: rgb(247, 207, 192);
     box-shadow: 5px 5px 5px darkgray;
@@ -278,16 +257,16 @@
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
   }
-  
+
   .checkBox {
     width: 100%;
     height: 100%;
-    top:0px;
-    right:0px;
+    top: 0px;
+    right: 0px;
     left: 0px;
     bottom: 0px;
     display: flex;
-  
+
     box-shadow: 5px 5px 5px darkgray;
     background-color: rgb(252, 230, 222);
     max-width: 200px;
@@ -303,37 +282,37 @@
     font-size: 15px;
     color: gray;
   }
-  
+
   .inputCss {
     flex-direction: column;
     height: 10vh;
     display: flex;
-    flex:2;
+    flex: 2;
     align-items: center;
     font-size: 10px;
     justify-content: flex-start;
   }
-  
+
   .inputID {
-    flex :1;
-    width: 100%;
+    flex: 1;
+    width: 80%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 15px;
   }
-  
+
   .inputPW {
-    flex :1;
-    width: 100%;
+    flex: 1;
+    width: 80%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 15px;
   }
-  
+
   .loginHeader {
     background-color: white;
     min-height: 100vh;
@@ -344,7 +323,7 @@
     font-size: calc(10px + 2vmin);
     color: white;
   }
-  
+
   .loginInput {
     width: 100%;
     height: 100%;
@@ -357,12 +336,12 @@
     flex: 1;
     align-items: center;
   }
-  
+
   .loginSignUp {
     width: 100%;
     height: 100%;
-    top:0px;
-    right:0px;
+    top: 0px;
+    right: 0px;
     left: 0px;
     bottom: 0px;
     display: inline-block;
@@ -371,5 +350,4 @@
     padding: 20px;
     margin: 10px;
   }
-  
 }

@@ -16,6 +16,7 @@ export function setUser(isStudent, data, onComplete) {
       onSuccess: onComplete,
       notification: {
         success: '로그인이 완료되었습니다.',
+        error: '로그인에 실패하였습니다.',
       },
     },
   };

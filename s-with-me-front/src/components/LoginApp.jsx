@@ -8,6 +8,7 @@ import Form from '../common-ui/Form';
 import { Button } from 'semantic-ui-react';
 import CheckBox from '../common-ui/CheckBox';
 import { Link, Redirect, withRouter } from 'react-router-dom';
+import { isMobile } from 'react-device-detect';
 
 class LoginApp extends react.PureComponent {
   constructor(props) {
@@ -18,7 +19,7 @@ class LoginApp extends react.PureComponent {
   handleSubmit(values) {
     const { setUser, history, setUserType, setLogged } = this.props;
     const { isStudent, isPublisher } = this.state;
-    if (isStudent) {
+    if (isStudent || isMobile) {
       setUser(true, values, () => {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
@@ -44,9 +45,9 @@ class LoginApp extends react.PureComponent {
   close = () => this.setState({ open: false });
 
   render() {
-    const { loading } = this.props;
+    const { loading, logged } = this.props;
     const { isStudent, isPublisher } = this.state;
-    if (this.state.isLogin) return <Redirect to="/library" />;
+    if (this.state.isLogin || logged) return <Redirect to="/library" />;
     return (
       <div className="login">
         <header className="loginHeader">
@@ -65,35 +66,42 @@ class LoginApp extends react.PureComponent {
           </div>
           <div className="loginSection">
             <div className="content">
-              <div className="checkBox">
-                <CheckBox
-                  name="isStudnet"
-                  font-color="red"
-                  onChange={() => this.setState({ isStudent: !isStudent })}
-                  checked={isStudent}
-                  errorMessage={
-                    (isPublisher && isStudent && '중복 선택') ||
-                    (!isStudent && !isPublisher && '선택요망')
-                  }
-                >
-                  학생
-                </CheckBox>
-                <CheckBox
-                  name="isPublisher"
-                  onChange={() => this.setState({ isPublisher: !isPublisher })}
-                  checked={isPublisher}
-                  errorMessage={
-                    (isPublisher && isStudent && '중복 선택') ||
-                    (!isStudent && !isPublisher && '선택요망')
-                  }
-                >
-                  출판사
-                </CheckBox>
-              </div>
+              {isMobile ? null : (
+                <div className="checkBox">
+                  <CheckBox
+                    name="isStudnet"
+                    font-color="red"
+                    onChange={() => this.setState({ isStudent: !isStudent })}
+                    checked={isStudent}
+                    errorMessage={
+                      (isPublisher && isStudent && '중복 선택') ||
+                      (!isStudent && !isPublisher && '선택요망')
+                    }
+                  >
+                    학생
+                  </CheckBox>
+                  <CheckBox
+                    name="isPublisher"
+                    onChange={() => this.setState({ isPublisher: !isPublisher })}
+                    checked={isPublisher}
+                    errorMessage={
+                      (isPublisher && isStudent && '중복 선택') ||
+                      (!isStudent && !isPublisher && '선택요망')
+                    }
+                  >
+                    출판사
+                  </CheckBox>
+                </div>
+              )}
               <Form onSubmit={values => this.handleSubmit(values)}>
                 <Form.Consumer>
                   {({ onChange }) => (
-                    <div className="mainBox">
+                    <div
+                      className="mainBox"
+                      style={
+                        isMobile ? { borderTopLeftRadius: 10, borderTopRightRadius: 10 } : null
+                      }
+                    >
                       <div className="loginInput">
                         <img src={user} className="userLogin" alt="user" />
                         <div className="inputCss">
@@ -125,9 +133,11 @@ class LoginApp extends react.PureComponent {
                         <Link to="/signup">
                           <Button basic icon="signup" color="black" content="학생으로 회원가입" />
                         </Link>
-                        <Link to="/signup-publisher">
-                          <Button basic icon="signup" color="black" content="출판사로 회원가입" />
-                        </Link>
+                        {isMobile ? null : (
+                          <Link to="/signup-publisher">
+                            <Button basic icon="signup" color="black" content="출판사로 회원가입" />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   )}
