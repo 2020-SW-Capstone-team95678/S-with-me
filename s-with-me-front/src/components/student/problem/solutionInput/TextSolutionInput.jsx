@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import MathSolutionPreview from './MathSolutionPreview';
 import { TextArea, Checkbox, Popup, Icon, Modal, Button } from 'semantic-ui-react';
+import MathTutorial from './MathTutorial';
+import { isMobile } from 'react-device-detect';
 
 export default function TextSolutionInput(props) {
   const [isMath, setIsMathState] = useState(false);
@@ -32,15 +34,22 @@ export default function TextSolutionInput(props) {
         <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Checkbox toggle label="수식 입력하기" onChange={handleMath} checked={isMath} />
         </div>
-        <Popup
-          trigger={
-            <div onClick={show}>
-              <Icon fitted size="large" acircular name="question circle outline" basic />
-            </div>
-          }
-        >
-          수식 입력 방법이 궁금해요!
-        </Popup>
+        {isMobile ? (
+          <div onClick={show}>
+            <Icon fitted size="large" acircular name="question circle outline" basic />
+          </div>
+        ) : (
+          <Popup
+            trigger={
+              <div onClick={show}>
+                <Icon fitted size="large" acircular name="question circle outline" basic />
+              </div>
+            }
+            position="top right"
+          >
+            수식 입력 방법이 궁금해요!
+          </Popup>
+        )}
       </div>
       <div style={{ display: 'flex', paddingBottom: 5 }}>
         <TextArea
@@ -52,9 +61,7 @@ export default function TextSolutionInput(props) {
       </div>
       {isMath ? <MathSolutionPreview textSolution={textSolution} /> : null}
       <Modal dimmer="inverted" open={open} onClose={close}>
-        <Modal.Content image>
-          <Modal.Description>수식 입력 방법 입니다.</Modal.Description>
-        </Modal.Content>
+        <MathTutorial />
         <Modal.Actions>
           <Button positive icon="checkmark" content="알겠어요" onClick={close} />
         </Modal.Actions>
