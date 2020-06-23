@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { createCurriculum, updateCurriculum } from '../../../actions/curriculumActions';
+import {
+  createCurriculum,
+  updateCurriculum,
+  deleteCurriculum,
+} from '../../../actions/curriculumActions';
 import CreateCurriculumPage from '../../../components/student/libarary/CreateCurriculumPage';
 
 const mapStateToProps = state => {
@@ -9,6 +13,6 @@ const mapStateToProps = state => {
   return { chapterList };
 };
 
-export default connect(mapStateToProps, { createCurriculum, updateCurriculum })(
+export default connect(mapStateToProps, { createCurriculum, updateCurriculum, deleteCurriculum })(
   CreateCurriculumPage,
 );

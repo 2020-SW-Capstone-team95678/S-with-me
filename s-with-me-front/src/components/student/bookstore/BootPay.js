@@ -61,7 +61,7 @@ export const bootPayRequest = form => {
       //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
       if (bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1') {
         let formValue = {
-          payedDateTime: data.purchased_at,
+          payDateTime: data.purchased_at,
           isSubscribing: true,
         };
         buyMyBook(studentId, formValue, () => {
