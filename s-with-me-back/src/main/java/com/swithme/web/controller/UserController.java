@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -54,7 +56,7 @@ public class UserController {
         // 로그인
     @CrossOrigin
     @PostMapping("/login/student")
-    public StudentResponseDto loginStudent(String id, String password) {
+    public StudentResponseDto loginStudent(String id, String password) throws ParseException {
 
         Student student = studentRepository.findByUserId(id);
         if(student==null){ throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
@@ -63,6 +65,7 @@ public class UserController {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         jwtTokenProvider.createToken(student.getUsername());
+        if(student.getIsSubscribing()) student.checkSubscription();
         return new StudentResponseDto(student);
     }
 
