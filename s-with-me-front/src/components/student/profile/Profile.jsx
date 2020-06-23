@@ -79,9 +79,6 @@ export default class StudentProfile extends PureComponent {
                   >
                     나의 프로필 수정/저장
                   </Button>
-                  <Button style={{ marginTop: 10 }} basic color="black">
-                    {isSubscribing ? '월정액 회원 해지' : '월정액 회원 신청'}
-                  </Button>
                 </div>
               </div>
             </div>

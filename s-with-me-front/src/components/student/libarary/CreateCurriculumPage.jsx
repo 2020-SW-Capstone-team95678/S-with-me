@@ -22,7 +22,7 @@ export default class CreateCurriculumPage extends PureComponent {
   close = () => this.setState({ open: false });
   handleMonthlyGoal = (e, { value }) => this.setState({ monthlyGoal: value });
   handleSubmit(values) {
-    const { myBookId, createCurriculum, updateCurriculum, setUpdate } = this.props;
+    const { myBookId, createCurriculum, updateCurriculum } = this.props;
     const { type, curriculum } = this.props;
     let formValue = {};
     if (values.curriculumType === 'monthly') {

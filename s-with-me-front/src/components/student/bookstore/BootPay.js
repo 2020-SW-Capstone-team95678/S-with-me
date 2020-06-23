@@ -1,17 +1,13 @@
 import BootPay from 'bootpay-js';
-import { BootPayApi } from '../../../Api';
-
-let BootpayRest = require('bootpay-rest-client');
-BootpayRest.setConfig('5edb7b5c8f0751002bfcd4bf', '/mKKFkSwJ/N7RJ5Hpb96YbvzVZA+VH+knKrGq4HD6zU=');
 
 export const bootPayRequest = form => {
   const { book, user, bookId, orderId, buyMyBook, studentId } = form;
   BootPay.request({
-    price: bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1' ? 0 : book.price, //실제 결제되는 가격
+    price: book.price, //실제 결제되는 가격
     application_id: '5edb7b5c8f0751002bfcd4bc',
     name: book.name, //결제창에서 보여질 이름
-    pg: bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1' ? 'danal' : 'inicis',
-    method: bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1' ? 'card_rebill' : '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+    pg: 'inicis',
+    method: '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
     show_agree_window: 1, // 부트페이 정보 동의 창 보이기 여부
     items: [
       {
@@ -64,37 +60,14 @@ export const bootPayRequest = form => {
       //결제가 정상적으로 완료되면 수행됩니다
       //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
       if (bookId === '9859a212-c2db-972e-1b27-d68a3fce33f1') {
-        console.log(data);
-        BootpayRest.getAccessToken().then(function(token) {
-          if (token.status === 200) {
-            BootPayApi.post('/subscribe/billing', {
-              billing_key: data.billing_key,
-              item_name: book.name,
-              price: book.price,
-              order_id: new Date().getTime(),
-              items: [
-                {
-                  item_name: book.name,
-                  qty: 1,
-                  unique: '9859a212-c2db-972e-1b27-d68a3fce33f1',
-                  price: 5900,
-                },
-              ],
-            }).then(function(response) {
-              response.header('Access-Control-Allow-Origin', '*');
-              if (response.status === 200) {
-                let formValue = {
-                  studentId: studentId * 1,
-                  isSubscribing: true,
-                };
-                buyMyBook(formValue, () => {
-                  window.sessionStorage.setItem('isSubscribing', true);
-                  console.log('update membership complete');
-                  form.close();
-                });
-              }
-            });
-          }
+        let formValue = {
+          payedDateTime: data.purchased_at,
+          isSubscribing: true,
+        };
+        buyMyBook(studentId, formValue, () => {
+          window.sessionStorage.setItem('isSubscribing', true);
+          console.log('update membership complete');
+          form.close();
         });
       } else {
         let formValue = {
