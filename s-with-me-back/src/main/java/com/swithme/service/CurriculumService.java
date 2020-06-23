@@ -124,6 +124,19 @@ public class CurriculumService {
     }
 
     @Transactional
+    public int getMyBookAchievement(int myBookId){
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
+        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+        int myBookSize = myProblemList.size();
+        int solvedMyBookSize = 0;
+        for(MyProblem myProblem : myProblemList)
+        {
+            if(myProblem.getIsSolved()==true){solvedMyBookSize++;}
+        }
+        return solvedMyBookSize/myBookSize*100;
+    }
+    @Transactional
     public int getAchievement(int myBookId){
 
         MyBook myBook = myBookRepository.findById(myBookId)
@@ -168,7 +181,7 @@ public class CurriculumService {
                     subChapterRepository.findById(curriculum.getSubChapterId())
                             .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다.")));
             int subChapterSize = problemList.size();
-            return (problemArchievement*100/subChapterSize);
+            return problemArchievement*100/subChapterSize;
         }
     }
 }
