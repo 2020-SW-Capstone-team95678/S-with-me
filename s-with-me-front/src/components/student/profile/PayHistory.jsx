@@ -90,7 +90,11 @@ const BookInfo = ({ myBook, onClick }) => {
           }}
         >
           <div style={{ display: 'flex', marginRight: 20 }}>
-            <img width={100} src={book.cover} alt="bookCover" />
+            <img
+              style={{ width: 100, height: '100%', resize: 'none' }}
+              src={book.cover}
+              alt="bookCover"
+            />
           </div>
           <div
             style={{

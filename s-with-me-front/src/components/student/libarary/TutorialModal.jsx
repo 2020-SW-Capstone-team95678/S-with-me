@@ -16,7 +16,7 @@ import tutorial6 from '../../../tutorial/tutorial(6).png';
 import tutorial7 from '../../../tutorial/tutorial(7).png';
 import tutorial8 from '../../../tutorial/tutorial(8).png';
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect, Link } from 'react-router-dom';
 
 class NestedModal extends Component {
   state = { open: false, showInputForm: false };
@@ -139,6 +139,7 @@ class NestedModal extends Component {
 const TutorialModal = props => {
   const handleLogout = () => {
     window.sessionStorage.clear();
+    props.setLogged(false);
   };
   return (
     <Modal open={props.show}>
@@ -161,7 +162,7 @@ const TutorialModal = props => {
             content="로그아웃하기"
             basic
             color="red"
-            onClick={() => handleLogout('ggg')}
+            onClick={() => handleLogout()}
           />
         </NavLink>
         <NestedModal />

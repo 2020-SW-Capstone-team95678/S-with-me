@@ -34,13 +34,14 @@ class LibraryApp extends PureComponent {
 
   render() {
     const { myBookList, bookListLoading, folderLoading, folderList, styles } = this.props;
+    const { setLogged } = this.props;
     const { requestMyBookList } = this.props;
     const { curriculumList } = this.props;
     const isSubscribing = window.sessionStorage.getItem('isSubscribing');
     if (isMobileOnly) {
       return (
         <div>
-          <TutorialModal show={isSubscribing === 'false'} />
+          <TutorialModal show={isSubscribing === 'false'} setLogged={setLogged} />
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Segment}
@@ -93,7 +94,7 @@ class LibraryApp extends PureComponent {
     }
     return (
       <DndProvider backend={HTML5Backend}>
-        <TutorialModal show={isSubscribing === 'false'} />
+        <TutorialModal show={isSubscribing === 'false'} setLogged={setLogged} />
         <div {...css(styles.app)}>
           <div style={{ flex: 1 }} {...css(styles.table)}>
             <LibraryFilterList
