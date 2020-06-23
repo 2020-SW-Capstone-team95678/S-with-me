@@ -125,7 +125,11 @@ export default class App extends PureComponent {
                     exact
                     render={({ match }) => <MyBookDetail match={match} />}
                   />
-                  <Route path="/library" exact render={() => <LibraryAppContainer />} />
+                  <Route
+                    path="/library"
+                    exact
+                    render={() => <LibraryAppContainer setLogged={this.setLogged} />}
+                  />
                   <Route path="/note" exact render={() => <NoteAppContainer />} />
                   <Route
                     path="/bookstore/detail/:bookId"

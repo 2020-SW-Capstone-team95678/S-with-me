@@ -1,4 +1,5 @@
 import BootPay from 'bootpay-js';
+import { BootPayApi } from '../../../Api';
 
 let BootpayRest = require('bootpay-rest-client');
 BootpayRest.setConfig('5edb7b5c8f0751002bfcd4bf', '/mKKFkSwJ/N7RJ5Hpb96YbvzVZA+VH+knKrGq4HD6zU=');
@@ -66,12 +67,12 @@ export const bootPayRequest = form => {
         console.log(data);
         BootpayRest.getAccessToken().then(function(token) {
           if (token.status === 200) {
-            BootpayRest.subscribeBilling(
-              data.billing_key, // 빌링키
-              book.name, // 아이템 명
-              book.price, // 결제할 총 금액
-              new Date().getTime(), // 유니크한 주문 번호
-              [
+            BootPayApi.post('/subscribe/billing', {
+              billing_key: data.billing_key,
+              item_name: book.name,
+              price: book.price,
+              order_id: new Date().getTime(),
+              items: [
                 {
                   item_name: book.name,
                   qty: 1,
@@ -79,7 +80,8 @@ export const bootPayRequest = form => {
                   price: 5900,
                 },
               ],
-            ).then(function(response) {
+            }).then(function(response) {
+              response.header('Access-Control-Allow-Origin', '*');
               if (response.status === 200) {
                 let formValue = {
                   studentId: studentId * 1,
