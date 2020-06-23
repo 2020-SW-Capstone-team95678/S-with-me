@@ -108,10 +108,10 @@
 .inputCss {
   flex-direction: column;
   height: 100%;
-  margin: 10px;
   display: flex;
   align-items: center;
   font-size: 10px;
+  padding: 3px;
 }
 
 .inputID {
@@ -121,6 +121,7 @@
   align-items: center;
   justify-content: center;
   font-size: 17px;
+  padding: 0px;
 }
 
 .inputPW {
@@ -130,6 +131,7 @@
   align-items: center;
   justify-content: center;
   font-size: 17px;
+  padding: 0px;
 }
 
 .loginHeader {
@@ -189,6 +191,7 @@
     display: flex;
     width: 80%;
     align-items: center;
+    padding: 0px;
     justify-content: center;
     font-size: 17px;
     margin-left: 10px;
@@ -199,6 +202,7 @@
     flex: 1;
     display: flex;
     width: 80%;
+    padding: 0px;
     align-items: center;
     justify-content: center;
     font-size: 17px;
@@ -214,8 +218,8 @@
 
   .loginSection {
     position: relative;
-    max-width: 500px;
-    width: 70%;
+    max-width: 550px;
+    width: 80%;
   }
 
   .loginSection:after {
