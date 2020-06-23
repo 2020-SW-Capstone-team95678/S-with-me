@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StudentSubscriptionUpdateRequestDto {
     private Boolean isSubscribing;
+    private String payDateTime;
 
     @Builder
-    public StudentSubscriptionUpdateRequestDto(Boolean isSubscribing){
+    public StudentSubscriptionUpdateRequestDto(Boolean isSubscribing, String payDateTime){
         this.isSubscribing = isSubscribing;
+        this.payDateTime = payDateTime;
     }
 }

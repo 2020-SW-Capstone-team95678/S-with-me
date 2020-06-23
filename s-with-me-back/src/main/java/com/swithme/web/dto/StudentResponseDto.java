@@ -13,6 +13,7 @@ public class StudentResponseDto {
     private String birthday;
     private short grade;
     private Boolean isSubscribing;
+    private String payDateTime;
 
     public StudentResponseDto(Student entity){
         this.studentId = entity.getStudentId();
@@ -22,5 +23,6 @@ public class StudentResponseDto {
         this.birthday = entity.getPhoneNumber();
         this.grade = entity.getGrade();
         this.isSubscribing = entity.getIsSubscribing();
+        this.payDateTime = entity.getPayDateTime();
     }
 }

@@ -7,9 +7,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -42,6 +42,9 @@ public class Student implements UserDetails {
 
     @Column(name="isSubscribing")
     private Boolean isSubscribing;
+
+    @Column(name="payDateTime")
+    private String payDateTime;
 
     @Override
     public String getUsername() {
@@ -80,8 +83,8 @@ public class Student implements UserDetails {
     }
 
     @Builder
-    public Student(int studentId, String userId, String name, String password,
-                   String phoneNumber, String birthday, short grade, Boolean isSubscribing) {
+    public Student(int studentId, String userId, String name, String password, String phoneNumber,
+                   String birthday, short grade, Boolean isSubscribing, String payDateTime) {
         this.studentId = studentId;
         this.userId = userId;
         this.name = name;
@@ -90,6 +93,7 @@ public class Student implements UserDetails {
         this.birthday = birthday;
         this.grade = grade;
         this.isSubscribing = isSubscribing;
+        this.payDateTime = payDateTime;
     }
 
     public void update(String phoneNumber,short grade){
@@ -97,7 +101,46 @@ public class Student implements UserDetails {
         this.grade = grade;
     }
 
-    public void update(Boolean isSubscribing){
+    public void update(Boolean isSubscribing, String payDateTime){
         this.isSubscribing = isSubscribing;
+        this.payDateTime = payDateTime;
+    }
+
+    public void checkSubscription() throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date payDate = simpleDateFormat.parse(this.payDateTime);
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+
+        Long payedDay = now.getTime() - payDate.getTime();
+        Long dayToMilliseconds = (24L * 60L * 60L * 1000L);
+
+        //이번 달이 1,2,4,6,8,9,11월이면 저번 달이 31일
+        if (calendar.get(Calendar.MONTH) + 1 == 1 ||
+                calendar.get(Calendar.MONTH) + 1 == 2 ||
+                calendar.get(Calendar.MONTH) + 1 == 4 ||
+                calendar.get(Calendar.MONTH) + 1 == 6 ||
+                calendar.get(Calendar.MONTH) + 1 == 8 ||
+                calendar.get(Calendar.MONTH) + 1 == 9 ||
+                calendar.get(Calendar.MONTH) + 1 == 11) {
+            if (payedDay > (31 * dayToMilliseconds) ) {
+                this.isSubscribing = false;
+            }
+            //이번 달이 5,7,10,12월이면 저번 달이 30일
+        } else if (calendar.get(Calendar.MONTH) + 1 == 5 ||
+                calendar.get(Calendar.MONTH) + 1 == 7 ||
+                calendar.get(Calendar.MONTH) + 1 == 10 ||
+                calendar.get(Calendar.MONTH) + 1 == 12) {
+            if (payedDay > (30 * dayToMilliseconds)) {
+                this.isSubscribing = false;
+            }
+        }
+        //이번 달이 3월이면 저번 달이 28일
+       else{
+            if(payedDay > (28 * dayToMilliseconds)){
+                this.isSubscribing = false;
+            }
+        }
     }
 }
