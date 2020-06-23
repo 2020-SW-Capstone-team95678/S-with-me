@@ -29,7 +29,6 @@ export function createCurriculum(data, onComplete) {
   };
 }
 export function updateCurriculum(id, data, onComplete) {
-  console.log(id, data);
   return {
     type: UPDATE_CURRICULUM,
     promise: Api.put(`/student/library/curriculum?curriculumId=${id}`, data),

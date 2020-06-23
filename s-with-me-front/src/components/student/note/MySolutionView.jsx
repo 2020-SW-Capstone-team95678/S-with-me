@@ -2,7 +2,6 @@ import React from 'react';
 import Text from '../../../common-ui/Text';
 import MyMathSolutionView from './MyMathSolutionView';
 import ProblemPreviewPage from '../problem/ProblemPreviewPage';
-import { Segment } from 'semantic-ui-react';
 
 export default function MySolutionView(props) {
   const { isNewSolution, solutionType, note } = props;

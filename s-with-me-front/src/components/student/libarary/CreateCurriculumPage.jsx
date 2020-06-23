@@ -22,9 +22,8 @@ export default class CreateCurriculumPage extends PureComponent {
   close = () => this.setState({ open: false });
   handleMonthlyGoal = (e, { value }) => this.setState({ monthlyGoal: value });
   handleSubmit(values) {
-    const { myBookId, createCurriculum, updateCurriculum } = this.props;
+    const { myBookId, createCurriculum, updateCurriculum, setUpdate } = this.props;
     const { type, curriculum } = this.props;
-
     let formValue = {};
     if (values.curriculumType === 'monthly') {
       formValue = {
@@ -43,12 +42,14 @@ export default class CreateCurriculumPage extends PureComponent {
       };
     }
     if (formValue && type === 'new') {
-      createCurriculum({ ...formValue, myBookId: myBookId }, () => this.close());
+      createCurriculum({ ...formValue, myBookId: myBookId }, () => {
+        this.close();
+      });
     }
     if (formValue && type === 'old') {
-      updateCurriculum(curriculum.curriculumId, { ...formValue, myBookId: myBookId }, () =>
-        this.close(),
-      );
+      updateCurriculum(curriculum.curriculumId, { ...formValue, myBookId: myBookId }, () => {
+        this.close();
+      });
     }
   }
 
@@ -59,9 +60,12 @@ export default class CreateCurriculumPage extends PureComponent {
         {this.props.type === 'new' ? (
           <Button basic size="tiny" content="새로운 목표 설정하기" onClick={this.show} />
         ) : (
-          <Button basic size="tiny" content="목표 수정하기" onClick={this.show} />
+          <React.Fragment>
+            <Button basic size="tiny" content="목표 수정하기" onClick={this.show} />
+            <Button basic color="red" size="tiny" content="목표 삭제하기" onClick={() => {}} />
+          </React.Fragment>
         )}
-        <Modal dimmer="inverted" open={open} onClose={this.close}>
+        <Modal dimmer="inverted" open={open} onClose={() => this.close()}>
           <Form onSubmit={values => this.handleSubmit(values)}>
             <Form.Consumer>
               {({ onChange, values }) => (
@@ -120,6 +124,7 @@ export default class CreateCurriculumPage extends PureComponent {
                       positive
                       type="submit"
                       icon="checkmark"
+                      onClick={this.props.setUpdate}
                       labelPosition="right"
                       content="확인"
                     />
