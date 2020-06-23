@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Modal, Button, TextArea } from 'semantic-ui-react';
+import { Modal, Button, TextArea, Icon } from 'semantic-ui-react';
 import Form from '../../../common-ui/Form';
 import Text from '../../../common-ui/Text';
 import Spacing from '../../../common-ui/Spacing';
@@ -15,14 +15,17 @@ export default class CreateCurriculumPage extends PureComponent {
   };
   constructor(props) {
     super(props);
-    this.state = { open: false };
+    this.state = { open: false, deleteOpen: false };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   show = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
+  deleteShow = () => this.setState({ deleteOpen: true });
+  deleteClose = () => this.setState({ deleteOpen: false });
   handleMonthlyGoal = (e, { value }) => this.setState({ monthlyGoal: value });
   handleSubmit(values) {
-    const { myBookId, createCurriculum, updateCurriculum, setUpdate } = this.props;
+    const { myBookId, createCurriculum, updateCurriculum } = this.props;
     const { type, curriculum } = this.props;
     let formValue = {};
     if (values.curriculumType === 'monthly') {
@@ -52,19 +55,51 @@ export default class CreateCurriculumPage extends PureComponent {
       });
     }
   }
+  handleDelete() {
+    const { curriculum, deleteCurriculum } = this.props;
+    deleteCurriculum(curriculum.curriculumId, () => {
+      this.props.setUpdate();
+      this.deleteClose();
+    });
+  }
 
   render() {
-    const { open } = this.state;
+    const { open, deleteOpen } = this.state;
     return (
       <div>
         {this.props.type === 'new' ? (
-          <Button basic size="tiny" content="새로운 목표 설정하기" onClick={this.show} />
+          <Button
+            basic
+            size="tiny"
+            color="green"
+            content="새로운 목표 설정하기"
+            onClick={this.show}
+          />
         ) : (
           <React.Fragment>
-            <Button basic size="tiny" content="목표 수정하기" onClick={this.show} />
-            <Button basic color="red" size="tiny" content="목표 삭제하기" onClick={() => {}} />
+            <Button basic size="tiny" color="green" content="목표 수정하기" onClick={this.show} />
+            <Button
+              basic
+              color="red"
+              size="tiny"
+              content="목표 삭제하기"
+              onClick={this.deleteShow}
+            />
           </React.Fragment>
         )}
+        <Modal basic size="small" open={deleteOpen}>
+          <Modal.Content>
+            <p>정말로 커리큘럼을 삭제하시겠습니까?</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color="yellow" inverted onClick={this.deleteClose}>
+              <Icon name="redo" /> 취소
+            </Button>
+            <Button color="red" inverted onClick={this.handleDelete}>
+              <Icon name="remove" /> 삭제할래요
+            </Button>
+          </Modal.Actions>
+        </Modal>
         <Modal dimmer="inverted" open={open} onClose={() => this.close()}>
           <Form onSubmit={values => this.handleSubmit(values)}>
             <Form.Consumer>

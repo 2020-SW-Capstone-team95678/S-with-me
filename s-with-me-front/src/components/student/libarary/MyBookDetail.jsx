@@ -53,7 +53,7 @@ class MyBookDetail extends PureComponent {
     this.setState({ shouldUpdate: true });
   };
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate() {
     this._isMounted = true;
     const { myBookId } = this.props.match.params;
     if (this.state.shouldUpdate) {
