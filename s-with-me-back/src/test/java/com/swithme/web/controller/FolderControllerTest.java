@@ -89,7 +89,6 @@ public class FolderControllerTest {
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
-    @Ignore
     @Test
     public void getFolderTest()
     {
@@ -99,7 +98,6 @@ public class FolderControllerTest {
     }
 
     @Test
-    @Ignore
     public void deleteFolderTest(){
         //assertThat(folderRepository.findAll().get(1).getFolderId()).isEqualTo(2);
         String url="http://localhost:"+port+"/student/library/folder/delete?folderId="+2;

@@ -25,6 +25,13 @@ public class CurriculumController {
     }
 
     @CrossOrigin
+    @DeleteMapping("/student/library/curriculum/delete")
+    public String deleteCurriculum(@RequestParam("curriculumId") int curriculumId)
+    {
+        return curriculumService.deleteCurriculum(curriculumId);
+    }
+
+    @CrossOrigin
     @PutMapping("/student/library/curriculum")
     public String updateCurriculum(@RequestParam("curriculumId") int curriculumId ,
                                    @RequestBody CurriculumUpdateRequestDto curriculumUpdateRequestDto)

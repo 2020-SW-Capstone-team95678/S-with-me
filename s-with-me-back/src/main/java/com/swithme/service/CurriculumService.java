@@ -55,7 +55,14 @@ public class CurriculumService {
                 .build());
         return myBook.getMyBookId();
     }
-
+    @Transactional
+    public String deleteCurriculum(int curriculumId)
+    {
+        Curriculum curriculum = curriculumRepository.findById(curriculumId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 커리큘럼이 존재하지 않습니다."));
+        curriculumRepository.deleteById(curriculumId);
+        return "커리큘럼 삭제 완료";
+    }
     @Transactional
     public CurriculumResponseDto getCurriculum(int myBookId)
     {
