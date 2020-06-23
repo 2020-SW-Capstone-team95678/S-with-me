@@ -55,7 +55,7 @@ class NestedModal extends Component {
         scrolling
         onOpen={this.open}
         onClose={this.close}
-        size={isMobile ? 'fullscreen' : 'large'}
+        size="large"
         trigger={
           <Button primary icon basic>
             튜토리얼 보러가기 <Icon name="right chevron" />
