@@ -11,7 +11,7 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
-  resetNextUuid
+  resetNextUuid,
 } from 'react-accessible-accordion';
 
 import Button from '../../../common-ui/Button';
@@ -48,7 +48,7 @@ const LibraryApp = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex',flex:1,maxWidth:"100%",overflowX:'scroll'}}>
+    <div style={{ display: 'flex', flex: 1, maxWidth: '100%', overflowX: 'scroll' }}>
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
@@ -191,17 +191,13 @@ const SideBookInfo = ({ book, onClick }) => {
     </div>
   );
 };
-
-export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
-
+export const BookInfo = ({ book, setBooks, totalCheck, setTotalCheck }) => {
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
   //const [subject,setSubject] = useState(book.subject);
   //const [grade,setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
-  
-
 
   useEffect(() => {
     setName(book.name ? book.name : '');
@@ -259,7 +255,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <div
           style={{
             textAlign: 'center',
@@ -385,7 +381,9 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
                 }
               }}
             ></textarea>
-             <div style={{color:'red'}}>문제집 판매 중, 문제집에 변경사항이 존재 할 경우 이곳에 적어주세요.</div>
+            <div style={{ color: 'red' }}>
+              문제집 판매 중, 문제집에 변경사항이 존재 할 경우 이곳에 적어주세요.
+            </div>
           </div>
         </div>
         <div style={{ marginLeft: 100, marginTop: 50 }}>
@@ -445,7 +443,6 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
             setBooks={setBooks}
             totalCheck={totalCheck}
             setTotalCheck={setTotalCheck}
-
           />
         </div>
         {/* {selectedSubChapter !== null && (
@@ -456,11 +453,9 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   );
 };
 
-
-export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
+export const ChapterInfo = ({ bookId, setBooks, setTotalCheck, totalCheck }) => {
   const [chapters, setChapters] = useState([]);
-  const [check,setCheck]=useState(true);
-
+  const [check, setCheck] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -469,15 +464,11 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
     };
     resetNextUuid();
 
-
     if (bookId) {
       fetchData();
     }
   }, [bookId]);
   //setChapters(prevChapters);
-
-  
- 
 
   return (
     <div>
@@ -533,7 +524,6 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
                   chapters,
                   doneCallback: changemain => {
                     setChapters(changemain.chapters);
-
                   },
                 })
               }
@@ -546,52 +536,63 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
       <Accordion allowZeroExpanded={true}>
         {chapters.map(chapter => {
           const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
-          if(mainChapterId!==0){
-          return (
-            
-            <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <AccordionItemHeading
-                  style={{ flex: 4, cursor: 'pointer' }}
-                  // onClick={() =>
-                  //   setBookChangeCheck(true)
-                  // }
-                  
-                >
-                  <AccordionItemButton
-                    style={{ button: 'focus', outline: 'none', cursor: 'point' }}
+          if (mainChapterId !== 0) {
+            return (
+              <AccordionItem
+                style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <AccordionItemHeading
+                    style={{ flex: 4, cursor: 'pointer' }}
+                    // onClick={() =>
+                    //   setBookChangeCheck(true)
+                    // }
                   >
-                    {chapter.mainChapterResponseDto.mainChapterName}
-                  </AccordionItemButton>
-                </AccordionItemHeading>
-                <button
-                  style={{
-                    flex: 1,
-                    cursor: 'pointer',
-                    border: 'none',
-                    '&:hover': {
-                      background: '#efefef',
-                    },
-                  }}
-                  primary
-                  onClick={() =>
-                    Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
-                      mainChapterId,
-                    }).then(
-                      setTotalCheck(!totalCheck),
-                      setChapters(chapters.filter( chapter => chapter.mainChapterResponseDto.mainChapterId !== mainChapterId))
-                   
-                    )
-                  }
-                >
-                  삭제
-                </button>
-              </div>
-
-              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
-
-            </AccordionItem>
-          );} 
+                    <AccordionItemButton
+                      style={{ button: 'focus', outline: 'none', cursor: 'point' }}
+                    >
+                      {chapter.mainChapterResponseDto.mainChapterName}
+                    </AccordionItemButton>
+                  </AccordionItemHeading>
+                  <button
+                    style={{
+                      flex: 1,
+                      cursor: 'pointer',
+                      border: 'none',
+                      '&:hover': {
+                        background: '#efefef',
+                      },
+                    }}
+                    primary
+                    onClick={() =>
+                      Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
+                        mainChapterId,
+                      }).then(
+                        setTotalCheck(!totalCheck),
+                        setChapters(
+                          chapters.filter(
+                            chapter =>
+                              chapter.mainChapterResponseDto.mainChapterId !== mainChapterId,
+                          ),
+                        ),
+                      )
+                    }
+                  >
+                    삭제
+                  </button>
+                </div>
+                <SubChapterInfo
+                  mainChapterId={mainChapterId}
+                  totalCheck={totalCheck}
+                  setTotalCheck={setTotalCheck}
+                  chapter={chapter}
+                  check={check}
+                  setCheck={setCheck}
+                  setBooks={setBooks}
+                />
+              </AccordionItem>
+            );
+          }
         })}
       </Accordion>
     </div>
@@ -609,170 +610,92 @@ export const SubChapterInfo = ({
   totalCheck,
 }) => {
   const [subChapters, setSubChapters] = useState([]);
-
- // const lastSubChapters=useRef(subChapters);
-  const lastSubChapters=useRef("");
+  // const lastSubChapters=useRef(subChapters);
+  const lastSubChapters = useRef('');
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/publisher/library/book/main-chapter/${mainChapterId}/sub-chapters
       `);
       setSubChapters(data.data);
-
     };
-
     resetNextUuid();
 
-
-  
     if (mainChapterId) {
       fetchData();
     }
+  }, [mainChapterId]);
 
-  },[mainChapterId]);
-  
   return (
-    
-<AccordionItemPanel style={{ cursor: 'pointer' }}>
-                <Modal>
-                  {({ openModal }) => (
-                    <>
-                      <button
-                        style={{
-                          cursor: 'pointer',
-                          marginRight: 5,
-                          marginLeft: 20,
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          padding: 10,
-                          borderColor: 'lightgray',
-                          borderBottom: 'none',
-                          backgroundColor: 'rgb(255, 245, 238)',
-                        }}
-                        primary
-                        onClick={() =>
-                          openModal(CREATE_SUB_CHAPTER, {
-                            mainChapterId: mainChapterId,
-                            setCheck,
-                            check,
-                            doneCallback: addedsub => {
-                              setSubChapters(subChapters => {
-                                return [...subChapters, addedsub.subChapterAdd]
-                              });
-                              lastSubChapters.current=subChapters;
-                              
-                            },
-                            
-                          })
-                        }
-                      >
-                        소단원 추가
-                      </button>
-                      <button
-                        style={{
-                          cursor: 'pointer',
-                          marginRight: 10,
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          padding: 10,
-                          borderColor: 'lightgray',
-                          borderBottom: 'none',
-                          backgroundColor: 'rgb(255, 245, 238)',
-                        }}
-                        primary
-                        onClick={() =>
-                          openModal(UPDATE_SUB_CHAPTER, {
-                            type: 'edit',
-                            chapter: chapter,
-                            bookId: chapter.bookId,
-                            setCheck,
-                            check,
-                            doneCallback: changesub => {
-                              setSubChapters(changesub.subChapters);
-                            },
-                          })
-                        }
-                      >
-                        소단원 수정
-                      </button>
-                    </>
-                  )}
-                </Modal>
-                <div>
-                  {   
-                  subChapters.map(subChapter => {
-                    //etSubChapterId(subChapter.subChapterId);
-
-                    const subChapterId = subChapter.subChapterId;
-
-                    return (
-                      <>
-                        <div
-                          style={{
-                            border: 'solid',
-                            borderColor: 'rgba(185, 176, 176, 0.87)',
-                            borderRadius: 5,
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: 'flex',
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: 'flex',
-                                flex: 4,
-                                textAlign: 'center',
-                                alignItems: 'center',
-                                justifyContent: 'centr',
-                                flexDirection: 'row',
-                                backgroundColor: 'rgb(255, 245, 238)',
-                                paddingLeft: 20,
-
-                                minHeight: 50,
-                                cursor: 'pointer',
-                              }}
-                              
-                             
-                            >
-                              {subChapter.subChapterName}
-                            </div>
-                            <button
-                              style={{ flex: 1, cursor: 'pointer', border: 'none' }}
-                              primary
-                              onClick={() =>
-                                Api.delete(
-                                  `/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,
-                                  {
-                                    subChapterId,
-                                  },
-                                ).then(
-                                  setTotalCheck(!totalCheck),
-                                  setSubChapters(subChapters.filter( subChapter => subChapter.subChapterId !== subChapterId))
-                                )
-                              }
-                            >
-                              삭제
-                            </button>
-                          </div>
-                          <ProblemInfo subChapterId={subChapter.subChapterId} setBooks={setBooks} setTotalCheck={setTotalCheck} totalCheck={totalCheck} />
-                        </div>
-                        <br></br>
-                      </>
-                    );
-                  })}
-               </div>
-              </AccordionItemPanel>
-  )
-}
-
-
-
+    <AccordionItemPanel style={{ cursor: 'pointer' }}>
+      <Modal>
+        {({ openModal }) => (
+          <>
+            <button
+              style={{
+                cursor: 'pointer',
+                marginRight: 5,
+                marginLeft: 20,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                padding: 10,
+                borderColor: 'lightgray',
+                borderBottom: 'none',
+                backgroundColor: 'rgb(255, 245, 238)',
+              }}
+              primary
+              onClick={() =>
+                openModal(CREATE_SUB_CHAPTER, {
+                  mainChapterId: mainChapterId,
+                  setCheck,
+                  check,
+                  doneCallback: addedsub => {
+                    setSubChapters(subChapters => {
+                      return [...subChapters, addedsub.subChapterAdd];
+                    });
+                    lastSubChapters.current = subChapters;
+                  },
+                })
+              }
+            >
+              소단원 추가
+            </button>
+            <button
+              style={{
+                cursor: 'pointer',
+                marginRight: 10,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                padding: 10,
+                borderColor: 'lightgray',
+                borderBottom: 'none',
+                backgroundColor: 'rgb(255, 245, 238)',
+              }}
+              primary
+              onClick={() =>
+                openModal(UPDATE_SUB_CHAPTER, {
+                  type: 'edit',
+                  chapter: chapter,
+                  bookId: chapter.bookId,
+                  setCheck,
+                  check,
+                  doneCallback: changesub => {
+                    setSubChapters(changesub.subChapters);
+                  },
+                })
+              }
+            >
+              소단원 수정
+            </button>
+          </>
+        )}
+      </Modal>
+      <div>
+        {subChapters.map(subChapter => {
+          //etSubChapterId(subChapter.subChapterId);
 
           const subChapterId = subChapter.subChapterId;
-          console.log(subChapters);
-          console.log(subChapter);
+
           return (
             <>
               <div
@@ -814,9 +737,12 @@ export const SubChapterInfo = ({
                           subChapterId,
                         },
                       ).then(
-                        setSubChapters(prev => {
-                          return [...prev];
-                        }),
+                        setTotalCheck(!totalCheck),
+                        setSubChapters(
+                          subChapters.filter(
+                            subChapter => subChapter.subChapterId !== subChapterId,
+                          ),
+                        ),
                       )
                     }
                   >
@@ -850,30 +776,25 @@ const ProblemInfo = ({ subChapterId, setBooks, setTotalCheck, totalCheck }) => {
       });
 
       setProblems(data.data);
-
     };
-
 
     if (subChapterId) {
       fetchData();
     }
   }, [subChapterId]);
 
-
-  function handleCheck(value){
-    setProblems(problems=> {
+  function handleCheck(value) {
+    setProblems(problems => {
       return [...problems, value.formValue];
     });
     setTotalCheck(!totalCheck);
   }
-  function handleEdit(value){
-    setProblems(problems=> {
+  function handleEdit(value) {
+    setProblems(problems => {
       return [...problems];
     });
-
     setTotalCheck(!totalCheck);
   }
-
 
   return (
     <div>
@@ -883,18 +804,21 @@ const ProblemInfo = ({ subChapterId, setBooks, setTotalCheck, totalCheck }) => {
             <AccordionItem>
               <AccordionItemHeading>
                 <AccordionItemButton style={{ flex: 1, backgroundColor: 'rgb(247, 207, 192)' }}>
-                  
                   {problem.problemNumber}
                 </AccordionItemButton>
               </AccordionItemHeading>
-              
-      
-              <AccordionItemPanel >
 
-                <ProblemItem clickHandler={handleEdit} setBooks={setBooks} prevProblem={problem} setTotalCheck={setTotalCheck} totalCheck={totalCheck} setProblems={setProblems} problems={problems} />
+              <AccordionItemPanel>
+                <ProblemItem
+                  clickHandler={handleEdit}
+                  setBooks={setBooks}
+                  prevProblem={problem}
+                  setTotalCheck={setTotalCheck}
+                  totalCheck={totalCheck}
+                  setProblems={setProblems}
+                  problems={problems}
+                />
               </AccordionItemPanel>
-              
-              
             </AccordionItem>
           );
         })}
@@ -919,8 +843,15 @@ const ProblemInfo = ({ subChapterId, setBooks, setTotalCheck, totalCheck }) => {
   );
 };
 
-const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandler,problems,setProblems }) => {
-  
+const ProblemItem = ({
+  prevProblem,
+  setBooks,
+  totalCheck,
+  setTotalCheck,
+  clickHandler,
+  problems,
+  setProblems,
+}) => {
   const [problem, setProblem] = useState(prevProblem);
   const problemId = problem.problemId;
 
@@ -938,30 +869,92 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
       {!problem.isMath ? (
         <div>
           <p>
-            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 제목</div> <div style={{padding :5, border: '1px solid black'}}>{problem.title}</div></p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 제목
+            </div>{' '}
+            <div style={{ padding: 5, border: '1px solid black' }}>{problem.title}</div>
+          </p>
           <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="사진이 없습니다." />
           </p>
           <p>
-          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 내용</div><div style={{padding :5, border: '1px solid black'}}>{problem.content}</div>
-
-          {problem.isOptional ? (
-            <div style={{padding :5, border: '1px solid black'}}>
-              <p>객관식 1번 {problem.option1}</p>
-              <p>객관식 2번 {problem.option2}</p>
-              <p>객관식 3번 {problem.option3}</p>
-              <p>객관식 4번 {problem.option4}</p>
-              <p>객관식 5번 {problem.option5}</p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 내용
             </div>
-          ) : null}</p>
-          <p><div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 정답</div><div style={{padding :5, border: '1px solid black'}}>{problem.answer}</div></p>
-          <p ><div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 해설</div><div style={{padding :5, border: '1px solid black'}}>{problem.solution}</div></p>
+            <div style={{ padding: 5, border: '1px solid black' }}>{problem.content}</div>
+
+            {problem.isOptional ? (
+              <div style={{ padding: 5, border: '1px solid black' }}>
+                <p>객관식 1번 {problem.option1}</p>
+                <p>객관식 2번 {problem.option2}</p>
+                <p>객관식 3번 {problem.option3}</p>
+                <p>객관식 4번 {problem.option4}</p>
+                <p>객관식 5번 {problem.option5}</p>
+              </div>
+            ) : null}
+          </p>
+          <p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 정답
+            </div>
+            <div style={{ padding: 5, border: '1px solid black' }}>{problem.answer}</div>
+          </p>
+          <p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 해설
+            </div>
+            <div style={{ padding: 5, border: '1px solid black' }}>{problem.solution}</div>
+          </p>
           <Modal>
             {({ openModal }) => (
               <>
                 <br />
                 <button
-                  style={{cursor: 'pointer', marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)'}}
+                  style={{
+                    cursor: 'pointer',
+                    marginRight: 20,
+                    padding: 10,
+                    margin: 5,
+                    borderRadius: 5,
+                    borderColor: 'white',
+                    backgroundColor: 'rgb(220,220,220)',
+                  }}
                   onClick={() =>
                     openModal(UPDATE_PROBLEM, {
                       problem,
@@ -971,11 +964,13 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
                         setProblem(changeproblem.formValue);
                         setProblems(
                           problems.map(problem =>
-                            problem.problemId === problemId ? { ...problem, problemNumber:changeproblem.formValue.problemNumber  } : problem
-                          ))
+                            problem.problemId === problemId
+                              ? { ...problem, problemNumber: changeproblem.formValue.problemNumber }
+                              : problem,
+                          ),
+                        );
                         setTotalCheck(!totalCheck);
                         clickHandler(changeproblem.formValue);
- 
                       },
                     })
                   }
@@ -986,14 +981,21 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
             )}
           </Modal>
           <button
-            style={{ cursor: 'pointer', padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)' }}
+            style={{
+              cursor: 'pointer',
+              padding: 10,
+              margin: 5,
+              borderRadius: 5,
+              borderColor: 'white',
+              backgroundColor: 'rgb(220,220,220)',
+            }}
             primary
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
                 problemId,
               }).then(
                 setTotalCheck(!totalCheck),
-                setProblems(problems.filter( problem => problem.problemId !== problemId))
+                setProblems(problems.filter(problem => problem.problemId !== problemId)),
               )
             }
           >
@@ -1003,37 +1005,100 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
       ) : (
         <div>
           <p>
-            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 제목</div> <div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex></div>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 제목
+            </div>{' '}
+            <div style={{ padding: 5, border: '1px solid black' }}>
+              <Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex>
+            </div>
           </p>
           <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="사진이 없습니다." />
           </p>
           <p>
-            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 내용</div> <div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex></div>
-          {problem.isOptional ? (
-            <div style={{padding :5, border: '1px solid black'}}>
-              <p>객관식 1번 {JSON.parse(problem.option1)}</p>
-              <p>객관식 2번 {JSON.parse(problem.option2)}</p>
-              <p>객관식 3번 {JSON.parse(problem.option3)}</p>
-              <p>객관식 4번 {JSON.parse(problem.option4)}</p>
-              <p>객관식 5번 {JSON.parse(problem.option5)}</p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 내용
+            </div>{' '}
+            <div style={{ padding: 5, border: '1px solid black' }}>
+              <Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex>
             </div>
-          ) : null}</p>
-          <p>
-          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 정답</div><div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{problem.answer}</Latex></div>
-            
+            {problem.isOptional ? (
+              <div style={{ padding: 5, border: '1px solid black' }}>
+                <p>객관식 1번 {JSON.parse(problem.option1)}</p>
+                <p>객관식 2번 {JSON.parse(problem.option2)}</p>
+                <p>객관식 3번 {JSON.parse(problem.option3)}</p>
+                <p>객관식 4번 {JSON.parse(problem.option4)}</p>
+                <p>객관식 5번 {JSON.parse(problem.option5)}</p>
+              </div>
+            ) : null}
           </p>
           <p>
-          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 해설</div><div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex></div>
-            
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 정답
+            </div>
+            <div style={{ padding: 5, border: '1px solid black' }}>
+              <Latex delimiters={delimeters}>{problem.answer}</Latex>
+            </div>
           </p>
-          
+          <p>
+            <div
+              style={{
+                padding: 5,
+                border: '1px solid black',
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5,
+                borderBottomColor: 'white',
+                backgroundColor: 'rgb(220,220,220)',
+              }}
+            >
+              문제 해설
+            </div>
+            <div style={{ padding: 5, border: '1px solid black' }}>
+              <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
+            </div>
+          </p>
+
           <Modal>
             {({ openModal }) => (
               <>
                 <br />
                 <button
-                  style={{cursor: 'pointer', marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)'}}
+                  style={{
+                    cursor: 'pointer',
+                    marginRight: 20,
+                    padding: 10,
+                    margin: 5,
+                    borderRadius: 5,
+                    borderColor: 'white',
+                    backgroundColor: 'rgb(220,220,220)',
+                  }}
                   primary
                   onClick={() =>
                     openModal(UPDATE_PROBLEM, {
@@ -1043,11 +1108,13 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
                         setProblem(changeproblem.formValue);
                         setProblems(
                           problems.map(problem =>
-                            problem.problemId === problemId ? { ...problem, problemNumber:changeproblem.formValue.problemNumber  } : problem
-                          ))
+                            problem.problemId === problemId
+                              ? { ...problem, problemNumber: changeproblem.formValue.problemNumber }
+                              : problem,
+                          ),
+                        );
                         setTotalCheck(!totalCheck);
                         clickHandler(changeproblem.formValue);
- 
                       },
                     })
                   }
@@ -1058,14 +1125,22 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
             )}
           </Modal>
           <button
-            style={{ cursor: 'pointer',marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)' }}
+            style={{
+              cursor: 'pointer',
+              marginRight: 20,
+              padding: 10,
+              margin: 5,
+              borderRadius: 5,
+              borderColor: 'white',
+              backgroundColor: 'rgb(220,220,220)',
+            }}
             primary
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
                 problemId,
               }).then(
                 setTotalCheck(!totalCheck),
-                setProblems(problems.filter( problem => problem.problemId !== problemId))
+                setProblems(problems.filter(problem => problem.problemId !== problemId)),
               )
             }
           >
