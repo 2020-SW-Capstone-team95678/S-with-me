@@ -203,7 +203,6 @@ public class CurriculumControllerTest {
         //assertThat(responseEntity.getBody()).isEqualTo("33");
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-    @Ignore
     @Test
     public void curriculumArchievementTest()
     {

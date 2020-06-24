@@ -55,7 +55,7 @@ class NestedModal extends Component {
         scrolling
         onOpen={this.open}
         onClose={this.close}
-        size={isMobile ? 'fullscreen' : 'large'}
+        size="large"
         trigger={
           <Button primary icon basic>
             튜토리얼 보러가기 <Icon name="right chevron" />
@@ -139,6 +139,7 @@ class NestedModal extends Component {
 const TutorialModal = props => {
   const handleLogout = () => {
     window.sessionStorage.clear();
+    props.setLogged(false);
   };
   return (
     <Modal open={props.show}>
@@ -161,7 +162,7 @@ const TutorialModal = props => {
             content="로그아웃하기"
             basic
             color="red"
-            onClick={() => handleLogout('ggg')}
+            onClick={() => handleLogout()}
           />
         </NavLink>
         <NestedModal />

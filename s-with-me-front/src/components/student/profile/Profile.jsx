@@ -74,7 +74,7 @@ export const StudentProfile =()=>  {
                   >
                     나의 프로필 수정/저장
                   </Button>
-                  
+
                 </div>
               </div>
             </div>

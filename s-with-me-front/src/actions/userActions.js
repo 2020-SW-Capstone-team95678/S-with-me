@@ -67,12 +67,10 @@ export function checkIdDuplication(isStudent, data, onComplete) {
   };
 }
 
-export function updateSubscription(data, onComplete) {
+export function updateSubscription(studentId, data, onComplete) {
   return {
     type: UPDATE_SUBSCRIPTION,
-    promise: Api.put(`/student/profile/subscription?studentId=${data.studentId}`, {
-      isSubscribing: data.isSubscribing,
-    }),
+    promise: Api.put(`/student/profile/subscription?studentId=${studentId}`, data),
     meta: {
       onSuccess: onComplete,
       notification: {

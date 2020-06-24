@@ -38,6 +38,7 @@ public class UserService implements UserDetailsService {
                 .birthday(studentCreateDto.getBirthday())
                 .grade(studentCreateDto.getGrade())
                 .isSubscribing(false)
+                .payDateTime(null)
                 .build());
         Student student=studentRepository.findByUserId(studentCreateDto.getUserId());
         folderRepository.save(Folder.builder()
@@ -70,7 +71,7 @@ public class UserService implements UserDetailsService {
     public int updateSubscription(int studentId, StudentSubscriptionUpdateRequestDto requestDto) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. studentId = " + studentId));
-        student.update(requestDto.getIsSubscribing());
+        student.update(requestDto.getIsSubscribing(), requestDto.getPayDateTime());
 
         return studentId;
     }

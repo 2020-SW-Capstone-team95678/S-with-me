@@ -17,11 +17,11 @@ class MyBookDetail extends PureComponent {
     super(props);
     this.state = {
       book: {},
-      isCoverClicked: false,
       curriculum: {},
       achievement: -1,
       myBook: {},
       visible: false,
+      shouldUpdate: false,
     };
   }
   handleVisible = visible => this.setState({ visible: visible });
@@ -48,6 +48,25 @@ class MyBookDetail extends PureComponent {
     }).then(({ data }) => {
       if (this._isMounted) this.setState({ achievement: data });
     });
+  }
+  setUpdate = () => {
+    this.setState({ shouldUpdate: true });
+  };
+
+  componentDidUpdate() {
+    this._isMounted = true;
+    const { myBookId } = this.props.match.params;
+    if (this.state.shouldUpdate) {
+      Api.get('/student/library/curriculum', {
+        params: { myBookId: myBookId },
+      })
+        .then(({ data }) => {
+          if (this._isMounted) this.setState({ curriculum: data });
+        })
+        .finally(() => {
+          if (this._isMounted) this.setState({ shouldUpdate: false });
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -120,12 +139,14 @@ class MyBookDetail extends PureComponent {
                         type="old"
                         curriculum={curriculum}
                         myBookId={myBookId}
+                        setUpdate={this.setUpdate}
                       />
                     ) : (
                       <CreateCurriculumPageContainer
                         type="new"
                         curriculum={curriculum}
                         myBookId={myBookId}
+                        setUpdate={this.setUpdate}
                       />
                     )}
                   </Card.Content>
@@ -215,12 +236,14 @@ class MyBookDetail extends PureComponent {
                     type="old"
                     curriculum={curriculum}
                     myBookId={myBookId}
+                    setUpdate={this.setUpdate}
                   />
                 ) : (
                   <CreateCurriculumPageContainer
                     type="new"
                     curriculum={curriculum}
                     myBookId={myBookId}
+                    setUpdate={this.setUpdate}
                   />
                 )}
               </Card.Content>

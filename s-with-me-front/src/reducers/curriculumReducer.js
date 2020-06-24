@@ -3,6 +3,7 @@ import {
   FETCH_MY_CURRICULUM_LIST,
   CREATE_CURRICULLUM,
   UPDATE_CURRICULUM,
+  DELETE_CURRICULUM,
 } from '../actions/curriculumActions';
 
 const initState = {
@@ -12,11 +13,13 @@ const initState = {
     [FETCH_MY_CURRICULUM_LIST]: false,
     [CREATE_CURRICULLUM]: false,
     [UPDATE_CURRICULUM]: false,
+    [DELETE_CURRICULUM]: false,
   },
   errorState: {
     [FETCH_MY_CURRICULUM_LIST]: false,
     [CREATE_CURRICULLUM]: false,
     [UPDATE_CURRICULUM]: false,
+    [DELETE_CURRICULUM]: false,
   },
 };
 
@@ -24,6 +27,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case DELETE_CURRICULUM:
     case UPDATE_CURRICULUM:
     case CREATE_CURRICULLUM:
     case FETCH_MY_CURRICULUM_LIST: {
