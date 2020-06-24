@@ -11,7 +11,6 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
-  AccordionItemState,
   resetNextUuid
 } from 'react-accessible-accordion';
 
@@ -286,7 +285,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
                 .catch(reason => setCover(book.cover));
             }}
           >
-            수정
+            책표지 변경
           </button>
         </div>
 
@@ -377,6 +376,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
                 }
               }}
             ></textarea>
+             <div style={{color:'red'}}>문제집 판매 중, 문제집에 변경사항이 존재 할 경우 이곳에 적어주세요.</div>
           </div>
         </div>
         <div style={{ marginLeft: 100, marginTop: 50 }}>
@@ -675,7 +675,6 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                   {   
                   subChapters.map(subChapter => {
                     //etSubChapterId(subChapter.subChapterId);
-                    console.log(subChapter);
 
                     const subChapterId = subChapter.subChapterId;
 
@@ -755,10 +754,9 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
       });
 
       setProblems(data.data);
-      console.log(problems);
-      console.log(data.data);
+
     };
-    console.log(problems);
+
 
     if (subChapterId) {
       fetchData();
@@ -766,18 +764,15 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   }, [subChapterId]);
 
   function handleCheck(value){
-    console.log(value);
     setProblems(problems=> {
       return [...problems, value.formValue];
     });
-    console.log(totalCheck);
     setTotalCheck(!totalCheck);
   }
   function handleEdit(value){
     setProblems(problems=> {
       return [...problems];
     });
-    console.log(totalCheck);
     setTotalCheck(!totalCheck);
   }
 
@@ -794,14 +789,14 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
                   {problem.problemNumber}
                 </AccordionItemButton>
               </AccordionItemHeading>
-              <AccordionItemState>
-         {({ expanded }) => (
-              <AccordionItemPanel className={expanded ? 'foo' : 'foo foo--hidden'}>
-                {console.log(expanded)}
+              
+      
+              <AccordionItemPanel >
+
                 <ProblemItem clickHandler={handleEdit} setBooks={setBooks} prevProblem={problem} setTotalCheck={setTotalCheck} totalCheck={totalCheck} setProblems={setProblems} problems={problems} />
               </AccordionItemPanel>
-              )}
-              </AccordionItemState>
+              
+              
             </AccordionItem>
           );
         })}
@@ -839,29 +834,31 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
     <div>
       {!problem.isMath ? (
         <div>
-          <p>문제 제목 {problem.title}</p>
-          <div style={{ borderWidth: 2, borderColor: 'gray' }}>
+          <p>
+            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 제목</div> <div style={{padding :5, border: '1px solid black'}}>{problem.title}</div></p>
+          <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="사진이 없습니다." />
-          </div>
-          <p>문제 내용 {problem.content}</p>
+          </p>
+          <p>
+          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 내용</div><div style={{padding :5, border: '1px solid black'}}>{problem.content}</div>
+
           {problem.isOptional ? (
-            <div>
+            <div style={{padding :5, border: '1px solid black'}}>
               <p>객관식 1번 {problem.option1}</p>
               <p>객관식 2번 {problem.option2}</p>
               <p>객관식 3번 {problem.option3}</p>
               <p>객관식 4번 {problem.option4}</p>
               <p>객관식 5번 {problem.option5}</p>
             </div>
-          ) : null}
-          <p>문제 답 {problem.answer}</p>
-          <p>문제 해설 {problem.solution}</p>
+          ) : null}</p>
+          <p><div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 정답</div><div style={{padding :5, border: '1px solid black'}}>{problem.answer}</div></p>
+          <p ><div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 해설</div><div style={{padding :5, border: '1px solid black'}}>{problem.solution}</div></p>
           <Modal>
             {({ openModal }) => (
               <>
                 <br />
                 <button
-                  style={{ marginRight: 10 }}
-                  primary
+                  style={{cursor: 'pointer', marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)'}}
                   onClick={() =>
                     openModal(UPDATE_PROBLEM, {
                       problem,
@@ -886,7 +883,7 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
             )}
           </Modal>
           <button
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)' }}
             primary
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
@@ -902,33 +899,38 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
         </div>
       ) : (
         <div>
-          <p>문제 제목 </p>
-          <Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex>
-          <div style={{ borderWidth: 2, borderColor: 'gray' }}>
+          <p>
+            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 제목</div> <div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex></div>
+          </p>
+          <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
             <img width={300} src={problem.image} alt="사진이 없습니다." />
-          </div>
-          <p>문제 내용</p>
-          <Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex>
+          </p>
+          <p>
+            <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 내용</div> <div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex></div>
           {problem.isOptional ? (
-            <div>
+            <div style={{padding :5, border: '1px solid black'}}>
               <p>객관식 1번 {JSON.parse(problem.option1)}</p>
               <p>객관식 2번 {JSON.parse(problem.option2)}</p>
               <p>객관식 3번 {JSON.parse(problem.option3)}</p>
               <p>객관식 4번 {JSON.parse(problem.option4)}</p>
               <p>객관식 5번 {JSON.parse(problem.option5)}</p>
             </div>
-          ) : null}
+          ) : null}</p>
           <p>
-            <Latex delimiters={delimeters}> 문제 답 : {problem.answer}</Latex>
+          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 정답</div><div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{problem.answer}</Latex></div>
+            
           </p>
-          <p>문제 해설</p>
-          <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
+          <p>
+          <div style={{padding :5, border: '1px solid black', borderTopRightRadius:5, borderTopLeftRadius:5,borderBottomColor:'white' , backgroundColor:'rgb(220,220,220)'}}>문제 해설</div><div style={{padding :5, border: '1px solid black'}}><Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex></div>
+            
+          </p>
+          
           <Modal>
             {({ openModal }) => (
               <>
                 <br />
                 <button
-                  style={{ marginRight: 10 }}
+                  style={{cursor: 'pointer', marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)'}}
                   primary
                   onClick={() =>
                     openModal(UPDATE_PROBLEM, {
@@ -953,7 +955,7 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
             )}
           </Modal>
           <button
-            style={{ cursor: 'point' }}
+            style={{ cursor: 'pointer',marginRight: 20, padding:10, margin:5,borderRadius:5 , borderColor:'white', backgroundColor:'rgb(220,220,220)' }}
             primary
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {

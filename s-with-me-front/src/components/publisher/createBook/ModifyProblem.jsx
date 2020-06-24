@@ -4,8 +4,7 @@ import './ModifyProblem.css';
 
 import Form from '../../../common-ui/Form';
 
-import CheckBox from '../../../common-ui/CheckBox';
-import Button from '../../../common-ui/Button';
+import {Button, Checkbox} from 'semantic-ui-react';
 import Api from '../../../Api';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
@@ -101,7 +100,10 @@ export default class ModifyProblem extends PureComponent {
       };
  
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => console.log(data),
+        this.props.doneCallback({
+          formValue
+        }),)
         .catch(error => console.log(error.message));
     } else {
       const formValue = {
@@ -240,7 +242,7 @@ export default class ModifyProblem extends PureComponent {
                   {({ onChange, values }) => (
                     <div style={{ overflow: 'outo', display: 'flex', flexDirection: 'column' }}>
                       <div
-                        style={{ display: 'flex', flexDirection: 'column', border: '1px solid' }}
+                        style={{ display: 'flex', flexDirection: 'column',  }}
                       >
                         <div
                           style={{
@@ -250,7 +252,7 @@ export default class ModifyProblem extends PureComponent {
                             alignItems: 'center',
                           }}
                         >
-                          <CheckBox
+                          <Checkbox
                             label="수식 입력하기"
                             onChange={() => this.setState({ isMath: !isMath })}
                             checked={isMath}
@@ -299,7 +301,7 @@ export default class ModifyProblem extends PureComponent {
                                 {solution_preview}
                               </div>
 
-                              <CheckBox
+                              <Checkbox
                                 label="객관식 문제입니까?"
                                 onChange={() => this.handleOptional()}
                                 checked={isOptional}
@@ -325,7 +327,7 @@ export default class ModifyProblem extends PureComponent {
                               />
                             </div>
 
-                            <Button>수정</Button>
+                            <Button style={{marginBottom:5, flex:1}}>수정</Button>
                           </div>
                         ) : (
                           <div>
@@ -375,7 +377,7 @@ export default class ModifyProblem extends PureComponent {
                                 {solution_preview}
                               </div>
 
-                              <CheckBox
+                              <Checkbox
                                 label="객관식 문제입니까?"
                                 onChange={() => this.handleOptional()}
                                 checked={isOptional}
@@ -440,8 +442,8 @@ export default class ModifyProblem extends PureComponent {
                                 name="solution"
                               />
                             </div>
-                            <div>
-                              <Button>수정</Button>
+                            <div >
+                              <Button style={{marginBottom:5, flex:1}}>수정</Button>
                             </div>
                           </div>
                         )}
@@ -450,13 +452,13 @@ export default class ModifyProblem extends PureComponent {
                   )}
                 </Form.Consumer>
               </Form>
-              <button
+              <Button
                 onClick={() => {
                   closeModal();
                 }}
               >
                 닫기
-              </button>
+              </Button>
             </div>
           )}
         </Modal>
