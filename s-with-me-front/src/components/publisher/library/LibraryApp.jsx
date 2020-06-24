@@ -47,7 +47,7 @@ const LibraryApp = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex',flex:1,maxWidth:"80%"}}>
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
@@ -57,6 +57,7 @@ const LibraryApp = () => {
                 openModal(CREATE_BOOK, {
                   publisherId: publisherId,
                   doneCallback: addedbook => {
+                    console.log(addedbook);
                     setBooks(olddata => {
                       return [...olddata, addedbook];
                     });
@@ -189,6 +190,8 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   //const [subject,setSubject] = useState(book.subject);
   //const [grade,setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
+  
+
 
   useEffect(() => {
     setName(book.name ? book.name : '');
@@ -431,7 +434,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
             setBooks={setBooks}
             totalCheck={totalCheck}
             setTotalCheck={setTotalCheck}
-            
+
           />
         </div>
         {/* {selectedSubChapter !== null && (
@@ -442,9 +445,10 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   );
 };
 
-export const ChapterInfo = ({ bookId, onClick, setBooks,setTotalCheck,totalCheck }) => {
+export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
+  let updateData;
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/library/book/${bookId}/chapters`);
@@ -521,12 +525,14 @@ export const ChapterInfo = ({ bookId, onClick, setBooks,setTotalCheck,totalCheck
       <Accordion allowZeroExpanded={true}>
         {chapters.map(chapter => {
           const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
+          if(mainChapterId!==0){
           return (
+            
             <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <AccordionItemHeading
                   style={{ flex: 4, cursor: 'pointer' }}
-                  onClick={() => onClick(null)}
+                  
                 >
                   <AccordionItemButton
                     style={{ button: 'focus', outline: 'none', cursor: 'point' }}
@@ -548,9 +554,9 @@ export const ChapterInfo = ({ bookId, onClick, setBooks,setTotalCheck,totalCheck
                     Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
                       mainChapterId,
                     }).then(
-                      setChapters(prev => {
-                        return [...prev];
-                      }),
+                      setTotalCheck(!totalCheck),
+                      setChapters(chapters.filter( chapter => chapter.mainChapterResponseDto.mainChapterId !== mainChapterId))
+                   
                     )
                   }
                 >
@@ -560,7 +566,7 @@ export const ChapterInfo = ({ bookId, onClick, setBooks,setTotalCheck,totalCheck
               
               <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
             </AccordionItem>
-          );
+          );} 
         })}
       </Accordion>
     </div>
@@ -660,6 +666,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                   {   
                   subChapters.map(subChapter => {
                     //etSubChapterId(subChapter.subChapterId);
+                    console.log(subChapter);
 
                     const subChapterId = subChapter.subChapterId;
 
@@ -706,9 +713,8 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                                     subChapterId,
                                   },
                                 ).then(
-                                  setSubChapters(prev => {
-                                    return [...prev];
-                                  }),
+                                  setTotalCheck(!totalCheck),
+                                  setSubChapters(subChapters.filter( subChapter => subChapter.subChapterId !== subChapterId))
                                 )
                               }
                             >

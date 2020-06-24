@@ -19,6 +19,14 @@ const CreateBookPage = props => {
   //const isOnSale=false;
   const [introduction, setIntroduction] = useState('');
   const { publisherId, doneCallback } = props;
+  let today = new Date();   
+  let month = today.getMonth() + 1;  // 월
+  let date = today.getDate();  // 날짜
+  let year = today.getFullYear(); // 년도
+  const publishedDate=(year+'-'+month+'-'+date);
+  console.log(publishedDate);
+ 
+
 
   function handleSubjectChange(e) {
     setSubject(e.target.value);
@@ -50,8 +58,8 @@ const CreateBookPage = props => {
               onChange={({ target: { value } }) => setName(value)}
             />
             Subject
-            <select defaultValue={'국어'} onChange={handleSubjectChange}>
-              <option selected value="국어">
+            <select defaultValue={'과목을 선택해주세요'} onChange={handleSubjectChange}>
+              <option value="국어">
                 국어
               </option>
               <option value="수학">수학</option>
@@ -94,7 +102,8 @@ const CreateBookPage = props => {
                   publisherId: publisherId,
                   subject: subject,
                   introduction: introduction,
-                  isOnSale:false
+                  isOnSale:false,
+                  publishedDate:publishedDate,
                 }).then(response => {
                   
                   doneCallback({
