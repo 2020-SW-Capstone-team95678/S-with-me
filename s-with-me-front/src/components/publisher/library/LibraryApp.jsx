@@ -463,6 +463,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
     }
   }, [bookId]);
   //setChapters(prevChapters);
+  console.log(chapters);
 
   return (
     <div>
@@ -512,7 +513,15 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
                 backgroundColor: 'rgb(255, 245, 238)',
               }}
               primary
-              onClick={() => openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId })}
+              onClick={() => openModal(UPDATE_MAIN_CHAPTER, { 
+                type: 'edit', bookId: bookId ,
+                chapters,
+                  doneCallback: changemain => {
+                    console.log(changemain);
+                    setChapters(changemain.chapters);
+                    console.log(chapters);
+                  },
+              })}
             >
               대단원 수정
             </button>

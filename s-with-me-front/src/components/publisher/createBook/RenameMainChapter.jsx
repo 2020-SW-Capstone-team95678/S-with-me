@@ -13,7 +13,7 @@ import {
 
 
 const RenameMainChapter = props => {
-  const { bookId } = props;
+  const { bookId ,doneCallback} = props;
   const [mainChapterTitle, setMainChapterTitle] = useState('');
   const [chapters, setChapters] = useState([]);
   const [books, setBooks] = useState([]); // 지금은 상태변화를 위해 필요해요. 나중에 다시 바꿀게요.
@@ -56,10 +56,12 @@ const RenameMainChapter = props => {
                 if (e.target.value !== chapter.mainChapterResponseDto.mainChapterName) {
                     chapter.mainChapterResponseDto.mainChapterName=e.target.value;
                   Api.put(`/publisher/library/book/main-chapter/${mainChapterId}`,{ bookId: bookId, mainChapterName:mainChapterTitle})
-                    .then(response =>
-                      setBooks(prev => {
-                        return [...prev];  
-                      }),
+                    .then(response =>{
+                      setChapters(prev => {
+                        return [...prev];
+                      })
+                      
+                    }
                     )
                 }
               }}
@@ -75,6 +77,9 @@ const RenameMainChapter = props => {
 
             <Button
               onClick={() => {
+                doneCallback({
+                  chapters:chapters
+                });
                 closeModal();
               }}
             >
