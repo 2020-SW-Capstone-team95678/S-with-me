@@ -13,7 +13,7 @@ import {
 
 
 const RenameMainChapter = props => {
-  const { bookId, chapter,check,setCheck,doneCallback } = props;
+  const { chapter,check,setCheck,doneCallback } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
   const [subChapters, setSubChapters] = useState(chapter.subChapterResponseDtoList);//상태변화에 필요
 

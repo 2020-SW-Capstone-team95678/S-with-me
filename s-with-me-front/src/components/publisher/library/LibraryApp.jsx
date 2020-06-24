@@ -31,8 +31,6 @@ const LibraryApp = () => {
   const [totalCheck,setTotalCheck]=useState(true);
   const publisherId = window.sessionStorage.getItem('publisherId');
 
-  console.log(totalCheck);
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get('/publisher/library/book', {
@@ -185,14 +183,12 @@ const SideBookInfo = ({ book, onClick }) => {
   );
 };
 export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
-  const [selectedSubChapter, setSelectedSubChapter] = useState(null);
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
   //const [subject,setSubject] = useState(book.subject);
   //const [grade,setGrade] = useState(book.grade);
   const [introduction, setIntroduction] = useState(book.introduction);
-  const [chapters, setChapters] = useState([]);
 
   useEffect(() => {
     setName(book.name ? book.name : '');
@@ -206,7 +202,6 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
     //setGrade(book.grade ? book.grade : 1);
     //setSubject(book.subject ? book.subject : "국어");
   }, [book]);
-  console.log(book.bookId);
 
   function handleEnter(event) {
     if (event.keyCode === 13) {
@@ -436,10 +431,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
             setBooks={setBooks}
             totalCheck={totalCheck}
             setTotalCheck={setTotalCheck}
-            prevChapters={chapters}
-            onClick={subChapterId => {
-              setSelectedSubChapter(subChapterId);
-            }}
+            
           />
         </div>
         {/* {selectedSubChapter !== null && (
@@ -450,7 +442,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   );
 };
 
-export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalCheck,totalCheck }) => {
+export const ChapterInfo = ({ bookId, onClick, setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
   useEffect(() => {
@@ -463,7 +455,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
     }
   }, [bookId]);
   //setChapters(prevChapters);
-  console.log(chapters);
+ 
 
   return (
     <div>
@@ -493,7 +485,6 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
                     setChapters(olddata => {
                       return [...olddata, addedmain];
                     });
-                    console.log(chapters);
                   },
                   //setChapters
                 })
@@ -517,9 +508,8 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
                 type: 'edit', bookId: bookId ,
                 chapters,
                   doneCallback: changemain => {
-                    console.log(changemain);
                     setChapters(changemain.chapters);
-                    console.log(chapters);
+
                   },
               })}
             >
@@ -579,7 +569,6 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalChe
 
 export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, setBooks,setTotalCheck,totalCheck }) => {
   const [subChapters, setSubChapters] = useState([]);
-  const [subChapterId,setSubChapterId]=useState("");
  // const lastSubChapters=useRef(subChapters);
   const lastSubChapters=useRef("");
 
@@ -590,16 +579,16 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
       const data = await Api.get(`/publisher/library/book/main-chapter/${mainChapterId}/sub-chapters
       `);
       setSubChapters(data.data);
-      console.log(data.data);
+
     };
     
 
-    console.log(mainChapterId);
+  
     if (mainChapterId) {
       fetchData();
     }
   },[mainChapterId,check]);
-  console.log(subChapters);
+  
   return (
     
 <AccordionItemPanel style={{ cursor: 'pointer' }}>
@@ -629,8 +618,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                                 return [...subChapters, addedsub.subChapterAdd]
                               });
                               lastSubChapters.current=subChapters;
-                              console.log(lastSubChapters);
-                              console.log(addedsub);
+                              
                             },
                             
                           })
@@ -658,7 +646,6 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                             setCheck,
                             check,
                             doneCallback: changesub => {
-                              console.log(changesub);
                               setSubChapters(changesub.subChapters);
                             },
                           })
@@ -675,8 +662,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                     //etSubChapterId(subChapter.subChapterId);
 
                     const subChapterId = subChapter.subChapterId;
-                    console.log(subChapters);
-                    console.log(subChapter);
+
                     return (
                       <>
                         <div

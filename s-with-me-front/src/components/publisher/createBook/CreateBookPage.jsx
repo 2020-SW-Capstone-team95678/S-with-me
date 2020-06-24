@@ -10,7 +10,6 @@ import { Button } from 'semantic-ui-react';
 
 const CreateBookPage = props => {
   //const onUpDate  = props;
-  const [bookId, setBookId] = useState(null);
 
   const [grade, setGrade] = useState(1);
   const [name, setName] = useState('');
@@ -97,7 +96,7 @@ const CreateBookPage = props => {
                   introduction: introduction,
                   isOnSale:false
                 }).then(response => {
-                  setBookId(response.data);
+                  
                   doneCallback({
                     bookId: response.data,
                     cover: cover,

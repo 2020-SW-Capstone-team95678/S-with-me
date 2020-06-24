@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Text from '../../../common-ui/Text';
-import Spacing from '../../../common-ui/Spacing';
-import Input from '../../../common-ui/Input';
-import InlineList from '../../../common-ui/InlineList';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 import Api from '../../../Api';
 import { Button } from 'semantic-ui-react';
-import Select, { Option } from '../../../common-ui/Select';
-import Form from '../../../common-ui/Form';
+
 
 export const ProfileEditPage = props => {
     const { prevPhone,prevGrade,doneCallback,studentId,profile } = props;
