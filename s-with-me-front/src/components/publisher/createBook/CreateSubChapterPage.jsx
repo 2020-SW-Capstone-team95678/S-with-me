@@ -5,12 +5,14 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import { Button } from 'semantic-ui-react';
 
 const CreateSubChapterPage = props => {
-  const { mainChapterId ,doneCallback,mainChapterResponseDto,chapter,prevSub } = props;
+  const { mainChapterId ,doneCallback,prevSubChapters,setCheck,check} = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
-  const [subChapter,setSubChapter]=useState({mainChapterId:"0", subChapterId:"0", subChapterName:"" });
-  const [subChapterResponseDtoList,setSubChapterResponseDtoList]=useState(prevSub);
+  //const [subChapterId, setSubChapterId] = useState(null);
+  const [subChapters,setSubChapters]=useState([prevSubChapters]);
+  const [subChapterAdd,setSubChapter]=useState({mainChapterId:"0", subChapterId:"0", subChapterName:"" });
+  
  
-
+console.log(mainChapterId);
 
 
   return (
@@ -35,24 +37,21 @@ const CreateSubChapterPage = props => {
             <Button
               onClick={() => {
                 Api.post('/publisher/library/book/main-chapter/sub-chapter', {
-                  subChapterName: subChapterTitle,
                   mainChapterId: mainChapterId,
+                  subChapterName: subChapterTitle,
                 }).then(response => {
+                 
 
-                   subChapter.subChapterId= response.data;
-                   subChapter.subChapterName= subChapterTitle;
-                   subChapter.mainChapterId= mainChapterId;
-                   setSubChapterResponseDtoList(prev=>[...prev,subChapter]);
-                   console.log(subChapter);
-                   console.log(subChapterResponseDtoList);
+                   subChapterAdd.subChapterName= subChapterTitle;
+                   subChapterAdd.mainChapterId= mainChapterId;
+                   subChapterAdd.subChapterId=response.data;
+                
                    
                   
-
-                  
                   doneCallback({
-                    mainChapterResponseDto,
-                    subChapterResponseDtoList
+                    subChapterAdd
                   });
+                  setCheck(!check);
                   closeModal();
                 });
                 
