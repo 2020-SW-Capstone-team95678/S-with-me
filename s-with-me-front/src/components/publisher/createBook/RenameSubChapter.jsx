@@ -13,9 +13,9 @@ import {
 
 
 const RenameMainChapter = props => {
-  const { bookId, chapter } = props;
+  const { bookId, chapter,check,setCheck,doneCallback } = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
-  const [chapters, setChapters] = useState([]);//상태변화에 필요
+  const [subChapters, setSubChapters] = useState(chapter.subChapterResponseDtoList);//상태변화에 필요
 
 
   return (
@@ -46,7 +46,7 @@ const RenameMainChapter = props => {
                     subChapter.subChapterName=e.target.value;
                   Api.put(`/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,{mainChapterId:mainChapterId, subChapterName:subChapterTitle})
                     .then(response =>
-                      setChapters(prev => {
+                      setSubChapters(prev => {
                         return [...prev];
                       }),
                     )
@@ -64,6 +64,13 @@ const RenameMainChapter = props => {
 
             <Button
               onClick={() => {
+                console.log(subChapters);
+                doneCallback({
+                  
+                  subChapters
+                });
+                setCheck(!check);
+                console.log("here");
                 closeModal();
               }}
             >

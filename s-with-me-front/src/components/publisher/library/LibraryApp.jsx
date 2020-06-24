@@ -28,7 +28,10 @@ import RegisterProblem from '../createBook/RegisterProblem';
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [totalCheck,setTotalCheck]=useState(true);
   const publisherId = window.sessionStorage.getItem('publisherId');
+
+  console.log(totalCheck);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +81,7 @@ const LibraryApp = () => {
       <div style={{ flex: 4, padding: 3 }}>
         {(() => {
           if (selectedBook) {
-            return <BookInfo book={selectedBook} setBooks={setBooks} />;
+            return <BookInfo book={selectedBook} setBooks={setBooks} totalCheck={totalCheck} setTotalCheck={setTotalCheck} />;
           }
         })()}
       </div>
@@ -181,7 +184,7 @@ const SideBookInfo = ({ book, onClick }) => {
     </div>
   );
 };
-export const BookInfo = ({ book, setBooks }) => {
+export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   const [selectedSubChapter, setSelectedSubChapter] = useState(null);
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
@@ -430,6 +433,9 @@ export const BookInfo = ({ book, setBooks }) => {
         <div id="main">
           <ChapterInfo
             bookId={book.bookId}
+            setBooks={setBooks}
+            totalCheck={totalCheck}
+            setTotalCheck={setTotalCheck}
             prevChapters={chapters}
             onClick={subChapterId => {
               setSelectedSubChapter(subChapterId);
@@ -444,7 +450,7 @@ export const BookInfo = ({ book, setBooks }) => {
   );
 };
 
-export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
+export const ChapterInfo = ({ bookId, onClick, prevChapters,setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
   useEffect(() => {
@@ -553,7 +559,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
                 </button>
               </div>
               
-              <SubChapterInfo mainChapterId={mainChapterId} chapter={chapter} check={check} setCheck={setCheck} />
+              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
             </AccordionItem>
           );
         })}
@@ -562,7 +568,7 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
   );
 };
 
-export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, prevChapters }) => {
+export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, setBooks,setTotalCheck,totalCheck }) => {
   const [subChapters, setSubChapters] = useState([]);
   const [subChapterId,setSubChapterId]=useState("");
  // const lastSubChapters=useRef(subChapters);
@@ -640,6 +646,12 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                             type: 'edit',
                             chapter: chapter,
                             bookId: chapter.bookId,
+                            setCheck,
+                            check,
+                            doneCallback: changesub => {
+                              console.log(changesub);
+                              setSubChapters(changesub.subChapters);
+                            },
                           })
                         }
                       >
@@ -684,6 +696,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                                 minHeight: 50,
                                 cursor: 'pointer',
                               }}
+                              
                              
                             >
                               {subChapter.subChapterName}
@@ -707,7 +720,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
                               삭제
                             </button>
                           </div>
-                          <ProblemInfo subChapterId={subChapter.subChapterId} />
+                          <ProblemInfo subChapterId={subChapter.subChapterId} setBooks={setBooks} setTotalCheck={setTotalCheck} totalCheck={totalCheck} />
                         </div>
                         <br></br>
                       </>
@@ -721,7 +734,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
 
 
 
-const ProblemInfo = ({ subChapterId, setBooks }) => {
+const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   const [problems, setProblems] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -738,6 +751,11 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
       fetchData();
     }
   }, [subChapterId]);
+
+  function handleCheck(value){
+    console.log(totalCheck);
+    setTotalCheck(!totalCheck);
+  }
 
   return (
     <div>
@@ -764,7 +782,7 @@ const ProblemInfo = ({ subChapterId, setBooks }) => {
             <AccordionItemButton>문제 추가하기</AccordionItemButton>
           </AccordionItemHeading>
           <AccordionItemPanel>
-            <RegisterProblem subChapterId={subChapterId} />
+            <RegisterProblem subChapterId={subChapterId} clickHandler={handleCheck} setTotalCheck={setTotalCheck} totalCheck={totalCheck}  />
           </AccordionItemPanel>
         </AccordionItem>
       </Accordion>
