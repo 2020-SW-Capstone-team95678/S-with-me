@@ -1,35 +1,32 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css, withStylesPropTypes } from '../../common-ui/withStyles';
+
 import logo from '../../common-ui/logo.png';
-import Button from '../../common-ui/Button';
+import { Button, Icon, Divider } from 'semantic-ui-react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookReader } from '@fortawesome/free-solid-svg-icons';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 export const HEIGHT = 80;
 
 class AppNav extends PureComponent {
   constructor(props) {
     super(props);
     this.handleLogout = this.handleLogout.bind(this);
-    this.state = { isLogin: true };
   }
 
   handleLogout() {
     window.sessionStorage.clear();
-    this.setState({ isLogin: false });
+    this.props.setLogged(false);
   }
+
   render() {
     const { styles } = this.props;
     const activeStyle = {
       fontWeight: 'bold',
-      color: '#9C2D17',
-      fontSize: '2rem',
+      color: '#FF4A25',
+      fontSize: '1.5rem',
     };
-    return (
-      
+    if (this.props.logged) {
+      return (
         <div>
           <div {...css(styles.wrapper)}>
             <div style={{ display: 'flex' }} {...css(styles.container)}>
@@ -47,10 +44,10 @@ class AppNav extends PureComponent {
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >
                   <div
-                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
+                    style={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}
                   >
-                    <FontAwesomeIcon icon={faBookReader} size="lg" />
-                    <div {...css(styles.navTitle)}>서재</div>
+                    <Icon name="book" />
+                    서재
                   </div>
                 </NavLink>
               </div>
@@ -60,29 +57,32 @@ class AppNav extends PureComponent {
                   activeStyle={activeStyle}
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >
-                  <div
-                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}
-                  >
-                    <FontAwesomeIcon icon={faUserCircle} size="lg" />
-                    <div {...css(styles.navTitle)}>프로필</div>
-                    {/* <div id="install-button">
-                      <Button circular icon="arrow alternate circle down" />
-                    </div> */}
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon name="user circle" />
+                    프로필
                   </div>
                 </NavLink>
               </div>
               <NavLink to="/">
                 <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 10 }}>
-                  <Button small onPress={() => this.handleLogout()}>
-                    Logout
-                  </Button>
+                  <Button
+                    circular
+                    basic
+                    color="black"
+                    onClick={() => this.handleLogout()}
+                    icon="sign-out"
+                    content="Logout"
+                  />
                 </div>
               </NavLink>
             </div>
+            <Divider fitted />
           </div>
         </div>
-
-    );
+      );
+    } else {
+      return <Redirect to="/" />;
+    }
   }
 }
 
@@ -90,9 +90,8 @@ AppNav.propTypes = {
   ...withStylesPropTypes,
 };
 
-export default withStyles(({ color, depth, unit }) => ({
+export default withStyles(({ unit, responsive }) => ({
   wrapper: {
-    ...depth.level1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -101,7 +100,7 @@ export default withStyles(({ color, depth, unit }) => ({
     left: 0,
     width: '100%',
     height: HEIGHT - 4,
-    backgroundColor: color.secondary,
+    backgroundColor: '#f5f5f5',
   },
   container: {
     display: 'flex',

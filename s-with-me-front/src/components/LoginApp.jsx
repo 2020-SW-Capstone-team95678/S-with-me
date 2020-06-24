@@ -19,7 +19,7 @@ class LoginApp extends react.PureComponent {
   handleSubmit(values) {
     const { setUser, history, setUserType, setLogged } = this.props;
     const { isStudent, isPublisher } = this.state;
-    if (isStudent || isMobile) {
+    if ((isStudent && !isPublisher) || isMobile) {
       setUser(true, values, () => {
         history.push('/');
         window.sessionStorage.setItem('studentId', this.props.user.studentId);
@@ -31,7 +31,7 @@ class LoginApp extends react.PureComponent {
         setLogged(true);
       });
     }
-    if (isPublisher) {
+    if (isPublisher && !isStudent) {
       setUser(false, values, () => {
         history.push('/');
         window.sessionStorage.setItem('publisherId', this.props.user.publisherId);

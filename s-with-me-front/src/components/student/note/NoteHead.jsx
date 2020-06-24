@@ -25,20 +25,10 @@ export default class NoteHead extends PureComponent {
             this.props.handleViewOrigin();
           }}
         />
-        <Dropdown
-          item
-          text="폴더별 보기"
-          active={activeItem === 'folder'}
-          onClick={() => this.setState({ activeItem: 'folder' })}
-        >
+        <Dropdown item text="폴더별 보기" onClick={() => this.setState({ activeItem: 'folder' })}>
           {activeItem === 'folder' ? <NoteFolderFilterContainer /> : null}
         </Dropdown>
-        <Dropdown
-          item
-          text="과목별 보기"
-          active={activeItem === 'subject'}
-          onClick={() => this.setState({ activeItem: 'subject' })}
-        >
+        <Dropdown item text="과목별 보기" onClick={() => this.setState({ activeItem: 'subject' })}>
           {activeItem === 'subject' ? <NoteSubjectFilterContainer /> : null}
         </Dropdown>
       </Menu>

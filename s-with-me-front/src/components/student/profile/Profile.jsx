@@ -85,7 +85,7 @@ export const StudentProfile =()=>  {
                   <div style={{ display: 'flex' }}>
                     <InlineList spacingBetween={1} style={{ flex: 3 }}>
                       <Select name="PayFilter" onChange={onChange}>
-                        <Option label="조회 기간 설정" />
+                        <Option label="조회 기간 설정" value=" " />
                         <Option label="최근 30일" value="onemonth" />
                         <Option label="최근 6개월" value="sixmonth" />
                       </Select>

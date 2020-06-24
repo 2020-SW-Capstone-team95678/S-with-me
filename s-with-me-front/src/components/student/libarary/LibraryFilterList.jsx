@@ -25,7 +25,7 @@ export default class LibraryFilterList extends PureComponent {
         <LibraryFilterContainer selectFilter={this.selectFilter} />
         {filter === 'subject' ? (
           <LibrarySubjectTableContainer subjectList={subjects} />
-        ) : (
+        ) : filter === 'latest' || filter === 'alphabet' ? null : (
           <LibraryFolderTableContainer folders={folders} />
         )}
       </div>
