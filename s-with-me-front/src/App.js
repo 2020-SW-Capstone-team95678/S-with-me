@@ -156,8 +156,7 @@ export default class App extends PureComponent {
                   exact
                   render={() => <LoginContainer setUserType={this.setUserType} logged={logged} />}
                 />
-
-                <PAppLayout>
+                <PAppLayout logged={logged} setLogged={this.setLogged}>
                   <Route path="/profile" render={() => <ProfilePublisher />} />
                   <Route path="/library" render={() => <LibraryApp />} />
                   <Route path="/register-problem" render={() => <RegisterProblem />} />

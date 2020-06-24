@@ -99,7 +99,7 @@ class AppNav extends PureComponent {
                     basic
                     color="black"
                     onClick={() => this.handleLogout()}
-                    icon="logout"
+                    icon="sign-out"
                     content={isMobileOnly ? null : 'Logout'}
                   />
                 </div>

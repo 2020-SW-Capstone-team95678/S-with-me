@@ -34,7 +34,7 @@ export default class NoteFolderFilter extends PureComponent {
               <Select name="noteFolderFilter" onChange={onChange} value={values['folder']}>
                 <Option label="선택해 주세요" value="" />
                 {folderList.map(({ folderId, folderName }) => (
-                  <Option label={folderName} value={folderId} />
+                  <Option label={folderName} value={folderId} key={folderId} />
                 ))}
               </Select>
               <Button size="tiny" icon="search" circular basic color="black" />

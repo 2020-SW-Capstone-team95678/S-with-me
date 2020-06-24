@@ -28,10 +28,11 @@ export default class ChapterList extends PureComponent {
               <List.List>
                 {subChapters.map((subChapter, index) => (
                   <Link
+                    key={index}
                     to={`/library/myBook/${myBookId}/solve/${subChapter.subChapterId}`}
                     style={{ textDecoration: 'none', color: 'black' }}
                   >
-                    <List.Item key={index}>
+                    <List.Item>
                       <Heading level={4}>
                         <FontAwesomeIcon icon={faEdit} style={{ paddingRight: 2 }} />
                         {subChapter.subChapterName}

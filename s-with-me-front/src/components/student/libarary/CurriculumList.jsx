@@ -23,7 +23,7 @@ export default class CurriculumList extends PureComponent {
             <List.Content verticalAlign="middle">
               <div style={{ paddingTop: 15 }} />
               <Heading level={4}>
-                <Icon name="calendar alternate outline" verticalAlign="middle" />이 달의 목표
+                <Icon name="calendar alternate outline" />이 달의 목표
               </Heading>
             </List.Content>
           </List.Item>
@@ -45,7 +45,7 @@ export default class CurriculumList extends PureComponent {
           <List.Item>
             <List.Content verticalAlign="middle">
               <Heading level={4}>
-                <Icon name="calendar minus outline" verticalAlign="middle" />이 주의 목표
+                <Icon name="calendar minus outline" />이 주의 목표
               </Heading>
             </List.Content>
           </List.Item>
@@ -63,7 +63,7 @@ export default class CurriculumList extends PureComponent {
           <List.Item>
             <List.Content verticalAlign="middle">
               <Heading level={4}>
-                <Icon name="calendar check outline" verticalAlign="middle" />
+                <Icon name="calendar check outline" />
                 오늘의 목표
               </Heading>
             </List.Content>

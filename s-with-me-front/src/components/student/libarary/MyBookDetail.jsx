@@ -19,6 +19,7 @@ class MyBookDetail extends PureComponent {
       book: {},
       curriculum: {},
       achievement: -1,
+      totalAchievement: -1,
       myBook: {},
       visible: false,
       shouldUpdate: false,
@@ -48,6 +49,11 @@ class MyBookDetail extends PureComponent {
     }).then(({ data }) => {
       if (this._isMounted) this.setState({ achievement: data });
     });
+    Api.get('/student/library/mybook/achievement', {
+      params: { myBookId: myBookId },
+    }).then(({ data }) => {
+      if (this._isMounted) this.setState({ totalAchievement: data });
+    });
   }
   setUpdate = () => {
     this.setState({ shouldUpdate: true });
@@ -74,12 +80,13 @@ class MyBookDetail extends PureComponent {
   }
 
   render() {
-    const { book, myBook, curriculum, achievement, visible } = this.state;
+    const { book, myBook, curriculum, achievement, visible, totalAchievement } = this.state;
     const { myBookId } = this.props.match.params;
     const { lastPageNumber, lastSubChapterId } = myBook;
     const { grade, subject, name, cover, introduction } = book;
     const targetRef = React.createRef();
     let achievementColor = '';
+    let totalAchievementColor = '';
 
     if (achievement <= 33) {
       achievementColor = 'red';
@@ -88,10 +95,19 @@ class MyBookDetail extends PureComponent {
     } else if (achievement <= 99) {
       achievementColor = 'blue';
     }
+
+    if (totalAchievement <= 33) {
+      totalAchievementColor = 'red';
+    } else if (totalAchievement <= 66) {
+      totalAchievementColor = 'yellow';
+    } else if (totalAchievement <= 99) {
+      totalAchievementColor = 'blue';
+    }
+
     if (isMobileOnly) {
       return (
-        <Sidebar.Pushable as="card">
-          <div style={{ display: 'flex' }}>
+        <Sidebar.Pushable as="div">
+          <div style={{ display: 'flex', height: window.innerHeight - 80 }}>
             <Sidebar
               as={Card}
               animation="slide along"
@@ -107,7 +123,7 @@ class MyBookDetail extends PureComponent {
                   </Card.Content>
                   <Card.Content>
                     <Card.Meta>
-                      <Text large>{name}</Text>
+                      <Text large>{name || ' '}</Text>
                       <Label icon="graduation" content={grade + '학년'} />
                       <Label icon="tags" content={subject} />
                     </Card.Meta>
@@ -151,10 +167,10 @@ class MyBookDetail extends PureComponent {
                     )}
                   </Card.Content>
                 </Card>
-                {curriculum.type !== 'monthly' ? (
+                {curriculum.type === 'daily' || curriculum.type === 'weekly' ? (
                   <Card centered>
                     <Card.Content textAlign="center">
-                      <Heading level={6}>달성도</Heading>
+                      <Heading level={6}>목표 달성도</Heading>
                     </Card.Content>
                     <Card.Content>
                       {achievement === 100 ? (
@@ -168,7 +184,24 @@ class MyBookDetail extends PureComponent {
                       )}
                     </Card.Content>
                   </Card>
-                ) : null}
+                ) : (
+                  <Card centered>
+                    <Card.Content textAlign="center">
+                      <Heading level={6}>이 책의 진행률</Heading>
+                    </Card.Content>
+                    <Card.Content>
+                      {totalAchievement === 100 ? (
+                        <Progress percent={100} color="green" success>
+                          계획 수행 완료! 정말 멋져요!
+                        </Progress>
+                      ) : (
+                        <Progress percent={totalAchievement} color={totalAchievementColor} progress>
+                          아자 아자 화이팅!
+                        </Progress>
+                      )}
+                    </Card.Content>
+                  </Card>
+                )}
               </div>
             </Sidebar>
             <Ref innerRef={targetRef}>
@@ -204,7 +237,7 @@ class MyBookDetail extends PureComponent {
               </Card.Content>
               <Card.Content>
                 <Card.Meta>
-                  <Text large>{name}</Text>
+                  <Text large>{name || ' '}</Text>
                   <Label icon="graduation" content={grade + '학년'} />
                   <Label icon="tags" content={subject} />
                 </Card.Meta>
@@ -248,10 +281,10 @@ class MyBookDetail extends PureComponent {
                 )}
               </Card.Content>
             </Card>
-            {curriculum.type !== 'monthly' ? (
+            {curriculum.type === 'daily' || curriculum.type === 'weekly' ? (
               <Card centered>
                 <Card.Content textAlign="center">
-                  <Heading level={6}>달성도</Heading>
+                  <Heading level={6}>목표 달성도</Heading>
                 </Card.Content>
                 <Card.Content>
                   {achievement === 100 ? (
@@ -265,7 +298,24 @@ class MyBookDetail extends PureComponent {
                   )}
                 </Card.Content>
               </Card>
-            ) : null}
+            ) : (
+              <Card centered>
+                <Card.Content textAlign="center">
+                  <Heading level={6}>이 책의 진행률</Heading>
+                </Card.Content>
+                <Card.Content>
+                  {totalAchievement === 100 ? (
+                    <Progress percent={100} color="green" success>
+                      계획 수행 완료! 정말 멋져요!
+                    </Progress>
+                  ) : (
+                    <Progress percent={totalAchievement} color={totalAchievementColor} progress>
+                      아자 아자 화이팅!
+                    </Progress>
+                  )}
+                </Card.Content>
+              </Card>
+            )}
           </div>
           <div style={{ flex: 3 }}>
             <Link

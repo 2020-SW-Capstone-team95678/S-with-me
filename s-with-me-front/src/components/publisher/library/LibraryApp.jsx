@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
@@ -29,7 +29,7 @@ import RegisterProblem from '../createBook/RegisterProblem';
 const LibraryApp = () => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [totalCheck,setTotalCheck]=useState(true);
+  const [totalCheck, setTotalCheck] = useState(true);
   const publisherId = window.sessionStorage.getItem('publisherId');
 
   useEffect(() => {
@@ -81,7 +81,14 @@ const LibraryApp = () => {
       <div style={{ flex: 4, padding: 3 }}>
         {(() => {
           if (selectedBook) {
-            return <BookInfo book={selectedBook} setBooks={setBooks} totalCheck={totalCheck} setTotalCheck={setTotalCheck} />;
+            return (
+              <BookInfo
+                book={selectedBook}
+                setBooks={setBooks}
+                totalCheck={totalCheck}
+                setTotalCheck={setTotalCheck}
+              />
+            );
           }
         })()}
       </div>
@@ -184,7 +191,9 @@ const SideBookInfo = ({ book, onClick }) => {
     </div>
   );
 };
+
 export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
+
   const [name, setName] = useState(book.name);
   const [cover, setCover] = useState(book.cover);
   const [price, setPrice] = useState(book.price);
@@ -447,9 +456,11 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
   );
 };
 
+
 export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -515,14 +526,17 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
                 backgroundColor: 'rgb(255, 245, 238)',
               }}
               primary
-              onClick={() => openModal(UPDATE_MAIN_CHAPTER, { 
-                type: 'edit', bookId: bookId ,
-                chapters,
+              onClick={() =>
+                openModal(UPDATE_MAIN_CHAPTER, {
+                  type: 'edit',
+                  bookId: bookId,
+                  chapters,
                   doneCallback: changemain => {
                     setChapters(changemain.chapters);
 
                   },
-              })}
+                })
+              }
             >
               대단원 수정
             </button>
@@ -573,7 +587,9 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
                   삭제
                 </button>
               </div>
+
               <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
+
             </AccordionItem>
           );} 
         })}
@@ -582,26 +598,37 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
   );
 };
 
-export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, setBooks,setTotalCheck,totalCheck }) => {
+export const SubChapterInfo = ({
+  mainChapterId,
+  onClick,
+  check,
+  setCheck,
+  chapter,
+  setBooks,
+  setTotalCheck,
+  totalCheck,
+}) => {
   const [subChapters, setSubChapters] = useState([]);
+
  // const lastSubChapters=useRef(subChapters);
   const lastSubChapters=useRef("");
 
   useEffect(() => {
-    
-  
     const fetchData = async () => {
       const data = await Api.get(`/publisher/library/book/main-chapter/${mainChapterId}/sub-chapters
       `);
       setSubChapters(data.data);
 
     };
+
     resetNextUuid();
+
 
   
     if (mainChapterId) {
       fetchData();
     }
+
   },[mainChapterId]);
   
   return (
@@ -743,7 +770,76 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
 
 
 
-const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
+          const subChapterId = subChapter.subChapterId;
+          console.log(subChapters);
+          console.log(subChapter);
+          return (
+            <>
+              <div
+                style={{
+                  border: 'solid',
+                  borderColor: 'rgba(185, 176, 176, 0.87)',
+                  borderRadius: 5,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flex: 4,
+                      textAlign: 'center',
+                      alignItems: 'center',
+                      justifyContent: 'centr',
+                      flexDirection: 'row',
+                      backgroundColor: 'rgb(255, 245, 238)',
+                      paddingLeft: 20,
+
+                      minHeight: 50,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {subChapter.subChapterName}
+                  </div>
+                  <button
+                    style={{ flex: 1, cursor: 'pointer', border: 'none' }}
+                    primary
+                    onClick={() =>
+                      Api.delete(
+                        `/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,
+                        {
+                          subChapterId,
+                        },
+                      ).then(
+                        setSubChapters(prev => {
+                          return [...prev];
+                        }),
+                      )
+                    }
+                  >
+                    삭제
+                  </button>
+                </div>
+                <ProblemInfo
+                  subChapterId={subChapter.subChapterId}
+                  setBooks={setBooks}
+                  setTotalCheck={setTotalCheck}
+                  totalCheck={totalCheck}
+                />
+              </div>
+              <br></br>
+            </>
+          );
+        })}
+      </div>
+    </AccordionItemPanel>
+  );
+};
+
+const ProblemInfo = ({ subChapterId, setBooks, setTotalCheck, totalCheck }) => {
   const [problems, setProblems] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -763,6 +859,7 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
     }
   }, [subChapterId]);
 
+
   function handleCheck(value){
     setProblems(problems=> {
       return [...problems, value.formValue];
@@ -773,6 +870,7 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
     setProblems(problems=> {
       return [...problems];
     });
+
     setTotalCheck(!totalCheck);
   }
 
@@ -808,7 +906,12 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
             <AccordionItemButton>문제 추가하기</AccordionItemButton>
           </AccordionItemHeading>
           <AccordionItemPanel>
-            <RegisterProblem subChapterId={subChapterId} clickHandler={handleCheck} setTotalCheck={setTotalCheck} totalCheck={totalCheck}  />
+            <RegisterProblem
+              subChapterId={subChapterId}
+              clickHandler={handleCheck}
+              setTotalCheck={setTotalCheck}
+              totalCheck={totalCheck}
+            />
           </AccordionItemPanel>
         </AccordionItem>
       </Accordion>

@@ -1,63 +1,47 @@
 import React, { useState } from 'react';
 
-import { isMobile } from 'react-device-detect';
 import { Redirect, Link } from 'react-router-dom';
 import logo from '../../logo.png';
 import { Form, Button, Divider, Segment } from 'semantic-ui-react';
-import { validate } from './validate';
+import { publisherValidate } from './validate';
 
-export default function StudentSignUp(props) {
+export default function PublisherSignUp(props) {
   const [complete, setComplete] = useState(false);
   const [userId, setId] = useState('');
   const [checked, setChecked] = useState(false);
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [grade, setGrade] = useState(0);
+  const [code, setCode] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [idError, setIdError] = useState(false);
-  const [gradeError, setGradeError] = useState(false);
-  const [birthDateError, setBirthDateError] = useState(false);
-  const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const [codeError, setCodeError] = useState(false);
   let errors;
-  const gradeOptions = [
-    { key: 1, value: 1, text: '1학년' },
-    { key: 2, value: 2, text: '2학년' },
-    { key: 3, value: 3, text: '3학년' },
-  ];
   const handleId = (e, { value }) => {
     setId(value);
     setChecked(false);
   };
   const handlePassword = (e, { value }) => setPassword(value);
   const handleName = (e, { value }) => setUserName(value);
-  const handleBirthDate = (e, { value }) => setBirthDate(value);
-  const handlePhoneNumber = (e, { value }) => setPhoneNumber(value);
-  const handleGrade = (e, { value }) => setGrade(value);
+  const handleCode = (e, { value }) => setCode(value);
 
   const handleSubmit = () => {
     const form = {
       userId: userId,
       password: password,
       name: userName,
-      birthday: birthDate,
-      phoneNumber: phoneNumber,
-      grade: grade,
+      code: code,
     };
-    errors = validate(form);
+    errors = publisherValidate(form);
     if (errors || !checked || !props.isOnlyId) {
       setIdError(errors['userId']);
       setPasswordError(errors['password']);
-      setGradeError(errors['grade']);
       setNameError(errors['name']);
-      setPhoneNumberError(errors['phoneNumber']);
-      setBirthDateError(errors['birthday']);
+      setCodeError(errors['code']);
     }
     if (errors || errors.length === 0) {
       if (checked && props.isOnlyId) {
-        props.createUser(true, form, () => setComplete(true));
+        props.createUser(false, form, () => setComplete(true));
       }
     }
   };
@@ -67,7 +51,7 @@ export default function StudentSignUp(props) {
     const { checkIdDuplication } = props;
     const formValue = { userId: userId };
     if (userId) {
-      checkIdDuplication(true, formValue, () => {
+      checkIdDuplication(false, formValue, () => {
         setChecked(true);
       });
     }
@@ -82,8 +66,8 @@ export default function StudentSignUp(props) {
             className="content"
             alt="logo"
             style={{
-              width: isMobile ? '50%' : '15%',
-              height: isMobile ? '50%' : '15%',
+              width: '20%',
+              height: '20%',
               resize: 'none',
             }}
           />
@@ -91,7 +75,7 @@ export default function StudentSignUp(props) {
         <Divider />
         <div style={{ padding: 10 }}>
           <Segment>
-            <Form size={isMobile ? 'mini' : 'tiny'} onSubmit={handleSubmit}>
+            <Form size="tiny" onSubmit={handleSubmit}>
               <Form.Field>
                 <Form.Input
                   placeholder="id"
@@ -129,25 +113,12 @@ export default function StudentSignUp(props) {
                 error={nameError}
               />
               <Form.Input
-                placeholder="ex)990101"
-                label="생년월일"
-                value={birthDate}
-                onChange={handleBirthDate}
-                error={birthDateError}
-              />
-              <Form.Input
-                placeholder="ex)01012341234"
-                label="휴대폰 번호"
-                value={phoneNumber}
-                onChange={handlePhoneNumber}
-                error={phoneNumberError}
-              />
-              <Form.Select
-                options={gradeOptions}
-                placeholder="학년 선택"
-                onChange={handleGrade}
-                label="학년"
-                error={gradeError}
+                placeholder="code"
+                type="number"
+                label="출판사 코드"
+                value={code}
+                onChange={handleCode}
+                error={codeError}
               />
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button

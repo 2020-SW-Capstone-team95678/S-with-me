@@ -27,8 +27,8 @@ const PayHistory = () => {
         <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
           <div>
             <ol>
-              {myBooks.map(myBook => {
-                return <BookInfo myBook={myBook} />;
+              {myBooks.map((myBook, index) => {
+                return <BookInfo myBook={myBook} key={index} />;
               })}
             </ol>
           </div>
@@ -138,23 +138,27 @@ export const PayDetail = ({ book, receiptId }) => {
     fetchData();
   }, []);
 
-  return (
-    <>
-      <div
-        style={{ display: 'flex', flexDirection: 'row', border: '2px rgb(255, 245, 238) solid' }}
-      >
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-          <div>
-            <p>문제집 이름 : {book.name}</p>
-            <p>가격 : {book.price}</p>
-            <p>결제 금액 : {payDetail.price}</p>
-            <p>결제 수단 : {payDetail.method_name}</p>
-            <p>결제 시간 : {payDetail.purchased_at}</p>
+  if (payDetail.price) {
+    return (
+      <>
+        <div
+          style={{ display: 'flex', flexDirection: 'row', border: '2px rgb(255, 245, 238) solid' }}
+        >
+          <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+            <div>
+              <p>문제집 이름 : {book.name}</p>
+              <p>가격 : {book.price}</p>
+              <p>결제 금액 : {payDetail.price}</p>
+              <p>결제 수단 : {payDetail.method_name}</p>
+              <p>결제 시간 : {payDetail.purchased_at}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default PayHistory;

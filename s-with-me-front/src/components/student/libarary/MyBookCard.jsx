@@ -38,7 +38,7 @@ export default function MyBookCard(props) {
       <>
         <DragPreviewImage connect={preview} src={bookImage} />
         <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move', paddingLeft: 2 }}>
-          <Card textAlign="center">
+          <Card>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Link to={`/library/myBook/${myBookId}`}>
                 <Image rounded src={cover} size="small" />

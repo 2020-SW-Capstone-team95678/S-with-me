@@ -49,7 +49,6 @@ class LibraryApp extends PureComponent {
               direction="top"
               onHide={() => this.setState({ visible: false })}
               visible={this.state.visible}
-              showFilter={this.state.showFilter}
             >
               {this.state.showFilter ? (
                 <LibraryFilterList
