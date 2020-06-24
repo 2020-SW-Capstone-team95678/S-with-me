@@ -249,7 +249,7 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', }}>
         <div
           style={{
             textAlign: 'center',
@@ -448,17 +448,21 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
 export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
+  const [bookChangeCheck,setBookChangeCheck]=useState(true);
   let updateData;
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/library/book/${bookId}/chapters`);
       setChapters(data.data);
     };
+
     if (bookId) {
       fetchData();
     }
   }, [bookId]);
   //setChapters(prevChapters);
+
+  
  
 
   return (
@@ -564,7 +568,8 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
                 </button>
               </div>
               
-              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
+              {bookChangeCheck?
+              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />:null}
             </AccordionItem>
           );} 
         })}
@@ -593,7 +598,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
     if (mainChapterId) {
       fetchData();
     }
-  },[mainChapterId,check]);
+  },[mainChapterId]);
   
   return (
     
@@ -882,9 +887,8 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
                 problemId,
               }).then(
-                setBooks(prev => {
-                  return [...prev];
-                }),
+                setTotalCheck(!totalCheck),
+                setProblems(problems.filter( problem => problem.problemId !== problemId))
               )
             }
           >
