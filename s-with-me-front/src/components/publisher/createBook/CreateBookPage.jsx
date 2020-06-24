@@ -59,9 +59,7 @@ const CreateBookPage = props => {
             />
             Subject
             <select defaultValue={'과목을 선택해주세요'} onChange={handleSubjectChange}>
-              <option value="국어">
-                국어
-              </option>
+              <option value="국어">국어</option>
               <option value="수학">수학</option>
               <option value="사회">사회</option>
               <option value="과학">과학</option>

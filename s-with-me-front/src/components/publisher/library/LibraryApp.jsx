@@ -737,6 +737,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
 
 const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   const [problems, setProblems] = useState([]);
+  const [problemNumber,setProblemNumber]=useState('');
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get('/publisher/library/book/main-chapter', {
@@ -746,7 +747,10 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
       });
 
       setProblems(data.data);
+      console.log(problems);
+      console.log(data.data);
     };
+    console.log(problems);
 
     if (subChapterId) {
       fetchData();
@@ -754,9 +758,21 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   }, [subChapterId]);
 
   function handleCheck(value){
+    console.log(value);
+    setProblems(problems=> {
+      return [...problems, value.formValue];
+    });
     console.log(totalCheck);
     setTotalCheck(!totalCheck);
   }
+  function handleEdit(value){
+    setProblems(problems=> {
+      return [...problems];
+    });
+    console.log(totalCheck);
+    setTotalCheck(!totalCheck);
+  }
+
 
   return (
     <div>
@@ -770,7 +786,7 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>
-                <ProblemItem setBooks={setBooks} problem={problem} />
+                <ProblemItem clickHandler={handleEdit} setBooks={setBooks} prevProblem={problem} setTotalCheck={setTotalCheck} totalCheck={totalCheck} setProblems={setProblems} problems={problems} />
               </AccordionItemPanel>
             </AccordionItem>
           );
@@ -791,8 +807,19 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   );
 };
 
-const ProblemItem = ({ problem, setBooks }) => {
+const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandler,problems,setProblems }) => {
+  
+  const [problem, setProblem] = useState(prevProblem);
   const problemId = problem.problemId;
+
+  // function handleCheck(value){
+  //   console.log(value);
+  //   setProblem(problem=> {
+  //     return [value.formValue];
+  //   });
+  //   console.log(totalCheck);
+  //   setTotalCheck(!totalCheck);
+  // }
 
   return (
     <div>
@@ -825,6 +852,21 @@ const ProblemItem = ({ problem, setBooks }) => {
                     openModal(UPDATE_PROBLEM, {
                       problem,
                       problemId,
+                      setTotalCheck,
+                      totalCheck,
+                      doneCallback: changeproblem => {
+                        console.log(problem);
+                        console.log(changeproblem);
+                        setProblem(changeproblem.formValue);
+                        setProblems(
+                          problems.map(problem =>
+                            problem.problemId === problemId ? { ...problem, problemNumber:changeproblem.formValue.problemNumber  } : problem
+                          ))
+                        console.log(problems);
+                        setTotalCheck(!totalCheck);
+                        clickHandler(changeproblem.formValue);
+ 
+                      },
                     })
                   }
                 >

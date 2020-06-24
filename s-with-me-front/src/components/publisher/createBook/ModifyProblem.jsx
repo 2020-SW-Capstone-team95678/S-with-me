@@ -28,6 +28,7 @@ export default class ModifyProblem extends PureComponent {
         option4: JSON.parse(problem.option4),
         option5: JSON.parse(problem.option5),
         problemNumber: problem.problemNumber,
+        problemId:problem.problemId,
         solution: JSON.parse(problem.solution),
         title: JSON.parse(problem.title),
         subChapterId: problem.subChapterId,
@@ -47,6 +48,7 @@ export default class ModifyProblem extends PureComponent {
     }
     else{
       this.state = {
+        problemId:problem.problemId,
         content: problem.content,
         answer: problem.answer,
         image: problem.image,
@@ -121,7 +123,12 @@ export default class ModifyProblem extends PureComponent {
 
 
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => console.log(data),
+        this.props.doneCallback({
+          formValue
+        }),
+        
+        )
         .catch(error => console.log(error.message));
     }
   };
@@ -202,8 +209,8 @@ export default class ModifyProblem extends PureComponent {
   };
 
   render() {
-    const { file, previewURL, isOptional, isMath } = this.state;
-    const { problemId, subChapterId, problem } = this.props;
+    const { file, previewURL, isOptional, isMath,problemId } = this.state;
+    const {  subChapterId, problem } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
