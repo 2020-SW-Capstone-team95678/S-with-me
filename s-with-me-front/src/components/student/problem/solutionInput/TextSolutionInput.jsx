@@ -36,13 +36,13 @@ export default function TextSolutionInput(props) {
         </div>
         {isMobile ? (
           <div onClick={show}>
-            <Icon fitted size="large" acircular name="question circle outline" basic />
+            <Icon fitted size="large" name="question circle outline" />
           </div>
         ) : (
           <Popup
             trigger={
               <div onClick={show}>
-                <Icon fitted size="large" acircular name="question circle outline" basic />
+                <Icon fitted size="large" name="question circle outline" />
               </div>
             }
             position="top right"

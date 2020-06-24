@@ -82,7 +82,7 @@ class BookDetail extends PureComponent {
           </div>
         </div>
         {isPayMode ? (
-          <div style={{ flex: 1, padding: 3 }} {...css(styles.box)}>
+          <div style={{ flex: 1, padding: 3 }}>
             <BookPayInputContainer book={book} bookId={bookId} />
           </div>
         ) : null}
@@ -94,10 +94,7 @@ class BookDetail extends PureComponent {
 export default withStyles(({ responsive }) => ({
   app: {
     display: 'flex',
-    [responsive.small]: {
-      flexDirection: 'column',
-    },
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   box: {
     display: 'flex',

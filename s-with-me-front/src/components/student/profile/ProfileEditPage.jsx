@@ -59,7 +59,7 @@ class ProfileEditPage extends PureComponent {
                         {({ onChange, values }) => (
                           <InlineList spacingBetween={1}>
                             <Select name="PayFilter" onChange={onChange}>
-                              <Option label="선택" />
+                              <Option label="선택" value=" " />
                               <Option label="1학년" value="grade1" />
                               <Option label="2학년" value="grade2" />
                               <Option label="3학년" value="grade3" />
