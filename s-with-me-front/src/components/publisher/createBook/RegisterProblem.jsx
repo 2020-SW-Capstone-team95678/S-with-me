@@ -145,7 +145,7 @@ export default class RegisterProblem extends PureComponent {
 
   render() {
     const { file, previewURL, isOptional, isMath } = this.state;
-    const { subChapterId } = this.props;
+    const { subChapterId, setBooks } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -357,7 +357,11 @@ export default class RegisterProblem extends PureComponent {
                           onChange={this.handleChangeInput}
                         />
                       </div>
-                      <Button style={{ marginTop: 5 }}>문제 등록!</Button>
+                      <Button 
+                      style={{ marginTop: 5 }}
+                      onClick={() => {setBooks(prev => {
+                        return [...prev];
+                      })}}>문제 등록!</Button>
                     </div>
                   )}
                 </div>

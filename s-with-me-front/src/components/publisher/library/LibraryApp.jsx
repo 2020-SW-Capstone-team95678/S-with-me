@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { CREATE_BOOK } from '../../../constants/modals';
 
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
@@ -50,15 +50,19 @@ const LibraryApp = () => {
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
-            <Button primary onPress={() => openModal(CREATE_BOOK, 
-              { 
-              publisherId: publisherId, 
-              doneCallback: (addedbook) => 
-            {
-              setBooks(olddata => {
-                return [...olddata, addedbook];
-              });
-            } })}>
+            <Button
+              primary
+              onPress={() =>
+                openModal(CREATE_BOOK, {
+                  publisherId: publisherId,
+                  doneCallback: addedbook => {
+                    setBooks(olddata => {
+                      return [...olddata, addedbook];
+                    });
+                  },
+                })
+              }
+            >
               문제집 등록하기
             </Button>
           )}
@@ -423,7 +427,6 @@ export const BookInfo = ({ book, setBooks }) => {
         </div>
       </div>
       <div>
-       
         <div id="main">
           <ChapterInfo
             bookId={book.bookId}
@@ -443,6 +446,7 @@ export const BookInfo = ({ book, setBooks }) => {
 
 export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
   const [chapters, setChapters] = useState([]);
+  const [check,setCheck]=useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/library/book/${bookId}/chapters`);
@@ -457,226 +461,265 @@ export const ChapterInfo = ({ bookId, onClick, prevChapters }) => {
   return (
     <div>
       <Modal>
-          {({ openModal }) => (
-            <>
-              <br />
-              <button
-                style={{
-                  cursor: 'pointer',
-                  marginRight: 5,
-                  marginLeft: 20,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  padding: 10,
-                  borderColor: 'lightgray',
-                  borderBottom: 'none',
-                  backgroundColor: 'rgb(255, 245, 238)',
-                }}
-                primary
-                onClick={() =>
-                  openModal(CREATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId, chapters,
-                  doneCallback: (addedmain) => 
-                  {
+        {({ openModal }) => (
+          <>
+            <br />
+            <button
+              style={{
+                cursor: 'pointer',
+                marginRight: 5,
+                marginLeft: 20,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                padding: 10,
+                borderColor: 'lightgray',
+                borderBottom: 'none',
+                backgroundColor: 'rgb(255, 245, 238)',
+              }}
+              primary
+              onClick={() =>
+                openModal(CREATE_MAIN_CHAPTER, {
+                  type: 'edit',
+                  bookId: bookId,
+                  chapters,
+                  doneCallback: addedmain => {
                     setChapters(olddata => {
                       return [...olddata, addedmain];
                     });
                     console.log(chapters);
-                  }
-                   //setChapters 
-                  })
-                }
-              >
-                대단원 추가
-              </button>
-              <button
-                style={{
-                  cursor: 'pointer',
-                  marginRight: 10,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  padding: 10,
-                  borderColor: 'lightgray',
-                  borderBottom: 'none',
-                  backgroundColor: 'rgb(255, 245, 238)',
-                }}
-                primary
-                onClick={() =>
-                  openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId })
-                }
-              >
-                대단원 수정
-              </button>
-            </>
-          )}
-        </Modal>
-    <Accordion allowZeroExpanded={true}>
-      {chapters.map(chapter => {
-        const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
-        return (
-          <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <AccordionItemHeading
-                style={{ flex: 4, cursor: 'pointer' }}
-                onClick={() => onClick(null)}
-              >
-                <AccordionItemButton style={{ button: 'focus', outline: 'none', cursor: 'point' }}>
-                  {chapter.mainChapterResponseDto.mainChapterName}
-                </AccordionItemButton>
-              </AccordionItemHeading>
-              <button
-                style={{
-                  flex: 1,
-                  cursor: 'pointer',
-                  border: 'none',
-                  '&:hover': {
-                    background: '#efefef',
                   },
-                }}
-                primary
-                onClick={() =>
-                  Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
-                    mainChapterId,
-                  }).then(
-                    setChapters(prev => {
-                      return [...prev];
-                    }),
-                  )
-                }
-              >
-                삭제
-              </button>
-            </div>
-            <AccordionItemPanel style={{ cursor: 'pointer' }}>
-              <Modal>
-                {({ openModal }) => (
-                  <>
-                    <button
-                      style={{
-                        cursor: 'pointer',
-                        marginRight: 5,
-                        marginLeft: 20,
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        padding: 10,
-                        borderColor: 'lightgray',
-                        borderBottom: 'none',
-                        backgroundColor: 'rgb(255, 245, 238)',
-                      }}
-                      primary
-                      onClick={() =>
-                        openModal(CREATE_SUB_CHAPTER, {
-                          mainChapterId: chapter.mainChapterResponseDto.mainChapterId, mainChapterResponseDto :chapter.mainChapterResponseDto ,chapter,prevSub:chapter.subChapterResponseDtoList,
-                          doneCallback: (addedsub) => 
-                          {
-                          
-                            setChapters(olddata => {
-                              return [...olddata];
-                            });
-                            // console.log(addedsub);
-                            // console.log(chapter);
-                          }
-                        })
-                      }
-                    >
-                      소단원 추가
-                    </button>
-                    <button
-                      style={{
-                        cursor: 'pointer',
-                        marginRight: 10,
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        padding: 10,
-                        borderColor: 'lightgray',
-                        borderBottom: 'none',
-                        backgroundColor: 'rgb(255, 245, 238)',
-                      }}
-                      primary
-                      onClick={() =>
-                        openModal(UPDATE_SUB_CHAPTER, {
-                          type: 'edit',
-                          chapter: chapter,
-                          bookId: bookId,
-                        })
-                      }
-                    >
-                      소단원 수정
-                    </button>
-                  </>
-                )}
-              </Modal>
+                  //setChapters
+                })
+              }
+            >
+              대단원 추가
+            </button>
+            <button
+              style={{
+                cursor: 'pointer',
+                marginRight: 10,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                padding: 10,
+                borderColor: 'lightgray',
+                borderBottom: 'none',
+                backgroundColor: 'rgb(255, 245, 238)',
+              }}
+              primary
+              onClick={() => openModal(UPDATE_MAIN_CHAPTER, { type: 'edit', bookId: bookId })}
+            >
+              대단원 수정
+            </button>
+          </>
+        )}
+      </Modal>
+      <Accordion allowZeroExpanded={true}>
+        {chapters.map(chapter => {
+          const mainChapterId = chapter.mainChapterResponseDto.mainChapterId;
+          return (
+            <AccordionItem style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <AccordionItemHeading
+                  style={{ flex: 4, cursor: 'pointer' }}
+                  onClick={() => onClick(null)}
+                >
+                  <AccordionItemButton
+                    style={{ button: 'focus', outline: 'none', cursor: 'point' }}
+                  >
+                    {chapter.mainChapterResponseDto.mainChapterName}
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+                <button
+                  style={{
+                    flex: 1,
+                    cursor: 'pointer',
+                    border: 'none',
+                    '&:hover': {
+                      background: '#efefef',
+                    },
+                  }}
+                  primary
+                  onClick={() =>
+                    Api.delete(`/publisher/library/book/main-chapter/${mainChapterId}`, {
+                      mainChapterId,
+                    }).then(
+                      setChapters(prev => {
+                        return [...prev];
+                      }),
+                    )
+                  }
+                >
+                  삭제
+                </button>
+              </div>
+              
+              <SubChapterInfo mainChapterId={mainChapterId} chapter={chapter} check={check} setCheck={setCheck} />
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </div>
+  );
+};
 
-              <ol>
-                {chapter.subChapterResponseDtoList.map(subChapter => {
-                  const subChapterId = subChapter.subChapterId;
-                  return (
+export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, prevChapters }) => {
+  const [subChapters, setSubChapters] = useState([]);
+  const [subChapterId,setSubChapterId]=useState("");
+ // const lastSubChapters=useRef(subChapters);
+  const lastSubChapters=useRef("");
+
+  useEffect(() => {
+    
+  
+    const fetchData = async () => {
+      const data = await Api.get(`/publisher/library/book/main-chapter/${mainChapterId}/sub-chapters
+      `);
+      setSubChapters(data.data);
+      console.log(data.data);
+    };
+    
+
+    console.log(mainChapterId);
+    if (mainChapterId) {
+      fetchData();
+    }
+  },[mainChapterId,check]);
+  console.log(subChapters);
+  return (
+    
+<AccordionItemPanel style={{ cursor: 'pointer' }}>
+                <Modal>
+                  {({ openModal }) => (
                     <>
-                      <div
+                      <button
                         style={{
-                          border: 'solid',
-                          borderColor: 'rgba(185, 176, 176, 0.87)',
-                          borderRadius: 5,
+                          cursor: 'pointer',
+                          marginRight: 5,
+                          marginLeft: 20,
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                          padding: 10,
+                          borderColor: 'lightgray',
+                          borderBottom: 'none',
+                          backgroundColor: 'rgb(255, 245, 238)',
                         }}
+                        primary
+                        onClick={() =>
+                          openModal(CREATE_SUB_CHAPTER, {
+                            mainChapterId: mainChapterId,
+                            setCheck,
+                            check,
+                            doneCallback: addedsub => {
+                              setSubChapters(subChapters => {
+                                return [...subChapters, addedsub.subChapterAdd]
+                              });
+                              lastSubChapters.current=subChapters;
+                              console.log(lastSubChapters);
+                              console.log(addedsub);
+                            },
+                            
+                          })
+                        }
                       >
+                        소단원 추가
+                      </button>
+                      <button
+                        style={{
+                          cursor: 'pointer',
+                          marginRight: 10,
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                          padding: 10,
+                          borderColor: 'lightgray',
+                          borderBottom: 'none',
+                          backgroundColor: 'rgb(255, 245, 238)',
+                        }}
+                        primary
+                        onClick={() =>
+                          openModal(UPDATE_SUB_CHAPTER, {
+                            type: 'edit',
+                            chapter: chapter,
+                            bookId: chapter.bookId,
+                          })
+                        }
+                      >
+                        소단원 수정
+                      </button>
+                    </>
+                  )}
+                </Modal>
+                <div>
+                  {   
+                  subChapters.map(subChapter => {
+                    //etSubChapterId(subChapter.subChapterId);
+
+                    const subChapterId = subChapter.subChapterId;
+                    console.log(subChapters);
+                    console.log(subChapter);
+                    return (
+                      <>
                         <div
                           style={{
-                            display: 'flex',
+                            border: 'solid',
+                            borderColor: 'rgba(185, 176, 176, 0.87)',
+                            borderRadius: 5,
                           }}
                         >
                           <div
                             style={{
                               display: 'flex',
-                              flex: 4,
-                              textAlign: 'center',
-                              alignItems: 'center',
-                              justifyContent: 'centr',
-                              flexDirection: 'row',
-                              backgroundColor: 'rgb(255, 245, 238)',
-                              paddingLeft: 20,
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: 'flex',
+                                flex: 4,
+                                textAlign: 'center',
+                                alignItems: 'center',
+                                justifyContent: 'centr',
+                                flexDirection: 'row',
+                                backgroundColor: 'rgb(255, 245, 238)',
+                                paddingLeft: 20,
 
-                              minHeight: 50,
-                              cursor: 'pointer',
-                            }}
-                            onClick={() => {
-                              onClick(subChapter.subChapterId);
-                            }}
-                          >
-                            {subChapter.subChapterName}
+                                minHeight: 50,
+                                cursor: 'pointer',
+                              }}
+                             
+                            >
+                              {subChapter.subChapterName}
+                            </div>
+                            <button
+                              style={{ flex: 1, cursor: 'pointer', border: 'none' }}
+                              primary
+                              onClick={() =>
+                                Api.delete(
+                                  `/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,
+                                  {
+                                    subChapterId,
+                                  },
+                                ).then(
+                                  setSubChapters(prev => {
+                                    return [...prev];
+                                  }),
+                                )
+                              }
+                            >
+                              삭제
+                            </button>
                           </div>
-                          <button
-                            style={{ flex: 1, cursor: 'pointer', border: 'none' }}
-                            primary
-                            onClick={() =>
-                              Api.delete(
-                                `/publisher/library/book/main-chapter/sub-chapter/${subChapterId}`,
-                                {
-                                  subChapterId,
-                                },
-                              ).then(
-                                setChapters(prev => {
-                                  return [...prev];
-                                }),
-                              )
-                            }
-                          >
-                            삭제
-                          </button>
+                          <ProblemInfo subChapterId={subChapter.subChapterId} />
                         </div>
-                        <ProblemInfo subChapterId={subChapter.subChapterId} />
-                      </div>
-                      <br></br>
-                    </>
-                  );
-                })}
-              </ol>
-            </AccordionItemPanel>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-    </div>
-  );
-};
+                        <br></br>
+                      </>
+                    );
+                  })}
+               </div>
+              </AccordionItemPanel>
+  )
+}
+
+
+
 
 const ProblemInfo = ({ subChapterId, setBooks }) => {
   const [problems, setProblems] = useState([]);
