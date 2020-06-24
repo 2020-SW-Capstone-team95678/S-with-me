@@ -132,9 +132,9 @@ public class CurriculumService {
         int solvedMyBookSize = 0;
         for(MyProblem myProblem : myProblemList)
         {
-            if(myProblem.getIsSolved()==true){solvedMyBookSize++;}
+            if(myProblem.getIsSolved()){solvedMyBookSize++;}
         }
-        return solvedMyBookSize/myBookSize*100;
+        return solvedMyBookSize*100/myBookSize;
     }
     @Transactional
     public int getAchievement(int myBookId){
