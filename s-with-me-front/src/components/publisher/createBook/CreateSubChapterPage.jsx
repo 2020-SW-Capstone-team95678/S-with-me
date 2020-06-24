@@ -5,11 +5,10 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import { Button } from 'semantic-ui-react';
 
 const CreateSubChapterPage = props => {
-  const { mainChapterId ,doneCallback,prevSubChapters,setCheck,check} = props;
+  const { mainChapterId ,doneCallback,setCheck,check} = props;
   const [subChapterTitle, setSubChapterTitle] = useState('');
   //const [subChapterId, setSubChapterId] = useState(null);
-  const [subChapters,setSubChapters]=useState([prevSubChapters]);
-  const [subChapterAdd,setSubChapter]=useState({mainChapterId:"0", subChapterId:"0", subChapterName:"" });
+  const subChapterAdd={mainChapterId:"0", subChapterId:"0", subChapterName:"" };
   
  
 console.log(mainChapterId);
