@@ -55,7 +55,14 @@ public class CurriculumService {
                 .build());
         return myBook.getMyBookId();
     }
-
+    @Transactional
+    public String deleteCurriculum(int curriculumId)
+    {
+        Curriculum curriculum = curriculumRepository.findById(curriculumId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 커리큘럼이 존재하지 않습니다."));
+        curriculumRepository.deleteById(curriculumId);
+        return "커리큘럼 삭제 완료";
+    }
     @Transactional
     public CurriculumResponseDto getCurriculum(int myBookId)
     {
@@ -117,6 +124,19 @@ public class CurriculumService {
     }
 
     @Transactional
+    public int getMyBookAchievement(int myBookId){
+        MyBook myBook = myBookRepository.findById(myBookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 존재하지 않습니다."));
+        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+        int myBookSize = myProblemList.size();
+        int solvedMyBookSize = 0;
+        for(MyProblem myProblem : myProblemList)
+        {
+            if(myProblem.getIsSolved()){solvedMyBookSize++;}
+        }
+        return solvedMyBookSize*100/myBookSize;
+    }
+    @Transactional
     public int getAchievement(int myBookId){
 
         MyBook myBook = myBookRepository.findById(myBookId)
@@ -161,7 +181,7 @@ public class CurriculumService {
                     subChapterRepository.findById(curriculum.getSubChapterId())
                             .orElseThrow(() -> new IllegalArgumentException("해당 챕터가 존재하지 않습니다.")));
             int subChapterSize = problemList.size();
-            return (problemArchievement*100/subChapterSize);
+            return problemArchievement*100/subChapterSize;
         }
     }
 }
