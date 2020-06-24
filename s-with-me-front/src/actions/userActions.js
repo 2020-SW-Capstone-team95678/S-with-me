@@ -54,8 +54,7 @@ export function createUser(isStudnet, data, onComplete) {
 
 export function checkIdDuplication(isStudent, data, onComplete) {
   const params = new URLSearchParams();
-  if (isStudent) params.append('userId', data.userId);
-  else params.append('publisherId', data.userId);
+  params.append('userId', data.userId);
   return {
     type: CHECK_ID_DUPLICATION,
     promise: isStudent

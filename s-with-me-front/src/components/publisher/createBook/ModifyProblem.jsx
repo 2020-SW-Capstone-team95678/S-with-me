@@ -17,7 +17,7 @@ export default class ModifyProblem extends PureComponent {
     super(props);
     const { problem } = props;
 
-    if(problem.isMath){
+    if (problem.isMath) {
       this.state = {
         content: JSON.parse(problem.content),
         answer: problem.answer,
@@ -31,7 +31,7 @@ export default class ModifyProblem extends PureComponent {
         solution: JSON.parse(problem.solution),
         title: JSON.parse(problem.title),
         subChapterId: problem.subChapterId,
-  
+
         isOptional: problem.isOptional,
         isMath: problem.isMath,
         file: '',
@@ -43,9 +43,7 @@ export default class ModifyProblem extends PureComponent {
           { left: '\\[', right: '\\]', display: true },
         ],
       };
-
-    }
-    else{
+    } else {
       this.state = {
         content: problem.content,
         answer: problem.answer,
@@ -59,7 +57,7 @@ export default class ModifyProblem extends PureComponent {
         solution: problem.solution,
         title: problem.title,
         subChapterId: problem.subChapterId,
-  
+
         isOptional: problem.isOptional,
         isMath: problem.isMath,
         file: '',
@@ -71,13 +69,10 @@ export default class ModifyProblem extends PureComponent {
           { left: '\\[', right: '\\]', display: true },
         ],
       };
-
     }
-
-   
   }
 
-  handleSubmit = (values, problemId, subChapterId) => {
+  handleSubmit = (values, problemId, subChapterId, closeModal) => {
     const isMath = this.state.isMath;
 
     if (isMath) {
@@ -97,9 +92,12 @@ export default class ModifyProblem extends PureComponent {
         image: this.state.previewURL,
         isOptional: this.state.isOptional,
       };
- 
+
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => {
+          closeModal();
+          console.log(data);
+        })
         .catch(error => console.log(error.message));
     } else {
       const formValue = {
@@ -119,9 +117,11 @@ export default class ModifyProblem extends PureComponent {
         isOptional: this.state.isOptional,
       };
 
-
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => {
+          console.log(data);
+          closeModal();
+        })
         .catch(error => console.log(error.message));
     }
   };
@@ -226,7 +226,7 @@ export default class ModifyProblem extends PureComponent {
           {({ closeModal }) => (
             <div>
               <Form
-                onSubmit={values => this.handleSubmit(values, problemId, subChapterId)}
+                onSubmit={values => this.handleSubmit(values, problemId, subChapterId, closeModal)}
                 initValues=""
               >
                 <Form.Consumer>
@@ -351,7 +351,6 @@ export default class ModifyProblem extends PureComponent {
                                 value={this.state.content}
                                 onChange={this.handleChangeInput}
                               />
-
                               <div style={{ display: 'flex', padding: 3, flexDirection: 'column' }}>
                                 <p>변경할 사진을 첨부해주세요.↓↓↓↓</p>
                                 <img
@@ -367,13 +366,11 @@ export default class ModifyProblem extends PureComponent {
                                 />
                                 {solution_preview}
                               </div>
-
                               <CheckBox
                                 label="객관식 문제입니까?"
                                 onChange={() => this.handleOptional()}
                                 checked={isOptional}
                               />
-
                               {isOptional ? (
                                 <div>
                                   객관식 1번
@@ -383,7 +380,7 @@ export default class ModifyProblem extends PureComponent {
                                     onChange={this.handleChangeInput}
                                     name="option1"
                                   />
-                                  <br/>
+                                  <br />
                                   객관식 2번
                                   <input
                                     label="객관식 2번"
@@ -391,7 +388,7 @@ export default class ModifyProblem extends PureComponent {
                                     onChange={this.handleChangeInput}
                                     name="option2"
                                   />
-                                  <br/>
+                                  <br />
                                   객관식 3번
                                   <input
                                     label="객관식 3번"
@@ -399,7 +396,7 @@ export default class ModifyProblem extends PureComponent {
                                     onChange={this.handleChangeInput}
                                     name="option3"
                                   />
-                                  <br/>
+                                  <br />
                                   객관식 4번
                                   <input
                                     label="객관식 4번"
@@ -407,7 +404,7 @@ export default class ModifyProblem extends PureComponent {
                                     onChange={this.handleChangeInput}
                                     name="option4"
                                   />
-                                  <br/>
+                                  <br />
                                   객관식 5번
                                   <input
                                     label="객관식 5번"
@@ -417,7 +414,6 @@ export default class ModifyProblem extends PureComponent {
                                   />
                                 </div>
                               ) : null}
-
                               문제 정답
                               <input
                                 label="문제 정답"
