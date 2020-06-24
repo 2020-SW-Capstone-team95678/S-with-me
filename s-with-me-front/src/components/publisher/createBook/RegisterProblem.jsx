@@ -62,8 +62,12 @@ export default class RegisterProblem extends PureComponent {
     };
 
     Api.post('/publisher/library/book/main-chapter/sub-chapter/problem', formValue)
-      .then(({ data }) => console.log(data))
+      .then(({ data }) => console.log(data),
+      this.props.clickHandler({
+        formValue
+      }))
       .catch(error => console.log(error.message));
+      
   };
 
   handleOptional = () => {
@@ -143,9 +147,11 @@ export default class RegisterProblem extends PureComponent {
     });
   };
 
+  
+
   render() {
     const { file, previewURL, isOptional, isMath } = this.state;
-    const { subChapterId } = this.props;
+    const { subChapterId, } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -357,7 +363,10 @@ export default class RegisterProblem extends PureComponent {
                           onChange={this.handleChangeInput}
                         />
                       </div>
-                      <Button style={{ marginTop: 5 }}>문제 등록!</Button>
+                      <Button 
+                      style={{ marginTop: 5 }}
+                      
+                      >문제 등록!</Button>
                     </div>
                   )}
                 </div>
