@@ -11,6 +11,8 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
+  AccordionItemState,
+  resetNextUuid
 } from 'react-accessible-accordion';
 
 import Button from '../../../common-ui/Button';
@@ -47,7 +49,7 @@ const LibraryApp = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex',flex:1,maxWidth:"80%"}}>
+    <div style={{ display: 'flex',flex:1,maxWidth:"100%",overflowX:'scroll'}}>
       <div style={{ flex: 1, padding: 3, justifyItems: 'center', textAlign: 'center' }}>
         <Modal>
           {({ openModal }) => (
@@ -448,13 +450,14 @@ export const BookInfo = ({ book, setBooks,totalCheck,setTotalCheck }) => {
 export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
   const [chapters, setChapters] = useState([]);
   const [check,setCheck]=useState(true);
-  const [bookChangeCheck,setBookChangeCheck]=useState(true);
-  let updateData;
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get(`/library/book/${bookId}/chapters`);
       setChapters(data.data);
     };
+    resetNextUuid();
+
 
     if (bookId) {
       fetchData();
@@ -536,6 +539,9 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <AccordionItemHeading
                   style={{ flex: 4, cursor: 'pointer' }}
+                  // onClick={() =>
+                  //   setBookChangeCheck(true)
+                  // }
                   
                 >
                   <AccordionItemButton
@@ -567,9 +573,7 @@ export const ChapterInfo = ({ bookId, setBooks,setTotalCheck,totalCheck }) => {
                   삭제
                 </button>
               </div>
-              
-              {bookChangeCheck?
-              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />:null}
+              <SubChapterInfo mainChapterId={mainChapterId} totalCheck={totalCheck} setTotalCheck={setTotalCheck} chapter={chapter} check={check} setCheck={setCheck} setBooks={setBooks} />
             </AccordionItem>
           );} 
         })}
@@ -592,7 +596,7 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
       setSubChapters(data.data);
 
     };
-    
+    resetNextUuid();
 
   
     if (mainChapterId) {
@@ -742,7 +746,6 @@ export const SubChapterInfo = ({ mainChapterId, onClick,check,setCheck,chapter, 
 
 const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
   const [problems, setProblems] = useState([]);
-  const [problemNumber,setProblemNumber]=useState('');
   useEffect(() => {
     const fetchData = async () => {
       const data = await Api.get('/publisher/library/book/main-chapter', {
@@ -787,12 +790,18 @@ const ProblemInfo = ({ subChapterId, setBooks,setTotalCheck,totalCheck }) => {
             <AccordionItem>
               <AccordionItemHeading>
                 <AccordionItemButton style={{ flex: 1, backgroundColor: 'rgb(247, 207, 192)' }}>
+                  
                   {problem.problemNumber}
                 </AccordionItemButton>
               </AccordionItemHeading>
-              <AccordionItemPanel>
+              <AccordionItemState>
+         {({ expanded }) => (
+              <AccordionItemPanel className={expanded ? 'foo' : 'foo foo--hidden'}>
+                {console.log(expanded)}
                 <ProblemItem clickHandler={handleEdit} setBooks={setBooks} prevProblem={problem} setTotalCheck={setTotalCheck} totalCheck={totalCheck} setProblems={setProblems} problems={problems} />
               </AccordionItemPanel>
+              )}
+              </AccordionItemState>
             </AccordionItem>
           );
         })}
@@ -857,17 +866,13 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
                     openModal(UPDATE_PROBLEM, {
                       problem,
                       problemId,
-                      setTotalCheck,
-                      totalCheck,
+
                       doneCallback: changeproblem => {
-                        console.log(problem);
-                        console.log(changeproblem);
                         setProblem(changeproblem.formValue);
                         setProblems(
                           problems.map(problem =>
                             problem.problemId === problemId ? { ...problem, problemNumber:changeproblem.formValue.problemNumber  } : problem
                           ))
-                        console.log(problems);
                         setTotalCheck(!totalCheck);
                         clickHandler(changeproblem.formValue);
  
@@ -929,6 +934,16 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
                     openModal(UPDATE_PROBLEM, {
                       problem,
                       problemId,
+                      doneCallback: changeproblem => {
+                        setProblem(changeproblem.formValue);
+                        setProblems(
+                          problems.map(problem =>
+                            problem.problemId === problemId ? { ...problem, problemNumber:changeproblem.formValue.problemNumber  } : problem
+                          ))
+                        setTotalCheck(!totalCheck);
+                        clickHandler(changeproblem.formValue);
+ 
+                      },
                     })
                   }
                 >
@@ -943,10 +958,9 @@ const ProblemItem = ({ prevProblem, setBooks,totalCheck,setTotalCheck,clickHandl
             onClick={() =>
               Api.delete(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, {
                 problemId,
-              }).then(response =>
-                setBooks(prev => {
-                  return [...prev];
-                }),
+              }).then(
+                setTotalCheck(!totalCheck),
+                setProblems(problems.filter( problem => problem.problemId !== problemId))
               )
             }
           >
