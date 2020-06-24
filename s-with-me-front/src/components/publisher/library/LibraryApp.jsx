@@ -72,7 +72,7 @@ const LibraryApp = () => {
           )}
         </Modal>
         <div>
-          <ol style={{ maxHeight: '800px', overflow: 'hidden', overflowY: 'scroll' }}>
+          <ol style={{ maxHeight: '850px', overflow: 'hidden', overflowY: 'scroll' }}>
             {books.map(book => {
               return <SideBookInfo book={book} onClick={() => setSelectedBook(book)} />;
             })}
