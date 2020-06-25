@@ -5,8 +5,8 @@ import Input from '../../../common-ui/Input';
 //import CheckBox from '../../../common-ui/CheckBox';
 //import Button from '../../../common-ui/Button';
 import Api from '../../../Api';
-import { Button, Checkbox } from 'semantic-ui-react';
-
+import { Button, Checkbox, Popup, Icon, Modal, Segment } from 'semantic-ui-react';
+import MathTutorial from '../../student/problem/solutionInput/MathTutorial';
 import 'katex/dist/katex.min.css';
 import { ProblemInputMathTop, ProblemInputMathBottom } from './ProblemInputMath';
 
@@ -28,6 +28,7 @@ export default class RegisterProblem extends PureComponent {
         { left: '$', right: '$', display: false },
         { left: '\\[', right: '\\]', display: true },
       ],
+      open: false,
     };
   }
 
@@ -62,12 +63,13 @@ export default class RegisterProblem extends PureComponent {
     };
 
     Api.post('/publisher/library/book/main-chapter/sub-chapter/problem', formValue)
-      .then(({ data }) => console.log(data),
-      this.props.clickHandler({
-        formValue
-      }))
+      .then(
+        ({ data }) => console.log(data),
+        this.props.clickHandler({
+          formValue,
+        }),
+      )
       .catch(error => console.log(error.message));
-      
   };
 
   handleOptional = () => {
@@ -147,11 +149,12 @@ export default class RegisterProblem extends PureComponent {
     });
   };
 
-  
+  show = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   render() {
     const { file, previewURL, isOptional, isMath } = this.state;
-    const { subChapterId, } = this.props;
+    const { subChapterId } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -203,9 +206,26 @@ export default class RegisterProblem extends PureComponent {
                           flexDirection: 'column',
                         }}
                       >
-                        <Button small>수식 입력 방법 보러 가기!</Button>
+                        <Popup
+                          trigger={
+                            <div
+                              onClick={this.show}
+                              style={{ display: 'flex', justifyContent: 'flex-end' }}
+                            >
+                              <Icon fitted size="large" name="question circle outline" />
+                            </div>
+                          }
+                          position="top right"
+                        >
+                          수식 입력 방법이 궁금해요!
+                        </Popup>
                         <br />
-
+                        <Segment>
+                          "ex) [1~3] 다음은 학생의 발표이다. 물음에 답하시오."와 같은
+                          <b> 이음문제</b> 일 경우
+                          <br /> <b>문제 번호는 0으로 기입해주세요.</b> <br /> 문제 제목에 "[1~3]
+                          다음은 학생의 발표이다. 물음에 답하시오."를 함께 적어주세요
+                        </Segment>
                         <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                         <ProblemInputMathTop
                           isMath={this.state.isMath}
@@ -242,9 +262,9 @@ export default class RegisterProblem extends PureComponent {
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
                             padding: 10,
-                            marginTop:10,
-                            marginLeft:10,
-                            marginRight:10
+                            marginTop: 10,
+                            marginLeft: 10,
+                            marginRight: 10,
                           }}
                         >
                           <Checkbox
@@ -253,7 +273,6 @@ export default class RegisterProblem extends PureComponent {
                             checked={isOptional}
                           />
                         </div>
-                        
 
                         <ProblemInputMathBottom
                           isMath={this.state.isMath}
@@ -269,7 +288,9 @@ export default class RegisterProblem extends PureComponent {
                           onOptionFiv={this.handleOptionFiv}
                         />
                       </div>
-                      <Button style={{ marginTop: 5 }}>문제 등록!</Button>
+                      <Button basic style={{ marginTop: 5 }}>
+                        문제 등록!
+                      </Button>
                     </div>
                   ) : (
                     <div>
@@ -281,6 +302,12 @@ export default class RegisterProblem extends PureComponent {
                           flexDirection: 'column',
                         }}
                       >
+                        <Segment>
+                          "ex) [1~3] 다음은 학생의 발표이다. 물음에 답하시오."와 같은
+                          <b> 이음문제</b> 일 경우
+                          <br /> <b>문제 번호는 0으로 기입해주세요.</b> <br /> 문제 제목에 "[1~3]
+                          다음은 학생의 발표이다. 물음에 답하시오."를 함께 적어주세요
+                        </Segment>
                         <Input label="문제 번호" name="problemNumber" onChange={onChange} />
                         <br />
                         <Input label="문제 제목" name="title" onChange={onChange} />
@@ -324,9 +351,9 @@ export default class RegisterProblem extends PureComponent {
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
                             padding: 10,
-                            marginTop:10,
-                            marginLeft:10,
-                            marginRight:10
+                            marginTop: 10,
+                            marginLeft: 10,
+                            marginRight: 10,
                           }}
                         >
                           <Checkbox
@@ -334,15 +361,16 @@ export default class RegisterProblem extends PureComponent {
                             onChange={() => this.handleOptional()}
                             checked={isOptional}
                           />
-                          
                         </div>
                         {isOptional ? (
-                          <div style={{
-                            backgroundColor:'rgb(245,245,245)',
-                            marginLeft:10,
-                            marginRight:10,
-                            padding:5,
-                          }}>
+                          <div
+                            style={{
+                              backgroundColor: 'rgb(245,245,245)',
+                              marginLeft: 10,
+                              marginRight: 10,
+                              padding: 5,
+                            }}
+                          >
                             <Input label="객관식 1번" name="option1" onChange={onChange} />
                             <Input label="객관식 2번" name="option2" onChange={onChange} />
                             <Input label="객관식 3번" name="option3" onChange={onChange} />
@@ -350,7 +378,6 @@ export default class RegisterProblem extends PureComponent {
                             <Input label="객관식 5번" name="option5" onChange={onChange} />
                           </div>
                         ) : null}
-                        
                         <br />
                         <Input label="문제 정답" name="answer" onChange={onChange} />
                         <br />
@@ -363,10 +390,9 @@ export default class RegisterProblem extends PureComponent {
                           onChange={this.handleChangeInput}
                         />
                       </div>
-                      <Button 
-                      style={{ marginTop: 5 }}
-                      
-                      >문제 등록!</Button>
+                      <Button basic style={{ marginTop: 5 }}>
+                        문제 등록!
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -378,6 +404,12 @@ export default class RegisterProblem extends PureComponent {
             )}
           </Form.Consumer>
         </Form>
+        <Modal dimmer="inverted" open={this.state.open} onClose={this.close}>
+          <MathTutorial />
+          <Modal.Actions>
+            <Button positive icon="checkmark" content="알겠어요" onClick={this.close} />
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }

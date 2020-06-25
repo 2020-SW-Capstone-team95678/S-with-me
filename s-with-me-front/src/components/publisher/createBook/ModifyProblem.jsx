@@ -4,7 +4,7 @@ import './ModifyProblem.css';
 
 import Form from '../../../common-ui/Form';
 
-import {Button, Checkbox} from 'semantic-ui-react';
+import { Button, Checkbox, Segment } from 'semantic-ui-react';
 import Api from '../../../Api';
 import { Consumer as Modal } from '../../../common-ui/Modal/context';
 
@@ -27,7 +27,7 @@ export default class ModifyProblem extends PureComponent {
         option4: JSON.parse(problem.option4),
         option5: JSON.parse(problem.option5),
         problemNumber: problem.problemNumber,
-        problemId:problem.problemId,
+        problemId: problem.problemId,
         solution: JSON.parse(problem.solution),
         title: JSON.parse(problem.title),
         subChapterId: problem.subChapterId,
@@ -45,7 +45,7 @@ export default class ModifyProblem extends PureComponent {
       };
     } else {
       this.state = {
-        problemId:problem.problemId,
+        problemId: problem.problemId,
         content: problem.content,
         answer: problem.answer,
         image: problem.image,
@@ -95,10 +95,12 @@ export default class ModifyProblem extends PureComponent {
       };
 
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
-        .then(({ data }) => console.log(data),
-        this.props.doneCallback({
-          formValue
-        }),)
+        .then(
+          ({ data }) => console.log(data),
+          this.props.doneCallback({
+            formValue,
+          }),
+        )
 
         .catch(error => console.log(error.message));
     } else {
@@ -121,11 +123,11 @@ export default class ModifyProblem extends PureComponent {
 
       Api.put(`/publisher/library/book/main-chapter/sub-chapter/problem/${problemId}`, formValue)
 
-        .then(({ data }) => console.log(data),
-        this.props.doneCallback({
-          formValue
-        }),
-        
+        .then(
+          ({ data }) => console.log(data),
+          this.props.doneCallback({
+            formValue,
+          }),
         )
 
         .catch(error => console.log(error.message));
@@ -208,8 +210,8 @@ export default class ModifyProblem extends PureComponent {
   };
 
   render() {
-    const { file, previewURL, isOptional, isMath,problemId } = this.state;
-    const {  subChapterId, problem } = this.props;
+    const { file, previewURL, isOptional, isMath, problemId } = this.state;
+    const { subChapterId, problem } = this.props;
     let solution_preview = null;
     if (file) {
       solution_preview = (
@@ -238,9 +240,7 @@ export default class ModifyProblem extends PureComponent {
                 <Form.Consumer>
                   {({ onChange, values }) => (
                     <div style={{ overflow: 'outo', display: 'flex', flexDirection: 'column' }}>
-                      <div
-                        style={{ display: 'flex', flexDirection: 'column',  }}
-                      >
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <div
                           style={{
                             flex: 1,
@@ -266,7 +266,12 @@ export default class ModifyProblem extends PureComponent {
                                 flexDirection: 'column',
                               }}
                             >
-                              <Button small>수식 입력 방법 보러 가기!</Button>
+                              <Segment>
+                                "ex) [1~3] 다음은 학생의 발표이다. 물음에 답하시오."와 같은
+                                <b> 이음문제</b> 일 경우
+                                <br /> <b>문제 번호는 0으로 기입해주세요.</b> <br /> 문제 제목에
+                                "[1~3] 다음은 학생의 발표이다. 물음에 답하시오."를 함께 적어주세요
+                              </Segment>
                               <input
                                 label="문제 번호"
                                 value={this.state.problemNumber}
@@ -324,7 +329,7 @@ export default class ModifyProblem extends PureComponent {
                               />
                             </div>
 
-                            <Button style={{marginBottom:5, flex:1}}>수정</Button>
+                            <Button style={{ marginBottom: 5, flex: 1 }}>수정</Button>
                           </div>
                         ) : (
                           <div>
@@ -336,6 +341,12 @@ export default class ModifyProblem extends PureComponent {
                                 flexDirection: 'column',
                               }}
                             >
+                              <Segment>
+                                "ex) [1~3] 다음은 학생의 발표이다. 물음에 답하시오."와 같은
+                                <b> 이음문제</b> 일 경우
+                                <br /> <b>문제 번호는 0으로 기입해주세요.</b> <br /> 문제 제목에
+                                "[1~3] 다음은 학생의 발표이다. 물음에 답하시오."를 함께 적어주세요
+                              </Segment>
                               문제 번호
                               <input
                                 label="문제 번호"
@@ -372,9 +383,7 @@ export default class ModifyProblem extends PureComponent {
                                 />
                                 {solution_preview}
                               </div>
-
                               <Checkbox
-
                                 label="객관식 문제입니까?"
                                 onChange={() => this.handleOptional()}
                                 checked={isOptional}
@@ -437,8 +446,8 @@ export default class ModifyProblem extends PureComponent {
                                 name="solution"
                               />
                             </div>
-                            <div >
-                              <Button style={{marginBottom:5, flex:1}}>수정</Button>
+                            <div>
+                              <Button style={{ marginBottom: 5, flex: 1 }}>수정</Button>
                             </div>
                           </div>
                         )}

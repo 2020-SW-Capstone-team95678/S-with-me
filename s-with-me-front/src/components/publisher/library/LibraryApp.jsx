@@ -880,7 +880,7 @@ const ProblemItem = ({
               }}
             >
               문제 제목
-            </div>{' '}
+            </div>
             <div style={{ padding: 5, border: '1px solid black' }}>{problem.title}</div>
           </p>
           <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
@@ -1016,9 +1016,11 @@ const ProblemItem = ({
               }}
             >
               문제 제목
-            </div>{' '}
+            </div>
             <div style={{ padding: 5, border: '1px solid black' }}>
-              <Latex delimiters={delimeters}>{JSON.parse(problem.title)}</Latex>
+              <Latex delimiters={delimeters}>
+                {problem.title ? problem.title.replaceAll('\\\\', '\\').replace(/"/g, '') : ' '}
+              </Latex>
             </div>
           </p>
           <p style={{ minHeight: 30, borderWidth: 2, borderColor: 'gray' }}>
@@ -1036,17 +1038,44 @@ const ProblemItem = ({
               }}
             >
               문제 내용
-            </div>{' '}
+            </div>
             <div style={{ padding: 5, border: '1px solid black' }}>
-              <Latex delimiters={delimeters}>{JSON.parse(problem.content)}</Latex>
+              <Latex delimiters={delimeters}>
+                {problem.content ? problem.content.replaceAll('\\\\', '\\').replace(/"/g, '') : ' '}
+              </Latex>
             </div>
             {problem.isOptional ? (
               <div style={{ padding: 5, border: '1px solid black' }}>
-                <p>객관식 1번 {JSON.parse(problem.option1)}</p>
-                <p>객관식 2번 {JSON.parse(problem.option2)}</p>
-                <p>객관식 3번 {JSON.parse(problem.option3)}</p>
-                <p>객관식 4번 {JSON.parse(problem.option4)}</p>
-                <p>객관식 5번 {JSON.parse(problem.option5)}</p>
+                <p>
+                  객관식 1번{' '}
+                  {problem.option1
+                    ? problem.option1.replaceAll('\\\\', '\\').replace(/"/g, '')
+                    : ' '}
+                </p>
+                <p>
+                  객관식 2번{' '}
+                  {problem.option2
+                    ? problem.option2.replaceAll('\\\\', '\\').replace(/"/g, '')
+                    : ' '}
+                </p>
+                <p>
+                  객관식 3번{' '}
+                  {problem.option3
+                    ? problem.option3.replaceAll('\\\\', '\\').replace(/"/g, '')
+                    : ' '}
+                </p>
+                <p>
+                  객관식 4번{' '}
+                  {problem.option4
+                    ? problem.option4.replaceAll('\\\\', '\\').replace(/"/g, '')
+                    : ' '}
+                </p>
+                <p>
+                  객관식 5번{' '}
+                  {problem.option5
+                    ? problem.option5.replaceAll('\\\\', '\\').replace(/"/g, '')
+                    : ' '}
+                </p>
               </div>
             ) : null}
           </p>
@@ -1064,7 +1093,9 @@ const ProblemItem = ({
               문제 정답
             </div>
             <div style={{ padding: 5, border: '1px solid black' }}>
-              <Latex delimiters={delimeters}>{problem.answer}</Latex>
+              <Latex delimiters={delimeters}>
+                {problem.answer ? problem.answer.replaceAll('\\\\', '\\').replace(/"/g, '') : ' '}
+              </Latex>
             </div>
           </p>
           <p>
@@ -1081,7 +1112,11 @@ const ProblemItem = ({
               문제 해설
             </div>
             <div style={{ padding: 5, border: '1px solid black' }}>
-              <Latex delimiters={delimeters}>{JSON.parse(problem.solution)}</Latex>
+              <Latex delimiters={delimeters}>
+                {problem.solution
+                  ? problem.solution.replaceAll('\\\\', '\\').replace(/"/g, '')
+                  : ' '}
+              </Latex>
             </div>
           </p>
 
