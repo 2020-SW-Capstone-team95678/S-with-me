@@ -21,7 +21,7 @@
 ## 서비스 실행 및 빌드 방법
 ### install
     npm install 
-    npm npm install -g yarn
+    or yarn
     
 ### start
     npm start 
