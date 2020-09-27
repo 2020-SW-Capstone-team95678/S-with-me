@@ -46,4 +46,8 @@ dependencies {
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('org.mariadb.jdbc:mariadb-java-client')
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '+'
+    compile group: 'com.google.code.gson', name: 'gson', version: '+'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
 }

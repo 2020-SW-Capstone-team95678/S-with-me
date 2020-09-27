@@ -1,16 +1,17 @@
 package com.swithme.web.controller;
 
+import com.swithme.domain.publisher.Publisher;
+import com.swithme.domain.publisher.PublisherRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
 import com.swithme.service.UserService;
 import com.swithme.signup.JwtTokenProvider;
-import com.swithme.web.dto.StudentUpdateRequestDto;
+import com.swithme.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Map;
+import java.text.ParseException;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,56 +20,106 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final StudentRepository studentRepository;
-    private final UserService customUserDetailService;
-    private short grade;
-
-    public boolean duplicate()
-    {
-        return true;
-    }
+    private final PublisherRepository publisherRepository;
+    private final UserService userService;
 
     // 회원가입
+    @CrossOrigin
     @PostMapping("/signup/student")
-    public int studentSignup(@RequestBody Map<String, String> user) {
-        return studentRepository.save(Student.builder()
-                .userId(user.get("userId"))
-                .name(user.get("name"))
-                .password(passwordEncoder.encode(user.get("password")))
-                .phoneNumber(user.get("phoneNumber"))
-                .birthday(user.get("birthday"))
-                .grade(grade)
-                .roles(Collections.singletonList("ROLE_STUDENT")) // 최초 가입시 USER 로 설정
-                .build()).getStudentId();
+    public int signupStudent(StudentCreateDto studentCreateDto) {
+        userService.signupStudent(studentCreateDto,passwordEncoder);
+        return studentCreateDto.getStudentId();
     }
 
+    @CrossOrigin
+    @PostMapping("/signup/publisher")
+    public int signupPublisher(PublisherCreateDto publisherCreateDto) {
+        userService.signupPublisher(publisherCreateDto,passwordEncoder);
+        return publisherCreateDto.getPublisherId();
+    }
+
+    @CrossOrigin
     @PostMapping("/signup/student/dupcheck")
-    public boolean idDupCheck(String userId) {
-        Student student = studentRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용 가능한 아이디 입니다."));
-        return true;
+    public boolean checkDupStudentId(String userId) {
+        Student student = studentRepository.findByUserId(userId);
+        if(student==null) return true;
+        else return false;
+    }
+
+    @CrossOrigin
+    @PostMapping("/signup/publisher/dupcheck")
+    public boolean checkDupPublisherId(String userId) {
+        Publisher publisher = publisherRepository.findByUserId(userId);
+        if(publisher==null) return true;
+        else return false;
     }
         // 로그인
-    @PostMapping("/login")
-    public int login(@RequestBody Map<String, String> user) {
-        Student student = studentRepository.findByUserId(user.get("userId"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
-        if (!passwordEncoder.matches(user.get("password"), student.getPassword())) {
+    @CrossOrigin
+    @PostMapping("/login/student")
+    public StudentResponseDto loginStudent(String id, String password) throws ParseException {
+
+        Student student = studentRepository.findByUserId(id);
+        if(student==null){ throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
+
+        if (!passwordEncoder.matches(password, student.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        jwtTokenProvider.createToken(student.getUsername(), student.getRoles());
-        return student.getStudentId();
+        jwtTokenProvider.createToken(student.getUsername());
+        if(student.getIsSubscribing()) student.checkSubscription();
+        return new StudentResponseDto(student);
+    }
+
+    /*@CrossOrigin
+    @GetMapping("/logout/")
+    public Jws<Claims> logout(HttpServletRequest request)
+    {
+        return jwtTokenProvider.logout(request);
+    }*/
+
+    @CrossOrigin
+    @PostMapping("/login/publisher")
+    public PublisherResponseDto loginPublisher(String id, String password) {
+
+        Publisher publisher = publisherRepository.findByUserId(id);
+        if(publisher==null){throw new IllegalArgumentException("가입되지 않은 아이디 입니다.");}
+
+        if (!passwordEncoder.matches(password, publisher.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        jwtTokenProvider.createToken(publisher.getUsername());
+        return new PublisherResponseDto(publisher);
     }
 
     //프로필 업데이트
+    @CrossOrigin
     @PutMapping("/student/profile")
-    public int studentProfileUpdate(int studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
-        return customUserDetailService.update(studentId,studentUpdateRequestDto);
+    public int updateStudentProfile(int studentId, @RequestBody StudentInfoUpdateRequestDto studentInfoUpdateRequestDto){
+        return userService.updateStudent(studentId, studentInfoUpdateRequestDto);
     }
 
-    @GetMapping("/student/profile")
-    public Student dispProfile(int studentId){
-        Student student = studentRepository.findById(studentId)
+    @CrossOrigin
+    @PutMapping("/student/profile/subscription")
+    public int updateSubscription(int studentId, @RequestBody StudentSubscriptionUpdateRequestDto requestDto){
+        return userService.updateSubscription(studentId, requestDto);
+    }
+
+    @CrossOrigin
+    @GetMapping("/publisher/profile")
+    public Publisher getPublisherProfile(int publisherId){
+        return publisherRepository.findById(publisherId)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
-        return student;
+    }
+
+    @CrossOrigin
+    @GetMapping("/student/profile")
+    public Student getStudentProfile(int studentId){
+        return studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+    }
+
+    @CrossOrigin
+    @GetMapping("/publisher/profile/profit")
+    public MonthlyProfitAndSoldResponseDto getMonthlyProfitAndSold(@RequestParam("publisherId") int publisherId){
+        return userService.getMonthlyProfitAndSold(publisherId);
     }
 }

@@ -1,6 +1,5 @@
 package com.swithme.web.controller;
 
-import com.swithme.domain.book.Book;
 import com.swithme.domain.folder.Folder;
 import com.swithme.domain.folder.FolderRepository;
 import com.swithme.domain.myBook.MyBook;
@@ -12,11 +11,11 @@ import com.swithme.domain.problem.Problem;
 import com.swithme.domain.problem.ProblemRepository;
 import com.swithme.domain.student.Student;
 import com.swithme.domain.student.StudentRepository;
+import com.swithme.domain.subChapter.SubChapter;
+import com.swithme.domain.subChapter.SubChapterRepository;
 import com.swithme.web.dto.MyProblemUpdateRequestDto;
-import lombok.Builder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,12 +53,15 @@ public class MyProblemControllerTest {
     @Autowired
     private MyBookRepository myBookRepository;
     @Autowired
+    private SubChapterRepository subChapterRepository;
+    @Autowired
     private ProblemRepository problemRepository;
 
     private Student student;
     private Folder folder;
     private List<Problem> problemList;
     private MyBook myBook;
+    private SubChapter subChapter;
 
     @Before
     public void setup(){
@@ -71,38 +74,41 @@ public class MyProblemControllerTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        student = studentRepository.findByUserId("test id")
-                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다."));
+        student = studentRepository.findByUserId("test id");
 
         folderRepository.save(Folder.builder()
                 .student(student)
                 .build());
-        List<Folder> folderList = folderRepository.findByStudent(student);
-        folder = folderList.get(0);
+        folder = folderRepository.findByStudent(student).get(0);
+
+        subChapterRepository.save(new SubChapter());
+        subChapter = subChapterRepository.findAll().get(0);
 
         problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
+                .subChapter(subChapter)
+                .beforeProblemId(0)
                 .build());
+        Problem problem = problemRepository.findAll().get(0);
         problemRepository.save(Problem.builder()
-                .pageNumber((short)1)
+                .subChapter(subChapter)
+                .beforeProblemId(problem.getProblemId())
                 .build());
+
         problemList = problemRepository.findAll();
 
         myBookRepository.save(MyBook.builder()
                 .folder(folder)
+                .lastSubChapterId(1)
+                .lastPageNumber((short)1)
                 .build());
-        List<MyBook> myBookList = myBookRepository.findByFolder(folder);
-        myBook = myBookList.get(0);
+        myBook = myBookRepository.findAll().get(0);
 
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(0))
-                .myBook(myBook)
-                .build());
-
-        myProblemRepository.save(MyProblem.builder()
-                .problem(problemList.get(1))
-                .myBook(myBook)
-                .build());
+        for(int i = 0; i < 2; i++) {
+            myProblemRepository.save(MyProblem.builder()
+                    .problem(problemList.get(i))
+                    .myBook(myBook)
+                    .build());
+        }
     }
 
     @After
@@ -111,69 +117,74 @@ public class MyProblemControllerTest {
         myProblemRepository.deleteAll();
         myBookRepository.deleteAll();
         problemRepository.deleteAll();
+        subChapterRepository.deleteAll();
         folderRepository.deleteAll();
         studentRepository.deleteAll();
     }
 
     @Test
-    public void updateMyProblemTest() throws Exception{
+    public void updateMyProblemTest() throws SQLException {
         List<MyProblem> myProblemList = myProblemRepository.findAll();
 
         int myProblemId = myProblemList.get(0).getMyProblemId();
-        String expectedMySolution = "updated solution";
+        String expectedTextSolution = "updated solution";
         String expectedMyAnswer = "updated answer";
 
         MyProblemUpdateRequestDto requestDto = MyProblemUpdateRequestDto.builder()
-                .mySolution(expectedMySolution)
+                .linkSolutionId(null)
+                .imageSolution(null)
+                .textSolution(expectedTextSolution)
+                .handSolution(null)
+                .solutionType("text")
                 .myAnswer(expectedMyAnswer)
                 .isConfused(true)
                 .isRight(false)
-                .solvedDateTime(12345L)
+                .solvedDateTime(1412L)
+                .isSolved(true)
                 .build();
 
+
+        assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNull();
+
         String url = "http://localhost:" + port + "/student/library/my-book/my-problems/" + myProblemId;
-
         HttpEntity<MyProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         MyProblem updatedMyProblem = myProblemRepository.findById(myProblemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 my problem이 없습니다. myProblemId = " + myProblemId));
-        assertThat(updatedMyProblem.getMySolution()).isEqualTo(expectedMySolution);
-        assertThat(updatedMyProblem.getMyAnswer()).isEqualTo(expectedMyAnswer);
+        assertThat(updatedMyProblem.getIsConfused()).isEqualTo(true);
 
-        assertThat(noteRepository.findAll()).isNotNull();
+        assertThat(noteRepository.findByMyProblem(myProblemList.get(0))).isNotNull();
     }
 
     @Test
-    public void getMyProblemList(){
-        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId()
-                + "/my-problems?page=" + problemList.get(0).getPageNumber();
-
+    public void getMyProblemListTest(){
+        String url = "http://localhost:" + port + "/student/library/my-book/" + myBook.getMyBookId() + "/main-chapter/sub-chapter/"
+                + subChapter.getSubChapterId() + "?page=" + myBook.getLastPageNumber();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-//    public void updateMySolutionTest() throws Exception{
-//
-//        myProblemRepository.save(new MyProblem());
-//        myProblemRepository.save(new MyProblem());
-//        myProblemRepository.save(new MyProblem());
-//
-//        String expectedMySolution = "updated solution";
-//        String expectedMyAnswer = "updated answer";
-//        List<MyProblem> myProblemList = myProblemRepository.findAll();
-//
-//        MyProblemUpdateRequestDto requestDto = new MyProblemUpdateRequestDto(myProblemList);
-//
-//        String url = "http://localhost:" + port + "/student/library/my-book/my-problems";
-//
-//        HttpEntity<MyProblemUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-//
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
-//
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//    }
+    @Test
+    public void getMyProblemListInSubChapterTest(){
+        String url = "http://localhost:" + port +
+                "/student/library/my-book/" + myBook.getMyBookId() + "/main-chapter/sub-chapter/my-problems?subChapterId=" + subChapter.getSubChapterId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void getMySolutionTest(){
+        MyProblem myProblem = myProblemRepository.findAll().get(0);
+        String url = "http://localhost:" + port + "/student/library/my-book/my-problem/problem-id?myProblemId="
+                +myProblem.getMyProblemId();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 }

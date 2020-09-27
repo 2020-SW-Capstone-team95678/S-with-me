@@ -7,19 +7,30 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MyProblemUpdateRequestDto {
-    private boolean isConfused;
-    private boolean isRight;
-    private String mySolution;
+    private Boolean isConfused;
+    private Boolean isRight;
+    private Integer linkSolutionId;
+    private String imageSolution;
+    private String textSolution;
+    private String handSolution;
+    private String solutionType;
     private String myAnswer;
     private Long solvedDateTime;
+    private Boolean isSolved;
 
     @Builder
-    public MyProblemUpdateRequestDto(boolean isConfused, boolean isRight, String mySolution,
-                                     String myAnswer, Long solvedDateTime){
+    public MyProblemUpdateRequestDto(Boolean isConfused, Boolean isRight, Integer linkSolutionId, String imageSolution,
+                                     String textSolution, String handSolution, String solutionType,
+                                     String myAnswer, Long solvedDateTime, Boolean isSolved){
         this.isConfused = isConfused;
         this.isRight = isRight;
-        this.mySolution = mySolution;
+        this.linkSolutionId = linkSolutionId;
+        this.imageSolution = imageSolution;
+        this.textSolution = textSolution;
+        this.handSolution = handSolution;
+        this.solutionType = solutionType;
         this.myAnswer = myAnswer;
         this.solvedDateTime = solvedDateTime;
+        this.isSolved = isSolved;
     }
 }

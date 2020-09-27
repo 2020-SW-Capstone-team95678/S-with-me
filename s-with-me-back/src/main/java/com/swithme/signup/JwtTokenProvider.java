@@ -26,6 +26,8 @@ public class JwtTokenProvider {
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;
 
+    private boolean isLogin = true;
+
     private final UserDetailsService userDetailsService;
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
@@ -35,9 +37,9 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
+    public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
-        claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
+        //claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -64,6 +66,13 @@ public class JwtTokenProvider {
         return request.getHeader("X-AUTH-TOKEN");
     }
 
+    /*public Jws<Claims> logout(HttpServletRequest request)
+    {
+        String jwtToken = request.getHeader("X-AUTH-TOKEN");
+        Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+        claims.getBody().setExpiration(new Date());
+        return  claims;
+    }*/
     // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
