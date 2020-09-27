@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -26,10 +28,17 @@ public class BookRepositoryTest {
     @Before
     public void setup(){
         publisherRepository.save(new Publisher());
-        publisher = publisherRepository.findAll().get(0);
+        List<Publisher> publisherList = publisherRepository.findAll();
+        publisher = publisherList.get(0);
 
         bookRepository.save(Book.builder()
                 .publisher(publisher)
+                .name("test name 1")
+                .build());
+
+        bookRepository.save(Book.builder()
+                .publisher(publisher)
+                .name("test name 2")
                 .build());
     }
 
@@ -41,7 +50,15 @@ public class BookRepositoryTest {
 
     @Test
     public void findByPublisherTest(){
-        Book book = bookRepository.findByPublisher(publisher).get(0);
-        assertThat(book.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
+        List<Book> bookList = bookRepository.findByPublisher(publisher);
+        Book book1 = bookList.get(0);
+        Book book2 = bookList.get(1);
+
+        assertThat(book1.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
+        assertThat(book2.getPublisher().getPublisherId()).isEqualTo(publisher.getPublisherId());
+
+        assertThat(book1.getName()).isEqualTo("test name 1");
+        assertThat(book2.getName()).isEqualTo("test name 2");
     }
+
 }

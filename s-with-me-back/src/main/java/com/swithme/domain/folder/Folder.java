@@ -29,9 +29,4 @@ public class Folder {
         this.student = student;
         this.folderName = folderName;
     }
-
-    public void update(String folderName)
-    {
-        this.folderName = folderName;
-    }
 }

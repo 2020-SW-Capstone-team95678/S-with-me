@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MyProblemRepositoryTest {
@@ -26,19 +27,30 @@ public class MyProblemRepositoryTest {
     private ProblemRepository problemRepository;
 
     private MyBook myBook;
-    private Problem problem;
+    private Problem problem1;
+    private Problem problem2;
 
     @Before
     public void setup(){
         myBookRepository.save(new MyBook());
-        myBook = myBookRepository.findAll().get(0);
-
         problemRepository.save(new Problem());
-        problem = problemRepository.findAll().get(0);
+        problemRepository.save(new Problem());
+
+        List<MyBook> myBookList = myBookRepository.findAll();
+        myBook = myBookList.get(0);
+
+        List<Problem> problemList = problemRepository.findAll();
+        problem1 = problemList.get(0);
+        problem2 = problemList.get(1);
 
         myProblemRepository.save(MyProblem.builder()
                 .myBook(myBook)
-                .problem(problem)
+                .problem(problem1)
+                .build());
+
+        myProblemRepository.save(MyProblem.builder()
+                .myBook(myBook)
+                .problem(problem2)
                 .build());
     }
 
@@ -51,8 +63,14 @@ public class MyProblemRepositoryTest {
 
     @Test
     public void findByMyBookTest() {
-        MyProblem myProblem =myProblemRepository.findByMyBook(myBook).get(0);
-        assertThat(myProblem.getMyBook().getMyBookId()).isEqualTo(myBook.getMyBookId());
-        assertThat(myProblem.getProblem().getProblemId()).isEqualTo(problem.getProblemId());
+        List<MyProblem> myProblemList = myProblemRepository.findByMyBook(myBook);
+        MyProblem myProblem1 = myProblemList.get(0);
+        MyProblem myProblem2 = myProblemList.get(1);
+
+        assertThat(myProblem1.getMyBook().getMyBookId()).isEqualTo(myBook.getMyBookId());
+        assertThat(myProblem1.getProblem().getProblemId()).isEqualTo(problem1.getProblemId());
+
+        assertThat(myProblem2.getMyBook().getMyBookId()).isEqualTo(myBook.getMyBookId());
+        assertThat(myProblem2.getProblem().getProblemId()).isEqualTo(problem2.getProblemId());
     }
 }

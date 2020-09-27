@@ -1,0 +1,77 @@
+package com.swithme.web.controller;
+
+import com.swithme.domain.student.Student;
+import com.swithme.service.StudentService;
+import com.swithme.web.dto.StudentDto;
+import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
+
+@Controller
+@AllArgsConstructor
+public class SignupController {
+    private StudentService studentService;
+
+    // 메인 페이지
+    @CrossOrigin
+    @GetMapping("/")
+    public String index() {
+        return "/index";
+    }
+
+    // 회원가입 페이지
+    @CrossOrigin
+    @GetMapping("/student/signup")
+    public String studentSignup() {
+        return "/studentSignup";
+    }
+
+    // 회원가입 처리
+    @CrossOrigin
+    @PostMapping("/student/signup")
+    public String execStudentSignup(StudentDto studentDto) {
+        studentService.joinUser(studentDto);
+        return "redirect:/";
+    }
+
+    // 로그인 결과 페이지
+    @CrossOrigin
+    @GetMapping("/user/login/result")
+    public String dispLoginResult() {
+        return "/loginSuccess";
+    }
+
+    // 로그아웃 결과 페이지
+    @CrossOrigin
+    @GetMapping("/user/logout/result")
+    public String dispLogout() {
+        return "/logout";
+    }
+
+    // 접근 거부 페이지
+    @CrossOrigin
+    @GetMapping("/user/denied")
+    public String dispDenied() {
+        return "/denied";
+    }
+
+    // 내 정보 페이지
+    @CrossOrigin
+    @GetMapping("/user/info")
+    public Student dispMyInfo (Principal principal) {
+        return studentService.getInfomation(principal.getName());
+    }
+
+    // 어드민 페이지
+    @CrossOrigin
+    @GetMapping("/admin")
+    public String dispAdmin() {
+        return "/admin";
+    }
+}

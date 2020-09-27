@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -34,10 +36,18 @@ public class FolderRepositoryTest {
                 .birthday("11")
                 .grade((short)4)
                 .build());
-        student = studentRepository.findAll().get(0);
+
+        List<Student> studentList = studentRepository.findAll();
+        student = studentList.get(0);
 
         folderRepository.save(Folder.builder()
                 .student(student)
+                .folderName("test folder name 1")
+                .build());
+
+        folderRepository.save(Folder.builder()
+                .student(student)
+                .folderName("test folder name 2")
                 .build());
     }
 
@@ -49,7 +59,12 @@ public class FolderRepositoryTest {
 
     @Test
     public void findByStudentTest(){
-        Folder folder = folderRepository.findByStudent(student).get(0);
-        assertThat(folder.getStudent().getStudentId()).isEqualTo(student.getStudentId());
+        List<Folder> folderList = folderRepository.findByStudent(student);
+        Folder folder1 = folderList.get(0);
+        Folder folder2 = folderList.get(1);
+
+        assertThat(folder1.getStudent().getStudentId()).isEqualTo(student.getStudentId());
+        assertThat(folder1.getFolderName()).isEqualTo("test folder name 1");
+        assertThat(folder2.getFolderName()).isEqualTo("test folder name 2");
     }
 }
