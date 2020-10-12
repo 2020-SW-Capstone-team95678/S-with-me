@@ -7,7 +7,7 @@
   "static/js/1.43115d14.chunk.js.map": "/static/js/1.43115d14.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/media/katex.min.css": "/static/media/KaTeX_Typewriter-Regular.25702356.ttf",
+  "static/media/katex.min.css": "/static/media/KaTeX_Typewriter-Regular.6cc31ea5.woff2",
   "static/media/logo.png": "/static/media/logo.52e87dc4.png",
   "static/media/tutorial(1).png": "/static/media/tutorial(1).52ae6a18.png",
   "static/media/tutorial(2).png": "/static/media/tutorial(2).4c51369a.png",
@@ -22,6 +22,6 @@
   "static/css/1.10575601.chunk.css.map": "/static/css/1.10575601.chunk.css.map",
   "static/css/main.ad21c83d.chunk.css.map": "/static/css/main.ad21c83d.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.2994f7a03fdc0cfed156a1bc91d341d5.js": "/precache-manifest.2994f7a03fdc0cfed156a1bc91d341d5.js",
+  "precache-manifest.c0d04d5bed71afb602bb06e9b761edff.js": "/precache-manifest.c0d04d5bed71afb602bb06e9b761edff.js",
   "service-worker.js": "/service-worker.js"
 }
