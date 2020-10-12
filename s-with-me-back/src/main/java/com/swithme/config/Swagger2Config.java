@@ -14,7 +14,7 @@ public class Swagger2Config {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host("ec2-3-34-81-212.ap-northeast-2.compute.amazonaws.com:8080")
+                .host("swithme.net")
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
