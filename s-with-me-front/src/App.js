@@ -24,6 +24,9 @@ import ProfilePublisher from './components/publisher/profile/Profile';
 import RegisterProblem from './components/publisher/createBook/RegisterProblem';
 import BookstoreAppContainer from './containers/bookstore/BookstoreAppContainer';
 import BookDetailContainer from './containers/bookstore/BookDetailContainer';
+import InventoryAppContainer from './containers/publisher/InventoryAppContainer';
+import BookDetailAppContainer from './containers/publisher/BookDetailAppContainer';
+import EditorAppContainer from './containers/publisher/EditorAppContainer';
 
 export default class App extends PureComponent {
   store = configureStore();
@@ -160,7 +163,18 @@ export default class App extends PureComponent {
                   <Route path="/profile" render={() => <ProfilePublisher />} />
                   <Route path="/library" render={() => <LibraryApp />} />
                   <Route path="/register-problem" render={() => <RegisterProblem />} />
+                  <Route path="/inventory" exact render={() => <InventoryAppContainer />} />
+                  <Route
+                    path="/inventory/table-of-contents/:bookId"
+                    render={({ match }) => <BookDetailAppContainer match={match} />}
+                  />
+                  <Route
+                    path="/inventory/:subChapterId/problems"
+                    render={({ match }) => <EditorAppContainer match={match} />}
+                  />
+
                   <Route path="/publisher/library/book2" exact render={() => <BookInfoPage />} />
+
                   <NotificationContainer />
                 </PAppLayout>
                 <Route path="*" component={NotFound} />
