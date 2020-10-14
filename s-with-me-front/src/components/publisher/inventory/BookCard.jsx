@@ -6,7 +6,7 @@ import { Button, Image, Label, Card } from 'semantic-ui-react';
 import Heading from '../../../common-ui/Heading';
 
 export default function BookCard(props) {
-  const { bookId, cover, grade, price, subject, name } = props.book;
+  const { cover, grade, price, subject, name } = props.book;
 
   return (
     <div>

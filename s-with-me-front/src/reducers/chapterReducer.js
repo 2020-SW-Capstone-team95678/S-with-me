@@ -1,5 +1,10 @@
 import { handle } from 'redux-pack';
-import { FETCH_CHAPTER_LIST, CREATE_MAIN_CHAPTER } from '../actions/chapterActions';
+import {
+  FETCH_CHAPTER_LIST,
+  CREATE_MAIN_CHAPTER,
+  UPDATE_MAIN_CHAPTER,
+  DELETE_MAIN_CHAPTER,
+} from '../actions/chapterActions';
 
 const initState = {
   ids: [],
@@ -7,10 +12,14 @@ const initState = {
   loadingState: {
     [FETCH_CHAPTER_LIST]: false,
     [CREATE_MAIN_CHAPTER]: false,
+    [UPDATE_MAIN_CHAPTER]: false,
+    [DELETE_MAIN_CHAPTER]: false,
   },
   errorState: {
     [FETCH_CHAPTER_LIST]: false,
     [CREATE_MAIN_CHAPTER]: false,
+    [UPDATE_MAIN_CHAPTER]: false,
+    [DELETE_MAIN_CHAPTER]: false,
   },
 };
 
@@ -18,6 +27,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_MAIN_CHAPTER:
     case CREATE_MAIN_CHAPTER:
     case FETCH_CHAPTER_LIST: {
       return handle(state, action, {
@@ -72,6 +82,8 @@ export default (state = initState, action) => {
         },
       });
     }
+    case DELETE_MAIN_CHAPTER:
+      return initState;
     default:
       return state;
   }
