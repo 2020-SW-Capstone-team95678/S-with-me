@@ -9,6 +9,9 @@ import chapter from './chapterReducer';
 import note from './noteReducer';
 import curriculum from './curriculumReducer';
 
+import inventory from './inventoryReducer';
+import problemList from './problemReducer';
+
 export default {
   myProblemList,
   user,
@@ -20,4 +23,6 @@ export default {
   chapter,
   note,
   curriculum,
+  inventory,
+  problemList,
 };
