@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Form, Modal, Button, Popup, Icon } from 'semantic-ui-react';
+import { Form, Modal, Button, Popup, Icon, Grid } from 'semantic-ui-react';
 import MathTutorial from '../../student/problem/solutionInput/MathTutorial';
+import { MathPreview } from './MathPreview';
+
+import {parseLatex} from '../../../constants/delimeters';
 
 export default class EditProblem extends PureComponent {
   constructor(props) {
@@ -16,17 +19,17 @@ export default class EditProblem extends PureComponent {
       previewURL: '',
 
       problemNumber: props.isNew ? undefined : props.problem.problemNumber,
-      title: props.isNew ? '' : props.problem.title,
-      content: props.isNew ? '' : props.problem.content,
-      answer: props.isNew ? '' : props.problem.answer,
-      solution: props.isNew ? '' : props.problem.solution,
+      title: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.title) : props.problem.title),
+      content: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.content) : props.problem.content),
+      answer: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.answer) : props.problem.answer),
+      solution: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.solution) : props.problem.solution),
       image: props.isNew ? '' : props.problem.image,
 
-      option1: props.isNew ? undefined : props.problem.option1,
-      option2: props.isNew ? undefined : props.problem.option2,
-      option3: props.isNew ? undefined : props.problem.option3,
-      option4: props.isNew ? undefined : props.problem.option4,
-      option5: props.isNew ? undefined : props.problem.option5,
+      option1: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option1) : props.problem.option1),
+      option2: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option2) : props.problem.option2),
+      option3: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option3) : props.problem.option3),
+      option4: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option4) : props.problem.option4),
+      option5: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option5) : props.problem.option5),
     };
   }
   show = () => this.setState({ open: true });
@@ -48,17 +51,24 @@ export default class EditProblem extends PureComponent {
     const { option1, option2, option3, option4, option5 } = this.state;
 
     formValue = {
-      content: content,
+      content: isMath ? JSON.stringify(content) : content,
       image: hasImage ? previewURL : '',
       isMath: isMath,
-      solution: solution,
-      title: title,
+      solution: isMath ? JSON.stringify(solution) : solution,
+      title: isMath ? JSON.stringify(title) : title,
       problemNumber: hasContent ? 0 : problemNumber,
       isOptional: hasContent ? false : isOptional,
-      answer: hasContent ? '' : answer,
+      answer: hasContent ? '' : (isMath ? JSON.stringify(answer) : answer),
     };
     if (isOptional && !hasContent) {
-      formValue = { ...formValue, option1, option2, option3, option4, option5 };
+      formValue = { 
+        ...formValue, 
+        option1 : isMath ? JSON.stringify(option1) : option1, 
+        option2 : isMath ? JSON.stringify(option2) : option2, 
+        option3 : isMath ? JSON.stringify(option3) : option3, 
+        option4 : isMath ? JSON.stringify(option4) : option4, 
+        option5 : isMath ? JSON.stringify(option5) : option5 
+      };
     }
 
     if (isNew) {
@@ -79,6 +89,7 @@ export default class EditProblem extends PureComponent {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
+    
     reader.onloadend = () => {
       this.setState({
         file: file,
@@ -151,6 +162,7 @@ export default class EditProblem extends PureComponent {
 
           {!hasContent ? (
             <Form.Input
+              required
               label="문제 번호"
               name="problemNumber"
               value={problemNumber}
@@ -165,22 +177,26 @@ export default class EditProblem extends PureComponent {
             onChange={this.handleChange}
             placeholder="문제의 제목을 입력해 주세요."
           />
-
+          {isMath ? <MathPreview mathContent={title} /> : null}
           <Form.Checkbox
             label={hasImage ? '그림 첨부 취소하기' : '문제 내용에 그림이 있어요'}
             checked={hasImage}
             onClick={this.handleHasImage}
           />
           {hasImage ? (
-            <div style={{ paddingBottom: 10 }}>
-              <input
-                type="file"
-                accept="image/jpg,impge/png,image/jpeg,image/gif"
-                name="mySolutionImage"
-                onChange={this.handleFileOnChange}
-              />
-              {solution_preview}
-            </div>
+            <Grid>
+              <Grid.Column width={5}>
+                <Form.Input
+                    type="file"
+                    accept="image/jpg,impge/png,image/jpeg,image/gif"
+                    name="mySolutionImage"
+                    onChange={this.handleFileOnChange}
+                />
+              </Grid.Column>
+              <Grid.Column>
+                {solution_preview}
+              </Grid.Column>
+          </Grid>
           ) : null}
           <Form.TextArea
             label="문제 내용"
@@ -189,6 +205,7 @@ export default class EditProblem extends PureComponent {
             onChange={this.handleChange}
             placeholder="문제의 지문을 입력해 주세요."
           />
+          {isMath ? <MathPreview mathContent={content} /> : null}
           {isOptional ? (
             <>
               <Form.Input
@@ -198,6 +215,7 @@ export default class EditProblem extends PureComponent {
                 onChange={this.handleChange}
                 placeholder="1번 객관식 지문의 내용을 입력해 주세요."
               />
+              {isMath ? <MathPreview mathContent={option1} /> : null}
               <Form.Input
                 label="2번"
                 name="option2"
@@ -205,6 +223,7 @@ export default class EditProblem extends PureComponent {
                 onChange={this.handleChange}
                 placeholder="2번 객관식 지문의 내용을 입력해 주세요."
               />
+              {isMath ? <MathPreview mathContent={option2} /> : null}
               <Form.Input
                 label="3번"
                 name="option3"
@@ -212,6 +231,7 @@ export default class EditProblem extends PureComponent {
                 onChange={this.handleChange}
                 placeholder="3번 객관식 지문의 내용을 입력해 주세요."
               />
+              {isMath ? <MathPreview mathContent={option3} /> : null}
               <Form.Input
                 label="4번"
                 name="option4"
@@ -219,6 +239,7 @@ export default class EditProblem extends PureComponent {
                 onChange={this.handleChange}
                 placeholder="4번 객관식 지문의 내용을 입력해 주세요."
               />
+              {isMath ? <MathPreview mathContent={option4} /> : null}
               <Form.Input
                 label="5번"
                 name="option5"
@@ -226,12 +247,13 @@ export default class EditProblem extends PureComponent {
                 onChange={this.handleChange}
                 placeholder="5번 객관식 지문의 내용을 입력해 주세요."
               />
+              {isMath ? <MathPreview mathContent={option5} /> : null}
             </>
           ) : null}
 
           {hasContent ? null : isOptional ? (
             <Form.Group inline>
-              <label>문제 정답</label>
+              <Form.Field label="문제 정답" required/>
               <Form.Radio
                 label="1"
                 value={1}
@@ -269,13 +291,17 @@ export default class EditProblem extends PureComponent {
               />
             </Form.Group>
           ) : (
-            <Form.Input
-              label="문제 정답"
-              name="answer"
-              value={answer}
-              onChange={this.handleChange}
-              placeholder="주관식 문제의 정답을 입력해 주세요."
-            />
+            <>
+              <Form.Input
+                required
+                label="문제 정답"
+                name="answer"
+                value={answer}
+                onChange={this.handleChange}
+                placeholder="주관식 문제의 정답을 입력해 주세요."
+              />
+              {isMath ? <MathPreview mathContent={answer} /> : null}
+            </>
           )}
           <Form.TextArea
             label="문제 해설"
@@ -284,6 +310,7 @@ export default class EditProblem extends PureComponent {
             onChange={this.handleChange}
             placeholder="문제의 해설을 입력해 주세요."
           />
+          {isMath ? <MathPreview mathContent={solution} /> : null}
         </Form>
         <Modal dimmer="inverted" open={this.state.open} onClose={this.close}>
           <MathTutorial />

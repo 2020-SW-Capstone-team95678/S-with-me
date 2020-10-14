@@ -4,6 +4,7 @@ import { List, Button } from 'semantic-ui-react';
 import EditProblemContainer from '../../../containers/publisher/EditProblemContainer';
 import ProblemView from './ProblemView';
 
+
 export default class EditorApp extends PureComponent {
   constructor() {
     super();
@@ -28,7 +29,7 @@ export default class EditorApp extends PureComponent {
     const { selectedProblem, isEditing, isAdding } = this.state;
     return (
       <div>
-        <div>문제 편집 페이지 입니다. 책이름 (소단원이름) </div>
+        <div style={{display: 'flex', justifyContent: 'center'}}>문제 편집 페이지 입니다. 책이름 (소단원이름)</div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ flex: 1, padding: 10 }}>
             <Button
@@ -66,7 +67,7 @@ export default class EditorApp extends PureComponent {
                     />
                   </List.Content>
                   <List.Content>
-                    {problem.problemNumber}. {problem.title}
+                    No. <b>{problem.problemNumber}</b>
                   </List.Content>
                 </List.Item>
               ))}

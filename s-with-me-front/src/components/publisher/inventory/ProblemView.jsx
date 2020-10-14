@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, List, Segment } from 'semantic-ui-react';
+import Text from '../../../common-ui/Text';
 
+
+import {viewLatex} from '../../../constants/delimeters';
 import EditProblemContainer from '../../../containers/publisher/EditProblemContainer';
 
 export default class ProblemView extends PureComponent {
@@ -16,6 +19,7 @@ export default class ProblemView extends PureComponent {
 
   render() {
     const { problem, subChapterId } = this.props;
+    const {problemNumber, title, image, content, isOptional, isMath} = problem;
     const { isEditing } = this.state;
     if (Object.keys(problem).length === 0) return <div>문제를 선택해주세요!</div>;
     if (isEditing) {
@@ -29,7 +33,9 @@ export default class ProblemView extends PureComponent {
     } else {
       return (
         <div>
+          <Segment attached="top">
           <Button
+            size="mini"
             floated="right"
             basic
             color="orange"
@@ -37,34 +43,46 @@ export default class ProblemView extends PureComponent {
             icon="wrench"
             content="수정"
           />
-          <div>
-            <b>문제번호</b> : {problem.problemNumber}
-          </div>
-          <div>
-            <b>문제제목</b> : {problem.title}
-          </div>
-          <div>
-            <b>문제내용</b>
-            <div>
-              <img src={problem.image} alt="문제 내용 이미지" style={{ height: '200px' }} />
-              {problem.content}
-            </div>
-          </div>
-          {problem.isOptional ? (
-            <div>
-              <div>1: {problem.option1}</div>
-              <div>2: {problem.option2}</div>
-              <div>3: {problem.option3}</div>
-              <div>4: {problem.option4}</div>
-              <div>5: {problem.option5}</div>
-            </div>
-          ) : null}
-          <div>
-            <b>문제정답</b> : {problem.answer}
-          </div>
-          <div>
-            <b>문제해설</b> : {problem.solution}
-          </div>
+          <Text large>
+            {problemNumber ? problemNumber + '. ' : ' '}{isMath ? viewLatex(title) : title}
+          </Text>
+          </Segment>
+      {image ? (
+        <Segment attached>
+          <img
+            src={image}
+            alt={problemNumber + '문제 그림'}
+            style={{
+              maxHeight: '30vh',
+              minHeight: '10vh',
+              width: 'auto',
+              maxWidth: '100%',
+            }}
+          />
+        </Segment>
+      ) : null}
+      {content ? <Segment attached>{isMath ? viewLatex(content) : content}</Segment> : null}
+      {isOptional ? (<Segment attached><List ordered>
+        <List.Item>①{isMath ? viewLatex(problem.option1) : problem.option1}</List.Item>
+        <List.Item>②{isMath ? viewLatex(problem.option2) : problem.option2}</List.Item>
+        <List.Item>③{isMath ? viewLatex(problem.option3) : problem.option3}</List.Item>
+        <List.Item>④{isMath ? viewLatex(problem.option4) : problem.option4}</List.Item>
+        <List.Item>⑤{isMath ? viewLatex(problem.option5) : problem.option5}</List.Item>
+      </List>
+      </Segment>
+      ) : null}
+      {problemNumber ? <Segment.Group>
+        <Segment>정답</Segment>
+        <Segment.Group>
+          <Segment>{isMath ? viewLatex(problem.answer) : problem.answer}</Segment>
+        </Segment.Group>
+      </Segment.Group> : null}
+      <Segment.Group>
+        <Segment>해설</Segment>
+        <Segment.Group>
+          <Segment>{isMath ? viewLatex(problem.solution) : problem.solution}</Segment>
+        </Segment.Group>
+      </Segment.Group>
         </div>
       );
     }
