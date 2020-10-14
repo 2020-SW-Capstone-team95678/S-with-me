@@ -35,15 +35,15 @@ export default class App extends PureComponent {
     this.state = { logged: false, isStudent: true };
   }
 
-  setUserType = isStudent => {
+  setUserType = (isStudent) => {
     this.setState({ isStudent: isStudent });
   };
 
-  setLogged = logged => {
+  setLogged = (logged) => {
     this.setState({ logged: logged });
   };
 
-  onLogin = isStudent => {
+  onLogin = (isStudent) => {
     this.setState({ logged: true, isStudent: isStudent });
   };
 
@@ -165,12 +165,16 @@ export default class App extends PureComponent {
                   <Route path="/register-problem" render={() => <RegisterProblem />} />
                   <Route path="/inventory" exact render={() => <InventoryAppContainer />} />
                   <Route
-                    path="/inventory/table-of-contents/:bookId"
-                    render={({ match }) => <BookDetailAppContainer match={match} />}
+                    path="/inventory/:name/table-of-contents"
+                    render={({ match, location }) => (
+                      <BookDetailAppContainer match={match} location={location} />
+                    )}
                   />
                   <Route
-                    path="/inventory/:subChapterId/problems"
-                    render={({ match }) => <EditorAppContainer match={match} />}
+                    path="/inventory/:name/:mainChapter/:subChapter/problems"
+                    render={({ match, location }) => (
+                      <EditorAppContainer match={match} location={location} />
+                    )}
                   />
 
                   <Route path="/publisher/library/book2" exact render={() => <BookInfoPage />} />
