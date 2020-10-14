@@ -11,7 +11,14 @@ export default function BookCard(props) {
   return (
     <div>
       <div style={{ minHeight: '230px' }}>
-        <Link to={`/inventory/table-of-contents/${bookId}`}>
+        <Link
+          to={{
+            pathname: `/inventory/${name}/table-of-contents`,
+            state: {
+              book: props.book,
+            },
+          }}
+        >
           <Image rounded src={cover} size="small" centered />
         </Link>
       </div>
@@ -31,7 +38,14 @@ export default function BookCard(props) {
       </Card.Content>
       <Card.Content extra textAlign="center">
         <div style={{ paddingTop: 5 }}>
-          <Link to={`/inventory/table-of-contents/${bookId}`}>
+          <Link
+            to={{
+              pathname: `/inventory/${name}/table-of-contents`,
+              state: {
+                bookId: bookId,
+              },
+            }}
+          >
             <Button basic color="green" size="mini">
               목차 보기
             </Button>
