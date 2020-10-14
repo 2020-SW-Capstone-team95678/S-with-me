@@ -119,6 +119,7 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제집이 없습니다. bookId = " + bookId));
 
         BookResponseDto responseDto = BookResponseDto.builder()
+                .bookId(book.getBookId())
                 .subject(book.getSubject())
                 .price(book.getPrice())
                 .name(book.getName())
@@ -126,6 +127,7 @@ public class BookService {
                 .grade(book.getGrade())
                 .cover(book.getCover())
                 .introduction(book.getIntroduction())
+                .isOnSale(book.getIsOnSale())
                 .build();
 
         return responseDto;

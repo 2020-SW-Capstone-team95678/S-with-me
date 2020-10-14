@@ -16,6 +16,7 @@ public class ProblemUpdateRequestDto {
     private short problemNumber;
     private String answer;
     private Boolean isOptional;
+    private Boolean isMath;
     private String option1;
     private String option2;
     private String option3;
@@ -25,7 +26,7 @@ public class ProblemUpdateRequestDto {
     @Builder
     public ProblemUpdateRequestDto(int subChapterId, String title, String content, String solution,
                                    String image, short problemNumber, String answer,
-                                   Boolean isOptional, String option1, String option2, String option3, String option4, String option5){
+                                   Boolean isOptional,Boolean isMath, String option1, String option2, String option3, String option4, String option5){
         this.subChapterId = subChapterId;
         this.title = title;
         this.content = content;
@@ -34,6 +35,7 @@ public class ProblemUpdateRequestDto {
         this.problemNumber = problemNumber;
         this.answer = answer;
         this.isOptional = isOptional;
+        this.isMath = isMath;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
