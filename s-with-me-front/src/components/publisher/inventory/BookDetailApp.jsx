@@ -1,21 +1,47 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import { Accordion, Button, Icon, Segment } from 'semantic-ui-react';
+import { Accordion, Button, Form, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Text from '../../../common-ui/Text';
-import Api from '../../../Api';
 import BookInfo from './BookInfo';
 
 class BookDetailApp extends PureComponent {
   constructor(props) {
     super();
-    this.state = { book: undefined };
+    this.state = {
+      book: undefined,
+      isAddingMain: false,
+      isEditMain: false,
+      isAddingSub: false,
+      mainChapter: '',
+      subChapter: '',
+    };
   }
   componentDidMount() {
     const { book } = this.props.location.state;
     this.props.requestChapterList({ bookId: book.bookId }, true);
   }
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+  handleSubmit = (isMainChapter, editId) => {
+    const { book } = this.props.location.state;
+    const { requestChapterList, createMainChapter, updateMainChapter } = this.props;
+    if (isMainChapter) {
+      const formData = { bookId: book.bookId, mainChapterName: this.state.mainChapter };
+      if (editId) {
+        updateMainChapter(editId, formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ mainChapter: '', isEditMain: !this.state.isEditMain });
+        });
+      } else {
+        createMainChapter(formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ mainChapter: '', isAddingMain: !this.state.isAddingMain });
+        });
+      }
+    }
+  };
 
   render() {
     const { chapterList, styles } = this.props;
@@ -52,7 +78,13 @@ class BookDetailApp extends PureComponent {
 
       const subChapterContent = (
         <div>
-          <Button basic color="brown" icon="edit" content="이름 수정" />
+          <Button
+            basic
+            color="brown"
+            icon="edit"
+            content="이름 수정"
+            onClick={() => this.setState({ isEditMain: !this.state.isEditMain })}
+          />
           <Button
             basic
             floated="right"
@@ -61,7 +93,30 @@ class BookDetailApp extends PureComponent {
             icon="add"
             content="소단원 추가"
           />
-          <Button basic negative icon="remove" content="대단원 삭제" />
+          <Button
+            basic
+            negative
+            icon="remove"
+            content="대단원 삭제"
+            onClick={() => {
+              this.props.deleteMainChapter(key, () => {
+                this.props.requestChapterList({ bookId: book.bookId }, true);
+              });
+            }}
+          />
+          {this.state.isEditMain ? (
+            <Segment>
+              <Form onSubmit={() => this.handleSubmit(true, key)}>
+                <Form.Input
+                  label="새로운 대단원명"
+                  placeholder="수정할 대단원의 제목을 입력해 주세요."
+                  name="mainChapter"
+                  onChange={this.handleChange}
+                />
+                <Form.Button type="submit" icon="plus" content="제출" basic />
+              </Form>
+            </Segment>
+          ) : null}
           <Accordion.Accordion panels={subChapterPanels} />
         </div>
       );
@@ -76,10 +131,12 @@ class BookDetailApp extends PureComponent {
             attached="bottom"
             icon="barcode"
             size="medium"
-            content={book.isOnSale ? '판매 중' : '판매 시작'}
+            content={book.isOnSale ? '판매 중' : '판매 중지 상태'}
             // onClick={() => this.setState({ isAdding: !isAdding })}
           />
-          <BookInfo book={book} />
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+            <BookInfo book={book} />
+          </div>
           Monthly 수익 등등 보기
         </div>
 
@@ -95,8 +152,22 @@ class BookDetailApp extends PureComponent {
             positive
             icon="add"
             content="대단원 추가"
+            onClick={() => this.setState({ isAddingMain: !this.state.isAddingMain })}
           />
           <Accordion defaultActiveIndex={0} panels={rootPanels} styled fluid />
+          {this.state.isAddingMain ? (
+            <Segment>
+              <Form onSubmit={() => this.handleSubmit(true)}>
+                <Form.Input
+                  label="새로운 대단원명"
+                  placeholder="추가할 대단원의 제목을 입력해 주세요."
+                  name="mainChapter"
+                  onChange={this.handleChange}
+                />
+                <Form.Button type="submit" icon="plus" content="제출" basic />
+              </Form>
+            </Segment>
+          ) : null}
         </div>
       </div>
     );
