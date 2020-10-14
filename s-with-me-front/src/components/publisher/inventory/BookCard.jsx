@@ -42,7 +42,7 @@ export default function BookCard(props) {
             to={{
               pathname: `/inventory/${name}/table-of-contents`,
               state: {
-                bookId: bookId,
+                book: props.book,
               },
             }}
           >
