@@ -1,13 +1,13 @@
 {
   "main.css": "/static/css/main.85eabc40.chunk.css",
-  "main.js": "/static/js/main.a0f1452e.chunk.js",
-  "main.js.map": "/static/js/main.a0f1452e.chunk.js.map",
+  "main.js": "/static/js/main.2c7b8171.chunk.js",
+  "main.js.map": "/static/js/main.2c7b8171.chunk.js.map",
   "static/css/1.95b81339.chunk.css": "/static/css/1.95b81339.chunk.css",
   "static/js/1.5e1a5327.chunk.js": "/static/js/1.5e1a5327.chunk.js",
   "static/js/1.5e1a5327.chunk.js.map": "/static/js/1.5e1a5327.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/media/katex.min.css": "/static/media/KaTeX_Typewriter-Regular.3fe216d2.woff",
+  "static/media/katex.min.css": "/static/media/KaTeX_Size4-Regular.6a3255df.woff2",
   "static/media/logo.png": "/static/media/logo.52e87dc4.png",
   "static/media/tutorial(1).png": "/static/media/tutorial(1).52ae6a18.png",
   "static/media/tutorial(2).png": "/static/media/tutorial(2).4c51369a.png",
@@ -19,9 +19,9 @@
   "static/media/tutorial(8).png": "/static/media/tutorial(8).d34405a0.png",
   "static/media/user.png": "/static/media/user.91af5b06.png",
   "static/media/semantic.min.css": "/static/media/brand-icons.a1a749e8.svg",
-  "static/css/main.85eabc40.chunk.css.map": "/static/css/main.85eabc40.chunk.css.map",
   "static/css/1.95b81339.chunk.css.map": "/static/css/1.95b81339.chunk.css.map",
+  "static/css/main.85eabc40.chunk.css.map": "/static/css/main.85eabc40.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.7e55b5700c6186a7dcf7feeef6884e5b.js": "/precache-manifest.7e55b5700c6186a7dcf7feeef6884e5b.js",
+  "precache-manifest.1ca907a8a306642d1d7d99cc473c55fc.js": "/precache-manifest.1ca907a8a306642d1d7d99cc473c55fc.js",
   "service-worker.js": "/service-worker.js"
 }

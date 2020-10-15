@@ -3,7 +3,7 @@ import { Form, Modal, Button, Popup, Icon, Grid } from 'semantic-ui-react';
 import MathTutorial from '../../student/problem/solutionInput/MathTutorial';
 import { MathPreview } from './MathPreview';
 
-import {parseLatex} from '../../../constants/delimeters';
+import { parseLatex } from '../../../constants/delimeters';
 
 export default class EditProblem extends PureComponent {
   constructor(props) {
@@ -19,17 +19,53 @@ export default class EditProblem extends PureComponent {
       previewURL: '',
 
       problemNumber: props.isNew ? undefined : props.problem.problemNumber,
-      title: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.title) : props.problem.title),
-      content: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.content) : props.problem.content),
-      answer: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.answer) : props.problem.answer),
-      solution: props.isNew ? '' : (props.problem.isMath ? parseLatex(props.problem.solution) : props.problem.solution),
+      title: props.isNew
+        ? ''
+        : props.problem.isMath
+        ? parseLatex(props.problem.title)
+        : props.problem.title,
+      content: props.isNew
+        ? ''
+        : props.problem.isMath
+        ? parseLatex(props.problem.content)
+        : props.problem.content,
+      answer: props.isNew
+        ? ''
+        : props.problem.isMath && !props.problem.isOptional
+        ? parseLatex(props.problem.answer)
+        : props.problem.answer,
+      solution: props.isNew
+        ? ''
+        : props.problem.isMath
+        ? parseLatex(props.problem.solution)
+        : props.problem.solution,
       image: props.isNew ? '' : props.problem.image,
 
-      option1: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option1) : props.problem.option1),
-      option2: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option2) : props.problem.option2),
-      option3: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option3) : props.problem.option3),
-      option4: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option4) : props.problem.option4),
-      option5: props.isNew ? undefined : (props.problem.isMath ? parseLatex(props.problem.option5) : props.problem.option5),
+      option1: props.isNew
+        ? undefined
+        : props.problem.isMath
+        ? parseLatex(props.problem.option1)
+        : props.problem.option1,
+      option2: props.isNew
+        ? undefined
+        : props.problem.isMath
+        ? parseLatex(props.problem.option2)
+        : props.problem.option2,
+      option3: props.isNew
+        ? undefined
+        : props.problem.isMath
+        ? parseLatex(props.problem.option3)
+        : props.problem.option3,
+      option4: props.isNew
+        ? undefined
+        : props.problem.isMath
+        ? parseLatex(props.problem.option4)
+        : props.problem.option4,
+      option5: props.isNew
+        ? undefined
+        : props.problem.isMath
+        ? parseLatex(props.problem.option5)
+        : props.problem.option5,
     };
   }
   show = () => this.setState({ open: true });
@@ -58,16 +94,16 @@ export default class EditProblem extends PureComponent {
       title: isMath ? JSON.stringify(title) : title,
       problemNumber: hasContent ? 0 : problemNumber,
       isOptional: hasContent ? false : isOptional,
-      answer: hasContent ? '' : (isMath ? JSON.stringify(answer) : answer),
+      answer: hasContent ? '' : isMath ? JSON.stringify(answer) : answer,
     };
     if (isOptional && !hasContent) {
-      formValue = { 
-        ...formValue, 
-        option1 : isMath ? JSON.stringify(option1) : option1, 
-        option2 : isMath ? JSON.stringify(option2) : option2, 
-        option3 : isMath ? JSON.stringify(option3) : option3, 
-        option4 : isMath ? JSON.stringify(option4) : option4, 
-        option5 : isMath ? JSON.stringify(option5) : option5 
+      formValue = {
+        ...formValue,
+        option1: isMath ? JSON.stringify(option1) : option1,
+        option2: isMath ? JSON.stringify(option2) : option2,
+        option3: isMath ? JSON.stringify(option3) : option3,
+        option4: isMath ? JSON.stringify(option4) : option4,
+        option5: isMath ? JSON.stringify(option5) : option5,
       };
     }
 
@@ -85,11 +121,11 @@ export default class EditProblem extends PureComponent {
     }
   };
 
-  handleFileOnChange = event => {
+  handleFileOnChange = (event) => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
-    
+
     reader.onloadend = () => {
       this.setState({
         file: file,
@@ -187,16 +223,14 @@ export default class EditProblem extends PureComponent {
             <Grid>
               <Grid.Column width={5}>
                 <Form.Input
-                    type="file"
-                    accept="image/jpg,impge/png,image/jpeg,image/gif"
-                    name="mySolutionImage"
-                    onChange={this.handleFileOnChange}
+                  type="file"
+                  accept="image/jpg,impge/png,image/jpeg,image/gif"
+                  name="mySolutionImage"
+                  onChange={this.handleFileOnChange}
                 />
               </Grid.Column>
-              <Grid.Column>
-                {solution_preview}
-              </Grid.Column>
-          </Grid>
+              <Grid.Column>{solution_preview}</Grid.Column>
+            </Grid>
           ) : null}
           <Form.TextArea
             label="문제 내용"
@@ -253,7 +287,7 @@ export default class EditProblem extends PureComponent {
 
           {hasContent ? null : isOptional ? (
             <Form.Group inline>
-              <Form.Field label="문제 정답" required/>
+              <Form.Field label="문제 정답" required />
               <Form.Radio
                 label="1"
                 value={1}

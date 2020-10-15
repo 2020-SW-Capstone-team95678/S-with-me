@@ -1,5 +1,5 @@
 import React from 'react';
-import Latex from "react-latex-next";
+import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css';
 
 export const delimeters = [
@@ -11,8 +11,8 @@ export const delimeters = [
 
 export const parseLatex = (latexStr) => {
   return latexStr ? JSON.parse(latexStr) : latexStr;
-}
+};
 
 export const viewLatex = (latexStr) => {
-  return latexStr ? (<Latex delimiters={delimeters}>{JSON.parse(latexStr)}</Latex>): latexStr;
-}
+  return latexStr ? <Latex delimiters={delimeters}>{JSON.parse(latexStr)}</Latex> : latexStr;
+};

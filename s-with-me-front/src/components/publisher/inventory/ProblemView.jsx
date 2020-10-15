@@ -82,7 +82,9 @@ export default class ProblemView extends PureComponent {
             <Segment.Group>
               <Segment>정답</Segment>
               <Segment.Group>
-                <Segment>{isMath ? viewLatex(problem.answer) : problem.answer}</Segment>
+                <Segment>
+                  {isMath && !isOptional ? viewLatex(problem.answer) : problem.answer}
+                </Segment>
               </Segment.Group>
             </Segment.Group>
           ) : null}
