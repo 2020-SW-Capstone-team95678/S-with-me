@@ -2,6 +2,8 @@ package com.swithme.service;
 
 import com.swithme.domain.book.Book;
 import com.swithme.domain.book.BookRepository;
+import com.swithme.domain.mainChapter.MainChapter;
+import com.swithme.domain.mainChapter.MainChapterRepository;
 import com.swithme.domain.myBook.MyBook;
 import com.swithme.domain.myBook.MyBookRepository;
 import com.swithme.domain.publisher.Publisher;
@@ -24,6 +26,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
     private final MyBookRepository myBookRepository;
+    private final MainChapterRepository mainChapterRepository;
+    private final ChapterService chapterService;
 
     @Transactional
     public BookInformationResponseDto getBookInformation(int bookId) throws SQLException {
@@ -145,6 +149,18 @@ public class BookService {
                 .build();
 
         return responseDto;
+    }
+    @Transactional
+    public String deleteBook(int bookId){
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 Book이 없습니다. bookId = "+bookId));
+        List<MainChapter> mainChapterList = mainChapterRepository.findByBook(book);
+        for(MainChapter mainChapter : mainChapterList)
+        {
+            chapterService.deleteMainChapter(mainChapter.getMainChapterId());
+        }
+        bookRepository.delete(book);
+        return "책 삭제 완료. bookId = "+bookId;
     }
 
     @Scheduled(cron = "0 0 0 1 * *")
