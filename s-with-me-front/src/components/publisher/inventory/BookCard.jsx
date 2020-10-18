@@ -14,15 +14,12 @@ export default function BookCard(props) {
         <Link
           to={{
             pathname: `/inventory/${name}/table-of-contents`,
-            state: {
-              book: props.book,
-            },
+            state: { book: props.book },
           }}
         >
           <Image rounded src={cover} size="small" centered />
         </Link>
       </div>
-
       <Card.Content textAlign="center">
         <div style={{ paddingTop: 10 }}>
           <Card.Description textAlign="center">
@@ -46,9 +43,14 @@ export default function BookCard(props) {
               },
             }}
           >
-            <Button basic color="green" size="mini">
-              목차 보기
-            </Button>
+            <Button.Group size="mini">
+              <Button basic color="green">
+                목차 보기
+              </Button>
+              <Button basic color="red">
+                삭제
+              </Button>
+            </Button.Group>
           </Link>
         </div>
       </Card.Content>
