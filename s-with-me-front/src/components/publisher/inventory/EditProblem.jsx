@@ -121,7 +121,7 @@ export default class EditProblem extends PureComponent {
     }
   };
 
-  handleFileOnChange = (event) => {
+  handleFileOnChange = event => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];

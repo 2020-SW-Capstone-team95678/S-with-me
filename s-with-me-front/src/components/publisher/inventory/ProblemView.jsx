@@ -66,7 +66,11 @@ export default class ProblemView extends PureComponent {
               />
             </Segment>
           ) : null}
-          {content ? <Segment attached>{isMath ? viewLatex(content) : content}</Segment> : null}
+          {content ? (
+            <Segment attached>
+              <pre>{isMath ? viewLatex(content) : content}</pre>
+            </Segment>
+          ) : null}
           {isOptional ? (
             <Segment attached>
               <List>
@@ -91,7 +95,9 @@ export default class ProblemView extends PureComponent {
           <Segment.Group>
             <Segment>해설</Segment>
             <Segment.Group>
-              <Segment>{isMath ? viewLatex(problem.solution) : problem.solution}</Segment>
+              <Segment>
+                <pre>{isMath ? viewLatex(problem.solution) : problem.solution}</pre>
+              </Segment>
             </Segment.Group>
           </Segment.Group>
         </div>

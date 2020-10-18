@@ -8,12 +8,17 @@ import {
   updateSubChapter,
   deleteSubChapter,
 } from '../../actions/chapterActions';
+import { updateBook, requestBookList } from '../../actions/inventoryActions.js';
 import BookDetailApp from '../../components/publisher/inventory/BookDetailApp';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const { ids: chapterIds, entities: chapterEntities } = state.chapter;
   const chapterList = chapterIds.map(id => chapterEntities[id]);
-  return { chapterList };
+
+  const { book } = props.location.state;
+  const { entities } = state.inventory;
+
+  return { chapterList, book: entities[book.bookId] };
 };
 
 export default connect(mapStateToProps, {
@@ -24,4 +29,6 @@ export default connect(mapStateToProps, {
   createSubChapter,
   updateSubChapter,
   deleteSubChapter,
+  updateBook,
+  requestBookList,
 })(BookDetailApp);

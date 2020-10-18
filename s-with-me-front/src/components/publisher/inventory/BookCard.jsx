@@ -14,15 +14,12 @@ export default function BookCard(props) {
         <Link
           to={{
             pathname: `/inventory/${name}/table-of-contents`,
-            state: {
-              book: props.book,
-            },
+            state: { book: props.book },
           }}
         >
           <Image rounded src={cover} size="small" centered />
         </Link>
       </div>
-
       <Card.Content textAlign="center">
         <div style={{ paddingTop: 10 }}>
           <Card.Description textAlign="center">
