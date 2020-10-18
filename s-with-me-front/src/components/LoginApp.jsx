@@ -47,7 +47,10 @@ class LoginApp extends react.PureComponent {
   render() {
     const { loading, logged } = this.props;
     const { isStudent, isPublisher } = this.state;
-    if (this.state.isLogin || logged) return <Redirect to="/library" />;
+    if (this.state.isLogin || logged) {
+      if (isStudent) return <Redirect to="/library" />;
+      else return <Redirect to="/inventory" />;
+    }
     return (
       <div className="login">
         <header className="loginHeader">
