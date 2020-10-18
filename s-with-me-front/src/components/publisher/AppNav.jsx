@@ -39,7 +39,7 @@ class AppNav extends PureComponent {
               </div>
               <div style={{ flex: 1 }}>
                 <NavLink
-                  to="/library"
+                  to="/inventory"
                   activeStyle={activeStyle}
                   style={{ textDecoration: 'none', color: '#333333' }}
                 >

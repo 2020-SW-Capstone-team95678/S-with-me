@@ -13,6 +13,7 @@ class BookDetailApp extends PureComponent {
       book: undefined,
       isAddingMain: false,
       isEditMain: false,
+      isEditSub: false,
       isAddingSub: false,
       mainChapter: '',
       subChapter: '',
@@ -24,13 +25,20 @@ class BookDetailApp extends PureComponent {
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
-  handleSubmit = (isMainChapter, editId) => {
+
+  handleSubmit = (isMainChapter, editMainId, editSubId) => {
     const { book } = this.props.location.state;
-    const { requestChapterList, createMainChapter, updateMainChapter } = this.props;
+    const {
+      requestChapterList,
+      createMainChapter,
+      updateMainChapter,
+      createSubChapter,
+      updateSubChapter,
+    } = this.props;
     if (isMainChapter) {
       const formData = { bookId: book.bookId, mainChapterName: this.state.mainChapter };
-      if (editId) {
-        updateMainChapter(editId, formData, () => {
+      if (editMainId) {
+        updateMainChapter(editMainId, formData, () => {
           requestChapterList({ bookId: book.bookId }, true);
           this.setState({ mainChapter: '', isEditMain: !this.state.isEditMain });
         });
@@ -38,6 +46,19 @@ class BookDetailApp extends PureComponent {
         createMainChapter(formData, () => {
           requestChapterList({ bookId: book.bookId }, true);
           this.setState({ mainChapter: '', isAddingMain: !this.state.isAddingMain });
+        });
+      }
+    } else {
+      const formData = { mainChapterId: editMainId, subChapterName: this.state.subChapter };
+      if (editSubId) {
+        updateSubChapter(editSubId, formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ subChapter: '', isEditSub: !this.state.isEditSub });
+        });
+      } else {
+        createSubChapter(formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ subChapter: '', isAddingSub: !this.state.isAddingSub });
         });
       }
     }
@@ -51,29 +72,58 @@ class BookDetailApp extends PureComponent {
       const key = mainChapter.mainChapterId;
       const mainTitle = mainChapter.mainChapterName;
 
-      const subChapterPanels = subChapters.map((subChapter) => {
-        const key = subChapter.subChapterId;
+      const subChapterPanels = subChapters.map(subChapter => {
+        const subKey = subChapter.subChapterId;
         const subTitle = subChapter.subChapterName;
 
         const buttons = (
           <div>
-            <Button basic color="brown" icon="edit" content="이름 수정" />
-            <Button basic negative icon="remove" content="소단원 삭제" />
+            <Button
+              basic
+              color="brown"
+              icon="edit"
+              content="이름 수정"
+              onClick={() => this.setState({ isEditSub: !this.state.isEditSub })}
+            />
+            <Button
+              basic
+              negative
+              icon="remove"
+              content="소단원 삭제"
+              onClick={() => {
+                this.props.deleteSubChapter(subKey, () => {
+                  this.props.requestChapterList({ bookId: book.bookId }, true);
+                });
+              }}
+            />
             <Link
               to={{
                 pathname: `/inventory/${name}/${mainTitle}/${subTitle}/problems`,
                 state: {
                   book: book,
-                  subChapterId: key,
+                  subChapterId: subKey,
                 },
               }}
             >
               <Button icon="right arrow" labelPosition="right" basic color="orange" content="Go!" />
             </Link>
+            {this.state.isEditSub ? (
+              <Segment>
+                <Form onSubmit={() => this.handleSubmit(false, key, subKey)}>
+                  <Form.Input
+                    label="새로운 소단원명"
+                    placeholder="수정할 소단원의 제목을 입력해 주세요."
+                    name="subChapter"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Button type="submit" icon="plus" content="제출" basic />
+                </Form>
+              </Segment>
+            ) : null}
           </div>
         );
 
-        return { key, title: subTitle, content: { content: buttons } };
+        return { subKey, title: subTitle, content: { content: buttons } };
       });
 
       const subChapterContent = (
@@ -92,6 +142,7 @@ class BookDetailApp extends PureComponent {
             positive
             icon="add"
             content="소단원 추가"
+            onClick={() => this.setState({ isAddingSub: !this.state.isAddingSub })}
           />
           <Button
             basic
@@ -118,6 +169,19 @@ class BookDetailApp extends PureComponent {
             </Segment>
           ) : null}
           <Accordion.Accordion panels={subChapterPanels} />
+          {this.state.isAddingSub ? (
+            <Segment>
+              <Form onSubmit={() => this.handleSubmit(false, key)}>
+                <Form.Input
+                  label="새로운 소단원명"
+                  placeholder="추가할 소단원 제목을 입력해 주세요."
+                  name="subChapter"
+                  onChange={this.handleChange}
+                />
+                <Form.Button type="submit" icon="plus" content="제출" basic />
+              </Form>
+            </Segment>
+          ) : null}
         </div>
       );
 
@@ -125,7 +189,10 @@ class BookDetailApp extends PureComponent {
     });
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 1 }} {...css(styles.table)}>
+        <div
+          style={{ flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
+          {...css(styles.table)}
+        >
           <Segment color="blue">문제집 정보</Segment>
           <Button
             attached="bottom"

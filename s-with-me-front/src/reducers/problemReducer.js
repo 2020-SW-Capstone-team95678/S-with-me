@@ -27,7 +27,6 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case DELETE_PROBLEM:
     case UPDATE_PROBLEM:
     case CREATE_PROBLEM:
     case FETCH_PROBLEM_LIST: {
@@ -75,6 +74,8 @@ export default (state = initState, action) => {
         },
       });
     }
+    case DELETE_PROBLEM:
+      return initState;
     default:
       return state;
   }
