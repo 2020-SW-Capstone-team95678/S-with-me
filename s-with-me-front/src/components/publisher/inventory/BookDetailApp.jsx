@@ -24,13 +24,19 @@ class BookDetailApp extends PureComponent {
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
-  handleSubmit = (isMainChapter, editId) => {
+
+  handleSubmit = (isMainChapter, editMainId, editSubId) => {
     const { book } = this.props.location.state;
-    const { requestChapterList, createMainChapter, updateMainChapter } = this.props;
+    const {
+      requestChapterList,
+      createMainChapter,
+      updateMainChapter,
+      createSubChapter,
+    } = this.props;
     if (isMainChapter) {
       const formData = { bookId: book.bookId, mainChapterName: this.state.mainChapter };
-      if (editId) {
-        updateMainChapter(editId, formData, () => {
+      if (editMainId) {
+        updateMainChapter(editMainId, formData, () => {
           requestChapterList({ bookId: book.bookId }, true);
           this.setState({ mainChapter: '', isEditMain: !this.state.isEditMain });
         });
@@ -38,6 +44,15 @@ class BookDetailApp extends PureComponent {
         createMainChapter(formData, () => {
           requestChapterList({ bookId: book.bookId }, true);
           this.setState({ mainChapter: '', isAddingMain: !this.state.isAddingMain });
+        });
+      }
+    } else {
+      const formData = { mainChapterId: editMainId, subChapterName: this.state.subChapter };
+      if (editSubId) {
+      } else {
+        createSubChapter(formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ subChapter: '', isAddingSub: !this.state.isAddingSub });
         });
       }
     }
@@ -92,6 +107,7 @@ class BookDetailApp extends PureComponent {
             positive
             icon="add"
             content="소단원 추가"
+            onClick={() => this.setState({ isAddingSub: !this.state.isAddingSub })}
           />
           <Button
             basic
@@ -118,6 +134,19 @@ class BookDetailApp extends PureComponent {
             </Segment>
           ) : null}
           <Accordion.Accordion panels={subChapterPanels} />
+          {this.state.isAddingSub ? (
+            <Segment>
+              <Form onSubmit={() => this.handleSubmit(false, key)}>
+                <Form.Input
+                  label="새로운 소단원명"
+                  placeholder="추가할 소단원 제목을 입력해 주세요."
+                  name="subChapter"
+                  onChange={this.handleChange}
+                />
+                <Form.Button type="submit" icon="plus" content="제출" basic />
+              </Form>
+            </Segment>
+          ) : null}
         </div>
       );
 
