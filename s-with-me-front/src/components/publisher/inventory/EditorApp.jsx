@@ -16,7 +16,7 @@ export default class EditorApp extends PureComponent {
     this.props.requestProblemList({ subChapterId: subChapterId });
   }
 
-  selectProblem = (problem) => {
+  selectProblem = problem => {
     this.setState({ selectedProblem: problem });
   };
 
@@ -73,7 +73,7 @@ export default class EditorApp extends PureComponent {
               />
             </div>
             <List divided verticalAlign="middle">
-              {problemList.map((problem) => (
+              {problemList.map(problem => (
                 <List.Item
                   onClick={() => this.selectProblem(problem)}
                   disabled={!isAdding && selectedProblem.problemId === problem.problemId}
@@ -86,12 +86,12 @@ export default class EditorApp extends PureComponent {
                       disabled={isAdding || isEditing}
                       content="삭제"
                       size="tiny"
-                      onClick={() =>
+                      onClick={() => {
                         this.props.deleteProblem(problem.problemId, () => {
-                          const { subChapterId } = this.props.match.params;
+                          const { subChapterId } = this.props.location.state;
                           this.props.requestProblemList({ subChapterId: subChapterId });
-                        })
-                      }
+                        });
+                      }}
                     />
                   </List.Content>
                   <List.Content>
