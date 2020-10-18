@@ -6,7 +6,7 @@ import { Button, Image, Label, Card } from 'semantic-ui-react';
 import Heading from '../../../common-ui/Heading';
 
 export default function BookCard(props) {
-  const { cover, grade, price, subject, name } = props.book;
+  const { cover, grade, price, subject, name, bookId } = props.book;
 
   return (
     <div style={{ padding: 5 }}>
@@ -35,23 +35,32 @@ export default function BookCard(props) {
       </Card.Content>
       <Card.Content extra textAlign="center">
         <div style={{ paddingTop: 5 }}>
-          <Link
-            to={{
-              pathname: `/inventory/${name}/table-of-contents`,
-              state: {
-                book: props.book,
-              },
-            }}
-          >
-            <Button.Group size="mini">
+          <Button.Group size="mini">
+            <Link
+              to={{
+                pathname: `/inventory/${name}/table-of-contents`,
+                state: {
+                  book: props.book,
+                },
+              }}
+            >
               <Button basic color="green">
                 목차 보기
               </Button>
-              <Button basic color="red">
-                삭제
-              </Button>
-            </Button.Group>
-          </Link>
+            </Link>
+            <Button
+              basic
+              color="red"
+              onClick={() =>
+                props.deleteBook(bookId, () => {
+                  const publisherId = window.sessionStorage.getItem('publisherId');
+                  props.requestBookList({ publisherId: publisherId });
+                })
+              }
+            >
+              삭제
+            </Button>
+          </Button.Group>
         </div>
       </Card.Content>
     </div>
