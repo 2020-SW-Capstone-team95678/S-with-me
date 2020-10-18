@@ -3,6 +3,7 @@ import {
   FETCH_PUBLISHER_INVENTORY,
   CREATE_PUBLISHER_BOOK,
   UPDATE_PUBLISHER_BOOK,
+  DELETE_PUBLISHER_BOOK,
 } from '../actions/inventoryActions';
 
 const initState = {
@@ -12,11 +13,13 @@ const initState = {
     [FETCH_PUBLISHER_INVENTORY]: false,
     [CREATE_PUBLISHER_BOOK]: false,
     [UPDATE_PUBLISHER_BOOK]: false,
+    [DELETE_PUBLISHER_BOOK]: false,
   },
   errorState: {
     [FETCH_PUBLISHER_INVENTORY]: false,
     [CREATE_PUBLISHER_BOOK]: false,
     [UPDATE_PUBLISHER_BOOK]: false,
+    [DELETE_PUBLISHER_BOOK]: false,
   },
 };
 
@@ -74,6 +77,8 @@ export default (state = initState, action) => {
         },
       });
     }
+    case DELETE_PUBLISHER_BOOK:
+      return initState;
     default:
       return state;
   }

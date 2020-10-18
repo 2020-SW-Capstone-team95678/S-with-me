@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 
-import BookCard from './BookCard';
-
 import Text from '../../../common-ui/Text';
 import Spacing from '../../../common-ui/Spacing';
 import withLoading from '../../../common-ui/withLoading';
 import { Card } from 'semantic-ui-react';
+import BookCardContainer from '../../../containers/publisher/BookCardContainer';
 
 const LoadingMessage = (
   <Spacing vertical={4} horizontal={2}>
@@ -21,7 +20,7 @@ class BookOverview extends PureComponent {
         <Card.Group centered stackable doubling itemsPerRow={3}>
           {bookList.map((book, index) => (
             <Card key={index} centered>
-              <BookCard book={book} />
+              <BookCardContainer book={book} />
             </Card>
           ))}
         </Card.Group>

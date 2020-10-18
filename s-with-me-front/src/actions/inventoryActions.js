@@ -47,7 +47,7 @@ export function updateBook(id, data, onComplete) {
 export function deleteBook(id, onComplete) {
   return {
     type: DELETE_PUBLISHER_BOOK,
-    // promise: Api.delete(`/publisher/library/book/main-chapter/sub-chapter/${id}`),
+    promise: Api.delete('/publisher/library/book', { params: { bookId: id } }),
     meta: {
       onSuccess: onComplete,
       notification: {
