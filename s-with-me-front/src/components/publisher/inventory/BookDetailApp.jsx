@@ -51,7 +51,7 @@ class BookDetailApp extends PureComponent {
       const key = mainChapter.mainChapterId;
       const mainTitle = mainChapter.mainChapterName;
 
-      const subChapterPanels = subChapters.map((subChapter) => {
+      const subChapterPanels = subChapters.map(subChapter => {
         const key = subChapter.subChapterId;
         const subTitle = subChapter.subChapterName;
 
@@ -125,7 +125,10 @@ class BookDetailApp extends PureComponent {
     });
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 1 }} {...css(styles.table)}>
+        <div
+          style={{ flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
+          {...css(styles.table)}
+        >
           <Segment color="blue">문제집 정보</Segment>
           <Button
             attached="bottom"
