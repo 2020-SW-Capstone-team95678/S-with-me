@@ -13,6 +13,7 @@ class BookDetailApp extends PureComponent {
       book: undefined,
       isAddingMain: false,
       isEditMain: false,
+      isEditSub: false,
       isAddingSub: false,
       mainChapter: '',
       subChapter: '',
@@ -32,6 +33,7 @@ class BookDetailApp extends PureComponent {
       createMainChapter,
       updateMainChapter,
       createSubChapter,
+      updateSubChapter,
     } = this.props;
     if (isMainChapter) {
       const formData = { bookId: book.bookId, mainChapterName: this.state.mainChapter };
@@ -49,6 +51,10 @@ class BookDetailApp extends PureComponent {
     } else {
       const formData = { mainChapterId: editMainId, subChapterName: this.state.subChapter };
       if (editSubId) {
+        updateSubChapter(editSubId, formData, () => {
+          requestChapterList({ bookId: book.bookId }, true);
+          this.setState({ subChapter: '', isEditSub: !this.state.isEditSub });
+        });
       } else {
         createSubChapter(formData, () => {
           requestChapterList({ bookId: book.bookId }, true);
@@ -67,28 +73,57 @@ class BookDetailApp extends PureComponent {
       const mainTitle = mainChapter.mainChapterName;
 
       const subChapterPanels = subChapters.map(subChapter => {
-        const key = subChapter.subChapterId;
+        const subKey = subChapter.subChapterId;
         const subTitle = subChapter.subChapterName;
 
         const buttons = (
           <div>
-            <Button basic color="brown" icon="edit" content="이름 수정" />
-            <Button basic negative icon="remove" content="소단원 삭제" />
+            <Button
+              basic
+              color="brown"
+              icon="edit"
+              content="이름 수정"
+              onClick={() => this.setState({ isEditSub: !this.state.isEditSub })}
+            />
+            <Button
+              basic
+              negative
+              icon="remove"
+              content="소단원 삭제"
+              onClick={() => {
+                this.props.deleteSubChapter(subKey, () => {
+                  this.props.requestChapterList({ bookId: book.bookId }, true);
+                });
+              }}
+            />
             <Link
               to={{
                 pathname: `/inventory/${name}/${mainTitle}/${subTitle}/problems`,
                 state: {
                   book: book,
-                  subChapterId: key,
+                  subChapterId: subKey,
                 },
               }}
             >
               <Button icon="right arrow" labelPosition="right" basic color="orange" content="Go!" />
             </Link>
+            {this.state.isEditSub ? (
+              <Segment>
+                <Form onSubmit={() => this.handleSubmit(false, key, subKey)}>
+                  <Form.Input
+                    label="새로운 소단원명"
+                    placeholder="수정할 소단원의 제목을 입력해 주세요."
+                    name="subChapter"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Button type="submit" icon="plus" content="제출" basic />
+                </Form>
+              </Segment>
+            ) : null}
           </div>
         );
 
-        return { key, title: subTitle, content: { content: buttons } };
+        return { subKey, title: subTitle, content: { content: buttons } };
       });
 
       const subChapterContent = (

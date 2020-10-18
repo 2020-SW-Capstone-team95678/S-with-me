@@ -5,6 +5,8 @@ import {
   updateMainChapter,
   deleteMainChapter,
   createSubChapter,
+  updateSubChapter,
+  deleteSubChapter,
 } from '../../actions/chapterActions';
 import BookDetailApp from '../../components/publisher/inventory/BookDetailApp';
 
@@ -20,4 +22,6 @@ export default connect(mapStateToProps, {
   updateMainChapter,
   deleteMainChapter,
   createSubChapter,
+  updateSubChapter,
+  deleteSubChapter,
 })(BookDetailApp);

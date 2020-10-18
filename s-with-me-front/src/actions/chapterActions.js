@@ -5,6 +5,8 @@ export const CREATE_MAIN_CHAPTER = 'chapter/CREATE_MAIN_CHAPTER';
 export const UPDATE_MAIN_CHAPTER = 'chapter/UPDATE_MAIN_CHAPTER';
 export const DELETE_MAIN_CHAPTER = 'chapter/DELETE_MAIN_CHAPTER';
 export const CREATE_SUB_CHAPTER = 'chapter/CREATE_SUB_CHAPTER';
+export const UPDATE_SUB_CHAPTER = 'chapter/UPDATE_SUB_CHAPTER';
+export const DELETE_SUB_CHAPTER = 'chapter/DELETE_SUB_CHAPTER';
 
 export function requestChapterList(params, isPublisher) {
   return {
@@ -67,6 +69,32 @@ export function createSubChapter(data, onComplete) {
       onSuccess: onComplete,
       notification: {
         success: '소단원 등록이 성공적으로 완료되었습니다.',
+      },
+    },
+  };
+}
+
+export function updateSubChapter(id, data, onComplete) {
+  return {
+    type: UPDATE_SUB_CHAPTER,
+    promise: Api.put(`/publisher/library/book/main-chapter/sub-chapter/${id}`, data),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '소단원 수정에 성공했습니다.',
+      },
+    },
+  };
+}
+
+export function deleteSubChapter(id, onComplete) {
+  return {
+    type: DELETE_SUB_CHAPTER,
+    promise: Api.delete(`/publisher/library/book/main-chapter/sub-chapter/${id}`),
+    meta: {
+      onSuccess: onComplete,
+      notification: {
+        success: '소단원 삭제 성공',
       },
     },
   };

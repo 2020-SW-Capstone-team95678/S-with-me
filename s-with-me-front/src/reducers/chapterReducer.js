@@ -5,6 +5,8 @@ import {
   UPDATE_MAIN_CHAPTER,
   DELETE_MAIN_CHAPTER,
   CREATE_SUB_CHAPTER,
+  UPDATE_SUB_CHAPTER,
+  DELETE_SUB_CHAPTER,
 } from '../actions/chapterActions';
 
 const initState = {
@@ -16,6 +18,8 @@ const initState = {
     [UPDATE_MAIN_CHAPTER]: false,
     [DELETE_MAIN_CHAPTER]: false,
     [CREATE_SUB_CHAPTER]: false,
+    [UPDATE_SUB_CHAPTER]: false,
+    [DELETE_SUB_CHAPTER]: false,
   },
   errorState: {
     [FETCH_CHAPTER_LIST]: false,
@@ -23,6 +27,8 @@ const initState = {
     [UPDATE_MAIN_CHAPTER]: false,
     [DELETE_MAIN_CHAPTER]: false,
     [CREATE_SUB_CHAPTER]: false,
+    [UPDATE_SUB_CHAPTER]: false,
+    [DELETE_SUB_CHAPTER]: false,
   },
 };
 
@@ -30,6 +36,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_SUB_CHAPTER:
     case CREATE_SUB_CHAPTER:
     case UPDATE_MAIN_CHAPTER:
     case CREATE_MAIN_CHAPTER:
@@ -86,6 +93,7 @@ export default (state = initState, action) => {
         },
       });
     }
+    case DELETE_SUB_CHAPTER:
     case DELETE_MAIN_CHAPTER:
       return initState;
     default:
