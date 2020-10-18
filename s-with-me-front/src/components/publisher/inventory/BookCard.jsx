@@ -9,7 +9,7 @@ export default function BookCard(props) {
   const { cover, grade, price, subject, name } = props.book;
 
   return (
-    <div>
+    <div style={{ padding: 5 }}>
       <div style={{ minHeight: '230px' }}>
         <Link
           to={{

@@ -14,14 +14,8 @@ class InventoryApp extends PureComponent {
     const { bookList, isLoading, styles } = this.props;
     return (
       <div {...css(styles.app)}>
-        <div style={{ flex: 1 }} {...css(styles.table)}>
-          서점 필터
-        </div>
-        <div style={{ flex: 3, padding: 10 }} {...css(styles.table)}>
+        <div style={{ flex: 3, padding: 20 }} {...css(styles.table)}>
           <BookOverview bookList={bookList} isLoading={isLoading} />
-        </div>
-        <div style={{ flex: 1 }} {...css(styles.table)}>
-          판매 부수랑 수익 overview
         </div>
       </div>
     );
