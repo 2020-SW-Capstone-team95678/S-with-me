@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 
-import { FETCH_PUBLISHER_INVENTORY, requestBookList } from '../../actions/inventoryActions';
+import {
+  FETCH_PUBLISHER_INVENTORY,
+  requestBookList,
+  createBook,
+} from '../../actions/inventoryActions';
 
 import InventoryApp from '../../components/publisher/inventory/InventoryApp';
 
@@ -12,4 +16,4 @@ const mapStateToProps = state => {
   return { bookList, isLoading };
 };
 
-export default connect(mapStateToProps, { requestBookList })(InventoryApp);
+export default connect(mapStateToProps, { requestBookList, createBook })(InventoryApp);

@@ -43,9 +43,14 @@ export default function BookCard(props) {
               },
             }}
           >
-            <Button basic color="green" size="mini">
-              목차 보기
-            </Button>
+            <Button.Group size="mini">
+              <Button basic color="green">
+                목차 보기
+              </Button>
+              <Button basic color="red">
+                삭제
+              </Button>
+            </Button.Group>
           </Link>
         </div>
       </Card.Content>

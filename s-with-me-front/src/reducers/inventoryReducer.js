@@ -1,15 +1,21 @@
 import { handle } from 'redux-pack';
-import { FETCH_PUBLISHER_INVENTORY, UPDATE_PUBLISHER_BOOK } from '../actions/inventoryActions';
+import {
+  FETCH_PUBLISHER_INVENTORY,
+  CREATE_PUBLISHER_BOOK,
+  UPDATE_PUBLISHER_BOOK,
+} from '../actions/inventoryActions';
 
 const initState = {
   ids: [],
   entities: {},
   loadingState: {
     [FETCH_PUBLISHER_INVENTORY]: false,
+    [CREATE_PUBLISHER_BOOK]: false,
     [UPDATE_PUBLISHER_BOOK]: false,
   },
   errorState: {
     [FETCH_PUBLISHER_INVENTORY]: false,
+    [CREATE_PUBLISHER_BOOK]: false,
     [UPDATE_PUBLISHER_BOOK]: false,
   },
 };
@@ -18,6 +24,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CREATE_PUBLISHER_BOOK:
     case UPDATE_PUBLISHER_BOOK:
     case FETCH_PUBLISHER_INVENTORY: {
       return handle(state, action, {

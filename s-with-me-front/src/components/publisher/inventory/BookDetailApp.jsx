@@ -10,6 +10,7 @@ class BookDetailApp extends PureComponent {
   constructor(props) {
     super();
     const { book } = props.location.state;
+    const publishedDates = book.publishedDate.split('-');
     this.state = {
       book: undefined,
       isAddingMain: false,
@@ -27,6 +28,9 @@ class BookDetailApp extends PureComponent {
       isOnSale: book.isOnSale,
       file: '',
       previewURL: book.cover,
+      year: publishedDates[0],
+      month: publishedDates[1],
+      day: publishedDates[2],
     };
   }
   componentDidMount() {
@@ -92,8 +96,10 @@ class BookDetailApp extends PureComponent {
   handleModal = () => {
     const { book } = this.props.location.state;
     const { bookName, grade, subject, price, introduction, isOnSale, previewURL } = this.state;
+    const { year, month, day } = this.state;
     const formData = {
       cover: previewURL,
+      publishedDate: `${year}-${month}-${day}`,
       grade: grade,
       introduction: introduction,
       isOnSale: isOnSale,
@@ -101,7 +107,6 @@ class BookDetailApp extends PureComponent {
       price: price,
       subject: subject,
     };
-    console.log(formData);
     this.props.updateBook(book.bookId, formData, () => {
       this.setState({ open: false });
       const publisherId = window.sessionStorage.getItem('publisherId');
@@ -293,6 +298,32 @@ class BookDetailApp extends PureComponent {
               <Form.Radio label="1" grade={1} checked={grade === 1} onChange={this.handleGrade} />
               <Form.Radio label="2" grade={2} checked={grade === 2} onChange={this.handleGrade} />
               <Form.Radio label="3" grade={3} checked={grade === 3} onChange={this.handleGrade} />
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Input
+                fluid
+                label="Year"
+                name="year"
+                value={this.state.year}
+                onChange={this.handleChange}
+                placeholder="년"
+              />
+              <Form.Input
+                fluid
+                label="Month"
+                name="month"
+                value={this.state.month}
+                onChange={this.handleChange}
+                placeholder="월"
+              />
+              <Form.Input
+                fluid
+                label="Day"
+                name="day"
+                value={this.state.day}
+                onChange={this.handleChange}
+                placeholder="년"
+              />
             </Form.Group>
             <Grid>
               <Grid.Column width={5}>
