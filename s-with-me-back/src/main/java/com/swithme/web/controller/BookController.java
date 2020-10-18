@@ -25,7 +25,11 @@ public class BookController {
     public BookResponseDto getBook(@PathVariable int bookId)throws SQLException{
         return bookService.getBook(bookId);
     }
-
+    @CrossOrigin
+    @DeleteMapping("/publisher/library/book")
+    public String deleteBook(@RequestParam("bookId") int bookId){
+        return bookService.deleteBook(bookId);
+    }
     @CrossOrigin
     @GetMapping("/student/library/my-book/book-id")
     public BookNameResponseDto getBookName(@RequestParam("myBookId") int myBookId){
