@@ -17,7 +17,7 @@ class BookOverview extends PureComponent {
     const { bookList } = this.props;
     return (
       <div style={{ paddingTop: 5 }}>
-        <Card.Group centered stackable doubling itemsPerRow={3}>
+        <Card.Group centered stackable doubling itemsPerRow={5}>
           {bookList.map((book, index) => (
             <Card key={index} centered>
               <BookCardContainer book={book} />
