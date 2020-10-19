@@ -70,7 +70,11 @@ function ProblemContentView(props) {
           />
         </div>
       ) : null}
-      {content ? <Segment>{content}</Segment> : null}
+      {content ? (
+        <Segment>
+          <div style={{ whiteSpace: 'pre-wrap' }}>{content}</div>
+        </Segment>
+      ) : null}
       {isOptional && isResultView ? (
         <VerticalList spacingBetween={1}>
           {optionContents.map((option, index) => (

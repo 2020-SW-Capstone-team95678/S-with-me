@@ -1,6 +1,6 @@
 import React from 'react';
 import Text from '../../../../common-ui/Text';
-import { delimeters } from '../../../../constants/delimeters';
+import { viewLatex } from '../../../../constants/delimeters';
 
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
@@ -21,7 +21,7 @@ export default function MathSolutionPreview(props) {
         }}
       >
         {props.textSolution ? (
-          <Latex delimiters={delimeters}>{props.textSolution}</Latex>
+          <div style={{ whiteSpace: 'pre-wrap' }}>{viewLatex(props.textSolution)}</div>
         ) : (
           <Text small>입력한 수식 내용이 없습니다.</Text>
         )}
