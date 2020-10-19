@@ -68,7 +68,7 @@ export default class ProblemView extends PureComponent {
           ) : null}
           {content ? (
             <Segment attached>
-              <pre>{isMath ? viewLatex(content) : content}</pre>
+              <div style={{ whiteSpace: 'pre-wrap' }}>{isMath ? viewLatex(content) : content}</div>
             </Segment>
           ) : null}
           {isOptional ? (
@@ -96,7 +96,9 @@ export default class ProblemView extends PureComponent {
             <Segment>해설</Segment>
             <Segment.Group>
               <Segment>
-                <pre>{isMath ? viewLatex(problem.solution) : problem.solution}</pre>
+                <div style={{ whiteSpace: 'pre-wrap' }}>
+                  {isMath ? viewLatex(problem.solution) : problem.solution}
+                </div>
               </Segment>
             </Segment.Group>
           </Segment.Group>
