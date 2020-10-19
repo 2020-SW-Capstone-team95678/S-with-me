@@ -7,14 +7,7 @@ import { withStyles, css } from '../../../common-ui/withStyles';
 import AnswerInputContainer from '../../../containers/student/problem/AnswerInputContainer';
 import NewAnswerInputContainer from '../../../containers/student/note/NewAnswerInputContainer';
 
-import { delimeters } from '../../../constants/delimeters';
-import 'katex/dist/katex.min.css';
-import Latex from 'react-latex-next';
-
-/*eslint no-extend-native: ["error", { "exceptions": ["String"] }]*/
-String.prototype.replaceAll = function(org, dest) {
-  return this.split(org).join(dest);
-};
+import { viewLatex } from '../../../constants/delimeters';
 
 function MathProblemContentView(props) {
   const numbers = ['①', '②', '③', '④', '⑤'];
@@ -47,9 +40,7 @@ function MathProblemContentView(props) {
         <Segment>
           <Text large>
             {problemNumber ? problemNumber + '.' : null}
-            <Latex delimiters={delimeters}>
-              {title.replaceAll('\\\\', '\\').replace(/"/g, '')}
-            </Latex>
+            {viewLatex(title)}
           </Text>
         </Segment>
       </div>
@@ -70,9 +61,7 @@ function MathProblemContentView(props) {
       ) : null}
       {content && content.length > 2 ? (
         <Segment>
-          <Latex delimiters={delimeters}>
-            {content.replaceAll('\\\\', '\\').replace(/"/g, '')}
-          </Latex>
+          <div style={{ whiteSpace: 'pre-wrap' }}>{viewLatex(content)}</div>
         </Segment>
       ) : null}
       {isOptional && isResultView ? (
@@ -80,9 +69,7 @@ function MathProblemContentView(props) {
           {optionContents.map((option, index) => (
             <Text key={index}>
               {numbers[index]}
-              <Latex delimiters={delimeters}>
-                {option.replaceAll('\\\\', '\\').replace(/"/g, '')}
-              </Latex>
+              {viewLatex(option)}
             </Text>
           ))}
         </VerticalList>

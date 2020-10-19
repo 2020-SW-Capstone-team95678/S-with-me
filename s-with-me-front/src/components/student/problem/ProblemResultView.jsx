@@ -67,7 +67,7 @@ class ProblemResultView extends PureComponent {
             />
           </Segment>
           {showSolution ? (
-            <div {...css(styles.container)}>
+            <div {...css(styles.container)} style={{ whiteSpace: 'pre-wrap' }}>
               {isMath ? <MathSolutionView solution={solution} /> : solution}
             </div>
           ) : (
