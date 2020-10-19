@@ -31,7 +31,7 @@ class AppNav extends PureComponent {
           <div {...css(styles.wrapper)}>
             <div style={{ display: 'flex' }} {...css(styles.container)}>
               <div style={{ flex: 1 }}>
-                <NavLink to="/library">
+                <NavLink to="/inventory">
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <img src={logo} alt="s-with-me logo" style={{ height: 80 }} />
                   </div>

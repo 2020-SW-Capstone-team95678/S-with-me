@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles, css } from '../../../common-ui/withStyles';
 
-import { Accordion, Button, Form, Segment, Popup, Modal, Grid } from 'semantic-ui-react';
+import { Accordion, Button, Form, Segment, Popup, Modal } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Text from '../../../common-ui/Text';
 import BookInfo from './BookInfo';
@@ -41,7 +41,7 @@ class BookDetailApp extends PureComponent {
   }
   handleGrade = (e, { grade }) => this.setState({ grade });
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
-  handleFileOnChange = event => {
+  handleFileOnChange = (event) => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
@@ -140,7 +140,7 @@ class BookDetailApp extends PureComponent {
       const key = mainChapter.mainChapterId;
       const mainTitle = mainChapter.mainChapterName;
 
-      const subChapterPanels = subChapters.map(subChapter => {
+      const subChapterPanels = subChapters.map((subChapter) => {
         const subKey = subChapter.subChapterId;
         const subTitle = subChapter.subChapterName;
 
@@ -268,7 +268,7 @@ class BookDetailApp extends PureComponent {
 
     const modal = (
       <Modal open={this.state.open}>
-        <Modal.Content>
+        <Modal.Content scrolling>
           <Form>
             <Form.Radio
               toggle
@@ -322,20 +322,16 @@ class BookDetailApp extends PureComponent {
                 name="day"
                 value={this.state.day}
                 onChange={this.handleChange}
-                placeholder="년"
+                placeholder="일"
               />
             </Form.Group>
-            <Grid>
-              <Grid.Column width={5}>
-                <Form.Input
-                  type="file"
-                  accept="image/jpg,impge/png,image/jpeg,image/gif"
-                  name="mySolutionImage"
-                  onChange={this.handleFileOnChange}
-                />
-              </Grid.Column>
-              <Grid.Column>{bookCover_preview}</Grid.Column>
-            </Grid>
+            <Form.Input
+              type="file"
+              accept="image/jpg,impge/png,image/jpeg,image/gif"
+              name="mySolutionImage"
+              onChange={this.handleFileOnChange}
+            />
+            {bookCover_preview}
             <Form.Input
               fluid
               label="가격"
