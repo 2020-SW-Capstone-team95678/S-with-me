@@ -12,7 +12,9 @@ export default function BookInfo(props) {
         <Card.Meta>
           <span className="date">출판 {publishedDate}</span>
         </Card.Meta>
-        <Card.Description>{introduction}</Card.Description>
+        <Card.Description>
+          <div style={{ whiteSpace: 'pre-wrap' }}>{introduction}</div>
+        </Card.Description>
       </Card.Content>
       <Card.Content extra>
         <Label icon="graduation" content={grade} />
